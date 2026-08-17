@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn with Archie</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <a href="#" class="logo">
+       <svg viewBox="0 0 48 48" class="logo-icon" aria-hidden="true">
+         <rect x="2" y="2" width="44" height="44" rx="13" fill="#0879d1"/>
+         <path d="M13 15h22v18H13zM17 11v22M31 11v22M13 22h22" fill="none" stroke="#d9f3ff" stroke-width="2.5" stroke-linecap="round"/>
+       </svg>
+       <span class="logo-text">Learn with Archie</span>
+    </a>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="dashboard">
+         <span class="nav-icon nav-icon-dashboard">⌂</span>
+        <span>Panel</span>
+      </a>
+      <a href="#" class="nav-link" data-page="teacher">
+         <span class="nav-icon nav-icon-teacher">✦</span>
+        <span>AI Öğretmen</span>
+      </a>
+      <a href="#" class="nav-link" data-page="student">
+         <span class="nav-icon nav-icon-student">●</span>
+        <span>Öğrenci AI</span>
+      </a>
+      <a href="#" class="nav-link" data-page="quiz">
+         <span class="nav-icon nav-icon-quiz">✓</span>
+        <span>Sınav</span>
+      </a>
+      <a href="#" class="nav-link" data-page="planner">
+         <span class="nav-icon nav-icon-planner">▦</span>
+        <span>Planlayıcı</span>
+      </a>
+      <a href="#" class="nav-link" data-page="profile">
+         <span class="nav-icon nav-icon-profile">●</span>
+        <span>Profil</span>
+      </a>
+<a href="#" class="nav-link" data-page="store">
+         <span class="nav-icon nav-icon-store">◆</span>
+        <span>Mağaza</span>
+      </a>
+      <a href="#" class="nav-link" data-page="timer">
+         <span class="nav-icon nav-icon-timer">◷</span>
+        <span>Zamanlayıcı</span>
+      </a>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-profile-avatar">👤</div>
+      <div class="sidebar-profile-copy">
+        <strong id="sidebarUserName">Öğrenci</strong>
+        <span>Premium · 12. Sınıf</span>
+      </div>
+      <span class="sidebar-profile-more">•••</span>
+    </div>
+  </nav>
+
+  <!-- Main area -->
+  <div class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="coursesBtn" class="top-btn course-btn" title="Dersler">
+          <span class="flag">🔤</span>
+          <span class="course-name">TYT & AYT</span>
+        </button>
+        <div class="topbar-xp">
+          <span class="xp-icon">⚡</span>
+          <span id="topbarXpValue">0</span>
+        </div>
+      </div>
+    </header>
+
+<!-- Dashboard -->
+    <main class="dashboard-container" id="dashboardContainer" style="display:none;">
+      <div class="dashboard-hero">
+        <div class="dashboard-hero-text">
+          <h1>Merhaba, <span id="dashUserName">Öğrenci</span>! 👋</h1>
+          <p>Bugün YKS yolculuğunda hedeflerine bir adım daha yaklaşalım.</p>
+        </div>
+        <div class="exam-countdown">
+          <div class="countdown-label">TYT Sınavına Kalan Gün</div>
+          <div class="countdown-value" id="countdownValue">0</div>
+          <div class="countdown-unit">gün</div>
+        </div>
+      </div>
+
+      <div class="dash-stats-grid">
+        <div class="dash-stat">
+          <div class="dash-stat-icon">✅</div>
+          <div class="dash-stat-value" id="dashCompleted">0</div>
+          <div class="dash-stat-label">Tamamlanan Konu</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon">📚</div>
+          <div class="dash-stat-value" id="dashTotal">0</div>
+          <div class="dash-stat-label">Toplam Konu</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon">🎯</div>
+          <div class="dash-stat-value" id="dashPct">0%</div>
+          <div class="dash-stat-label">İlerleme</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon">⚡</div>
+          <div class="dash-stat-value" id="dashXp">0</div>
+          <div class="dash-stat-label">XP</div>
+        </div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-card-title">📈 Genel İlerleme <span id="dashPct2" style="margin-left:auto">0%</span></div>
+        <div class="dash-progress-bar">
+          <div class="dash-progress-fill" id="dashProgressFill"></div>
+        </div>
+      </div>
+
+      <div class="dash-quick-actions" style="margin-bottom:16px">
+        <button class="dash-action-btn" data-page="quiz">📝 Sınav</button>
+        <button class="dash-action-btn" data-page="planner">📅 Plan</button>
+        <button class="dash-action-btn" data-page="teacher">🧑‍🏫 AI Öğretmen</button>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <div class="dash-card-title">🎯 Bugünün Hedefleri</div>
+          <div id="dashGoals"></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title">📚 Derslere Göre İlerleme</div>
+          <div class="dash-subject-progress">
+            <div class="subject-progress-row"><span>Matematik</span><div><i style="width:42%"></i></div><b>42%</b></div>
+            <div class="subject-progress-row"><span>Türkçe</span><div><i style="width:68%"></i></div><b>68%</b></div>
+            <div class="subject-progress-row"><span>Fen Bilimleri</span><div><i style="width:31%"></i></div><b>31%</b></div>
+            <div class="subject-progress-row"><span>Sosyal Bilimler</span><div><i style="width:54%"></i></div><b>54%</b></div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title">📝 Notların</div>
+          <div id="dashNotes"></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title">📊 Analitik görünüm</div>
+          <div class="dash-chart-grid" id="dashAnalytics"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Controls: TYT/AYT toggle + Topic box + Class selector -->
+    <div class="controls" id="controlsBar" style="display:none;">
+      <div class="level-toggle" id="levelToggle">
+        <button class="level-btn active" data-level="tyt">TYT</button>
+        <button class="level-btn" data-level="ayt">AYT</button>
+      </div>
+      <div class="dropdown topic-box" id="topicBox">
+        <button class="selector-btn" id="topicBtn">
+          <span class="selector-icon">📋</span>
+          <span class="topic-label">Konular</span> <span class="arrow">▾</span>
+        </button>
+        <div class="selector-dropdown" id="topicDropdown"></div>
+      </div>
+      <div class="dropdown class-selector">
+        <button class="selector-btn" id="classBtn">
+          <span class="selector-icon">📚</span>
+          <span class="class-label">Ders Seç</span> <span class="arrow">▾</span>
+        </button>
+        <div class="selector-dropdown" id="classDropdown"></div>
+      </div>
+    </div>
+
+    <!-- AI Teacher Selection Page -->
+    <main class="selection-container" id="teacherSelection" style="display:none;">
+      <div class="selection-header">
+        <div class="selection-back" id="teacherSelectionBack">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </div>
+        <div class="selection-title">
+          <span class="selection-icon">🧑‍🏫</span>
+          <div>
+            <h2>AI Öğretmen Koçu</h2>
+            <p>Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="selection-content">
+        <div class="selection-step">
+          <h3 class="step-title">1️⃣ Ders Seç</h3>
+          <div class="subject-grid" id="teacherSubjectGrid"></div>
+        </div>
+        
+        <div class="selection-step" id="teacherTopicStep" style="display:none;">
+          <h3 class="step-title">2️⃣ Konu Seç</h3>
+          <div class="topic-grid" id="teacherTopicGrid"></div>
+          <div class="selection-actions">
+            <button class="btn-secondary" id="teacherChangeSubject">← Ders Değiştir</button>
+            <button class="btn-primary" id="teacherStartChat">Sohbete Başla →</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Student AI Selection Page -->
+    <main class="selection-container" id="studentSelection" style="display:none;">
+      <div class="selection-header">
+        <div class="selection-back" id="studentSelectionBack">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </div>
+        <div class="selection-title">
+          <span class="selection-icon">🎧</span>
+          <div>
+            <h2>Öğrenci AI</h2>
+            <p>Bugün ne öğretmek istiyorsun? Ders ve konu seç, seni dinleyeyim.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="selection-content">
+        <div class="selection-step">
+          <h3 class="step-title">1️⃣ Ders Seç</h3>
+          <div class="subject-grid" id="studentSubjectGrid"></div>
+        </div>
+        
+        <div class="selection-step" id="studentTopicStep" style="display:none;">
+          <h3 class="step-title">2️⃣ Konu Seç</h3>
+          <div class="topic-grid" id="studentTopicGrid"></div>
+          <div class="selection-actions">
+            <button class="btn-secondary" id="studentChangeSubject">← Ders Değiştir</button>
+            <button class="btn-primary" id="studentStartChat">Sohbete Başla →</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- AI Teacher Coach Chat -->
+    <main class="chat-container" id="teacherChat" style="display:none;">
+      <div class="chat-header">
+        <span class="chat-avatar">🧑‍🏫</span>
+        <div>
+          <h2>AI Öğretmen Koçu</h2>
+          <p>Sana ders anlatır, sorularını çözer ve rehberlik eder.</p>
+        </div>
+      </div>
+      <div class="chat-options">
+        <div class="level-toggle" id="teacherLevelToggle">
+          <button class="level-btn active" data-level="tyt">TYT</button>
+          <button class="level-btn" data-level="ayt">AYT</button>
+        </div>
+        <label>Ders:</label>
+        <select id="teacherClassSel"></select>
+      </div>
+      <div class="ai-suggests" id="teacherSuggestChips">
+        <button class="ai-chip" data-txt="Türev anlatır mısın?">📈 Türev</button>
+        <button class="ai-chip" data-txt="İntegral anlatır mısın?">📐 İntegral</button>
+        <button class="ai-chip" data-txt="Fotosentez nedir?">🌿 Fotosentez</button>
+        <button class="ai-chip" data-txt="Bana ders çalışma planı öner">📅 Plan öner</button>
+      </div>
+      <div class="wb-toggle-bar">
+        <button type="button" class="wb-toggle" id="teacherToggle">🖊️ Tahta</button>
+      </div>
+      <div class="whiteboard-box" id="teacherBoardBox" style="display:none;">
+        <div class="whiteboard-toolbar">
+          <span class="wb-title">📋 Sınıf Tahtası</span>
+          <div class="wb-controls">
+            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="teacherColor" value="#ffffff" checked></label>
+            <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="teacherColor" value="#ffd900"></label>
+            <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="teacherColor" value="#1cb0f6"></label>
+            <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="teacherColor" value="#58cc02"></label>
+            <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="teacherColor" value="#ff4b4b"></label>
+            <button type="button" class="wb-clear" id="teacherClear">🧹 Temizle</button>
+          </div>
+        </div>
+        <div class="wb-tools" id="teacherTools">
+          <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+          <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+          <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+          <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+          <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+          <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+        </div>
+        <canvas id="teacherBoard" class="whiteboard school-board"></canvas>
+      </div>
+      <div class="chat-messages" id="teacherMessages"></div>
+      <form class="chat-input" id="teacherForm">
+        <input type="text" id="teacherInput" placeholder="Bir soru sor veya konu yaz..." autocomplete="off">
+        <button type="button" class="voice-btn" id="teacherVoiceBtn" title="Sesli Giriş">🎤</button>
+        <button type="submit">Gönder</button>
+      </form>
+    </main>
+
+    <!-- Student AI Chat -->
+    <main class="chat-container" id="studentChat" style="display:none;">
+      <div class="chat-header">
+        <span class="chat-avatar">🎧</span>
+        <div>
+          <h2>Öğrenci AI</h2>
+          <p>Seni dinler, notlarını takip eder ve çalışma önerileri sunar.</p>
+        </div>
+      </div>
+      <div class="chat-options">
+        <div class="level-toggle" id="studentLevelToggle">
+          <button class="level-btn active" data-level="tyt">TYT</button>
+          <button class="level-btn" data-level="ayt">AYT</button>
+        </div>
+        <label>Ders:</label>
+        <select id="studentClassSel"></select>
+      </div>
+      <div class="ai-suggests" id="studentSuggestChips">
+        <button class="ai-chip" data-txt="Bugün nasıl geçti?">💬 Günüm</button>
+        <button class="ai-chip" data-txt="Bana motivasyon ver">💪 Motivasyon</button>
+        <button class="ai-chip" data-txt="Bana çalışma programı hazırla">📅 Program</button>
+        <button class="ai-chip" data-txt="Matematik nasıl çalışılır?">🧮 Matematik</button>
+      </div>
+      <div class="wb-toggle-bar">
+        <button type="button" class="wb-toggle" id="studentToggle">🖊️ Tahta</button>
+      </div>
+      <div class="whiteboard-box" id="studentBoardBox" style="display:none;">
+        <div class="whiteboard-toolbar">
+          <span class="wb-title">📋 Sınıf Tahtası</span>
+          <div class="wb-controls">
+            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="studentColor" value="#ffffff" checked></label>
+            <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="studentColor" value="#ffd900"></label>
+            <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="studentColor" value="#1cb0f6"></label>
+            <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="studentColor" value="#58cc02"></label>
+            <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="studentColor" value="#ff4b4b"></label>
+            <button type="button" class="wb-clear" id="studentClear">🧹 Temizle</button>
+          </div>
+        </div>
+        <div class="wb-tools" id="studentTools">
+          <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+          <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+          <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+          <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+          <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+          <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+        </div>
+        <canvas id="studentBoard" class="whiteboard school-board"></canvas>
+      </div>
+      <div class="chat-messages" id="studentMessages"></div>
+      <form class="chat-input" id="studentForm">
+        <input type="text" id="studentInput" placeholder="Gününü anlat veya hedefini paylaş..." autocomplete="off">
+        <button type="button" class="voice-btn" id="studentVoiceBtn" title="Sesli Giriş">🎤</button>
+        <button type="submit">Gönder</button>
+      </form>
+    </main>
+
+    <!-- Quiz Section -->
+    <main class="quiz-container" id="quizContainer" style="display:none;">
+      <div class="quiz-header">
+         <span class="quiz-avatar">📘</span>
+        <div>
+          <h2>Zayıf Konu Quiz'i</h2>
+          <p>AI öğretmen ve öğrencin, zayıf olduğun konulardan sana quiz hazırlıyor.</p>
+        </div>
+      </div>
+      <div class="quiz-controls">
+        <div class="level-toggle" id="quizLevelToggle">
+          <button class="level-btn active" data-level="tyt">TYT</button>
+          <button class="level-btn" data-level="ayt">AYT</button>
+        </div>
+      </div>
+
+      <div class="quiz-setup" id="quizSetup">
+        <label class="quiz-label">Zayıf olduğun konuyu seç:</label>
+        <select id="quizTopicSelect" class="quiz-select"></select>
+        <button class="quiz-start-btn" id="quizStartBtn">🎯 Sınavı Başlat</button>
+        <p class="quiz-hint">📌 AI öğretmen ve öğrenci, zayıf olduğun konulardan sana sorular hazırlıyor.</p>
+      </div>
+
+      <div class="quiz-active" id="quizActive" style="display:none;">
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressBar"></div></div>
+          <span class="quiz-progress-text" id="quizProgressText">1 / 5</span>
+        </div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="quiz-next-btn" id="quizNextBtn" style="display:none;">▶️ Sonraki</button>
+      </div>
+
+      <div class="quiz-result" id="quizResult" style="display:none;">
+        <div class="quiz-result-icon" id="quizResultIcon">🎉</div>
+        <h2 id="quizResultTitle">Tebrikler!</h2>
+        <p id="quizResultText"></p>
+        <div class="quality-box" id="qualityBox">
+          <div class="quality-label">Bu konuyu ne kadar iyi hatırladığını değerlendir (SM-2 kalite):</div>
+          <div class="quality-options" id="qualityOptions"></div>
+          <div class="quality-review" id="qualityReview"></div>
+        </div>
+        <button class="quiz-start-btn" id="quizRetryBtn">🔄 Tekrar Dene</button>
+        <button class="quiz-save-btn" id="quizNewBtn">Konu Seç</button>
+      </div>
+    </main>
+
+    <!-- Planner Section -->
+    <main class="planner-container" id="plannerContainer" style="display:none;">
+      <div class="planner-header">
+        <div class="planner-avatar">📅</div>
+        <div class="planner-header-text">
+          <h2>Günlük Planlayıcı</h2>
+          <p>Günlerini düzenle, rutinini planla ve hedeflerine adım adım ulaş.</p>
+        </div>
+        <button class="tutor-open-btn" id="tutorOpenBtn">🤖 AI Tutor</button>
+      </div>
+
+      <div class="planner-quote" id="plannerQuote">
+        <span class="quote-icon">💬</span>
+        <span class="quote-text"></span>
+      </div>
+
+      <div class="planner-stats">
+        <div class="planner-stat-card planner-exam-stat">
+          <div class="planner-stat-kicker">TYT'YE KALAN</div>
+          <div class="planner-countdown" id="plannerTytCountdown">-- gün --:--:--</div>
+          <div class="planner-stat-label" id="plannerTytDate">Sınav tarihi hesaplanıyor</div>
+        </div>
+        <div class="planner-stat-card planner-exam-stat planner-exam-stat-ayt">
+          <div class="planner-stat-kicker">AYT'YE KALAN</div>
+          <div class="planner-countdown" id="plannerAytCountdown">-- gün --:--:--</div>
+          <div class="planner-stat-label" id="plannerAytDate">Sınav tarihi hesaplanıyor</div>
+        </div>
+        <div class="planner-stat-card planner-progress-stat">
+          <div class="planner-stat-kicker">HAFTALIK BAŞARI</div>
+          <div class="planner-semicircle" id="plannerSemicircle" style="--progress-angle:0deg;">
+            <strong id="plannerStatPct">0%</strong>
+          </div>
+          <div class="planner-stat-label"><span id="plannerStatDone">0</span>/<span id="plannerStatTotal">0</span> görev tamamlandı</div>
+        </div>
+        <div class="planner-stat-card planner-streak-stat">
+          <div class="planner-stat-kicker">ÇALIŞMA SERİSİ</div>
+          <div class="planner-streak-value"><span class="planner-stat-icon">🔥</span><strong id="plannerStatStreak">0</strong><small>gün</small></div>
+          <div class="planner-stat-label">Bugünkü ritmini koru</div>
+        </div>
+      </div>
+
+      <nav class="planner-view-tabs" aria-label="Plan görünümü">
+        <button type="button" class="planner-view-tab active" data-planner-view="planner">📋 Planlayıcı</button>
+        <button type="button" class="planner-view-tab" data-planner-view="kanban">▦ Kanban</button>
+        <button type="button" class="planner-view-tab" data-planner-view="calendar">▣ Takvim</button>
+      </nav>
+
+      <section class="planner-view-panel active" id="plannerScheduleView" data-view-panel="planner">
+        <div class="planner-days" id="plannerDays"></div>
+
+        <form class="planner-form" id="plannerForm">
+          <div class="planner-form-heading">
+            <span class="planner-form-icon">ƒx</span>
+            <div>
+              <strong>Yeni bir görev oluştur</strong>
+              <span>Bugün ne çalışacaksın?</span>
+            </div>
+            <span class="planner-form-hint">Çalışma bilgileri</span>
+            <button type="button" class="planner-quick-btn">+20 Paragraf</button>
+            <button type="button" class="planner-quick-btn planner-quick-btn-purple">+15 Math</button>
+            <span class="planner-advanced">☷ Gelişmiş detaylar</span>
+          </div>
+          <input type="time" id="taskTime" value="09:00" class="planner-time" title="Saat">
+          <select id="taskClass" class="planner-select" title="Ders seç">
+            <option value="">📚 Ders</option>
+          </select>
+          <select id="taskPriority" class="planner-select narrow" title="Çalışma önemi">
+            <option value="medium">🟡 Normal</option>
+            <option value="high">🔴 Acil</option>
+            <option value="low">🟢 Esnek</option>
+          </select>
+          <select id="taskCategory" class="planner-select narrow" title="Kategori">
+            <option value="">Kategori</option>
+            <option value="ders">📖 Ders</option>
+            <option value="tekrar">🔁 Tekrar</option>
+            <option value="deneme">📝 Deneme</option>
+            <option value="mola">☕ Mola</option>
+          </select>
+          <input type="number" id="taskDuration" class="planner-duration" placeholder="dk" title="Süre (dk)" min="1" max="600">
+          <input type="text" id="taskTitle" placeholder="Konu veya çalışma başlığı..." autocomplete="off" required>
+          <button type="submit" class="planner-add-btn">➕ Ekle</button>
+        </form>
+
+        <div class="planner-tasks" id="plannerTasks"></div>
+
+        <div class="planner-reschedule">
+          <span class="planner-reschedule-icon">↻</span>
+          <div>
+            <strong>Bitmemiş görevleri yarına taşı</strong>
+            <span>Günü tamamlamak için kalan görevleri yarına planla</span>
+          </div>
+          <button type="button">↻ Yeniden planla</button>
+        </div>
+
+        <form class="planner-edit-form" id="plannerEditForm" style="display:none;">
+          <input type="text" id="editTaskTitle" placeholder="Görev başlığı" required>
+          <input type="time" id="editTaskTime" value="09:00">
+          <select id="editTaskClass" title="Ders"></select>
+          <select id="editTaskPriority" title="Çalışma önemi">
+            <option value="medium">🟡 Normal</option>
+            <option value="high">🔴 Acil</option>
+            <option value="low">🟢 Esnek</option>
+          </select>
+          <button type="submit" class="planner-add-btn">💾 Kaydet</button>
+          <button type="button" class="planner-cancel-btn" id="editCancelBtn">İptal</button>
+        </form>
+      </section>
+
+      <section class="planner-view-panel" id="plannerKanbanView" data-view-panel="kanban">
+        <div class="planner-panel-heading">
+          <div><span class="planner-panel-kicker">DURUM TAKİBİ</span><h3>Çalışmalarını sürükleyerek düzenle</h3></div>
+          <span class="planner-panel-note">Görev kartlarını sütunlar arasında taşıyabilirsin.</span>
+        </div>
+        <div class="planner-kanban-board" id="plannerKanbanBoard"></div>
+      </section>
+
+      <section class="planner-view-panel" id="plannerCalendarView" data-view-panel="calendar">
+        <div class="planner-calendar-toolbar">
+          <div class="planner-panel-heading">
+            <div><span class="planner-panel-kicker">TAKVİM</span><h3 id="plannerCalendarTitle">Ağustos 2026</h3></div>
+          </div>
+          <div class="planner-calendar-actions">
+            <button type="button" class="planner-calendar-btn" id="plannerCalendarPrev">‹</button>
+            <button type="button" class="planner-calendar-btn planner-calendar-today" id="plannerCalendarToday">Bugün</button>
+            <button type="button" class="planner-calendar-btn" id="plannerCalendarNext">›</button>
+            <button type="button" class="planner-calendar-mode active" data-calendar-mode="month">Aylık</button>
+            <button type="button" class="planner-calendar-mode" data-calendar-mode="year">Yıllık</button>
+          </div>
+        </div>
+        <div class="planner-calendar-legend">
+          <span><i class="legend-tyt"></i>TYT</span><span><i class="legend-ayt"></i>AYT</span><span><i class="legend-event"></i>Etkinlik</span>
+        </div>
+        <div class="planner-calendar" id="plannerCalendar"></div>
+        <form class="planner-event-form" id="plannerEventForm" style="display:none;">
+          <div><strong>Takvime etkinlik ekle</strong><span id="plannerEventDateLabel">Seçili gün</span></div>
+          <input type="hidden" id="plannerEventDate">
+          <input type="text" id="plannerEventTitle" placeholder="Etkinlik adı" required>
+          <input type="time" id="plannerEventTime" value="09:00">
+          <button type="submit" class="planner-add-btn">Etkinlik ekle</button>
+        </form>
+      </section>
+
+      <div class="tutor-panel" id="tutorPanel" style="display:none;">
+        <div class="tutor-header">
+          <span class="tutor-avatar">🤖</span>
+          <div class="tutor-header-text">
+            <h3>AI Tutor Koç</h3>
+            <p>Birlikte soru çözelim! Takıldığın yeri yaz veya tahtada göster.</p>
+          </div>
+          <button class="tutor-close-btn" id="tutorCloseBtn">✕</button>
+        </div>
+        <div class="wb-toggle-bar">
+          <button type="button" class="wb-toggle" id="tutorToggle">🖊️ Tahta</button>
+        </div>
+        <div class="whiteboard-box" id="tutorBoardBox" style="display:none;">
+          <div class="whiteboard-toolbar">
+            <span class="wb-title">📋 Birlikte Çözüm Tahtası</span>
+            <div class="wb-controls">
+              <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="tutorColor" value="#ffffff" checked></label>
+              <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="tutorColor" value="#ffd900"></label>
+              <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="tutorColor" value="#1cb0f6"></label>
+              <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="tutorColor" value="#58cc02"></label>
+              <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="tutorColor" value="#ff4b4b"></label>
+              <button type="button" class="wb-clear" id="tutorClear">🧹 Temizle</button>
+            </div>
+          </div>
+          <div class="wb-tools" id="tutorTools">
+            <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+            <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+            <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+            <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+            <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+            <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+          </div>
+          <canvas id="tutorBoard" class="whiteboard school-board"></canvas>
+        </div>
+        <div class="tutor-suggests">
+          <button class="tutor-suggest" data-txt="Bana plan öner">📅 Plan öner</button>
+          <button class="tutor-suggest" data-txt="Türev anlatır mısın?">📈 Türev</button>
+          <button class="tutor-suggest" data-txt="Denklem çözelim">🧮 Denklem</button>
+          <button class="tutor-suggest" data-txt="Motivasyon ver">💪 Motivasyon</button>
+        </div>
+        <div class="chat-messages tutor-messages" id="tutorMessages"></div>
+        <form class="chat-input" id="tutorForm">
+          <input type="text" id="tutorInput" placeholder="Bir soru yaz, birlikte çözelim..." autocomplete="off">
+          <button type="submit">Gönder</button>
+</form>
+      </div>
+    </main>
+
+    <!-- Profile Section -->
+    <main class="profile-container" id="profileContainer" style="display:none;">
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="profileAvatar">👤</div>
+          <button class="avatar-change-btn" id="avatarChangeBtn" title="Fotoğrafı Değiştir">📷</button>
+        </div>
+        <div class="profile-info">
+          <div class="profile-name-row">
+            <h2 id="profileName">Öğrenci</h2>
+            <button class="edit-btn" id="editNameBtn" title="İsmi Düzenle">✏️</button>
+          </div>
+          <p id="profileEmail">hesap@yolharitasi.com</p>
+        </div>
+        <button class="logout-btn" id="logoutBtn">🚪 Çıkış Yap</button>
+      </div>
+
+      <div class="avatar-picker" id="avatarPicker" style="display:none;">
+        <div class="avatar-picker-title">Profil Fotoğrafı Seç</div>
+        <div class="avatar-picker-grid" id="avatarPickerGrid"></div>
+      </div>
+
+      <div class="rename-form" id="renameForm" style="display:none;">
+        <input type="text" id="renameInput" placeholder="Yeni isim..." maxlength="30">
+        <button id="renameSaveBtn">💾 Kaydet</button>
+        <button id="renameCancelBtn">İptal</button>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="statCompleted">0</div>
+          <div class="stat-label">Tamamlanan Konu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Toplam Konu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value" id="statPct">0%</div>
+          <div class="stat-label">Başarı Yüzdesi</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-value" id="statWeak">0</div>
+          <div class="stat-label">Zayıf Konu</div>
+        </div>
+      </div>
+
+      <section class="profile-analytics-card">
+        <div class="profile-analytics-heading"><div><span class="profile-eyebrow">ÇALIŞMA ANALİTİĞİ</span><h3>Haftalık odak akışı</h3></div><span class="profile-analytics-badge">Son 7 gün</span></div>
+        <div class="profile-bar-chart" id="profileWeeklyChart"></div>
+      </section>
+
+      <div class="profile-section-title">Konu Ustalık Matrisi</div>
+      <div class="mastery-matrix" id="masteryMatrix"></div>
+      <div class="mastery-legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#ff4b4b"></span>0-39% Zayıf</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ffc800"></span>40-69% Orta</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#58cc02"></span>70-100% Güçlü</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#e5e5e5"></span>Çözülmedi</span>
+      </div>
+
+      <div class="profile-section-title">Ders Bazında İlerleme</div>
+      <div class="profile-class-progress" id="profileClassProgress"></div>
+
+      <section class="profile-badges-section">
+        <div class="profile-analytics-heading"><div><span class="profile-eyebrow">KOLEKSİYON</span><h3>Kazanılan Rozetler</h3></div><span class="profile-analytics-badge" id="profileBadgeCount">0 / 100</span></div>
+        <div class="profile-badges-grid" id="profileBadgesGrid"></div>
+      </section>
+
+      <div class="profile-section-title">Zayıf Konuların</div>
+      <div class="profile-weak-topics" id="profileWeakTopics"></div>
+    </main>
+
+    <!-- Store Section -->
+    <main class="store-container" id="storeContainer" style="display:none;">
+      <div class="store-banner">
+        <div class="store-banner-icon">🛍️</div>
+        <div class="store-banner-text">
+          <h2>Learn with Archie Mağazası</h2>
+          <p>XP ile ödüllerini buradan satın al! Ders çalış, XP kazan, eşyalarını topla.</p>
+        </div>
+        <div class="store-xp-badge">
+          <span class="store-xp-icon">⚡</span>
+          <span id="storeXpDisplay">0</span>
+          <span class="store-xp-label">XP</span>
+        </div>
+      </div>
+
+      <div class="store-items" id="storeItems"></div>
+    </main>
+
+    <!-- Timer Section -->
+    <main class="timer-container" id="timerContainer" style="display:none;">
+      <header class="timer-hero">
+        <div class="timer-hero-text">
+          <span class="timer-eyebrow">ODAKLANMA ALANI</span>
+          <h1>Odaklanma Merkezi</h1>
+          <p>Çalışma ritmini seç, süreni ayarla ve oturumunu takip et.</p>
+        </div>
+        <div class="timer-mode-badge">CANLI OTURUM</div>
+      </header>
+
+      <div class="focus-layout">
+        <section class="timer-card focus-card">
+          <div class="focus-card-heading">
+            <div><span class="timer-card-kicker">AKTİF MOD</span><h2 id="timerModeLabel">Odaklanma</h2></div>
+            <span class="focus-session-chip"><i></i><span id="timerCycle">Oturum 1</span></span>
+          </div>
+          <div class="timer-mode-tabs" role="tablist" aria-label="Odaklanma modu">
+            <button type="button" class="timer-mode-tab active" data-focus-mode="focus">Odaklanma</button>
+            <button type="button" class="timer-mode-tab" data-focus-mode="short">Kısa Mola</button>
+            <button type="button" class="timer-mode-tab" data-focus-mode="long">Uzun Mola</button>
+          </div>
+          <div class="focus-ring-wrapper">
+            <svg class="pomodoro-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="pomodoro-bg" cx="50" cy="50" r="45"></circle>
+              <circle class="pomodoro-progress" id="timerPomodoroProgress" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="focus-ring-content"><strong id="timerPomodoroDisplay">25:00</strong><span id="timerFocusStatus">Hazır</span></div>
+          </div>
+          <div class="focus-controls">
+            <button type="button" class="timer-btn start" id="timerPomodoroStart">Başlat</button>
+            <button type="button" class="timer-btn pause" id="timerPomodoroPause">Duraklat</button>
+            <button type="button" class="timer-btn reset" id="timerPomodoroReset">Sıfırla</button>
+          </div>
+          <div class="focus-duration-row">
+            <label for="timerPomodoroDuration">Süre</label>
+            <input type="number" id="timerPomodoroDuration" value="25" min="1" max="120">
+            <span>dakika</span>
+            <div class="focus-presets">
+              <button type="button" data-focus-minutes="15">15</button>
+              <button type="button" data-focus-minutes="25">25</button>
+              <button type="button" data-focus-minutes="45">45</button>
+              <button type="button" data-focus-minutes="60">60</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="timer-side-stack">
+          <section class="timer-card timer-summary-card">
+            <div class="timer-card-header"><span class="timer-card-icon">▦</span><h3>Oturum Özeti</h3></div>
+            <div class="timer-summary-grid">
+              <div><strong id="timerSessionCount">0</strong><span>Oturum</span></div>
+              <div><strong id="timerFocusMinutes">0</strong><span>Odak dk</span></div>
+              <div><strong id="timerFocusStreak">0</strong><span>Seri</span></div>
+            </div>
+            <div class="timer-session-progress"><span id="timerSessionProgress"></span></div>
+            <small class="timer-progress-label">Bugünkü hedef: 4 odak oturumu</small>
+          </section>
+          <section class="timer-next-card">
+            <span class="timer-card-kicker">SONRAKİ ADIM</span>
+            <strong id="timerNextSession">Kısa Mola</strong>
+            <span>Odaklanma tamamlandığında sıradaki mod otomatik hazırlanır.</span>
+          </section>
+          <section class="aquarium-card">
+            <div class="aquarium-card-heading"><span class="aquarium-emoji">🐠</span><div><span class="timer-card-kicker">ÖDÜL ALANI</span><h3>Benim Akvaryumun</h3></div></div>
+            <p>Bu oturum tamamlandığında akvaryumuna yeni bir mercan eklenecek!</p>
+            <div class="aquarium-scene"><span>🪸</span><span>🐚</span><span>🫧</span><span>🌿</span></div>
+            <div class="aquarium-progress"><span id="aquariumProgressFill"></span></div>
+            <div class="aquarium-progress-meta"><span id="aquariumProgressLabel">0 / 1 oturum</span><strong id="aquariumRewardCount">0 mercan</strong></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+      <button class="complete-btn" id="completeBtn">Tamamlandı ✓</button>
+    </div>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

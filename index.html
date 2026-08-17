@@ -50,13 +50,12 @@
         <span>Zamanlayıcı</span>
       </a>
     </div>
-    <div class="sidebar-profile">
+    <div class="sidebar-profile" id="sidebarProfileCard" role="button" tabindex="0" aria-label="Profili aç">
       <div class="sidebar-profile-avatar">👤</div>
       <div class="sidebar-profile-copy">
         <strong id="sidebarUserName">Öğrenci</strong>
-        <span>Premium · 12. Sınıf</span>
+         <span id="sidebarUserStatus">Premium · 12. Sınıf</span>
       </div>
-      <span class="sidebar-profile-more">•••</span>
     </div>
   </nav>
 
@@ -383,6 +382,7 @@
         </div>
         <div class="quiz-question" id="quizQuestion"></div>
         <div class="quiz-options" id="quizOptions"></div>
+        <button type="button" class="quiz-joker-btn" id="quizJokerBtn" style="display:none;">🔮 Deniz Yıldızı Jokeri <span id="quizJokerCount">0</span></button>
         <div class="quiz-feedback" id="quizFeedback"></div>
         <button class="quiz-next-btn" id="quizNextBtn" style="display:none;">▶️ Sonraki</button>
       </div>
@@ -647,25 +647,11 @@
         <div class="profile-bar-chart" id="profileWeeklyChart"></div>
       </section>
 
-      <div class="profile-section-title">Konu Ustalık Matrisi</div>
-      <div class="mastery-matrix" id="masteryMatrix"></div>
-      <div class="mastery-legend">
-        <span class="legend-item"><span class="legend-dot" style="background:#ff4b4b"></span>0-39% Zayıf</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#ffc800"></span>40-69% Orta</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#58cc02"></span>70-100% Güçlü</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#e5e5e5"></span>Çözülmedi</span>
-      </div>
-
-      <div class="profile-section-title">Ders Bazında İlerleme</div>
-      <div class="profile-class-progress" id="profileClassProgress"></div>
-
       <section class="profile-badges-section">
         <div class="profile-analytics-heading"><div><span class="profile-eyebrow">KOLEKSİYON</span><h3>Kazanılan Rozetler</h3></div><span class="profile-analytics-badge" id="profileBadgeCount">0 / 100</span></div>
         <div class="profile-badges-grid" id="profileBadgesGrid"></div>
       </section>
 
-      <div class="profile-section-title">Zayıf Konuların</div>
-      <div class="profile-weak-topics" id="profileWeakTopics"></div>
     </main>
 
     <!-- Store Section -->
@@ -770,7 +756,6 @@
     </div>
   </div>
 
-  <script src="curriculum-data.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

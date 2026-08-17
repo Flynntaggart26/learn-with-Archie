@@ -6,7 +6,7 @@ import { SignUpView } from './components/SignUpView';
 import { StudyView } from './components/StudyView';
 import { getCurrentUser, onAuthStateChange, signOutUser } from './lib/supabase';
 import { registerOnlineSyncListener } from './lib/syncQueue';
-import type { MascotState, SyncQueueEntry } from './types';
+import type { MascotState } from './types';
 
 export function App(): ReactElement {
   const [user, setUser] = useState<User | null>(null);
@@ -33,11 +33,9 @@ export function App(): ReactElement {
       }
     });
 
-    const removeOnlineListener = registerOnlineSyncListener(
-      async (entries: SyncQueueEntry[]) => {
-        console.log('Syncing entries to Supabase:', entries.length);
-      },
-    );
+    const removeOnlineListener = registerOnlineSyncListener(async () => {
+      // The sync transport is injected by the host application when available.
+    });
 
     return () => {
       isMounted = false;

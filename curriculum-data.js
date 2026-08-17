@@ -4414,3 +4414,5 @@ const CURRICULUM = {
     ]
   }
 };
+
+export { CURRICULUM };

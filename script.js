@@ -1,7 +1,8 @@
 // ===== Learn with Archie - TYT & AYT Yol Haritası =====
 
+import { CURRICULUM } from './curriculum-data.js';
+
 // ===== Curriculum Data =====
-// CURRICULUM is defined in curriculum-data.js (loaded before script.js)
 
 const CLASS_ICONS = {
   Matematik: '📐',
@@ -90,6 +91,7 @@ const STORAGE_KEYS = {
   pomodoro: 'archie.pomodoro',
   timerCountdown: 'archie.timerCountdown',
   timerPomodoro: 'archie.timerPomodoro',
+  rewardState: 'archie.rewardState',
   theme: 'archie.theme',
   avatar: 'archie.avatar',
   displayName: 'archie.displayName',
@@ -155,6 +157,48 @@ let AppState = {
   selectedAvatar: readStorage(STORAGE_KEYS.avatar, '👤'),
   streak: readStorage(STORAGE_KEYS.streak, 0),
 };
+
+function getRewardState() {
+  return readStorage(STORAGE_KEYS.rewardState, {
+    breakTimeBonus: 0,
+    xpMultiplier: 1,
+    freezeUntil: 0,
+    streakFreezeCount: 0,
+    premiumExpiresAt: 0,
+    nightTheme: false,
+    jokerAvailable: 0,
+  });
+}
+
+function saveRewardState(state) {
+  writeStorage(STORAGE_KEYS.rewardState, state);
+  applyRewardState(state);
+}
+
+function applyRewardState(state = getRewardState()) {
+  document.body.classList.toggle('night-aquarium-theme', Boolean(state.nightTheme));
+  const premiumActive = Number(state.premiumExpiresAt) > Date.now();
+  const status = $('sidebarUserStatus');
+  if (status) status.textContent = premiumActive ? 'Efsanevi Balina · Premium' : 'Premium · 12. Sınıf';
+  const card = $('sidebarProfileCard');
+  if (card) card.classList.toggle('legendary-profile', premiumActive);
+}
+
+function ensureDailyStreakFreeze() {
+  const state = getRewardState();
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.lastActiveDate && state.lastActiveDate !== today && state.streakFreezeCount > 0) {
+    state.streakFreezeCount -= 1;
+    state.lastActiveDate = today;
+    saveRewardState(state);
+    showToast('Seri Dondurucu kullanıldı, serin korundu!');
+    return;
+  }
+  if (state.lastActiveDate !== today) {
+    state.lastActiveDate = today;
+    writeStorage(STORAGE_KEYS.rewardState, state);
+  }
+}
 
 // ===== Utility =====
 function $(id) {
@@ -447,6 +491,17 @@ function initNavigation() {
     });
   });
 
+  const profileCard = $('sidebarProfileCard');
+  if (profileCard) {
+    profileCard.onclick = () => showPage('profile');
+    profileCard.onkeydown = (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        showPage('profile');
+      }
+    };
+  }
+
   const coursesBtn = $('coursesBtn');
   if (coursesBtn) {
     coursesBtn.addEventListener('click', () => showPage('dashboard'));
@@ -481,6 +536,8 @@ function initTheme() {
 
 // ===== Dashboard =====
 function renderDashboard() {
+  ensureDailyStreakFreeze();
+  applyRewardState();
   const progress = getProgress();
   const allTopics = getAllTopics();
   const completedCount = Object.values(progress).filter((p) => p.total > 0).length;
@@ -1188,6 +1245,8 @@ function initQuizPage() {
   if (nextBtn) {
     nextBtn.onclick = () => nextQuestion();
   }
+  const jokerBtn = $('quizJokerBtn');
+  if (jokerBtn) jokerBtn.onclick = useQuizJoker;
 }
 
 function startQuiz(topicId) {
@@ -1233,6 +1292,31 @@ function renderQuizQuestion() {
   }
 
   if ($('quizFeedback')) $('quizFeedback').textContent = '';
+  const jokerState = getRewardState();
+  const jokerBtn = $('quizJokerBtn');
+  if (jokerBtn) {
+    jokerBtn.style.display = jokerState.jokerAvailable > 0 ? '' : 'none';
+    if ($('quizJokerCount')) $('quizJokerCount').textContent = jokerState.jokerAvailable || 0;
+  }
+}
+
+function useQuizJoker() {
+  if (quizState.selectedOption !== null) return;
+  const state = getRewardState();
+  if (!state.jokerAvailable) return;
+  const question = quizState.questions[quizState.currentIndex];
+  const wrongIndexes = question.options.map((_, index) => index).filter((index) => index !== question.answer);
+  wrongIndexes.sort(() => Math.random() - .5).slice(0, 2).forEach((index) => {
+    const option = $('quizOptions')?.querySelectorAll('.quiz-option')[index];
+    if (option) {
+      option.disabled = true;
+      option.classList.add('joker-eliminated');
+    }
+  });
+  state.jokerAvailable -= 1;
+  saveRewardState(state);
+  if ($('quizJokerBtn')) $('quizJokerBtn').style.display = state.jokerAvailable > 0 ? '' : 'none';
+  if ($('quizJokerCount')) $('quizJokerCount').textContent = state.jokerAvailable;
 }
 
 function selectOption(index) {
@@ -1613,17 +1697,26 @@ function renderPlannerTasks() {
 
   tasksEl.innerHTML = tasks.map((task, idx) => `
     <div class="planner-task ${task.done ? 'done' : ''}" data-idx="${idx}" data-task-id="${task.id}">
-      <div class="planner-task-check" onclick="toggleTaskDoneById('${task.id}')">✓</div>
+      <button type="button" class="planner-task-check" data-task-action="toggle" data-task-id="${task.id}">✓</button>
       <span class="planner-task-time">${task.time || '09:00'}</span>
       <span class="planner-task-class">${classIcons[task.class] || '📚'}</span>
       <span class="task-priority ${task.priority || 'medium'}">${priorityIcons[task.priority] || '🟡'}</span>
       <span class="planner-task-title">${task.title}</span>
       <span class="planner-task-duration">${task.duration ? `${task.duration} dk` : 'Süre yok'}</span>
       <span class="planner-task-priority-label ${task.priority || 'medium'}">${priorityLabels[task.priority] || 'Normal'}</span>
-      <button class="planner-task-edit" onclick="editTaskById('${task.id}')" title="Düzenle">✏️</button>
-      <button class="planner-task-delete" onclick="deleteTaskById('${task.id}')" title="Sil">🗑️</button>
+      <button type="button" class="planner-task-edit" data-task-action="edit" data-task-id="${task.id}" title="Düzenle">✏️</button>
+      <button type="button" class="planner-task-delete" data-task-action="delete" data-task-id="${task.id}" title="Sil">🗑️</button>
     </div>
   `).join('');
+
+  tasksEl.querySelectorAll('[data-task-action]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const taskId = button.dataset.taskId;
+      if (button.dataset.taskAction === 'toggle') toggleTaskDoneById(taskId);
+      if (button.dataset.taskAction === 'edit') editTaskById(taskId);
+      if (button.dataset.taskAction === 'delete') deleteTaskById(taskId);
+    });
+  });
 }
 
 function toggleTaskDoneById(taskId) {
@@ -2340,6 +2433,16 @@ function initTimerPomodoro() {
     timerPomodoroRunning = true;
     if (playStartSound) playAppSound('timerStarted');
     timerPomodoroInterval = setInterval(() => {
+      const rewardState = getRewardState();
+      if (rewardState.freezeUntil && rewardState.freezeUntil > Date.now()) {
+        if ($('timerFocusStatus')) $('timerFocusStatus').textContent = 'Dondurucu Akıntı aktif';
+        render();
+        return;
+      }
+      if (rewardState.freezeUntil) {
+        rewardState.freezeUntil = 0;
+        saveRewardState(rewardState);
+      }
       timerPomodoroSeconds -= 1;
       if (timerPomodoroSeconds <= 0) {
         timerPomodoroSeconds = 0;
@@ -2348,7 +2451,12 @@ function initTimerPomodoro() {
           timerSessionCount += 1;
           timerFocusMinutes += Math.round(timerPomodoroInitialSeconds / 60);
           timerFocusStreak += 1;
-          addXp(5);
+          const earnedXp = rewardState.xpMultiplier === 2 ? 10 : 5;
+          addXp(earnedXp);
+          if (rewardState.xpMultiplier === 2) {
+            rewardState.xpMultiplier = 1;
+            saveRewardState(rewardState);
+          }
         }
         playAppSound('timerFinished');
         display.classList.add('timer-complete');
@@ -2406,10 +2514,11 @@ function initTimerPomodoro() {
 function setTimerMode(mode, onStart) {
   const selectedMode = TIMER_MODES[mode] ? mode : 'focus';
   timerPomodoroMode = selectedMode;
-  timerPomodoroInitialSeconds = TIMER_MODES[selectedMode].minutes * 60;
+  const breakBonus = selectedMode === 'short' ? getRewardState().breakTimeBonus || 0 : 0;
+  timerPomodoroInitialSeconds = (TIMER_MODES[selectedMode].minutes + breakBonus) * 60;
   timerPomodoroSeconds = timerPomodoroInitialSeconds;
   const duration = $('timerPomodoroDuration');
-  if (duration) duration.value = String(TIMER_MODES[selectedMode].minutes);
+  if (duration) duration.value = String(TIMER_MODES[selectedMode].minutes + breakBonus);
   const display = $('timerPomodoroDisplay');
   if (display) display.classList.remove('timer-complete');
   if (typeof onStart === 'function') onStart();
@@ -3159,13 +3268,42 @@ function renderWeakTopics() {
 
 // ===== Store =====
 const STORE_ITEMS = [
-  { id: 'item1', icon: '🎁', name: 'Sürpriz Kutu', desc: 'Rastgele bir ödül kazan!', price: 50 },
-  { id: 'item2', icon: '🏆', name: 'Altın Kupa', desc: 'Profilinde göster, başarını kanıtla!', price: 100 },
-  { id: 'item3', icon: '👑', name: 'Kral Tacı', desc: 'Profilinde kral tacıyla gez!', price: 150 },
-  { id: 'item4', icon: '🚀', name: 'Roket', desc: 'Hedeflerine ışık hızıyla ulaş!', price: 200 },
-  { id: 'item5', icon: '⭐', name: 'Yıldız', desc: 'Parlayan bir yıldız gibi ol!', price: 75 },
-  { id: 'item6', icon: '🌈', name: 'Gökkuşağı', desc: 'Profiline renk kat!', price: 60 },
+  { id: 'shrimp-snack', icon: '🦐', name: 'Karides Atıştırmalığı', desc: 'Mevcut mola sürene kalıcı +5 dakika bonus ekler.', price: 50 },
+  { id: 'deep-dive', icon: '🤿', name: 'Derin Dalış Ekipmanı', desc: 'Bir sonraki tamamlanan timer oturumunun XP ödülünü 2x yapar.', price: 150 },
+  { id: 'frozen-current', icon: '🧊', name: 'Dondurucu Akıntı', desc: 'Timer çalışırken acil durum için 3 dakikalık mola hakkı verir.', price: 200 },
+  { id: 'chibi-premium', icon: '👑', name: 'Chibi Premium Bilet', desc: '24 saat boyunca Efsanevi Balina unvanını açar.', price: 1000 },
+  { id: 'night-aquarium', icon: '🎨', name: 'Gece Akvaryumu Teması', desc: 'Koyu okyanus temasını kalıcı olarak açar.', price: 300 },
+  { id: 'sea-star-joker', icon: '🔮', name: 'Geleceği Gören Deniz Yıldızı', desc: 'Zorlandığın bir quiz sorusunda iki yanlış şıkkı eler.', price: 250 },
+  { id: 'streak-freeze', icon: '🧊', name: 'Seri Dondurucu', desc: 'Bir günü kaçırırsan serini korumak için otomatik harcanır.', price: 400, repeatable: true },
+  { id: 'lucky-oyster', icon: '🦪', name: 'Şanslı İstiridye', desc: 'Satın alındığında 25 XP teselli veya 300 XP ikramiye kazan.', price: 100, repeatable: true },
 ];
+
+function applyStoreReward(itemId) {
+  const state = getRewardState();
+  if (itemId === 'shrimp-snack') {
+    state.breakTimeBonus = (state.breakTimeBonus || 0) + 5;
+    if (timerPomodoroMode === 'short' && !timerPomodoroRunning) {
+      timerPomodoroInitialSeconds += 5 * 60;
+      timerPomodoroSeconds += 5 * 60;
+      if ($('timerPomodoroDuration')) $('timerPomodoroDuration').value = String(Math.round(timerPomodoroInitialSeconds / 60));
+    }
+  }
+  if (itemId === 'deep-dive') state.xpMultiplier = 2;
+  if (itemId === 'frozen-current') state.freezeUntil = Date.now() + (3 * 60 * 1000);
+  if (itemId === 'chibi-premium') state.premiumExpiresAt = Date.now() + (24 * 60 * 60 * 1000);
+  if (itemId === 'night-aquarium') state.nightTheme = true;
+  if (itemId === 'sea-star-joker') state.jokerAvailable = (state.jokerAvailable || 0) + 1;
+  if (itemId === 'streak-freeze') state.streakFreezeCount = (state.streakFreezeCount || 0) + 1;
+  if (itemId === 'lucky-oyster') {
+    const jackpot = Math.random() < .2;
+    const reward = jackpot ? 300 : 25;
+    addXp(reward);
+    saveRewardState(state);
+    return jackpot ? 'Şanslısın! 300 XP ikramiye kazandın.' : 'İstiridyeden 25 XP çıktı.';
+  }
+  saveRewardState(state);
+  return '';
+}
 
 function renderStorePage() {
   const itemsEl = $('storeItems');
@@ -3176,6 +3314,7 @@ function renderStorePage() {
 
   itemsEl.innerHTML = STORE_ITEMS.map((item) => {
     const owned = ownedItems.includes(item.id);
+    const purchaseCount = ownedItems.filter((ownedId) => ownedId === item.id).length;
     const canAfford = AppState.xp >= item.price;
 
     return `
@@ -3183,12 +3322,12 @@ function renderStorePage() {
         <div class="store-item-icon">${item.icon}</div>
         <div class="store-item-name">${item.name}</div>
         <div class="store-item-desc">${item.desc}</div>
-        ${owned ? '<div class="store-owned-badge">✓ Sahipsin</div>' : `
-          <div class="store-item-price"><span class="price-amount">${item.price}</span> ⚡ XP</div>
-          <button class="store-buy-btn ${canAfford ? '' : 'disabled'}" data-item="${item.id}" ${canAfford ? '' : 'disabled'}>
-            ${canAfford ? 'Satın Al' : 'Yetersiz XP'}
-          </button>
-        `}
+        ${owned && !item.repeatable ? '<div class="store-owned-badge">✓ Sahipsin</div>' : `
+           <div class="store-item-price"><span class="price-amount">${item.price}</span> ⚡ XP</div>
+           <button class="store-buy-btn ${canAfford ? '' : 'disabled'}" data-item="${item.id}" ${canAfford ? '' : 'disabled'}>
+             ${item.repeatable && purchaseCount ? `Aktif · ${purchaseCount} ${item.id === 'streak-freeze' ? 'adet' : ''} | Satın Al` : canAfford ? 'Satın Al' : 'Yetersiz XP'}
+           </button>
+         `}
       </div>
     `;
   }).join('');
@@ -3199,16 +3338,17 @@ function renderStorePage() {
       const item = STORE_ITEMS.find((i) => i.id === itemId);
       if (!item) return;
 
-      if (AppState.xp >= item.price) {
-        AppState.xp -= item.price;
+       if (AppState.xp >= item.price) {
+         AppState.xp -= item.price;
         writeStorage(STORAGE_KEYS.xp, AppState.xp);
         const ownedItems = readStorage(STORAGE_KEYS.ownedItems, []);
         ownedItems.push(itemId);
-        writeStorage(STORAGE_KEYS.ownedItems, ownedItems);
-        playAppSound('purchase');
+         writeStorage(STORAGE_KEYS.ownedItems, ownedItems);
+         const rewardMessage = applyStoreReward(itemId);
+         playAppSound('purchase');
         updateXpDisplay();
         renderStorePage();
-        showToast(`${item.icon} "${item.name}" satın alındı!`);
+         showToast(`${item.icon} "${item.name}" satın alındı!${rewardMessage ? ` ${rewardMessage}` : ''}`);
       }
     };
   });

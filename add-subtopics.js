@@ -1,5 +1,5 @@
 // Script to add subtopics to all topics in curriculum-data.js
-const fs = require('fs');
+import fs from 'node:fs';
 
 // Read the curriculum data file
 let content = fs.readFileSync('curriculum-data.js', 'utf8');
@@ -138,22 +138,24 @@ if (modified) {
     .replace(/"([^"]+)":/g, '$1:')
     .replace(/"/g, "'");
 
-  const newContent = `// ===== Learn with Archie - Complete TYT & AYT Curriculum =====
+const newContent = `// ===== Learn with Archie - Complete TYT & AYT Curriculum =====
 // This file defines the full curriculum data structure used by the app.
 
 const CURRICULUM = ${jsObj};
+
+export { CURRICULUM };
 `;
 
   fs.writeFileSync('curriculum-data.js', newContent, 'utf8');
-  console.log('Subtopics added successfully!');
+  process.stdout.write('Subtopics added successfully!\n');
 } else {
-  console.log('No changes needed - all topics already have subtopics.');
+  process.stdout.write('No changes needed - all topics already have subtopics.\n');
 }
 
 // Count topics
 let tytCount = 0, aytCount = 0;
 for (const subject of Object.keys(CURRICULUM.tyt)) tytCount += CURRICULUM.tyt[subject].length;
 for (const subject of Object.keys(CURRICULUM.ayt)) aytCount += CURRICULUM.ayt[subject].length;
-console.log(`TYT topics: ${tytCount}`);
-console.log(`AYT topics: ${aytCount}`);
-console.log(`Total: ${tytCount + aytCount}`);
+process.stdout.write(`TYT topics: ${tytCount}\n`);
+process.stdout.write(`AYT topics: ${aytCount}\n`);
+process.stdout.write(`Total: ${tytCount + aytCount}\n`);

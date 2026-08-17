@@ -187,7 +187,7 @@ export async function flushToSupabase(
 
     await clearSyncedEntries();
   } catch (error) {
-    console.error('Sync flush failed:', error);
+    window.dispatchEvent(new CustomEvent('archie:sync-error', { detail: error }));
   }
 }
 

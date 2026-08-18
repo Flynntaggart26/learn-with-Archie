@@ -1,0 +1,98 @@
+- generic [ref=f1e1]:
+  - navigation [ref=f1e2]:
+    - link "Learn with Archie" [ref=f1e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f1e8]:
+      - link "⌂ Panel" [ref=f1e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e10]: ⌂
+        - generic [ref=f1e11]: Panel
+      - link "✦ AI Öğretmen" [active] [ref=f1e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e13]: ✦
+        - generic [ref=f1e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f1e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e16]: ●
+        - generic [ref=f1e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f1e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e19]: ✓
+        - generic [ref=f1e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f1e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e22]: ▦
+        - generic [ref=f1e23]: Planlayıcı
+      - link "● Profil" [ref=f1e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e25]: ●
+        - generic [ref=f1e26]: Profil
+      - link "◆ Mağaza" [ref=f1e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e28]: ◆
+        - generic [ref=f1e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f1e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e31]: ◷
+        - generic [ref=f1e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f1e33]:
+      - generic [ref=f1e34]: 👤
+      - generic [ref=f1e35]:
+        - strong [ref=f1e36]: "12312"
+        - generic [ref=f1e37]: Premium · 12. Sınıf
+  - generic [ref=f1e38]:
+    - banner [ref=f1e39]:
+      - generic [ref=f1e40]:
+        - button "🔤 TYT & AYT" [ref=f1e41] [cursor=pointer]:
+          - generic [ref=f1e42]: 🔤
+          - generic [ref=f1e43]: TYT & AYT
+        - generic [ref=f1e44]:
+          - generic [ref=f1e45]: ⚡
+          - generic [ref=f1e46]: "0"
+    - main [ref=f1e164]:
+      - generic [ref=f1e165]:
+        - generic [ref=f1e166] [cursor=pointer]
+        - generic [ref=f1e169]:
+          - generic [ref=f1e170]: 🧑‍🏫
+          - generic [ref=f1e171]:
+            - heading "AI Öğretmen Koçu" [level=2] [ref=f1e172]
+            - paragraph [ref=f1e173]: Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.
+      - generic [ref=f1e174]:
+        - generic [ref=f1e175]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=f1e176]
+          - generic [ref=f1e177]:
+            - generic [ref=f1e178] [cursor=pointer]:
+              - generic [ref=f1e179]: 📐
+              - generic [ref=f1e180]: Matematik
+            - generic [ref=f1e181] [cursor=pointer]:
+              - generic [ref=f1e182]: 📐
+              - generic [ref=f1e183]: Geometri
+            - generic [ref=f1e184] [cursor=pointer]:
+              - generic [ref=f1e185]: 📝
+              - generic [ref=f1e186]: Türkçe
+            - generic [ref=f1e187] [cursor=pointer]:
+              - generic [ref=f1e188]: 🔬
+              - generic [ref=f1e189]: Fizik
+            - generic [ref=f1e190] [cursor=pointer]:
+              - generic [ref=f1e191]: 🧪
+              - generic [ref=f1e192]: Kimya
+            - generic [ref=f1e193] [cursor=pointer]:
+              - generic [ref=f1e194]: 🧬
+              - generic [ref=f1e195]: Biyoloji
+            - generic [ref=f1e196] [cursor=pointer]:
+              - generic [ref=f1e197]: 📜
+              - generic [ref=f1e198]: Tarih
+            - generic [ref=f1e199] [cursor=pointer]:
+              - generic [ref=f1e200]: 🌍
+              - generic [ref=f1e201]: Coğrafya
+            - generic [ref=f1e202] [cursor=pointer]:
+              - generic [ref=f1e203]: 🧠
+              - generic [ref=f1e204]: Felsefe
+            - generic [ref=f1e205] [cursor=pointer]:
+              - generic [ref=f1e206]: ☪️
+              - generic [ref=f1e207]: Din Kültürü
+        - generic [ref=f1e208]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=f1e209]
+          - generic [ref=f1e210]:
+            - button "← Ders Değiştir" [ref=f1e211] [cursor=pointer]
+            - button "Sohbete Başla →" [disabled] [ref=f1e212] [cursor=pointer]

@@ -1,0 +1,243 @@
+- generic [active] [ref=f10e1]:
+  - navigation [ref=f10e2]:
+    - link "Learn with Archie" [ref=f10e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f10e8]:
+      - link "⌂ Panel" [ref=f10e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e10]: ⌂
+        - generic [ref=f10e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f10e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e13]: ✦
+        - generic [ref=f10e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f10e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e16]: ●
+        - generic [ref=f10e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f10e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e19]: ✓
+        - generic [ref=f10e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f10e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e22]: ▦
+        - generic [ref=f10e23]: Planlayıcı
+      - link "● Profil" [ref=f10e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e25]: ●
+        - generic [ref=f10e26]: Profil
+      - link "◆ Mağaza" [ref=f10e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e28]: ◆
+        - generic [ref=f10e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f10e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e31]: ◷
+        - generic [ref=f10e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f10e33]:
+      - generic [ref=f10e34]: 👤
+      - generic [ref=f10e35]:
+        - strong [ref=f10e36]: "12312"
+        - generic [ref=f10e37]: Premium · 12. Sınıf
+  - generic [ref=f10e38]:
+    - banner [ref=f10e39]:
+      - generic [ref=f10e40]:
+        - button "🔤 TYT & AYT" [ref=f10e41] [cursor=pointer]:
+          - generic [ref=f10e42]: 🔤
+          - generic [ref=f10e43]: TYT & AYT
+        - generic [ref=f10e44]:
+          - generic [ref=f10e45]: ⚡
+          - generic [ref=f10e46]: "0"
+    - main [ref=f10e164]:
+      - generic [ref=f10e165]:
+        - generic [ref=f10e166] [cursor=pointer]
+        - generic [ref=f10e169]:
+          - generic [ref=f10e170]: 🧑‍🏫
+          - generic [ref=f10e171]:
+            - heading "AI Öğretmen Koçu" [level=2] [ref=f10e172]
+            - paragraph [ref=f10e173]: Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.
+      - generic [ref=f10e174]:
+        - generic [ref=f10e175]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=f10e176]
+          - generic [ref=f10e177]:
+            - generic [ref=f10e178] [cursor=pointer]:
+              - generic [ref=f10e179]: 📐
+              - generic [ref=f10e180]: Matematik
+            - generic [ref=f10e181] [cursor=pointer]:
+              - generic [ref=f10e182]: 📐
+              - generic [ref=f10e183]: Geometri
+            - generic [ref=f10e184] [cursor=pointer]:
+              - generic [ref=f10e185]: 📝
+              - generic [ref=f10e186]: Türkçe
+            - generic [ref=f10e187] [cursor=pointer]:
+              - generic [ref=f10e188]: 🔬
+              - generic [ref=f10e189]: Fizik
+            - generic [ref=f10e190] [cursor=pointer]:
+              - generic [ref=f10e191]: 🧪
+              - generic [ref=f10e192]: Kimya
+            - generic [ref=f10e193] [cursor=pointer]:
+              - generic [ref=f10e194]: 🧬
+              - generic [ref=f10e195]: Biyoloji
+            - generic [ref=f10e196] [cursor=pointer]:
+              - generic [ref=f10e197]: 📜
+              - generic [ref=f10e198]: Tarih
+            - generic [ref=f10e199] [cursor=pointer]:
+              - generic [ref=f10e200]: 🌍
+              - generic [ref=f10e201]: Coğrafya
+            - generic [ref=f10e202] [cursor=pointer]:
+              - generic [ref=f10e203]: 🧠
+              - generic [ref=f10e204]: Felsefe
+            - generic [ref=f10e205] [cursor=pointer]:
+              - generic [ref=f10e206]: ☪️
+              - generic [ref=f10e207]: Din Kültürü
+        - generic [ref=f10e208]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=f10e209]
+          - generic [ref=f10e213]:
+            - generic [ref=f10e214] [cursor=pointer]:
+              - generic [ref=f10e215]: 📖
+              - generic [ref=f10e216]: Sözcükte Anlam 1
+              - generic [ref=f10e217]: TYT
+            - generic [ref=f10e218] [cursor=pointer]:
+              - generic [ref=f10e219]: 📖
+              - generic [ref=f10e220]: Sözcükte Anlam 2
+              - generic [ref=f10e221]: TYT
+            - generic [ref=f10e222] [cursor=pointer]:
+              - generic [ref=f10e223]: 📖
+              - generic [ref=f10e224]: Sözcükte Anlam 3
+              - generic [ref=f10e225]: TYT
+            - generic [ref=f10e226] [cursor=pointer]:
+              - generic [ref=f10e227]: 📖
+              - generic [ref=f10e228]: Sözcükte Anlam 4
+              - generic [ref=f10e229]: TYT
+            - generic [ref=f10e230] [cursor=pointer]:
+              - generic [ref=f10e231]: 📝
+              - generic [ref=f10e232]: Cümlede Anlam 1
+              - generic [ref=f10e233]: TYT
+            - generic [ref=f10e234] [cursor=pointer]:
+              - generic [ref=f10e235]: 📝
+              - generic [ref=f10e236]: Cümlede Anlam 2
+              - generic [ref=f10e237]: TYT
+            - generic [ref=f10e238] [cursor=pointer]:
+              - generic [ref=f10e239]: 📝
+              - generic [ref=f10e240]: Cümlede Anlam 3
+              - generic [ref=f10e241]: TYT
+            - generic [ref=f10e242] [cursor=pointer]:
+              - generic [ref=f10e243]: 📄
+              - generic [ref=f10e244]: Paragrafta Anlam 1
+              - generic [ref=f10e245]: TYT
+            - generic [ref=f10e246] [cursor=pointer]:
+              - generic [ref=f10e247]: 📄
+              - generic [ref=f10e248]: Paragrafta Anlam 2
+              - generic [ref=f10e249]: TYT
+            - generic [ref=f10e250] [cursor=pointer]:
+              - generic [ref=f10e251]: 📄
+              - generic [ref=f10e252]: Paragrafta Anlam 3
+              - generic [ref=f10e253]: TYT
+            - generic [ref=f10e254] [cursor=pointer]:
+              - generic [ref=f10e255]: 📄
+              - generic [ref=f10e256]: Paragrafın Yapısı
+              - generic [ref=f10e257]: TYT
+            - generic [ref=f10e258] [cursor=pointer]:
+              - generic [ref=f10e259]: 🔊
+              - generic [ref=f10e260]: Ses Bilgisi 1
+              - generic [ref=f10e261]: TYT
+            - generic [ref=f10e262] [cursor=pointer]:
+              - generic [ref=f10e263]: 🔊
+              - generic [ref=f10e264]: Ses Bilgisi 2
+              - generic [ref=f10e265]: TYT
+            - generic [ref=f10e266] [cursor=pointer]:
+              - generic [ref=f10e267]: ✍️
+              - generic [ref=f10e268]: Yazım Kuralları 1
+              - generic [ref=f10e269]: TYT
+            - generic [ref=f10e270] [cursor=pointer]:
+              - generic [ref=f10e271]: ✍️
+              - generic [ref=f10e272]: Yazım Kuralları 2
+              - generic [ref=f10e273]: TYT
+            - generic [ref=f10e274] [cursor=pointer]:
+              - generic [ref=f10e275]: ✍️
+              - generic [ref=f10e276]: Yazım Kuralları 3
+              - generic [ref=f10e277]: TYT
+            - generic [ref=f10e278] [cursor=pointer]:
+              - generic [ref=f10e279]: ❗
+              - generic [ref=f10e280]: Noktalama İşaretleri 1
+              - generic [ref=f10e281]: TYT
+            - generic [ref=f10e282] [cursor=pointer]:
+              - generic [ref=f10e283]: ❗
+              - generic [ref=f10e284]: Noktalama İşaretleri 2
+              - generic [ref=f10e285]: TYT
+            - generic [ref=f10e286] [cursor=pointer]:
+              - generic [ref=f10e287]: ❗
+              - generic [ref=f10e288]: Noktalama İşaretleri 3
+              - generic [ref=f10e289]: TYT
+            - generic [ref=f10e290] [cursor=pointer]:
+              - generic [ref=f10e291]: 🔤
+              - generic [ref=f10e292]: Biçim Bilgisi 1
+              - generic [ref=f10e293]: TYT
+            - generic [ref=f10e294] [cursor=pointer]:
+              - generic [ref=f10e295]: 🔤
+              - generic [ref=f10e296]: Biçim Bilgisi 2
+              - generic [ref=f10e297]: TYT
+            - generic [ref=f10e298] [cursor=pointer]:
+              - generic [ref=f10e299]: 🔤
+              - generic [ref=f10e300]: İsim
+              - generic [ref=f10e301]: TYT
+            - generic [ref=f10e302] [cursor=pointer]:
+              - generic [ref=f10e303]: 🔤
+              - generic [ref=f10e304]: Sıfat
+              - generic [ref=f10e305]: TYT
+            - generic [ref=f10e306] [cursor=pointer]:
+              - generic [ref=f10e307]: 🔤
+              - generic [ref=f10e308]: Zamir
+              - generic [ref=f10e309]: TYT
+            - generic [ref=f10e310] [cursor=pointer]:
+              - generic [ref=f10e311]: 🔤
+              - generic [ref=f10e312]: İsim ve Sıfat Tamlamaları
+              - generic [ref=f10e313]: TYT
+            - generic [ref=f10e314] [cursor=pointer]:
+              - generic [ref=f10e315]: 🔤
+              - generic [ref=f10e316]: Zarf
+              - generic [ref=f10e317]: TYT
+            - generic [ref=f10e318] [cursor=pointer]:
+              - generic [ref=f10e319]: 🔗
+              - generic [ref=f10e320]: Edat, Bağlaç, Ünlem
+              - generic [ref=f10e321]: TYT
+            - generic [ref=f10e322] [cursor=pointer]:
+              - generic [ref=f10e323]: ⏰
+              - generic [ref=f10e324]: Fiilde Kip
+              - generic [ref=f10e325]: TYT
+            - generic [ref=f10e326] [cursor=pointer]:
+              - generic [ref=f10e327]: 🔗
+              - generic [ref=f10e328]: Ek-Fiil
+              - generic [ref=f10e329]: TYT
+            - generic [ref=f10e330] [cursor=pointer]:
+              - generic [ref=f10e331]: 🔤
+              - generic [ref=f10e332]: Fiilde Yapı
+              - generic [ref=f10e333]: TYT
+            - generic [ref=f10e334] [cursor=pointer]:
+              - generic [ref=f10e335]: 🔤
+              - generic [ref=f10e336]: Fiilimsiler
+              - generic [ref=f10e337]: TYT
+            - generic [ref=f10e338] [cursor=pointer]:
+              - generic [ref=f10e339]: 🔤
+              - generic [ref=f10e340]: Fiilde Çatı
+              - generic [ref=f10e341]: TYT
+            - generic [ref=f10e342] [cursor=pointer]:
+              - generic [ref=f10e343]: 📝
+              - generic [ref=f10e344]: Cümlenin Ögeleri
+              - generic [ref=f10e345]: TYT
+            - generic [ref=f10e346] [cursor=pointer]:
+              - generic [ref=f10e347]: 📝
+              - generic [ref=f10e348]: Cümle Türleri
+              - generic [ref=f10e349]: TYT
+            - generic [ref=f10e350] [cursor=pointer]:
+              - generic [ref=f10e351]: ❌
+              - generic [ref=f10e352]: Anlatım Bozuklukları 1
+              - generic [ref=f10e353]: TYT
+            - generic [ref=f10e354] [cursor=pointer]:
+              - generic [ref=f10e355]: ❌
+              - generic [ref=f10e356]: Anlatım Bozuklukları 2
+              - generic [ref=f10e357]: TYT
+          - generic [ref=f10e210]:
+            - button "← Ders Değiştir" [ref=f10e211] [cursor=pointer]
+            - button "Sohbete Başla →" [disabled] [ref=f10e212] [cursor=pointer]

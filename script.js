@@ -139,7 +139,7 @@ function playAppSound(soundName) {
 function handleGlobalClickSound(event) {
   const target = event.target.closest?.('button, a, [role="button"], input[type="button"], input[type="submit"]');
   if (!target || target.disabled) return;
-  if (target.matches('.quiz-option, #timerPomodoroStart, .store-buy-btn, .planner-task-delete')) return;
+  if (target.matches('.quiz-option, #timerPomodoroStart, .store-buy-btn, .planner-task-delete, .wb-clear, .chat-input button[type="submit"]')) return;
   playAppSound('click');
 }
 
@@ -467,7 +467,26 @@ function showPage(page) {
   }
 
   document.querySelectorAll('.nav-link').forEach((link) => {
-    link.classList.toggle('active', link.dataset.page === page);
+    const isActive = link.dataset.page === page;
+    link.classList.toggle('active', isActive);
+    const isAiLink = link.dataset.page === 'teacher' || link.dataset.page === 'student';
+    if (isActive && isAiLink) {
+      link.style.setProperty('background', 'linear-gradient(to right, #7DD3FC, #C084FC)', 'important');
+      link.style.setProperty('color', '#FFFFFF', 'important');
+      const icon = link.querySelector('.nav-icon');
+      if (icon) {
+        icon.style.setProperty('color', '#FFFFFF', 'important');
+        icon.style.setProperty('background', 'rgba(255,255,255,0.25)', 'important');
+      }
+    } else {
+      link.style.removeProperty('background');
+      link.style.removeProperty('color');
+      const icon = link.querySelector('.nav-icon');
+      if (icon) {
+        icon.style.removeProperty('color');
+        icon.style.removeProperty('background');
+      }
+    }
   });
 
   closeAllDropdowns();
@@ -2686,6 +2705,7 @@ function renderTeacherTopics() {
 }
 
 function initTeacherChat() {
+  initChatModes('teacher');
   const toggle = $('teacherToggle');
   const boardBox = $('teacherBoardBox');
   if (toggle && boardBox) {
@@ -2792,6 +2812,7 @@ function renderStudentTopics() {
 }
 
 function initStudentChat() {
+  initChatModes('student');
   const toggle = $('studentToggle');
   const boardBox = $('studentBoardBox');
   if (toggle && boardBox) {
@@ -2838,6 +2859,56 @@ function initStudentChat() {
   });
 }
 
+function initChatModes(type) {
+  const chat = $(type === 'teacher' ? 'teacherChat' : 'studentChat');
+  if (!chat) return;
+  const boardBox = $(`${type}BoardBox`);
+  const voicePanel = $(`${type}VoiceMode`);
+  const messages = $(`${type}Messages`);
+  const form = $(`${type}Form`);
+  const modeTabs = chat.querySelectorAll('[data-chat-mode]');
+  const setMode = (mode) => {
+    modeTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.chatMode === mode));
+    if (messages) messages.hidden = mode !== 'chat';
+    if (form) form.hidden = mode !== 'chat';
+    if (boardBox) boardBox.style.display = mode === 'board' ? '' : 'none';
+    if (voicePanel) voicePanel.hidden = mode !== 'voice';
+    if (mode === 'board') {
+      const penBtn = boardBox?.querySelector('.wb-tool[data-tool="pen"]');
+      if (penBtn) penBtn.click();
+      window.requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+  };
+  modeTabs.forEach((tab) => { tab.onclick = () => setMode(tab.dataset.chatMode || 'chat'); });
+  setMode('chat');
+
+  const voiceButton = $(`${type}VoiceModeBtn`);
+  const status = $(`${type}VoiceModeStatus`);
+  if (voiceButton) {
+    voiceButton.onclick = () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        if (status) status.textContent = 'Tarayıcın sesli girişi desteklemiyor.';
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'tr-TR';
+      recognition.interimResults = false;
+      voiceButton.classList.add('listening');
+      if (status) status.textContent = 'Seni dinliyorum...';
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const input = $(`${type}Input`);
+        if (input) input.value = transcript;
+        if (status) status.textContent = 'Mesajın hazır, gönderebilirsin.';
+      };
+      recognition.onerror = () => { if (status) status.textContent = 'Mikrofon erişimi alınamadı.'; };
+      recognition.onend = () => voiceButton.classList.remove('listening');
+      recognition.start();
+    };
+  }
+}
+
 function generateStudentResponse(msg) {
   const lower = msg.toLowerCase();
   if (lower.includes('nasıl geçti') || lower.includes('nasil gecti') || lower.includes('günüm')) {
@@ -2882,42 +2953,62 @@ function initWhiteboards() {
     const ctx = canvas.getContext('2d');
     let drawing = false;
     let tool = 'pen';
-    let color = '#ffffff';
+    let color = '#1e293b';
     let startX = 0, startY = 0;
-    // For triangle: store vertices
-    let trianglePoints = [];
-    let triangleDrawn = [];
+    // History of finished strokes for redraw
+    const history = [];
+
+    // Set initial color from checked radio (fallback to visible dark)
+    const checkedColor = canvas.closest('.whiteboard-box')?.querySelector('.wb-color input:checked');
+    if (checkedColor) color = checkedColor.value;
 
     // Set canvas size
     function resizeCanvas() {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
-      // Redraw saved triangle data if exists
-      if (triangleDrawn.length > 0) {
-        triangleDrawn.forEach((points) => {
-          if (points.length === 3) {
-            ctx.beginPath();
-            ctx.moveTo(points[0].x, points[0].y);
-            ctx.lineTo(points[1].x, points[1].y);
-            ctx.lineTo(points[2].x, points[2].y);
-            ctx.closePath();
-            ctx.strokeStyle = points[0].color || '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-          }
-        });
-      }
+      redrawAll();
     }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
+
+    // Redraw all history + current preview (if drawing)
+    function redrawAll() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      history.forEach(stroke => {
+        ctx.strokeStyle = stroke.color;
+        ctx.lineWidth = stroke.lineWidth || 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        if (stroke.type === 'pen') {
+          stroke.points.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+          ctx.stroke();
+        } else if (stroke.type === 'line') {
+          ctx.moveTo(stroke.x1, stroke.y1);
+          ctx.lineTo(stroke.x2, stroke.y2);
+          ctx.stroke();
+        } else if (stroke.type === 'rect') {
+          ctx.strokeRect(stroke.x, stroke.y, stroke.w, stroke.h);
+        } else if (stroke.type === 'circle') {
+          ctx.arc(stroke.x, stroke.y, stroke.r, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (stroke.type === 'triangle') {
+          ctx.moveTo(stroke.x1, stroke.y1);
+          ctx.lineTo(stroke.x2, stroke.y2);
+          ctx.lineTo(stroke.x3, stroke.y3);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      });
+    }
 
     // Clear board
     const clearBtn = $(clearId);
     if (clearBtn) {
       clearBtn.onclick = () => {
+        history.length = 0;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        triangleDrawn = [];
-        trianglePoints = [];
+        playAppSound('planDeleted');
       };
     }
 
@@ -2929,16 +3020,14 @@ function initWhiteboards() {
           toolsContainer.querySelectorAll('.wb-tool').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');
           tool = btn.dataset.tool;
-          trianglePoints = [];
+          playAppSound('click');
         };
       });
     }
 
     // Colors
     canvas.closest('.whiteboard-box')?.querySelectorAll('.wb-color input').forEach((radio) => {
-      radio.onchange = () => {
-        color = radio.value;
-      };
+      radio.onchange = () => { color = radio.value; };
     });
 
     // Drawing
@@ -2948,35 +3037,10 @@ function initWhiteboards() {
       startY = e.clientY - rect.top;
       drawing = true;
 
-      // For triangle: save points on each click
-      if (tool === 'triangle') {
-        trianglePoints.push({ x: startX, y: startY });
-        // Draw a small dot at click point
-        ctx.beginPath();
-        ctx.arc(startX, startY, 3, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-
-        if (trianglePoints.length === 3) {
-          // Draw the triangle
-          ctx.beginPath();
-          ctx.moveTo(trianglePoints[0].x, trianglePoints[0].y);
-          ctx.lineTo(trianglePoints[1].x, trianglePoints[1].y);
-          ctx.lineTo(trianglePoints[2].x, trianglePoints[2].y);
-          ctx.closePath();
-          ctx.strokeStyle = color;
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          triangleDrawn.push([...trianglePoints.map((p) => ({ ...p, color }))]);
-          trianglePoints = [];
-        }
-        drawing = false;
-        return;
-      }
-
       if (tool === 'pen') {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
+        history.push({ type: 'pen', color, points: [{ x: startX, y: startY }] });
       }
     });
 
@@ -2992,50 +3056,79 @@ function initWhiteboards() {
       ctx.lineJoin = 'round';
 
       if (tool === 'pen') {
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        const last = history[history.length - 1];
+        if (last && last.type === 'pen' && last.points.length > 0) {
+          const prev = last.points[last.points.length - 1];
+          ctx.beginPath();
+          ctx.moveTo(prev.x, prev.y);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+          last.points.push({ x, y });
+        }
       } else if (tool === 'eraser') {
         ctx.clearRect(x - 10, y - 10, 20, 20);
+      } else {
+        // Preview shapes: clear + redraw history + draw preview + size text
+        redrawAll();
+        ctx.beginPath();
+        const w = x - startX;
+        const h = y - startY;
+        if (tool === 'rect') {
+          ctx.strokeRect(startX, startY, w, h);
+        } else if (tool === 'circle') {
+          const radius = Math.sqrt(w * w + h * h);
+          ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (tool === 'line') {
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        } else if (tool === 'triangle') {
+          // Right triangle: start -> (currentX, currentY) -> (startX, currentY) -> close
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(x, y);
+          ctx.lineTo(startX, y);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        // Size text
+        ctx.font = '13px monospace';
+        ctx.fillStyle = '#1e293b';
+        ctx.fillText(`${Math.abs(w)}x${Math.abs(h)}px`, x + 15, y + 15);
       }
     });
 
     canvas.addEventListener('mouseup', (e) => {
-      if (!drawing) {
-        drawing = false;
-        return;
-      }
+      if (!drawing) return;
       drawing = false;
       const rect = canvas.getBoundingClientRect();
       const endX = e.clientX - rect.left;
       const endY = e.clientY - rect.top;
 
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      if (tool === 'line') {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-      } else if (tool === 'circle') {
-        const radius = Math.sqrt(
-          Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2),
-        );
-        ctx.beginPath();
-        ctx.arc(startX, startY, radius, 0, Math.PI * 2);
-        ctx.stroke();
-      } else if (tool === 'rect') {
+      if (tool === 'pen') {
+        ctx.closePath();
+      } else if (tool === 'line' || tool === 'rect' || tool === 'circle' || tool === 'triangle') {
         const w = endX - startX;
         const h = endY - startY;
-        ctx.strokeRect(startX, startY, w, h);
+        let stroke;
+        if (tool === 'line') {
+          stroke = { type: 'line', color, x1: startX, y1: startY, x2: endX, y2: endY };
+        } else if (tool === 'rect') {
+          stroke = { type: 'rect', color, x: startX, y: startY, w, h };
+        } else if (tool === 'circle') {
+          const radius = Math.sqrt(w * w + h * h);
+          stroke = { type: 'circle', color, x: startX, y: startY, r: radius };
+        } else if (tool === 'triangle') {
+          // Right triangle with vertices at start, (endX, endY), (startX, endY)
+          stroke = { type: 'triangle', color, x1: startX, y1: startY, x2: endX, y2: endY, x3: startX, y3: endY };
+        }
+        if (stroke) history.push(stroke);
+        redrawAll();
       }
+      // pen points already recorded in mousemove
     });
 
-    canvas.addEventListener('mouseleave', () => {
-      drawing = false;
-    });
+    canvas.addEventListener('mouseleave', () => { drawing = false; });
   });
 }
 

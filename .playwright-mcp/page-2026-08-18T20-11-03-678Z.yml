@@ -1,0 +1,244 @@
+- generic [active] [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - link "Learn with Archie" [ref=f8e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f8e8]:
+      - link "⌂ Panel" [ref=f8e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e10]: ⌂
+        - generic [ref=f8e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f8e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e13]: ✦
+        - generic [ref=f8e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f8e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e16]: ●
+        - generic [ref=f8e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f8e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e19]: ✓
+        - generic [ref=f8e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f8e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e22]: ▦
+        - generic [ref=f8e23]: Planlayıcı
+      - link "● Profil" [ref=f8e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e25]: ●
+        - generic [ref=f8e26]: Profil
+      - link "◆ Mağaza" [ref=f8e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e28]: ◆
+        - generic [ref=f8e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f8e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e31]: ◷
+        - generic [ref=f8e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f8e33]:
+      - generic [ref=f8e34]: 👤
+      - generic [ref=f8e35]:
+        - strong [ref=f8e36]: "12312"
+        - generic [ref=f8e37]: Premium · 12. Sınıf
+  - generic [ref=f8e38]:
+    - banner [ref=f8e39]:
+      - generic [ref=f8e40]:
+        - button "🔤 TYT & AYT" [ref=f8e41] [cursor=pointer]:
+          - generic [ref=f8e42]: 🔤
+          - generic [ref=f8e43]: TYT & AYT
+        - generic [ref=f8e44]:
+          - generic [ref=f8e45]: ⚡
+          - generic [ref=f8e46]: "0"
+    - main [ref=f8e164]:
+      - generic [ref=f8e165]:
+        - generic [ref=f8e166] [cursor=pointer]
+        - generic [ref=f8e169]:
+          - generic [ref=f8e170]: 🧑‍🏫
+          - generic [ref=f8e171]:
+            - heading "AI Öğretmen Koçu" [level=2] [ref=f8e172]
+            - paragraph [ref=f8e173]: Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.
+      - generic [ref=f8e174]:
+        - generic [ref=f8e175]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=f8e176]
+          - generic [ref=f8e177]:
+            - generic [ref=f8e388] [cursor=pointer]:
+              - generic [ref=f8e389]: 📐
+              - generic [ref=f8e390]: Matematik
+            - generic [ref=f8e391] [cursor=pointer]:
+              - generic [ref=f8e392]: 📐
+              - generic [ref=f8e393]: Geometri
+            - generic [ref=f8e394] [cursor=pointer]:
+              - generic [ref=f8e395]: 📝
+              - generic [ref=f8e396]: Türkçe
+            - generic [ref=f8e397] [cursor=pointer]:
+              - generic [ref=f8e398]: 🔬
+              - generic [ref=f8e399]: Fizik
+            - generic [ref=f8e400] [cursor=pointer]:
+              - generic [ref=f8e401]: 🧪
+              - generic [ref=f8e402]: Kimya
+            - generic [ref=f8e403] [cursor=pointer]:
+              - generic [ref=f8e404]: 🧬
+              - generic [ref=f8e405]: Biyoloji
+            - generic [ref=f8e406] [cursor=pointer]:
+              - generic [ref=f8e407]: 📜
+              - generic [ref=f8e408]: Tarih
+            - generic [ref=f8e409] [cursor=pointer]:
+              - generic [ref=f8e410]: 🌍
+              - generic [ref=f8e411]: Coğrafya
+            - generic [ref=f8e412] [cursor=pointer]:
+              - generic [ref=f8e413]: 🧠
+              - generic [ref=f8e414]: Felsefe
+            - generic [ref=f8e415] [cursor=pointer]:
+              - generic [ref=f8e416]: ☪️
+              - generic [ref=f8e417]: Din Kültürü
+        - generic [ref=f8e208]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=f8e209]
+          - generic [ref=f8e243]:
+            - generic [ref=f8e418] [cursor=pointer]:
+              - generic [ref=f8e419]: 📖
+              - generic [ref=f8e420]: Sözcükte Anlam 1
+              - generic [ref=f8e421]: TYT
+            - generic [ref=f8e422] [cursor=pointer]:
+              - generic [ref=f8e423]: 📖
+              - generic [ref=f8e424]: Sözcükte Anlam 2
+              - generic [ref=f8e425]: TYT
+            - generic [ref=f8e426] [cursor=pointer]:
+              - generic [ref=f8e427]: 📖
+              - generic [ref=f8e428]: Sözcükte Anlam 3
+              - generic [ref=f8e429]: TYT
+            - generic [ref=f8e430] [cursor=pointer]:
+              - generic [ref=f8e431]: 📖
+              - generic [ref=f8e432]: Sözcükte Anlam 4
+              - generic [ref=f8e433]: TYT
+            - generic [ref=f8e434] [cursor=pointer]:
+              - generic [ref=f8e435]: 📝
+              - generic [ref=f8e436]: Cümlede Anlam 1
+              - generic [ref=f8e437]: TYT
+            - generic [ref=f8e438] [cursor=pointer]:
+              - generic [ref=f8e439]: 📝
+              - generic [ref=f8e440]: Cümlede Anlam 2
+              - generic [ref=f8e441]: TYT
+            - generic [ref=f8e442] [cursor=pointer]:
+              - generic [ref=f8e443]: 📝
+              - generic [ref=f8e444]: Cümlede Anlam 3
+              - generic [ref=f8e445]: TYT
+            - generic [ref=f8e446] [cursor=pointer]:
+              - generic [ref=f8e447]: 📄
+              - generic [ref=f8e448]: Paragrafta Anlam 1
+              - generic [ref=f8e449]: TYT
+            - generic [ref=f8e450] [cursor=pointer]:
+              - generic [ref=f8e451]: 📄
+              - generic [ref=f8e452]: Paragrafta Anlam 2
+              - generic [ref=f8e453]: TYT
+            - generic [ref=f8e454] [cursor=pointer]:
+              - generic [ref=f8e455]: 📄
+              - generic [ref=f8e456]: Paragrafta Anlam 3
+              - generic [ref=f8e457]: TYT
+            - generic [ref=f8e458] [cursor=pointer]:
+              - generic [ref=f8e459]: 📄
+              - generic [ref=f8e460]: Paragrafın Yapısı
+              - generic [ref=f8e461]: TYT
+            - generic [ref=f8e462] [cursor=pointer]:
+              - generic [ref=f8e463]: 🔊
+              - generic [ref=f8e464]: Ses Bilgisi 1
+              - generic [ref=f8e465]: TYT
+            - generic [ref=f8e466] [cursor=pointer]:
+              - generic [ref=f8e467]: 🔊
+              - generic [ref=f8e468]: Ses Bilgisi 2
+              - generic [ref=f8e469]: TYT
+            - generic [ref=f8e470] [cursor=pointer]:
+              - generic [ref=f8e471]: ✍️
+              - generic [ref=f8e472]: Yazım Kuralları 1
+              - generic [ref=f8e473]: TYT
+            - generic [ref=f8e474] [cursor=pointer]:
+              - generic [ref=f8e475]: ✍️
+              - generic [ref=f8e476]: Yazım Kuralları 2
+              - generic [ref=f8e477]: TYT
+            - generic [ref=f8e478] [cursor=pointer]:
+              - generic [ref=f8e479]: ✍️
+              - generic [ref=f8e480]: Yazım Kuralları 3
+              - generic [ref=f8e481]: TYT
+            - generic [ref=f8e482] [cursor=pointer]:
+              - generic [ref=f8e483]: ❗
+              - generic [ref=f8e484]: Noktalama İşaretleri 1
+              - generic [ref=f8e485]: TYT
+            - generic [ref=f8e486] [cursor=pointer]:
+              - generic [ref=f8e487]: ❗
+              - generic [ref=f8e488]: Noktalama İşaretleri 2
+              - generic [ref=f8e489]: TYT
+            - generic [ref=f8e490] [cursor=pointer]:
+              - generic [ref=f8e491]: ❗
+              - generic [ref=f8e492]: Noktalama İşaretleri 3
+              - generic [ref=f8e493]: TYT
+            - generic [ref=f8e494] [cursor=pointer]:
+              - generic [ref=f8e495]: 🔤
+              - generic [ref=f8e496]: Biçim Bilgisi 1
+              - generic [ref=f8e497]: TYT
+            - generic [ref=f8e498] [cursor=pointer]:
+              - generic [ref=f8e499]: 🔤
+              - generic [ref=f8e500]: Biçim Bilgisi 2
+              - generic [ref=f8e501]: TYT
+            - generic [ref=f8e502] [cursor=pointer]:
+              - generic [ref=f8e503]: 🔤
+              - generic [ref=f8e504]: İsim
+              - generic [ref=f8e505]: TYT
+            - generic [ref=f8e506] [cursor=pointer]:
+              - generic [ref=f8e507]: 🔤
+              - generic [ref=f8e508]: Sıfat
+              - generic [ref=f8e509]: TYT
+            - generic [ref=f8e510] [cursor=pointer]:
+              - generic [ref=f8e511]: 🔤
+              - generic [ref=f8e512]: Zamir
+              - generic [ref=f8e513]: TYT
+            - generic [ref=f8e514] [cursor=pointer]:
+              - generic [ref=f8e515]: 🔤
+              - generic [ref=f8e516]: İsim ve Sıfat Tamlamaları
+              - generic [ref=f8e517]: TYT
+            - generic [ref=f8e518] [cursor=pointer]:
+              - generic [ref=f8e519]: 🔤
+              - generic [ref=f8e520]: Zarf
+              - generic [ref=f8e521]: TYT
+            - generic [ref=f8e522] [cursor=pointer]:
+              - generic [ref=f8e523]: 🔗
+              - generic [ref=f8e524]: Edat, Bağlaç, Ünlem
+              - generic [ref=f8e525]: TYT
+            - generic [ref=f8e526] [cursor=pointer]:
+              - generic [ref=f8e527]: ⏰
+              - generic [ref=f8e528]: Fiilde Kip
+              - generic [ref=f8e529]: TYT
+            - generic [ref=f8e530] [cursor=pointer]:
+              - generic [ref=f8e531]: 🔗
+              - generic [ref=f8e532]: Ek-Fiil
+              - generic [ref=f8e533]: TYT
+            - generic [ref=f8e534] [cursor=pointer]:
+              - generic [ref=f8e535]: 🔤
+              - generic [ref=f8e536]: Fiilde Yapı
+              - generic [ref=f8e537]: TYT
+            - generic [ref=f8e538] [cursor=pointer]:
+              - generic [ref=f8e539]: 🔤
+              - generic [ref=f8e540]: Fiilimsiler
+              - generic [ref=f8e541]: TYT
+            - generic [ref=f8e542] [cursor=pointer]:
+              - generic [ref=f8e543]: 🔤
+              - generic [ref=f8e544]: Fiilde Çatı
+              - generic [ref=f8e545]: TYT
+            - generic [ref=f8e546] [cursor=pointer]:
+              - generic [ref=f8e547]: 📝
+              - generic [ref=f8e548]: Cümlenin Ögeleri
+              - generic [ref=f8e549]: TYT
+            - generic [ref=f8e550] [cursor=pointer]:
+              - generic [ref=f8e551]: 📝
+              - generic [ref=f8e552]: Cümle Türleri
+              - generic [ref=f8e553]: TYT
+            - generic [ref=f8e554] [cursor=pointer]:
+              - generic [ref=f8e555]: ❌
+              - generic [ref=f8e556]: Anlatım Bozuklukları 1
+              - generic [ref=f8e557]: TYT
+            - generic [ref=f8e558] [cursor=pointer]:
+              - generic [ref=f8e559]: ❌
+              - generic [ref=f8e560]: Anlatım Bozuklukları 2
+              - generic [ref=f8e561]: TYT
+          - generic [ref=f8e210]:
+            - button "← Ders Değiştir" [ref=f8e211] [cursor=pointer]
+            - button "Sohbete Başla →" [ref=f8e212] [cursor=pointer]
+    - text: "İlk zamanlayıcı oturumunu tamamla. Toplam 5 oturum bitir. Toplam 25 oturum bitir. Toplam 100 oturum bitir. Kesintisiz 50 dakika odaklan. Tek seferde 90 dakika odaklan. 05:00 - 08:00 arasında oturum tamamla. 00:00 - 04:00 arasında oturum tamamla. Üst üste 3 gün çalış. Üst üste 7 gün günde 2 oturum tamamla. Aynı gün 5 farklı oturum tamamla. Toplam 500 dakika odaklan. Toplam 2000 dakika odaklan. Haftalık odak hedefini doldur. Biten oturumdan sonra yenisini başlat. Sekme değiştirmeden 30 dakika odaklan. Tek günde 5 saat odaklan. Erkek avatarıyla 10 oturum tamamla. Kadın avatarıyla 10 oturum tamamla. Zamanlayıcıyı düzenle veya sıfırla. Kısa moladan zamanında dön. Uzun mola sonrası oturum bitir. İki uzun oturumu tamamla. Önceki haftaya göre %20 geliş. Aylık ilk 10’a gir. İlk quizini çöz. Bir testi tamamen doğru bitir. Bir matematik konusunu %100 ustalaştır. Bir fen konusunu %100 ustalaştır. Sosyal testlerinde 50 doğruya ulaş. 20 doğruyu arka arkaya yap. Bir soruyu 5 saniyede doğru çöz. İki dakika düşünüp doğruyu bul. 10 yanlışı doğruya çevir. 5 konuyu yüksek ustalığa çıkar. Hatasız coğrafya testi bitir. Üçgenlerde 10 doğru seri yap. Temel Kavramlar quizini bitir. Zayıf konu quizini çöz. 15 soruyu arka arkaya bil. Başarı yüzdesini %85’e çıkar. Bir günde 5 quiz bitir. 50 benzersiz quiz tamamla. Son saniyede doğru cevap ver. Kolay testi hatasız bitir. Zor testi %80 başarıyla bitir. Problemlerde 5 doğru seri yap. Aynı gün Matematik ve Türkçe quizini bitir. 3 zayıf konuyu güçlendir. Tüm TYT konularında %50’ye ulaş. İlk planner görevini ekle. Günlük görevlerini tamamla ve temizle. 10 planner görevi ekle. İlk mağaza ödülünü al. 500 XP biriktir. 2000 XP biriktir. Aynı gün 3 ürün al. Premium görevi tamamla. 3 özel tema aç. 5 yüksek öncelikli görev bitir. 09:00’dan önce görev bitir. İlk ders notunu kaydet. 30 tamamlanmış görevi listele. 5 gün hedeflerini tamamla. 5 tamamlanmış görevi sil. Planner’ı bir hafta kullan. Gelecek aya görev ekle. En ucuz ödülü satın al. En pahalı ödülü satın al. AI Öğretmen’den plan tavsiyesi al. Gecikmiş görevi tamamla. Günün önemli görevini bitir. Profil temasını özelleştir. Tüm deniz figürlerini aç. 22:00’den sonra yarını planla. Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor!"

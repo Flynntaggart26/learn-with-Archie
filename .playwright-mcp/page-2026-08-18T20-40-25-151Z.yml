@@ -1,0 +1,94 @@
+- generic [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - link "Learn with Archie" [ref=f8e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f8e8]:
+      - link "⌂ Panel" [ref=f8e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e10]: ⌂
+        - generic [ref=f8e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f8e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e13]: ✦
+        - generic [ref=f8e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f8e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e16]: ●
+        - generic [ref=f8e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f8e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e19]: ✓
+        - generic [ref=f8e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f8e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e22]: ▦
+        - generic [ref=f8e23]: Planlayıcı
+      - link "● Profil" [ref=f8e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e25]: ●
+        - generic [ref=f8e26]: Profil
+      - link "◆ Mağaza" [ref=f8e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e28]: ◆
+        - generic [ref=f8e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f8e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e31]: ◷
+        - generic [ref=f8e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f8e33]:
+      - generic [ref=f8e34]: 👤
+      - generic [ref=f8e35]:
+        - strong [ref=f8e36]: "12312"
+        - generic [ref=f8e37]: Premium · 12. Sınıf
+  - generic [ref=f8e38]:
+    - banner [ref=f8e39]:
+      - generic [ref=f8e40]:
+        - button "🔤 TYT & AYT" [ref=f8e41] [cursor=pointer]:
+          - generic [ref=f8e42]: 🔤
+          - generic [ref=f8e43]: TYT & AYT
+        - generic [ref=f8e44]:
+          - generic [ref=f8e45]: ⚡
+          - generic [ref=f8e46]: "0"
+    - main [ref=f8e1008]:
+      - generic [ref=f8e1009]:
+        - generic [ref=f8e1010]: 🧑‍🏫
+        - generic [ref=f8e1011]:
+          - heading "AI Öğretmen Koçu" [level=2] [ref=f8e1012]
+          - paragraph [ref=f8e1013]: Sana ders anlatır, sorularını çözer ve rehberlik eder.
+      - generic [ref=f8e1014]:
+        - generic [ref=f8e1015]:
+          - button "TYT" [ref=f8e1016] [cursor=pointer]
+          - button "AYT" [ref=f8e1017] [cursor=pointer]
+        - generic [ref=f8e1018]: "Ders:"
+        - combobox [ref=f8e1019]
+      - generic [ref=f8e1020]:
+        - button "📈 Türev" [ref=f8e1021] [cursor=pointer]
+        - button "📐 İntegral" [ref=f8e1022] [cursor=pointer]
+        - button "🌿 Fotosentez" [ref=f8e1023] [cursor=pointer]
+        - button "📅 Plan öner" [ref=f8e1024] [cursor=pointer]
+      - tablist "AI Öğretmen araçları" [ref=f8e1025]:
+        - button "💬 Chat" [ref=f8e1026] [cursor=pointer]
+        - button "🎙️ Sesli Sohbet" [ref=f8e1027] [cursor=pointer]
+        - button "🎨 İnteraktif Tahta" [ref=f8e1028] [cursor=pointer]
+      - generic [ref=f8e1034]:
+        - generic [ref=f8e1035]:
+          - generic [ref=f8e1036]: 📋 Sınıf Tahtası
+          - generic [ref=f8e1037]:
+            - generic "Koyu" [ref=f8e1038] [cursor=pointer]:
+              - radio [checked] [ref=f8e1039]
+            - generic "Sarı" [ref=f8e1040] [cursor=pointer]:
+              - radio [ref=f8e1041]
+            - generic "Mavi" [ref=f8e1042] [cursor=pointer]:
+              - radio [ref=f8e1043]
+            - generic "Yeşil" [ref=f8e1044] [cursor=pointer]:
+              - radio [ref=f8e1045]
+            - generic "Kırmızı" [ref=f8e1046] [cursor=pointer]:
+              - radio [ref=f8e1047]
+            - button "🧹 Temizle" [ref=f8e1048] [cursor=pointer]
+        - generic [ref=f8e1049]:
+          - button "✏️" [ref=f8e1050] [cursor=pointer]
+          - button "📏" [ref=f8e1051] [cursor=pointer]
+          - button "⭕" [ref=f8e1052] [cursor=pointer]
+          - button "▭" [ref=f8e1053] [cursor=pointer]
+          - button "🔺" [active] [ref=f8e1054] [cursor=pointer]
+          - button "🧽" [ref=f8e1055] [cursor=pointer]

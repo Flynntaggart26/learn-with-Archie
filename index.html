@@ -174,7 +174,7 @@
 
     <!-- AI Teacher Selection Page -->
     <main class="selection-container" id="teacherSelection" style="display:none;">
-      <div class="selection-header">
+      <div class="selection-header teacher-beach-header">
         <div class="selection-back" id="teacherSelectionBack">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -189,13 +189,13 @@
         </div>
       </div>
       
-      <div class="selection-content">
-        <div class="selection-step">
+      <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
+        <div class="selection-step teacher-beach-theme">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="teacherSubjectGrid"></div>
         </div>
         
-        <div class="selection-step" id="teacherTopicStep" style="display:none;">
+        <div class="selection-step teacher-beach-theme" id="teacherTopicStep" style="display:none;">
           <h3 class="step-title">2️⃣ Konu Seç</h3>
           <div class="topic-grid" id="teacherTopicGrid"></div>
           <div class="selection-actions">
@@ -223,7 +223,7 @@
         </div>
       </div>
       
-      <div class="selection-content">
+      <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
         <div class="selection-step">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="studentSubjectGrid"></div>
@@ -263,6 +263,15 @@
         <button class="ai-chip" data-txt="Fotosentez nedir?">🌿 Fotosentez</button>
         <button class="ai-chip" data-txt="Bana ders çalışma planı öner">📅 Plan öner</button>
       </div>
+      <div class="chat-mode-tabs" data-chat-mode-group="teacher" role="tablist" aria-label="AI Öğretmen araçları">
+        <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="voice">🎙️ Sesli Sohbet</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="board">🎨 İnteraktif Tahta</button>
+      </div>
+      <div class="voice-mode-panel" id="teacherVoiceMode" hidden>
+        <button type="button" class="voice-mode-mic" id="teacherVoiceModeBtn">🎙️</button>
+        <strong>Konuşmaya başlamak için mikrofona dokun</strong><span id="teacherVoiceModeStatus">Sesli sohbet hazır</span>
+      </div>
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="teacherToggle">🖊️ Tahta</button>
       </div>
@@ -270,7 +279,7 @@
         <div class="whiteboard-toolbar">
           <span class="wb-title">📋 Sınıf Tahtası</span>
           <div class="wb-controls">
-            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="teacherColor" value="#ffffff" checked></label>
+            <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="teacherColor" value="#1e293b" checked></label>
             <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="teacherColor" value="#ffd900"></label>
             <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="teacherColor" value="#1cb0f6"></label>
             <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="teacherColor" value="#58cc02"></label>
@@ -319,6 +328,15 @@
         <button class="ai-chip" data-txt="Bana çalışma programı hazırla">📅 Program</button>
         <button class="ai-chip" data-txt="Matematik nasıl çalışılır?">🧮 Matematik</button>
       </div>
+      <div class="chat-mode-tabs" data-chat-mode-group="student" role="tablist" aria-label="Öğrenci AI araçları">
+        <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="voice">🎙️ Sesli Sohbet</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="board">🎨 İnteraktif Tahta</button>
+      </div>
+      <div class="voice-mode-panel" id="studentVoiceMode" hidden>
+        <button type="button" class="voice-mode-mic" id="studentVoiceModeBtn">🎙️</button>
+        <strong>Konuşmaya başlamak için mikrofona dokun</strong><span id="studentVoiceModeStatus">Sesli sohbet hazır</span>
+      </div>
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="studentToggle">🖊️ Tahta</button>
       </div>
@@ -326,7 +344,7 @@
         <div class="whiteboard-toolbar">
           <span class="wb-title">📋 Sınıf Tahtası</span>
           <div class="wb-controls">
-            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="studentColor" value="#ffffff" checked></label>
+            <label class="wb-color" title="Siyah" style="background:#1e293b"><input type="radio" name="studentColor" value="#1e293b" checked></label>
             <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="studentColor" value="#ffd900"></label>
             <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="studentColor" value="#1cb0f6"></label>
             <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="studentColor" value="#58cc02"></label>

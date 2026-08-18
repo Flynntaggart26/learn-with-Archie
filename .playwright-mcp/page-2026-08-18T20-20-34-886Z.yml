@@ -1,0 +1,94 @@
+- generic [ref=f1e1]:
+  - navigation [ref=f1e2]:
+    - link "Learn with Archie" [ref=f1e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f1e8]:
+      - link "⌂ Panel" [ref=f1e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e10]: ⌂
+        - generic [ref=f1e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f1e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e13]: ✦
+        - generic [ref=f1e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f1e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e16]: ●
+        - generic [ref=f1e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f1e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e19]: ✓
+        - generic [ref=f1e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f1e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e22]: ▦
+        - generic [ref=f1e23]: Planlayıcı
+      - link "● Profil" [ref=f1e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e25]: ●
+        - generic [ref=f1e26]: Profil
+      - link "◆ Mağaza" [ref=f1e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e28]: ◆
+        - generic [ref=f1e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f1e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e31]: ◷
+        - generic [ref=f1e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f1e33]:
+      - generic [ref=f1e34]: 👤
+      - generic [ref=f1e35]:
+        - strong [ref=f1e36]: "12312"
+        - generic [ref=f1e37]: Premium · 12. Sınıf
+  - generic [ref=f1e38]:
+    - banner [ref=f1e39]:
+      - generic [ref=f1e40]:
+        - button "🔤 TYT & AYT" [ref=f1e41] [cursor=pointer]:
+          - generic [ref=f1e42]: 🔤
+          - generic [ref=f1e43]: TYT & AYT
+        - generic [ref=f1e44]:
+          - generic [ref=f1e45]: ⚡
+          - generic [ref=f1e46]: "0"
+    - main [ref=f1e574]:
+      - generic [ref=f1e575]:
+        - generic [ref=f1e576]: 🧑‍🏫
+        - generic [ref=f1e577]:
+          - heading "AI Öğretmen Koçu" [level=2] [ref=f1e578]
+          - paragraph [ref=f1e579]: Sana ders anlatır, sorularını çözer ve rehberlik eder.
+      - generic [ref=f1e580]:
+        - generic [ref=f1e581]:
+          - button "TYT" [ref=f1e582] [cursor=pointer]
+          - button "AYT" [ref=f1e583] [cursor=pointer]
+        - generic [ref=f1e584]: "Ders:"
+        - combobox [ref=f1e585]
+      - generic [ref=f1e586]:
+        - button "📈 Türev" [ref=f1e587] [cursor=pointer]
+        - button "📐 İntegral" [ref=f1e588] [cursor=pointer]
+        - button "🌿 Fotosentez" [ref=f1e589] [cursor=pointer]
+        - button "📅 Plan öner" [ref=f1e590] [cursor=pointer]
+      - tablist "AI Öğretmen araçları" [ref=f1e591]:
+        - button "💬 Chat" [ref=f1e592] [cursor=pointer]
+        - button "🎙️ Sesli Sohbet" [ref=f1e593] [cursor=pointer]
+        - button "🎨 İnteraktif Tahta" [ref=f1e594] [cursor=pointer]
+      - generic [ref=f1e600]:
+        - generic [ref=f1e601]:
+          - generic [ref=f1e602]: 📋 Sınıf Tahtası
+          - generic [ref=f1e603]:
+            - generic "Koyu" [ref=f1e604] [cursor=pointer]:
+              - radio [checked] [ref=f1e605]
+            - generic "Sarı" [ref=f1e606] [cursor=pointer]:
+              - radio [ref=f1e607]
+            - generic "Mavi" [ref=f1e608] [cursor=pointer]:
+              - radio [ref=f1e609]
+            - generic "Yeşil" [ref=f1e610] [cursor=pointer]:
+              - radio [ref=f1e611]
+            - generic "Kırmızı" [ref=f1e612] [cursor=pointer]:
+              - radio [ref=f1e613]
+            - button "🧹 Temizle" [active] [ref=f1e614] [cursor=pointer]
+        - generic [ref=f1e615]:
+          - button "✏️" [ref=f1e616] [cursor=pointer]
+          - button "📏" [ref=f1e617] [cursor=pointer]
+          - button "⭕" [ref=f1e618] [cursor=pointer]
+          - button "▭" [ref=f1e619] [cursor=pointer]
+          - button "🔺" [ref=f1e620] [cursor=pointer]
+          - button "🧽" [ref=f1e621] [cursor=pointer]

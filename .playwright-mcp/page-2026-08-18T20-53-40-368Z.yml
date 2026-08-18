@@ -1,0 +1,251 @@
+- generic [ref=f10e1]:
+  - navigation [ref=f10e2]:
+    - link "Learn with Archie" [ref=f10e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f10e8]:
+      - link "⌂ Panel" [ref=f10e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e10]: ⌂
+        - generic [ref=f10e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f10e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e13]: ✦
+        - generic [ref=f10e14]: AI Öğretmen
+      - link "● Öğrenci AI" [active] [ref=f10e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e16]: ●
+        - generic [ref=f10e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f10e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e19]: ✓
+        - generic [ref=f10e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f10e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e22]: ▦
+        - generic [ref=f10e23]: Planlayıcı
+      - link "● Profil" [ref=f10e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e25]: ●
+        - generic [ref=f10e26]: Profil
+      - link "◆ Mağaza" [ref=f10e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e28]: ◆
+        - generic [ref=f10e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f10e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f10e31]: ◷
+        - generic [ref=f10e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f10e33]:
+      - generic [ref=f10e34]: 👤
+      - generic [ref=f10e35]:
+        - strong [ref=f10e36]: "12312"
+        - generic [ref=f10e37]: Premium · 12. Sınıf
+  - generic [ref=f10e38]:
+    - banner [ref=f10e39]:
+      - generic [ref=f10e40]:
+        - button "🔤 TYT & AYT" [ref=f10e41] [cursor=pointer]:
+          - generic [ref=f10e42]: 🔤
+          - generic [ref=f10e43]: TYT & AYT
+        - generic [ref=f10e44]:
+          - generic [ref=f10e45]: ⚡
+          - generic [ref=f10e46]: "0"
+    - main [ref=f10e202]:
+      - generic [ref=f10e203]:
+        - generic [ref=f10e204] [cursor=pointer]
+        - generic [ref=f10e207]:
+          - generic [ref=f10e208]: 🎧
+          - generic [ref=f10e209]:
+            - heading "Öğrenci AI" [level=2] [ref=f10e210]
+            - paragraph [ref=f10e211]: Bugün ne öğretmek istiyorsun? Ders ve konu seç, seni dinleyeyim.
+      - generic [ref=f10e212]:
+        - generic [ref=f10e213]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=f10e214]
+          - generic [ref=f10e215]:
+            - generic [ref=f10e216] [cursor=pointer]:
+              - generic [ref=f10e217]: 📐
+              - generic [ref=f10e218]: Matematik
+            - generic [ref=f10e219] [cursor=pointer]:
+              - generic [ref=f10e220]: 📐
+              - generic [ref=f10e221]: Geometri
+            - generic [ref=f10e222] [cursor=pointer]:
+              - generic [ref=f10e223]: 📝
+              - generic [ref=f10e224]: Türkçe
+            - generic [ref=f10e225] [cursor=pointer]:
+              - generic [ref=f10e226]: 🔬
+              - generic [ref=f10e227]: Fizik
+            - generic [ref=f10e228] [cursor=pointer]:
+              - generic [ref=f10e229]: 🧪
+              - generic [ref=f10e230]: Kimya
+            - generic [ref=f10e231] [cursor=pointer]:
+              - generic [ref=f10e232]: 🧬
+              - generic [ref=f10e233]: Biyoloji
+            - generic [ref=f10e234] [cursor=pointer]:
+              - generic [ref=f10e235]: 📜
+              - generic [ref=f10e236]: Tarih
+            - generic [ref=f10e237] [cursor=pointer]:
+              - generic [ref=f10e238]: 🌍
+              - generic [ref=f10e239]: Coğrafya
+            - generic [ref=f10e240] [cursor=pointer]:
+              - generic [ref=f10e241]: 🧠
+              - generic [ref=f10e242]: Felsefe
+            - generic [ref=f10e243] [cursor=pointer]:
+              - generic [ref=f10e244]: ☪️
+              - generic [ref=f10e245]: Din Kültürü
+        - generic [ref=f10e246]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=f10e247]
+          - generic [ref=f10e248]:
+            - generic [ref=f10e249] [cursor=pointer]:
+              - generic [ref=f10e250]: 📐
+              - generic [ref=f10e251]: Açı Kavramı ve Çeşitleri
+              - generic [ref=f10e252]: TYT
+            - generic [ref=f10e253] [cursor=pointer]:
+              - generic [ref=f10e254]: 📐
+              - generic [ref=f10e255]: Paralel Doğrularda Açılar
+              - generic [ref=f10e256]: TYT
+            - generic [ref=f10e257] [cursor=pointer]:
+              - generic [ref=f10e258]: 🔺
+              - generic [ref=f10e259]: Üçgende Açılar
+              - generic [ref=f10e260]: TYT
+            - generic [ref=f10e261] [cursor=pointer]:
+              - generic [ref=f10e262]: 🔺
+              - generic [ref=f10e263]: İkizkenar ve Eşkenar Üçgende Açı
+              - generic [ref=f10e264]: TYT
+            - generic [ref=f10e265] [cursor=pointer]:
+              - generic [ref=f10e266]: 📏
+              - generic [ref=f10e267]: Üçgende Açı Kenar Bağıntıları
+              - generic [ref=f10e268]: TYT
+            - generic [ref=f10e269] [cursor=pointer]:
+              - generic [ref=f10e270]: 📏
+              - generic [ref=f10e271]: Üçgen Eşitsizliği
+              - generic [ref=f10e272]: TYT
+            - generic [ref=f10e273] [cursor=pointer]:
+              - generic [ref=f10e274]: 🔺
+              - generic [ref=f10e275]: Üçgenlerde Eşlik
+              - generic [ref=f10e276]: TYT
+            - generic [ref=f10e277] [cursor=pointer]:
+              - generic [ref=f10e278]: 🔺
+              - generic [ref=f10e279]: Üçgenlerde Benzerlik
+              - generic [ref=f10e280]: TYT
+            - generic [ref=f10e281] [cursor=pointer]:
+              - generic [ref=f10e282]: 🔺
+              - generic [ref=f10e283]: Üçgenlerde Temel Benzerlik
+              - generic [ref=f10e284]: TYT
+            - generic [ref=f10e285] [cursor=pointer]:
+              - generic [ref=f10e286]: 📝
+              - generic [ref=f10e287]: Benzerlik Uygulamaları
+              - generic [ref=f10e288]: TYT
+            - generic [ref=f10e289] [cursor=pointer]:
+              - generic [ref=f10e290]: 📏
+              - generic [ref=f10e291]: Üçgende Açıortay
+              - generic [ref=f10e292]: TYT
+            - generic [ref=f10e293] [cursor=pointer]:
+              - generic [ref=f10e294]: 📏
+              - generic [ref=f10e295]: Üçgende Açıortay (devam)
+              - generic [ref=f10e296]: TYT
+            - generic [ref=f10e297] [cursor=pointer]:
+              - generic [ref=f10e298]: 📏
+              - generic [ref=f10e299]: Üçgende Kenarortay
+              - generic [ref=f10e300]: TYT
+            - generic [ref=f10e301] [cursor=pointer]:
+              - generic [ref=f10e302]: 📏
+              - generic [ref=f10e303]: Üçgende Yükseklik
+              - generic [ref=f10e304]: TYT
+            - generic [ref=f10e305] [cursor=pointer]:
+              - generic [ref=f10e306]: 📏
+              - generic [ref=f10e307]: Üçgende Kenar Orta Dikme
+              - generic [ref=f10e308]: TYT
+            - generic [ref=f10e309] [cursor=pointer]:
+              - generic [ref=f10e310]: 📐
+              - generic [ref=f10e311]: Dik Üçgende Pisagor Teoremi
+              - generic [ref=f10e312]: TYT
+            - generic [ref=f10e313] [cursor=pointer]:
+              - generic [ref=f10e314]: 📐
+              - generic [ref=f10e315]: Öklid'in Çalışmaları
+              - generic [ref=f10e316]: TYT
+            - generic [ref=f10e317] [cursor=pointer]:
+              - generic [ref=f10e318]: 📐
+              - generic [ref=f10e319]: Trigonometrik Oranlar
+              - generic [ref=f10e320]: TYT
+            - generic [ref=f10e321] [cursor=pointer]:
+              - generic [ref=f10e322]: 📐
+              - generic [ref=f10e323]: 30°, 45°, 60°'nin Trigonometrik Oranları
+              - generic [ref=f10e324]: TYT
+            - generic [ref=f10e325] [cursor=pointer]:
+              - generic [ref=f10e326]: ⭕
+              - generic [ref=f10e327]: Birim Çember
+              - generic [ref=f10e328]: TYT
+            - generic [ref=f10e329] [cursor=pointer]:
+              - generic [ref=f10e330]: 🔺
+              - generic [ref=f10e331]: Üçgende Alan
+              - generic [ref=f10e332]: TYT
+            - generic [ref=f10e333] [cursor=pointer]:
+              - generic [ref=f10e334]: 📝
+              - generic [ref=f10e335]: Üçgende Alan Uygulamaları
+              - generic [ref=f10e336]: TYT
+            - generic [ref=f10e337] [cursor=pointer]:
+              - generic [ref=f10e338]: ⬠
+              - generic [ref=f10e339]: Çokgenler
+              - generic [ref=f10e340]: TYT
+            - generic [ref=f10e341] [cursor=pointer]:
+              - generic [ref=f10e342]: ⬛
+              - generic [ref=f10e343]: Dörtgenler ve Özellikleri
+              - generic [ref=f10e344]: TYT
+            - generic [ref=f10e345] [cursor=pointer]:
+              - generic [ref=f10e346]: ⬛
+              - generic [ref=f10e347]: Özel Dörtgenler
+              - generic [ref=f10e348]: TYT
+            - generic [ref=f10e349] [cursor=pointer]:
+              - generic [ref=f10e350]: ⬛
+              - generic [ref=f10e351]: Yamuğun Alanı
+              - generic [ref=f10e352]: TYT
+            - generic [ref=f10e353] [cursor=pointer]:
+              - generic [ref=f10e354]: ⬛
+              - generic [ref=f10e355]: İkizkenar ve Dik Yamuk
+              - generic [ref=f10e356]: TYT
+            - generic [ref=f10e357] [cursor=pointer]:
+              - generic [ref=f10e358]: ⬛
+              - generic [ref=f10e359]: Paralelkenarda Açı ve Uzunluk
+              - generic [ref=f10e360]: TYT
+            - generic [ref=f10e361] [cursor=pointer]:
+              - generic [ref=f10e362]: ⬛
+              - generic [ref=f10e363]: Paralelkenarda Alan
+              - generic [ref=f10e364]: TYT
+            - generic [ref=f10e365] [cursor=pointer]:
+              - generic [ref=f10e366]: 🔷
+              - generic [ref=f10e367]: Eşkenar Dörtgen
+              - generic [ref=f10e368]: TYT
+            - generic [ref=f10e369] [cursor=pointer]:
+              - generic [ref=f10e370]: ⬜
+              - generic [ref=f10e371]: Dikdörtgende Açı ve Uzunluk
+              - generic [ref=f10e372]: TYT
+            - generic [ref=f10e373] [cursor=pointer]:
+              - generic [ref=f10e374]: ⬜
+              - generic [ref=f10e375]: Dikdörtgende Alan
+              - generic [ref=f10e376]: TYT
+            - generic [ref=f10e377] [cursor=pointer]:
+              - generic [ref=f10e378]: ⬜
+              - generic [ref=f10e379]: Kare
+              - generic [ref=f10e380]: TYT
+            - generic [ref=f10e381] [cursor=pointer]:
+              - generic [ref=f10e382]: 🪁
+              - generic [ref=f10e383]: Deltoid
+              - generic [ref=f10e384]: TYT
+            - generic [ref=f10e385] [cursor=pointer]:
+              - generic [ref=f10e386]: 🧊
+              - generic [ref=f10e387]: Dik Prizmalar
+              - generic [ref=f10e388]: TYT
+            - generic [ref=f10e389] [cursor=pointer]:
+              - generic [ref=f10e390]: 🧊
+              - generic [ref=f10e391]: Küp
+              - generic [ref=f10e392]: TYT
+            - generic [ref=f10e393] [cursor=pointer]:
+              - generic [ref=f10e394]: 🔺
+              - generic [ref=f10e395]: Dik Piramit
+              - generic [ref=f10e396]: TYT
+            - generic [ref=f10e397] [cursor=pointer]:
+              - generic [ref=f10e398]: 🔺
+              - generic [ref=f10e399]: Düzgün Dört Yüzlü
+              - generic [ref=f10e400]: TYT
+          - generic [ref=f10e401]:
+            - button "← Ders Değiştir" [ref=f10e402] [cursor=pointer]
+            - button "Sohbete Başla →" [disabled] [ref=f10e403] [cursor=pointer]

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <script type="module" crossorigin src="/assets/index-ro0JpBNG.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Cm7hom-J.css">
+  <script type="module" crossorigin src="/assets/index-DjJZUcI5.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CjPE--2j.css">
 </head>
 <body>
   <!-- Sidebar -->
@@ -264,6 +264,15 @@
         <button class="ai-chip" data-txt="Fotosentez nedir?">🌿 Fotosentez</button>
         <button class="ai-chip" data-txt="Bana ders çalışma planı öner">📅 Plan öner</button>
       </div>
+      <div class="chat-mode-tabs" data-chat-mode-group="teacher" role="tablist" aria-label="AI Öğretmen araçları">
+        <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="voice">🎙️ Sesli Sohbet</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="board">🎨 İnteraktif Tahta</button>
+      </div>
+      <div class="voice-mode-panel" id="teacherVoiceMode" hidden>
+        <button type="button" class="voice-mode-mic" id="teacherVoiceModeBtn">🎙️</button>
+        <strong>Konuşmaya başlamak için mikrofona dokun</strong><span id="teacherVoiceModeStatus">Sesli sohbet hazır</span>
+      </div>
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="teacherToggle">🖊️ Tahta</button>
       </div>
@@ -319,6 +328,15 @@
         <button class="ai-chip" data-txt="Bana motivasyon ver">💪 Motivasyon</button>
         <button class="ai-chip" data-txt="Bana çalışma programı hazırla">📅 Program</button>
         <button class="ai-chip" data-txt="Matematik nasıl çalışılır?">🧮 Matematik</button>
+      </div>
+      <div class="chat-mode-tabs" data-chat-mode-group="student" role="tablist" aria-label="Öğrenci AI araçları">
+        <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="voice">🎙️ Sesli Sohbet</button>
+        <button type="button" class="chat-mode-tab" data-chat-mode="board">🎨 İnteraktif Tahta</button>
+      </div>
+      <div class="voice-mode-panel" id="studentVoiceMode" hidden>
+        <button type="button" class="voice-mode-mic" id="studentVoiceModeBtn">🎙️</button>
+        <strong>Konuşmaya başlamak için mikrofona dokun</strong><span id="studentVoiceModeStatus">Sesli sohbet hazır</span>
       </div>
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="studentToggle">🖊️ Tahta</button>

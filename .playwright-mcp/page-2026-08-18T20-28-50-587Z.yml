@@ -1,0 +1,144 @@
+- generic [active] [ref=f6e1]:
+  - navigation [ref=f6e2]:
+    - link "Learn with Archie" [ref=f6e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f6e8]:
+      - link "⌂ Panel" [ref=f6e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e10]: ⌂
+        - generic [ref=f6e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f6e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e13]: ✦
+        - generic [ref=f6e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f6e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e16]: ●
+        - generic [ref=f6e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f6e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e19]: ✓
+        - generic [ref=f6e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f6e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e22]: ▦
+        - generic [ref=f6e23]: Planlayıcı
+      - link "● Profil" [ref=f6e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e25]: ●
+        - generic [ref=f6e26]: Profil
+      - link "◆ Mağaza" [ref=f6e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e28]: ◆
+        - generic [ref=f6e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f6e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f6e31]: ◷
+        - generic [ref=f6e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f6e33]:
+      - generic [ref=f6e34]: 👤
+      - generic [ref=f6e35]:
+        - strong [ref=f6e36]: "12312"
+        - generic [ref=f6e37]: Premium · 12. Sınıf
+  - generic [ref=f6e38]:
+    - banner [ref=f6e39]:
+      - generic [ref=f6e40]:
+        - button "🔤 TYT & AYT" [ref=f6e41] [cursor=pointer]:
+          - generic [ref=f6e42]: 🔤
+          - generic [ref=f6e43]: TYT & AYT
+        - generic [ref=f6e44]:
+          - generic [ref=f6e45]: ⚡
+          - generic [ref=f6e46]: "0"
+    - main [ref=f6e47]:
+      - generic [ref=f6e48]:
+        - generic [ref=f6e49]:
+          - heading "Merhaba, 12312! 👋" [level=1] [ref=f6e50]
+          - paragraph [ref=f6e51]: Bugün YKS yolculuğunda hedeflerine bir adım daha yaklaşalım.
+        - generic [ref=f6e52]:
+          - generic [ref=f6e53]: TYT Sınavına Kalan Gün
+          - generic [ref=f6e54]: "301"
+          - generic [ref=f6e55]: gün
+      - generic [ref=f6e56]:
+        - generic [ref=f6e57]:
+          - generic [ref=f6e58]: ✅
+          - generic [ref=f6e59]: "0"
+          - generic [ref=f6e60]: Tamamlanan Konu
+        - generic [ref=f6e61]:
+          - generic [ref=f6e62]: 📚
+          - generic [ref=f6e63]: "434"
+          - generic [ref=f6e64]: Toplam Konu
+        - generic [ref=f6e65]:
+          - generic [ref=f6e66]: 🎯
+          - generic [ref=f6e67]: 0%
+          - generic [ref=f6e68]: İlerleme
+        - generic [ref=f6e69]:
+          - generic [ref=f6e70]: ⚡
+          - generic [ref=f6e71]: "0"
+          - generic [ref=f6e72]: XP
+      - generic [ref=f6e74]:
+        - text: 📈 Genel İlerleme
+        - generic [ref=f6e75]: 0%
+      - generic [ref=f6e77]:
+        - button "📝 Sınav" [ref=f6e78] [cursor=pointer]
+        - button "📅 Plan" [ref=f6e79] [cursor=pointer]
+        - button "🧑‍🏫 AI Öğretmen" [ref=f6e80] [cursor=pointer]
+      - generic [ref=f6e81]:
+        - generic [ref=f6e82]:
+          - generic [ref=f6e83]: 🎯 Bugünün Hedefleri
+          - generic [ref=f6e84]:
+            - generic [ref=f6e85]:
+              - generic [ref=f6e86]: 🗺️
+              - generic [ref=f6e87]: Yeni konu çalış
+              - generic [ref=f6e88]: Bekliyor
+            - generic [ref=f6e89]:
+              - generic [ref=f6e90]: 📝
+              - generic [ref=f6e91]: En az 10 soru çöz
+              - generic [ref=f6e92]: Bekliyor
+            - generic [ref=f6e93]:
+              - generic [ref=f6e94]: 🔁
+              - generic [ref=f6e95]: Tekrar yap
+              - generic [ref=f6e96]: Bekliyor
+        - generic [ref=f6e97]:
+          - generic [ref=f6e98]: 📚 Derslere Göre İlerleme
+          - generic [ref=f6e99]:
+            - generic [ref=f6e100]:
+              - generic [ref=f6e101]: Matematik
+              - generic [ref=f6e104]: 42%
+            - generic [ref=f6e105]:
+              - generic [ref=f6e106]: Türkçe
+              - generic [ref=f6e109]: 68%
+            - generic [ref=f6e110]:
+              - generic [ref=f6e111]: Fen Bilimleri
+              - generic [ref=f6e114]: 31%
+            - generic [ref=f6e115]:
+              - generic [ref=f6e116]: Sosyal Bilimler
+              - generic [ref=f6e119]: 54%
+        - generic [ref=f6e120]:
+          - generic [ref=f6e121]: 📝 Notların
+          - paragraph [ref=f6e123]: Henüz not eklemedin.
+        - generic [ref=f6e124]:
+          - generic [ref=f6e125]: 📊 Analitik görünüm
+          - generic [ref=f6e126]:
+            - generic [ref=f6e127]:
+              - generic "0% ilerleme" [ref=f6e128]:
+                - strong [ref=f6e129]: 0%
+                - generic [ref=f6e130]: ilerleme
+              - generic [ref=f6e131]:
+                - generic [ref=f6e132]:
+                  - text: Tamamlanan
+                  - generic [ref=f6e134]: "0"
+                - generic [ref=f6e135]:
+                  - text: Kalan
+                  - generic [ref=f6e137]: "434"
+            - generic [ref=f6e138]:
+              - generic [ref=f6e139]:
+                - generic [ref=f6e140]: Haftalık çalışma
+                - generic [ref=f6e141]: "%0 ort."
+              - generic [ref=f6e142]:
+                - generic [ref=f6e143]: Pzt
+                - generic [ref=f6e146]: Sal
+                - generic [ref=f6e148]: Çar
+                - generic [ref=f6e150]: Per
+                - generic [ref=f6e152]: Cum
+                - generic [ref=f6e154]: Cmt
+                - generic [ref=f6e156]: Paz

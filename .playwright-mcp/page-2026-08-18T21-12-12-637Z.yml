@@ -1,0 +1,94 @@
+- generic [ref=f12e1]:
+  - navigation [ref=f12e2]:
+    - link "Learn with Archie" [ref=f12e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f12e8]:
+      - link "⌂ Panel" [ref=f12e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e10]: ⌂
+        - generic [ref=f12e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f12e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e13]: ✦
+        - generic [ref=f12e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f12e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e16]: ●
+        - generic [ref=f12e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f12e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e19]: ✓
+        - generic [ref=f12e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f12e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e22]: ▦
+        - generic [ref=f12e23]: Planlayıcı
+      - link "● Profil" [ref=f12e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e25]: ●
+        - generic [ref=f12e26]: Profil
+      - link "◆ Mağaza" [ref=f12e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e28]: ◆
+        - generic [ref=f12e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f12e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f12e31]: ◷
+        - generic [ref=f12e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f12e33]:
+      - generic [ref=f12e34]: 👤
+      - generic [ref=f12e35]:
+        - strong [ref=f12e36]: "12312"
+        - generic [ref=f12e37]: Premium · 12. Sınıf
+  - generic [ref=f12e38]:
+    - banner [ref=f12e39]:
+      - generic [ref=f12e40]:
+        - button "🔤 TYT & AYT" [ref=f12e41] [cursor=pointer]:
+          - generic [ref=f12e42]: 🔤
+          - generic [ref=f12e43]: TYT & AYT
+        - generic [ref=f12e44]:
+          - generic [ref=f12e45]: ⚡
+          - generic [ref=f12e46]: "0"
+    - main [ref=f12e574]:
+      - generic [ref=f12e575]:
+        - generic [ref=f12e576]: 🧑‍🏫
+        - generic [ref=f12e577]:
+          - heading "AI Öğretmen Koçu" [level=2] [ref=f12e578]
+          - paragraph [ref=f12e579]: Sana ders anlatır, sorularını çözer ve rehberlik eder.
+      - generic [ref=f12e580]:
+        - generic [ref=f12e581]:
+          - button "TYT" [ref=f12e582] [cursor=pointer]
+          - button "AYT" [ref=f12e583] [cursor=pointer]
+        - generic [ref=f12e584]: "Ders:"
+        - combobox [ref=f12e585]
+      - generic [ref=f12e586]:
+        - button "📈 Türev" [ref=f12e587] [cursor=pointer]
+        - button "📐 İntegral" [ref=f12e588] [cursor=pointer]
+        - button "🌿 Fotosentez" [ref=f12e589] [cursor=pointer]
+        - button "📅 Plan öner" [ref=f12e590] [cursor=pointer]
+      - tablist "AI Öğretmen araçları" [ref=f12e591]:
+        - button "💬 Chat" [ref=f12e592] [cursor=pointer]
+        - button "🎙️ Sesli Sohbet" [ref=f12e593] [cursor=pointer]
+        - button "🎨 İnteraktif Tahta" [active] [ref=f12e594] [cursor=pointer]
+      - generic [ref=f12e600]:
+        - generic [ref=f12e601]:
+          - generic [ref=f12e602]: 📋 Sınıf Tahtası
+          - generic [ref=f12e603]:
+            - generic "Koyu" [ref=f12e604] [cursor=pointer]:
+              - radio [checked] [ref=f12e605]
+            - generic "Sarı" [ref=f12e606] [cursor=pointer]:
+              - radio [ref=f12e607]
+            - generic "Mavi" [ref=f12e608] [cursor=pointer]:
+              - radio [ref=f12e609]
+            - generic "Yeşil" [ref=f12e610] [cursor=pointer]:
+              - radio [ref=f12e611]
+            - generic "Kırmızı" [ref=f12e612] [cursor=pointer]:
+              - radio [ref=f12e613]
+            - button "🧹 Temizle" [ref=f12e614] [cursor=pointer]
+        - generic [ref=f12e615]:
+          - button "✏️" [ref=f12e616] [cursor=pointer]
+          - button "📏" [ref=f12e617] [cursor=pointer]
+          - button "⭕" [ref=f12e618] [cursor=pointer]
+          - button "▭" [ref=f12e619] [cursor=pointer]
+          - button "🔺" [ref=f12e620] [cursor=pointer]
+          - button "🧽" [ref=f12e621] [cursor=pointer]

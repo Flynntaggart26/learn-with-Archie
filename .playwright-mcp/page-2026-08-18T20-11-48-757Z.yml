@@ -1,0 +1,95 @@
+- generic [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - link "Learn with Archie" [ref=f8e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f8e8]:
+      - link "⌂ Panel" [ref=f8e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e10]: ⌂
+        - generic [ref=f8e11]: Panel
+      - link "✦ AI Öğretmen" [ref=f8e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e13]: ✦
+        - generic [ref=f8e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=f8e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e16]: ●
+        - generic [ref=f8e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=f8e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e19]: ✓
+        - generic [ref=f8e20]: Sınav
+      - link "▦ Planlayıcı" [ref=f8e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e22]: ▦
+        - generic [ref=f8e23]: Planlayıcı
+      - link "● Profil" [ref=f8e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e25]: ●
+        - generic [ref=f8e26]: Profil
+      - link "◆ Mağaza" [ref=f8e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e28]: ◆
+        - generic [ref=f8e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=f8e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f8e31]: ◷
+        - generic [ref=f8e32]: Zamanlayıcı
+    - button "Profili aç" [ref=f8e33]:
+      - generic [ref=f8e34]: 👤
+      - generic [ref=f8e35]:
+        - strong [ref=f8e36]: "12312"
+        - generic [ref=f8e37]: Premium · 12. Sınıf
+  - generic [ref=f8e38]:
+    - banner [ref=f8e39]:
+      - generic [ref=f8e40]:
+        - button "🔤 TYT & AYT" [ref=f8e41] [cursor=pointer]:
+          - generic [ref=f8e42]: 🔤
+          - generic [ref=f8e43]: TYT & AYT
+        - generic [ref=f8e44]:
+          - generic [ref=f8e45]: ⚡
+          - generic [ref=f8e46]: "0"
+    - main [ref=f8e562]:
+      - generic [ref=f8e563]:
+        - generic [ref=f8e564]: 🧑‍🏫
+        - generic [ref=f8e565]:
+          - heading "AI Öğretmen Koçu" [level=2] [ref=f8e566]
+          - paragraph [ref=f8e567]: Sana ders anlatır, sorularını çözer ve rehberlik eder.
+      - generic [ref=f8e568]:
+        - generic [ref=f8e569]:
+          - button "TYT" [ref=f8e570] [cursor=pointer]
+          - button "AYT" [ref=f8e571] [cursor=pointer]
+        - generic [ref=f8e572]: "Ders:"
+        - combobox [ref=f8e573]
+      - generic [ref=f8e574]:
+        - button "📈 Türev" [ref=f8e575] [cursor=pointer]
+        - button "📐 İntegral" [ref=f8e576] [cursor=pointer]
+        - button "🌿 Fotosentez" [ref=f8e577] [cursor=pointer]
+        - button "📅 Plan öner" [ref=f8e578] [cursor=pointer]
+      - tablist "AI Öğretmen araçları" [ref=f8e579]:
+        - button "💬 Chat" [ref=f8e580] [cursor=pointer]
+        - button "🎙️ Sesli Sohbet" [ref=f8e581] [cursor=pointer]
+        - button "🎨 İnteraktif Tahta" [active] [ref=f8e582] [cursor=pointer]
+      - generic [ref=f8e588]:
+        - generic [ref=f8e589]:
+          - generic [ref=f8e590]: 📋 Sınıf Tahtası
+          - generic [ref=f8e591]:
+            - generic "Koyu" [ref=f8e592] [cursor=pointer]:
+              - radio [checked] [ref=f8e593]
+            - generic "Sarı" [ref=f8e594] [cursor=pointer]:
+              - radio [ref=f8e595]
+            - generic "Mavi" [ref=f8e596] [cursor=pointer]:
+              - radio [ref=f8e597]
+            - generic "Yeşil" [ref=f8e598] [cursor=pointer]:
+              - radio [ref=f8e599]
+            - generic "Kırmızı" [ref=f8e600] [cursor=pointer]:
+              - radio [ref=f8e601]
+            - button "🧹 Temizle" [ref=f8e602] [cursor=pointer]
+        - generic [ref=f8e603]:
+          - button "✏️" [ref=f8e604] [cursor=pointer]
+          - button "📏" [ref=f8e605] [cursor=pointer]
+          - button "⭕" [ref=f8e606] [cursor=pointer]
+          - button "▭" [ref=f8e607] [cursor=pointer]
+          - button "🔺" [ref=f8e608] [cursor=pointer]
+          - button "🧽" [ref=f8e609] [cursor=pointer]
+    - text: "İlk zamanlayıcı oturumunu tamamla. Toplam 5 oturum bitir. Toplam 25 oturum bitir. Toplam 100 oturum bitir. Kesintisiz 50 dakika odaklan. Tek seferde 90 dakika odaklan. 05:00 - 08:00 arasında oturum tamamla. 00:00 - 04:00 arasında oturum tamamla. Üst üste 3 gün çalış. Üst üste 7 gün günde 2 oturum tamamla. Aynı gün 5 farklı oturum tamamla. Toplam 500 dakika odaklan. Toplam 2000 dakika odaklan. Haftalık odak hedefini doldur. Biten oturumdan sonra yenisini başlat. Sekme değiştirmeden 30 dakika odaklan. Tek günde 5 saat odaklan. Erkek avatarıyla 10 oturum tamamla. Kadın avatarıyla 10 oturum tamamla. Zamanlayıcıyı düzenle veya sıfırla. Kısa moladan zamanında dön. Uzun mola sonrası oturum bitir. İki uzun oturumu tamamla. Önceki haftaya göre %20 geliş. Aylık ilk 10’a gir. İlk quizini çöz. Bir testi tamamen doğru bitir. Bir matematik konusunu %100 ustalaştır. Bir fen konusunu %100 ustalaştır. Sosyal testlerinde 50 doğruya ulaş. 20 doğruyu arka arkaya yap. Bir soruyu 5 saniyede doğru çöz. İki dakika düşünüp doğruyu bul. 10 yanlışı doğruya çevir. 5 konuyu yüksek ustalığa çıkar. Hatasız coğrafya testi bitir. Üçgenlerde 10 doğru seri yap. Temel Kavramlar quizini bitir. Zayıf konu quizini çöz. 15 soruyu arka arkaya bil. Başarı yüzdesini %85’e çıkar. Bir günde 5 quiz bitir. 50 benzersiz quiz tamamla. Son saniyede doğru cevap ver. Kolay testi hatasız bitir. Zor testi %80 başarıyla bitir. Problemlerde 5 doğru seri yap. Aynı gün Matematik ve Türkçe quizini bitir. 3 zayıf konuyu güçlendir. Tüm TYT konularında %50’ye ulaş. İlk planner görevini ekle. Günlük görevlerini tamamla ve temizle. 10 planner görevi ekle. İlk mağaza ödülünü al. 500 XP biriktir. 2000 XP biriktir. Aynı gün 3 ürün al. Premium görevi tamamla. 3 özel tema aç. 5 yüksek öncelikli görev bitir. 09:00’dan önce görev bitir. İlk ders notunu kaydet. 30 tamamlanmış görevi listele. 5 gün hedeflerini tamamla. 5 tamamlanmış görevi sil. Planner’ı bir hafta kullan. Gelecek aya görev ekle. En ucuz ödülü satın al. En pahalı ödülü satın al. AI Öğretmen’den plan tavsiyesi al. Gecikmiş görevi tamamla. Günün önemli görevini bitir. Profil temasını özelleştir. Tüm deniz figürlerini aç. 22:00’den sonra yarını planla. Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor! Gizli Başarı: Keşfedilmeyi Bekliyor!"

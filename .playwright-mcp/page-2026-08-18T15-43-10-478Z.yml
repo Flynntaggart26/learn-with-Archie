@@ -1,0 +1,98 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - link "Learn with Archie" [ref=e3] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=e8]:
+      - link "⌂ Panel" [ref=e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e10]: ⌂
+        - generic [ref=e11]: Panel
+      - link "✦ AI Öğretmen" [active] [ref=e12] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e13]: ✦
+        - generic [ref=e14]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=e15] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e16]: ●
+        - generic [ref=e17]: Öğrenci AI
+      - link "✓ Sınav" [ref=e18] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e19]: ✓
+        - generic [ref=e20]: Sınav
+      - link "▦ Planlayıcı" [ref=e21] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e22]: ▦
+        - generic [ref=e23]: Planlayıcı
+      - link "● Profil" [ref=e24] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e25]: ●
+        - generic [ref=e26]: Profil
+      - link "◆ Mağaza" [ref=e27] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e28]: ◆
+        - generic [ref=e29]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=e30] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e31]: ◷
+        - generic [ref=e32]: Zamanlayıcı
+    - button "Profili aç" [ref=e33]:
+      - generic [ref=e34]: 👤
+      - generic [ref=e35]:
+        - strong [ref=e36]: "12312"
+        - generic [ref=e37]: Premium · 12. Sınıf
+  - generic [ref=e38]:
+    - banner [ref=e39]:
+      - generic [ref=e40]:
+        - button "🔤 TYT & AYT" [ref=e41] [cursor=pointer]:
+          - generic [ref=e42]: 🔤
+          - generic [ref=e43]: TYT & AYT
+        - generic [ref=e44]:
+          - generic [ref=e45]: ⚡
+          - generic [ref=e46]: "0"
+    - main [ref=e164]:
+      - generic [ref=e165]:
+        - generic [ref=e166] [cursor=pointer]
+        - generic [ref=e169]:
+          - generic [ref=e170]: 🧑‍🏫
+          - generic [ref=e171]:
+            - heading "AI Öğretmen Koçu" [level=2] [ref=e172]
+            - paragraph [ref=e173]: Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.
+      - generic [ref=e174]:
+        - generic [ref=e175]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=e176]
+          - generic [ref=e177]:
+            - generic [ref=e178] [cursor=pointer]:
+              - generic [ref=e179]: 📐
+              - generic [ref=e180]: Matematik
+            - generic [ref=e181] [cursor=pointer]:
+              - generic [ref=e182]: 📐
+              - generic [ref=e183]: Geometri
+            - generic [ref=e184] [cursor=pointer]:
+              - generic [ref=e185]: 📝
+              - generic [ref=e186]: Türkçe
+            - generic [ref=e187] [cursor=pointer]:
+              - generic [ref=e188]: 🔬
+              - generic [ref=e189]: Fizik
+            - generic [ref=e190] [cursor=pointer]:
+              - generic [ref=e191]: 🧪
+              - generic [ref=e192]: Kimya
+            - generic [ref=e193] [cursor=pointer]:
+              - generic [ref=e194]: 🧬
+              - generic [ref=e195]: Biyoloji
+            - generic [ref=e196] [cursor=pointer]:
+              - generic [ref=e197]: 📜
+              - generic [ref=e198]: Tarih
+            - generic [ref=e199] [cursor=pointer]:
+              - generic [ref=e200]: 🌍
+              - generic [ref=e201]: Coğrafya
+            - generic [ref=e202] [cursor=pointer]:
+              - generic [ref=e203]: 🧠
+              - generic [ref=e204]: Felsefe
+            - generic [ref=e205] [cursor=pointer]:
+              - generic [ref=e206]: ☪️
+              - generic [ref=e207]: Din Kültürü
+        - generic [ref=e208]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=e209]
+          - generic [ref=e210]:
+            - button "← Ders Değiştir" [ref=e211] [cursor=pointer]
+            - button "Sohbete Başla →" [disabled] [ref=e212] [cursor=pointer]

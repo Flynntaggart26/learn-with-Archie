@@ -1,0 +1,459 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e31]:
+    - link "Learn with Archie" [ref=e32] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=e37]:
+      - link "⌂ Panel" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⌂
+        - generic [ref=e40]: Panel
+      - link "✦ AI Öğretmen" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: ✦
+        - generic [ref=e43]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=e44] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e45]: ●
+        - generic [ref=e46]: Öğrenci AI
+      - link "✓ Sınav" [ref=e47] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e48]: ✓
+        - generic [ref=e49]: Sınav
+      - link "▦ Planlayıcı" [ref=e50] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e51]: ▦
+        - generic [ref=e52]: Planlayıcı
+      - link "● Profil" [ref=e53] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e54]: ●
+        - generic [ref=e55]: Profil
+      - link "◆ Mağaza" [ref=e56] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e57]: ◆
+        - generic [ref=e58]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=e59] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e60]: ◷
+        - generic [ref=e61]: Zamanlayıcı
+    - button "Profili aç" [ref=e62]:
+      - generic [ref=e63]: 👤
+      - generic [ref=e64]:
+        - strong [ref=e65]: Öğrenci
+        - generic [ref=e66]: Premium · 12. Sınıf
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - generic [ref=e69]:
+        - button "🔤 TYT & AYT" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: 🔤
+          - generic [ref=e72]: TYT & AYT
+        - generic [ref=e73]:
+          - generic [ref=e74]: ⚡
+          - generic [ref=e75]: "0"
+    - main [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e78] [cursor=pointer]
+        - generic [ref=e81]:
+          - generic [ref=e82]: 🧑‍🏫
+          - generic [ref=e83]:
+            - heading "AI Öğretmen Koçu" [level=2] [ref=e84]
+            - paragraph [ref=e85]: Ne öğrenmek istiyorsun? Ders ve konu seç, hemen başlayalım.
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "1️⃣ Ders Seç" [level=3] [ref=e88]
+          - generic [ref=e89]:
+            - generic [ref=e90] [cursor=pointer]:
+              - generic [ref=e91]: 📐
+              - generic [ref=e92]: Matematik
+            - generic [ref=e93] [cursor=pointer]:
+              - generic [ref=e94]: 📐
+              - generic [ref=e95]: Geometri
+            - generic [ref=e96] [cursor=pointer]:
+              - generic [ref=e97]: 📝
+              - generic [ref=e98]: Türkçe
+            - generic [ref=e99] [cursor=pointer]:
+              - generic [ref=e100]: 🔬
+              - generic [ref=e101]: Fizik
+            - generic [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]: 🧪
+              - generic [ref=e104]: Kimya
+            - generic [ref=e105] [cursor=pointer]:
+              - generic [ref=e106]: 🧬
+              - generic [ref=e107]: Biyoloji
+            - generic [ref=e108] [cursor=pointer]:
+              - generic [ref=e109]: 📜
+              - generic [ref=e110]: Tarih
+            - generic [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]: 🌍
+              - generic [ref=e113]: Coğrafya
+            - generic [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]: 🧠
+              - generic [ref=e116]: Felsefe
+            - generic [ref=e117] [cursor=pointer]:
+              - generic [ref=e118]: ☪️
+              - generic [ref=e119]: Din Kültürü
+        - generic [ref=e120]:
+          - heading "2️⃣ Konu Seç" [level=3] [ref=e121]
+          - generic [ref=e125]:
+            - generic [ref=e126] [cursor=pointer]:
+              - generic [ref=e127]: 🔢
+              - generic [ref=e128]: Sayı Kümeleri
+              - generic [ref=e129]: TYT
+            - generic [ref=e130] [cursor=pointer]:
+              - generic [ref=e131]: ➗
+              - generic [ref=e132]: Temel İşlemler
+              - generic [ref=e133]: TYT
+            - generic [ref=e134] [cursor=pointer]:
+              - generic [ref=e135]: 👥
+              - generic [ref=e136]: Tek ve Çift Sayılar
+              - generic [ref=e137]: TYT
+            - generic [ref=e138] [cursor=pointer]:
+              - generic [ref=e139]: ➕
+              - generic [ref=e140]: Pozitif ve Negatif Sayılar
+              - generic [ref=e141]: TYT
+            - generic [ref=e142] [cursor=pointer]:
+              - generic [ref=e143]: 🔢
+              - generic [ref=e144]: Ardışık Sayılar
+              - generic [ref=e145]: TYT
+            - generic [ref=e146] [cursor=pointer]:
+              - generic [ref=e147]: 🔢
+              - generic [ref=e148]: Sayı Basamakları
+              - generic [ref=e149]: TYT
+            - generic [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: 🔢
+              - generic [ref=e152]: Asal ve Aralarında Asal Sayılar
+              - generic [ref=e153]: TYT
+            - generic [ref=e154] [cursor=pointer]:
+              - generic [ref=e155]: ➗
+              - generic [ref=e156]: Tam Sayılarda Kalanlı Bölme
+              - generic [ref=e157]: TYT
+            - generic [ref=e158] [cursor=pointer]:
+              - generic [ref=e159]: ➗
+              - generic [ref=e160]: Bölünebilme Kuralları 1
+              - generic [ref=e161]: TYT
+            - generic [ref=e162] [cursor=pointer]:
+              - generic [ref=e163]: ➗
+              - generic [ref=e164]: Bölünebilme Kuralları 2
+              - generic [ref=e165]: TYT
+            - generic [ref=e166] [cursor=pointer]:
+              - generic [ref=e167]: 🔢
+              - generic [ref=e168]: Asal Çarpanlar
+              - generic [ref=e169]: TYT
+            - generic [ref=e170] [cursor=pointer]:
+              - generic [ref=e171]: ⚖️
+              - generic [ref=e172]: EBOB-EKOK Kavramları
+              - generic [ref=e173]: TYT
+            - generic [ref=e174] [cursor=pointer]:
+              - generic [ref=e175]: 📝
+              - generic [ref=e176]: EBOB-EKOK Problemleri
+              - generic [ref=e177]: TYT
+            - generic [ref=e178] [cursor=pointer]:
+              - generic [ref=e179]: 🔄
+              - generic [ref=e180]: Periyodik Problemler
+              - generic [ref=e181]: TYT
+            - generic [ref=e182] [cursor=pointer]:
+              - generic [ref=e183]: 🔢
+              - generic [ref=e184]: Rasyonel Sayılarda İşlemler
+              - generic [ref=e185]: TYT
+            - generic [ref=e186] [cursor=pointer]:
+              - generic [ref=e187]: 🔢
+              - generic [ref=e188]: Ondalıklı ve Devirli Sayılar
+              - generic [ref=e189]: TYT
+            - generic [ref=e190] [cursor=pointer]:
+              - generic [ref=e191]: 📏
+              - generic [ref=e192]: Gerçek Sayılarda Aralık Kavramı
+              - generic [ref=e193]: TYT
+            - generic [ref=e194] [cursor=pointer]:
+              - generic [ref=e195]: ➗
+              - generic [ref=e196]: Birinci Dereceden Denklemler
+              - generic [ref=e197]: TYT
+            - generic [ref=e198] [cursor=pointer]:
+              - generic [ref=e199]: ⚖️
+              - generic [ref=e200]: Basit Eşitsizlikler
+              - generic [ref=e201]: TYT
+            - generic [ref=e202] [cursor=pointer]:
+              - generic [ref=e203]: ➗
+              - generic [ref=e204]: İki Bilinmeyenli Denklemler
+              - generic [ref=e205]: TYT
+            - generic [ref=e206] [cursor=pointer]:
+              - generic [ref=e207]: ⚖️
+              - generic [ref=e208]: İki Bilinmeyenli Eşitsizlikler
+              - generic [ref=e209]: TYT
+            - generic [ref=e210] [cursor=pointer]:
+              - generic [ref=e211]: ⚖️
+              - generic [ref=e212]: Eşitsizlik Sistemleri
+              - generic [ref=e213]: TYT
+            - generic [ref=e214] [cursor=pointer]:
+              - generic [ref=e215]: 📏
+              - generic [ref=e216]: Mutlak Değer Kavramı
+              - generic [ref=e217]: TYT
+            - generic [ref=e218] [cursor=pointer]:
+              - generic [ref=e219]: ⚖️
+              - generic [ref=e220]: Mutlak Değerli Denklemler
+              - generic [ref=e221]: TYT
+            - generic [ref=e222] [cursor=pointer]:
+              - generic [ref=e223]: 🔢
+              - generic [ref=e224]: Üslü İfadeler ve Özellikleri
+              - generic [ref=e225]: TYT
+            - generic [ref=e226] [cursor=pointer]:
+              - generic [ref=e227]: ➗
+              - generic [ref=e228]: Üslü İfade İçeren Denklemler
+              - generic [ref=e229]: TYT
+            - generic [ref=e230] [cursor=pointer]:
+              - generic [ref=e231]: √
+              - generic [ref=e232]: Köklü İfadeler ve Özellikleri
+              - generic [ref=e233]: TYT
+            - generic [ref=e234] [cursor=pointer]:
+              - generic [ref=e235]: √
+              - generic [ref=e236]: Köklü İfadeli Denklemler
+              - generic [ref=e237]: TYT
+            - generic [ref=e238] [cursor=pointer]:
+              - generic [ref=e239]: ⚖️
+              - generic [ref=e240]: Oran-Orantı Kavramı
+              - generic [ref=e241]: TYT
+            - generic [ref=e242] [cursor=pointer]:
+              - generic [ref=e243]: 📝
+              - generic [ref=e244]: Oran-Orantı Problemleri
+              - generic [ref=e245]: TYT
+            - generic [ref=e246] [cursor=pointer]:
+              - generic [ref=e247]: 🔢
+              - generic [ref=e248]: Sayı Problemleri
+              - generic [ref=e249]: TYT
+            - generic [ref=e250] [cursor=pointer]:
+              - generic [ref=e251]: 🍕
+              - generic [ref=e252]: Kesir Problemleri
+              - generic [ref=e253]: TYT
+            - generic [ref=e254] [cursor=pointer]:
+              - generic [ref=e255]: 👨‍👩‍👦
+              - generic [ref=e256]: Yaş Problemleri
+              - generic [ref=e257]: TYT
+            - generic [ref=e258] [cursor=pointer]:
+              - generic [ref=e259]: 👷
+              - generic [ref=e260]: İşçi Problemleri
+              - generic [ref=e261]: TYT
+            - generic [ref=e262] [cursor=pointer]:
+              - generic [ref=e263]: 💯
+              - generic [ref=e264]: Yüzde Problemleri
+              - generic [ref=e265]: TYT
+            - generic [ref=e266] [cursor=pointer]:
+              - generic [ref=e267]: 💰
+              - generic [ref=e268]: Kâr-Zarar Problemleri
+              - generic [ref=e269]: TYT
+            - generic [ref=e270] [cursor=pointer]:
+              - generic [ref=e271]: 🧪
+              - generic [ref=e272]: Karışım Problemleri
+              - generic [ref=e273]: TYT
+            - generic [ref=e274] [cursor=pointer]:
+              - generic [ref=e275]: 🏃
+              - generic [ref=e276]: Hareket Problemleri
+              - generic [ref=e277]: TYT
+            - generic [ref=e278] [cursor=pointer]:
+              - generic [ref=e279]: 🧩
+              - generic [ref=e280]: Rutin Olmayan Problemler
+              - generic [ref=e281]: TYT
+            - generic [ref=e282] [cursor=pointer]:
+              - generic [ref=e283]: 🧠
+              - generic [ref=e284]: Önermeler
+              - generic [ref=e285]: TYT
+            - generic [ref=e286] [cursor=pointer]:
+              - generic [ref=e287]: 🔀
+              - generic [ref=e288]: Bileşik Önermeler
+              - generic [ref=e289]: TYT
+            - generic [ref=e290] [cursor=pointer]:
+              - generic [ref=e291]: 🔗
+              - generic [ref=e292]: Koşullu Önerme
+              - generic [ref=e293]: TYT
+            - generic [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]: 🔗
+              - generic [ref=e296]: İki Yönlü Koşullu Önerme
+              - generic [ref=e297]: TYT
+            - generic [ref=e298] [cursor=pointer]:
+              - generic [ref=e299]: ∀
+              - generic [ref=e300]: Niceleyiciler
+              - generic [ref=e301]: TYT
+            - generic [ref=e302] [cursor=pointer]:
+              - generic [ref=e303]: 📖
+              - generic [ref=e304]: Tanım, Aksiyom, Teorem ve İspat
+              - generic [ref=e305]: TYT
+            - generic [ref=e306] [cursor=pointer]:
+              - generic [ref=e307]: ⭕
+              - generic [ref=e308]: Kümelerde Temel Kavramlar
+              - generic [ref=e309]: TYT
+            - generic [ref=e310] [cursor=pointer]:
+              - generic [ref=e311]: ⊂
+              - generic [ref=e312]: Alt Küme
+              - generic [ref=e313]: TYT
+            - generic [ref=e314] [cursor=pointer]:
+              - generic [ref=e315]: ∩
+              - generic [ref=e316]: Kümelerde Kesişim ve Birleşim
+              - generic [ref=e317]: TYT
+            - generic [ref=e318] [cursor=pointer]:
+              - generic [ref=e319]: ➗
+              - generic [ref=e320]: Kümelerde Fark ve Tümleme
+              - generic [ref=e321]: TYT
+            - generic [ref=e322] [cursor=pointer]:
+              - generic [ref=e323]: 📝
+              - generic [ref=e324]: Küme Problemleri
+              - generic [ref=e325]: TYT
+            - generic [ref=e326] [cursor=pointer]:
+              - generic [ref=e327]: 📍
+              - generic [ref=e328]: Kartezyen Çarpım
+              - generic [ref=e329]: TYT
+            - generic [ref=e330] [cursor=pointer]:
+              - generic [ref=e331]: 🔢
+              - generic [ref=e332]: Saymanın Temel İlkesi
+              - generic [ref=e333]: TYT
+            - generic [ref=e334] [cursor=pointer]:
+              - generic [ref=e335]: ❕
+              - generic [ref=e336]: Faktöriyel Kavramı
+              - generic [ref=e337]: TYT
+            - generic [ref=e338] [cursor=pointer]:
+              - generic [ref=e339]: 🎲
+              - generic [ref=e340]: Permütasyon
+              - generic [ref=e341]: TYT
+            - generic [ref=e342] [cursor=pointer]:
+              - generic [ref=e343]: 🔁
+              - generic [ref=e344]: Tekrarlı Permütasyon
+              - generic [ref=e345]: TYT
+            - generic [ref=e346] [cursor=pointer]:
+              - generic [ref=e347]: 🔢
+              - generic [ref=e348]: Kombinasyon Kavramı
+              - generic [ref=e349]: TYT
+            - generic [ref=e350] [cursor=pointer]:
+              - generic [ref=e351]: 📝
+              - generic [ref=e352]: Kombinasyon Problemleri
+              - generic [ref=e353]: TYT
+            - generic [ref=e354] [cursor=pointer]:
+              - generic [ref=e355]: 📐
+              - generic [ref=e356]: Kombinasyon ve Geometri
+              - generic [ref=e357]: TYT
+            - generic [ref=e358] [cursor=pointer]:
+              - generic [ref=e359]: 🔢
+              - generic [ref=e360]: Binom Açılımı
+              - generic [ref=e361]: TYT
+            - generic [ref=e362] [cursor=pointer]:
+              - generic [ref=e363]: 🎯
+              - generic [ref=e364]: Olasılıkta Temel Kavramlar
+              - generic [ref=e365]: TYT
+            - generic [ref=e366] [cursor=pointer]:
+              - generic [ref=e367]: 🎲
+              - generic [ref=e368]: Basit Olayların Olasılıkları
+              - generic [ref=e369]: TYT
+            - generic [ref=e370] [cursor=pointer]:
+              - generic [ref=e371]: 📈
+              - generic [ref=e372]: Fonksiyon Kavramı ve Gösterimi
+              - generic [ref=e373]: TYT
+            - generic [ref=e374] [cursor=pointer]:
+              - generic [ref=e375]: 📝
+              - generic [ref=e376]: Fonksiyon Soruları Çözüm Teknikleri
+              - generic [ref=e377]: TYT
+            - generic [ref=e378] [cursor=pointer]:
+              - generic [ref=e379]: 📈
+              - generic [ref=e380]: İçine, Örten, Birebir ve Eşit Fonksiyonlar
+              - generic [ref=e381]: TYT
+            - generic [ref=e382] [cursor=pointer]:
+              - generic [ref=e383]: 📈
+              - generic [ref=e384]: Birim ve Sabit Fonksiyon
+              - generic [ref=e385]: TYT
+            - generic [ref=e386] [cursor=pointer]:
+              - generic [ref=e387]: 📈
+              - generic [ref=e388]: Doğrusal ve Parçalı Fonksiyon
+              - generic [ref=e389]: TYT
+            - generic [ref=e390] [cursor=pointer]:
+              - generic [ref=e391]: 📉
+              - generic [ref=e392]: Çift ve Tek Fonksiyon
+              - generic [ref=e393]: TYT
+            - generic [ref=e394] [cursor=pointer]:
+              - generic [ref=e395]: ➕
+              - generic [ref=e396]: Fonksiyonlarda Dört İşlem
+              - generic [ref=e397]: TYT
+            - generic [ref=e398] [cursor=pointer]:
+              - generic [ref=e399]: 📊
+              - generic [ref=e400]: Fonksiyon Grafiklerini Çizme
+              - generic [ref=e401]: TYT
+            - generic [ref=e402] [cursor=pointer]:
+              - generic [ref=e403]: 🔀
+              - generic [ref=e404]: İki Fonksiyonun Bileşkesi
+              - generic [ref=e405]: TYT
+            - generic [ref=e406] [cursor=pointer]:
+              - generic [ref=e407]: 🔄
+              - generic [ref=e408]: Bir Fonksiyonun Tersi
+              - generic [ref=e409]: TYT
+            - generic [ref=e410] [cursor=pointer]:
+              - generic [ref=e411]: 📊
+              - generic [ref=e412]: Fonksiyon Grafikleri ile Uygulamalar
+              - generic [ref=e413]: TYT
+            - generic [ref=e414] [cursor=pointer]:
+              - generic [ref=e415]: 📊
+              - generic [ref=e416]: Polinom Kavramı
+              - generic [ref=e417]: TYT
+            - generic [ref=e418] [cursor=pointer]:
+              - generic [ref=e419]: ➕
+              - generic [ref=e420]: Polinomlarda Toplama, Çıkarma ve Çarpma
+              - generic [ref=e421]: TYT
+            - generic [ref=e422] [cursor=pointer]:
+              - generic [ref=e423]: ➗
+              - generic [ref=e424]: Polinomlarda Bölme İşlemi
+              - generic [ref=e425]: TYT
+            - generic [ref=e426] [cursor=pointer]:
+              - generic [ref=e427]: ➗
+              - generic [ref=e428]: Polinomlarda Kalan Bulma
+              - generic [ref=e429]: TYT
+            - generic [ref=e430] [cursor=pointer]:
+              - generic [ref=e431]: 🔢
+              - generic [ref=e432]: Ortak Çarpan Parantezine Alma
+              - generic [ref=e433]: TYT
+            - generic [ref=e434] [cursor=pointer]:
+              - generic [ref=e435]: 🧮
+              - generic [ref=e436]: Tam Kare ve İki Kare Farkı
+              - generic [ref=e437]: TYT
+            - generic [ref=e438] [cursor=pointer]:
+              - generic [ref=e439]: 🧮
+              - generic [ref=e440]: Tam Küp, İki Küp Farkı ve Toplamı
+              - generic [ref=e441]: TYT
+            - generic [ref=e442] [cursor=pointer]:
+              - generic [ref=e443]: 🧮
+              - generic [ref=e444]: Üç Terimli İfadelerin Çarpanlara Ayrılması
+              - generic [ref=e445]: TYT
+            - generic [ref=e446] [cursor=pointer]:
+              - generic [ref=e447]: 🧮
+              - generic [ref=e448]: Rasyonel İfadelerin Sadeleştirilmesi
+              - generic [ref=e449]: TYT
+            - generic [ref=e450] [cursor=pointer]:
+              - generic [ref=e451]: ➗
+              - generic [ref=e452]: İkinci Dereceden Denklemler
+              - generic [ref=e453]: TYT
+            - generic [ref=e454] [cursor=pointer]:
+              - generic [ref=e455]: ➗
+              - generic [ref=e456]: İkinci Dereceden Denklemlerin Çözüm Kümesi
+              - generic [ref=e457]: TYT
+            - generic [ref=e458] [cursor=pointer]:
+              - generic [ref=e459]: 🧮
+              - generic [ref=e460]: Diskriminant Kavramı
+              - generic [ref=e461]: TYT
+            - generic [ref=e462] [cursor=pointer]:
+              - generic [ref=e463]: ℹ️
+              - generic [ref=e464]: Karmaşık Sayılar
+              - generic [ref=e465]: TYT
+            - generic [ref=e466] [cursor=pointer]:
+              - generic [ref=e467]: ➗
+              - generic [ref=e468]: Kök-Katsayı İlişkisi
+              - generic [ref=e469]: TYT
+            - generic [ref=e470] [cursor=pointer]:
+              - generic [ref=e471]: 📊
+              - generic [ref=e472]: Veri
+              - generic [ref=e473]: TYT
+            - generic [ref=e474] [cursor=pointer]:
+              - generic [ref=e475]: 📊
+              - generic [ref=e476]: Merkezi Yayılım Ölçüleri
+              - generic [ref=e477]: TYT
+            - generic [ref=e478] [cursor=pointer]:
+              - generic [ref=e479]: 📊
+              - generic [ref=e480]: Histogram
+              - generic [ref=e481]: TYT
+            - generic [ref=e482] [cursor=pointer]:
+              - generic [ref=e483]: 📈
+              - generic [ref=e484]: Grafik Çeşitleri
+              - generic [ref=e485]: TYT
+          - generic [ref=e122]:
+            - button "← Ders Değiştir" [ref=e123] [cursor=pointer]
+            - button "Sohbete Başla →" [ref=e124] [cursor=pointer]

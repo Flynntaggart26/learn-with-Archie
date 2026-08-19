@@ -1,0 +1,76 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e31]:
+    - link "Learn with Archie" [ref=e32] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=e37]:
+      - link "⌂ Panel" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⌂
+        - generic [ref=e40]: Panel
+      - link "✦ AI Öğretmen" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: ✦
+        - generic [ref=e43]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=e44] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e45]: ●
+        - generic [ref=e46]: Öğrenci AI
+      - link "✓ Sınav" [ref=e47] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e48]: ✓
+        - generic [ref=e49]: Sınav
+      - link "▦ Planlayıcı" [ref=e50] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e51]: ▦
+        - generic [ref=e52]: Planlayıcı
+      - link "● Profil" [ref=e53] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e54]: ●
+        - generic [ref=e55]: Profil
+      - link "◆ Mağaza" [ref=e56] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e57]: ◆
+        - generic [ref=e58]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=e59] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e60]: ◷
+        - generic [ref=e61]: Zamanlayıcı
+    - button "Profili aç" [ref=e62]:
+      - generic [ref=e63]: 👤
+      - generic [ref=e64]:
+        - strong [ref=e65]: Öğrenci
+        - generic [ref=e66]: Premium · 12. Sınıf
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - generic [ref=e69]:
+        - button "🔤 TYT & AYT" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: 🔤
+          - generic [ref=e72]: TYT & AYT
+        - generic [ref=e73]:
+          - generic [ref=e74]: ⚡
+          - generic [ref=e75]: "0"
+    - main [ref=e486]:
+      - generic [ref=e487]:
+        - generic [ref=e488]: 🧑‍🏫
+        - generic [ref=e489]:
+          - heading "AI Öğretmen Koçu" [level=2] [ref=e490]
+          - paragraph [ref=e491]: Sana ders anlatır, sorularını çözer ve rehberlik eder.
+      - generic [ref=e492]:
+        - generic [ref=e493]:
+          - button "TYT" [ref=e494] [cursor=pointer]
+          - button "AYT" [ref=e495] [cursor=pointer]
+        - generic [ref=e496]: "Ders:"
+        - combobox [ref=e497]
+      - generic [ref=e498]:
+        - button "📈 Türev" [ref=e499] [cursor=pointer]
+        - button "📐 İntegral" [ref=e500] [cursor=pointer]
+        - button "🌿 Fotosentez" [ref=e501] [cursor=pointer]
+        - button "📅 Plan öner" [ref=e502] [cursor=pointer]
+      - tablist "AI Öğretmen araçları" [ref=e503]:
+        - button "💬 Chat" [ref=e504] [cursor=pointer]
+        - button "🎙️ Sesli Sohbet" [ref=e505] [cursor=pointer]
+        - button "🎨 İnteraktif Tahta" [ref=e506] [cursor=pointer]
+      - generic [ref=e508]:
+        - textbox "Bir soru sor veya konu yaz..." [ref=e509]
+        - button "🎤" [ref=e510] [cursor=pointer]
+        - button "Gönder" [ref=e511] [cursor=pointer]

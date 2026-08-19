@@ -1,0 +1,76 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e5]:
+        - generic [ref=e7]: 📚
+      - heading "Learn with Archie" [level=1] [ref=e8]
+    - generic [ref=e9]:
+      - button "Giriş Yap" [ref=e10] [cursor=pointer]
+      - button "Kayıt Ol" [ref=e11] [cursor=pointer]
+    - generic [ref=e12]:
+      - generic [ref=e13]: E-posta
+      - textbox "ornek@mail.com" [active] [ref=e14]
+      - generic [ref=e15]: Şifre
+      - textbox "En az 6 karakter" [ref=e16]
+      - generic [ref=e18]: Avatar Seç
+      - generic [ref=e19]:
+        - button "👤" [ref=e20] [cursor=pointer]
+        - button "👨‍🎓" [ref=e21] [cursor=pointer]
+        - button "👩‍🎓" [ref=e22] [cursor=pointer]
+        - button "🧑‍💻" [ref=e23] [cursor=pointer]
+        - button "🐱" [ref=e24] [cursor=pointer]
+        - button "🐶" [ref=e25] [cursor=pointer]
+        - button "🦊" [ref=e26] [cursor=pointer]
+        - button "🐼" [ref=e27] [cursor=pointer]
+        - button "🦁" [ref=e28] [cursor=pointer]
+        - button "🐸" [ref=e29] [cursor=pointer]
+      - button "Giriş Yap" [ref=e30] [cursor=pointer]
+  - navigation [ref=e31]:
+    - link "Learn with Archie" [ref=e32] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=e37]:
+      - link "⌂ Panel" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⌂
+        - generic [ref=e40]: Panel
+      - link "✦ AI Öğretmen" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: ✦
+        - generic [ref=e43]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=e44] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e45]: ●
+        - generic [ref=e46]: Öğrenci AI
+      - link "✓ Sınav" [ref=e47] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e48]: ✓
+        - generic [ref=e49]: Sınav
+      - link "▦ Planlayıcı" [ref=e50] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e51]: ▦
+        - generic [ref=e52]: Planlayıcı
+      - link "● Profil" [ref=e53] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e54]: ●
+        - generic [ref=e55]: Profil
+      - link "◆ Mağaza" [ref=e56] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e57]: ◆
+        - generic [ref=e58]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=e59] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e60]: ◷
+        - generic [ref=e61]: Zamanlayıcı
+    - button "Profili aç" [ref=e62]:
+      - generic [ref=e63]: 👤
+      - generic [ref=e64]:
+        - strong [ref=e65]: Öğrenci
+        - generic [ref=e66]: Premium · 12. Sınıf
+  - banner [ref=e68]:
+    - generic [ref=e69]:
+      - button "🔤 TYT & AYT" [ref=e70] [cursor=pointer]:
+        - generic [ref=e71]: 🔤
+        - generic [ref=e72]: TYT & AYT
+      - generic [ref=e73]:
+        - generic [ref=e74]: ⚡
+        - generic [ref=e75]: "0"

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <script type="module" crossorigin src="/assets/index-DjJZUcI5.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CjPE--2j.css">
+  <script type="module" crossorigin src="/assets/index-B9QYPEUM.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-5g8QccSa.css">
 </head>
 <body>
   <!-- Sidebar -->
@@ -175,7 +175,7 @@
 
     <!-- AI Teacher Selection Page -->
     <main class="selection-container" id="teacherSelection" style="display:none;">
-      <div class="selection-header">
+      <div class="selection-header teacher-beach-header">
         <div class="selection-back" id="teacherSelectionBack">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -190,13 +190,13 @@
         </div>
       </div>
       
-      <div class="selection-content">
-        <div class="selection-step">
+      <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
+        <div class="selection-step teacher-beach-theme">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="teacherSubjectGrid"></div>
         </div>
         
-        <div class="selection-step" id="teacherTopicStep" style="display:none;">
+        <div class="selection-step teacher-beach-theme" id="teacherTopicStep" style="display:none;">
           <h3 class="step-title">2️⃣ Konu Seç</h3>
           <div class="topic-grid" id="teacherTopicGrid"></div>
           <div class="selection-actions">
@@ -224,7 +224,7 @@
         </div>
       </div>
       
-      <div class="selection-content">
+      <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
         <div class="selection-step">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="studentSubjectGrid"></div>
@@ -276,27 +276,29 @@
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="teacherToggle">🖊️ Tahta</button>
       </div>
-      <div class="whiteboard-box" id="teacherBoardBox" style="display:none;">
-        <div class="whiteboard-toolbar">
-          <span class="wb-title">📋 Sınıf Tahtası</span>
-          <div class="wb-controls">
-            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="teacherColor" value="#ffffff" checked></label>
-            <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="teacherColor" value="#ffd900"></label>
-            <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="teacherColor" value="#1cb0f6"></label>
-            <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="teacherColor" value="#58cc02"></label>
-            <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="teacherColor" value="#ff4b4b"></label>
-            <button type="button" class="wb-clear" id="teacherClear">🧹 Temizle</button>
+      <div class="whiteboard-box sky-board-box" id="teacherBoardBox" style="display:none;">
+        <canvas id="teacherBoard" class="whiteboard sky-board"></canvas>
+        <div class="wb-beach-bar">
+          <div class="wb-tools" id="teacherTools">
+            <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+            <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+            <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+            <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+            <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+            <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+          </div>
+          <div class="whiteboard-toolbar">
+            <span class="wb-title">🏖️ Sahil Tahtası</span>
+            <div class="wb-controls">
+              <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="teacherColor" value="#1e293b" checked></label>
+              <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="teacherColor" value="#f59e0b"></label>
+              <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="teacherColor" value="#0284c7"></label>
+              <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="teacherColor" value="#059669"></label>
+              <label class="wb-color" title="Kırmızı" style="background:#dc2626"><input type="radio" name="teacherColor" value="#dc2626"></label>
+              <button type="button" class="wb-clear" id="teacherClear">Temizle</button>
+            </div>
           </div>
         </div>
-        <div class="wb-tools" id="teacherTools">
-          <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
-          <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
-          <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
-          <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
-          <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
-          <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
-        </div>
-        <canvas id="teacherBoard" class="whiteboard school-board"></canvas>
       </div>
       <div class="chat-messages" id="teacherMessages"></div>
       <form class="chat-input" id="teacherForm">
@@ -341,27 +343,29 @@
       <div class="wb-toggle-bar">
         <button type="button" class="wb-toggle" id="studentToggle">🖊️ Tahta</button>
       </div>
-      <div class="whiteboard-box" id="studentBoardBox" style="display:none;">
-        <div class="whiteboard-toolbar">
-          <span class="wb-title">📋 Sınıf Tahtası</span>
-          <div class="wb-controls">
-            <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="studentColor" value="#ffffff" checked></label>
-            <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="studentColor" value="#ffd900"></label>
-            <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="studentColor" value="#1cb0f6"></label>
-            <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="studentColor" value="#58cc02"></label>
-            <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="studentColor" value="#ff4b4b"></label>
-            <button type="button" class="wb-clear" id="studentClear">🧹 Temizle</button>
+      <div class="whiteboard-box sky-board-box" id="studentBoardBox" style="display:none;">
+        <canvas id="studentBoard" class="whiteboard sky-board"></canvas>
+        <div class="wb-beach-bar">
+          <div class="wb-tools" id="studentTools">
+            <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+            <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+            <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+            <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+            <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+            <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+          </div>
+          <div class="whiteboard-toolbar">
+            <span class="wb-title">🏖️ Sahil Tahtası</span>
+            <div class="wb-controls">
+              <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="studentColor" value="#1e293b" checked></label>
+              <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="studentColor" value="#f59e0b"></label>
+              <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="studentColor" value="#0284c7"></label>
+              <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="studentColor" value="#059669"></label>
+              <label class="wb-color" title="Kırmızı" style="background:#dc2626"><input type="radio" name="studentColor" value="#dc2626"></label>
+              <button type="button" class="wb-clear" id="studentClear">Temizle</button>
+            </div>
           </div>
         </div>
-        <div class="wb-tools" id="studentTools">
-          <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
-          <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
-          <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
-          <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
-          <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
-          <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
-        </div>
-        <canvas id="studentBoard" class="whiteboard school-board"></canvas>
       </div>
       <div class="chat-messages" id="studentMessages"></div>
       <form class="chat-input" id="studentForm">
@@ -401,6 +405,14 @@
         </div>
         <div class="quiz-question" id="quizQuestion"></div>
         <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-confidence" id="quizConfidence">
+          <div class="quiz-confidence-label">Bu cevapta ne kadar eminsin?</div>
+          <div class="quiz-confidence-options">
+            <button type="button" class="quiz-confidence-btn" data-confidence="low">Düşük Güven</button>
+            <button type="button" class="quiz-confidence-btn" data-confidence="medium">Orta Güven</button>
+            <button type="button" class="quiz-confidence-btn" data-confidence="high">Yüksek Güven</button>
+          </div>
+        </div>
         <button type="button" class="quiz-joker-btn" id="quizJokerBtn" style="display:none;">🔮 Deniz Yıldızı Jokeri <span id="quizJokerCount">0</span></button>
         <div class="quiz-feedback" id="quizFeedback"></div>
         <button class="quiz-next-btn" id="quizNextBtn" style="display:none;">▶️ Sonraki</button>
@@ -574,27 +586,29 @@
         <div class="wb-toggle-bar">
           <button type="button" class="wb-toggle" id="tutorToggle">🖊️ Tahta</button>
         </div>
-        <div class="whiteboard-box" id="tutorBoardBox" style="display:none;">
-          <div class="whiteboard-toolbar">
-            <span class="wb-title">📋 Birlikte Çözüm Tahtası</span>
-            <div class="wb-controls">
-              <label class="wb-color" title="Beyaz tebeşir" style="background:#fff"><input type="radio" name="tutorColor" value="#ffffff" checked></label>
-              <label class="wb-color" title="Sarı" style="background:#ffd900"><input type="radio" name="tutorColor" value="#ffd900"></label>
-              <label class="wb-color" title="Mavi" style="background:#1cb0f6"><input type="radio" name="tutorColor" value="#1cb0f6"></label>
-              <label class="wb-color" title="Yeşil" style="background:#58cc02"><input type="radio" name="tutorColor" value="#58cc02"></label>
-              <label class="wb-color" title="Kırmızı" style="background:#ff4b4b"><input type="radio" name="tutorColor" value="#ff4b4b"></label>
-              <button type="button" class="wb-clear" id="tutorClear">🧹 Temizle</button>
+        <div class="whiteboard-box sky-board-box" id="tutorBoardBox" style="display:none;">
+          <canvas id="tutorBoard" class="whiteboard sky-board"></canvas>
+          <div class="wb-beach-bar">
+            <div class="wb-tools" id="tutorTools">
+              <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
+              <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
+              <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
+              <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
+              <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
+              <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
+            </div>
+            <div class="whiteboard-toolbar">
+              <span class="wb-title">🏖️ Sahil Tahtası</span>
+              <div class="wb-controls">
+                <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="tutorColor" value="#1e293b" checked></label>
+                <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="tutorColor" value="#f59e0b"></label>
+                <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="tutorColor" value="#0284c7"></label>
+                <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="tutorColor" value="#059669"></label>
+                <label class="wb-color" title="Kırmızı" style="background:#dc2626"><input type="radio" name="tutorColor" value="#dc2626"></label>
+                <button type="button" class="wb-clear" id="tutorClear">Temizle</button>
+              </div>
             </div>
           </div>
-          <div class="wb-tools" id="tutorTools">
-            <button type="button" class="wb-tool active" data-tool="pen" title="Kalem">✏️</button>
-            <button type="button" class="wb-tool" data-tool="line" title="Doğru çizgi">📏</button>
-            <button type="button" class="wb-tool" data-tool="circle" title="Daire">⭕</button>
-            <button type="button" class="wb-tool" data-tool="rect" title="Dikdörtgen">▭</button>
-            <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
-            <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
-          </div>
-          <canvas id="tutorBoard" class="whiteboard school-board"></canvas>
         </div>
         <div class="tutor-suggests">
           <button class="tutor-suggest" data-txt="Bana plan öner">📅 Plan öner</button>
@@ -659,11 +673,24 @@
           <div class="stat-value" id="statWeak">0</div>
           <div class="stat-label">Zayıf Konu</div>
         </div>
+        <div class="stat-card stat-card-warning" id="illusionKnowledgeCard">
+          <div class="stat-icon">🪞</div>
+          <div class="stat-value" id="illusionKnowledgeCount">0</div>
+          <div class="stat-label">Yanılsama Bölgesi</div>
+          <div class="illusion-topic-list" id="illusionTopicList"></div>
+        </div>
       </div>
 
       <section class="profile-analytics-card">
         <div class="profile-analytics-heading"><div><span class="profile-eyebrow">ÇALIŞMA ANALİTİĞİ</span><h3>Haftalık odak akışı</h3></div><span class="profile-analytics-badge">Son 7 gün</span></div>
         <div class="profile-bar-chart" id="profileWeeklyChart"></div>
+      </section>
+
+      <section class="profile-analytics-card">
+        <div class="profile-analytics-heading"><div><span class="profile-eyebrow">METABİLİŞSEL ANALİTİK</span><h3>Bilişsel Güven Radarı</h3></div><span class="profile-analytics-badge">Son 30 quiz</span></div>
+        <div class="profile-radar-wrap">
+          <canvas id="metacognitionRadarChart"></canvas>
+        </div>
       </section>
 
       <section class="profile-badges-section">

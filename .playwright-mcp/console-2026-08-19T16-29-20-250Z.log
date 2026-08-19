@@ -1,0 +1,6 @@
+[    2115ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:4173/:0
+[    2119ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4173/favicon.ico:0
+[   15339ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4173/favicon.ico:0
+[  148976ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ :23
+[  250264ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:4173/sounds/tu%C5%9Ft%C4%B1klama.mp3.mp3:0
+[  250520ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:4173/sounds/tu%C5%9Ft%C4%B1klama.mp3.mp3:0

@@ -1,0 +1,624 @@
+- generic [ref=e1]:
+  - navigation [ref=e31]:
+    - link "Learn with Archie" [ref=e32] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=e37]:
+      - link "⌂ Panel" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⌂
+        - generic [ref=e40]: Panel
+      - link "✦ AI Öğretmen" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: ✦
+        - generic [ref=e43]: AI Öğretmen
+      - link "● Öğrenci AI" [ref=e44] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e45]: ●
+        - generic [ref=e46]: Öğrenci AI
+      - link "✓ Sınav" [ref=e47] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e48]: ✓
+        - generic [ref=e49]: Sınav
+      - link "▦ Planlayıcı" [ref=e50] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e51]: ▦
+        - generic [ref=e52]: Planlayıcı
+      - link "● Profil" [active] [ref=e53] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e54]: ●
+        - generic [ref=e55]: Profil
+      - link "◆ Mağaza" [ref=e56] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e57]: ◆
+        - generic [ref=e58]: Mağaza
+      - link "◷ Zamanlayıcı" [ref=e59] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e60]: ◷
+        - generic [ref=e61]: Zamanlayıcı
+    - button "Profili aç" [ref=e62]:
+      - generic [ref=e63]: 👤
+      - generic [ref=e64]:
+        - strong [ref=e65]: Öğrenci
+        - generic [ref=e66]: Premium · 12. Sınıf
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - generic [ref=e69]:
+        - button "🔤 TYT & AYT" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: 🔤
+          - generic [ref=e72]: TYT & AYT
+        - generic [ref=e73]:
+          - generic [ref=e74]: ⚡
+          - generic [ref=e75]: "8"
+    - main [ref=e109]:
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - generic [ref=e112]: 👤
+          - button "📷" [ref=e113] [cursor=pointer]
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - heading "Öğrenci" [level=2] [ref=e116]
+            - button "✏️" [ref=e117] [cursor=pointer]
+          - paragraph [ref=e118]: hesap@yolharitasi.com
+        - button "🚪 Çıkış Yap" [ref=e119] [cursor=pointer]
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]: ✅
+          - generic [ref=e123]: "1"
+          - generic [ref=e124]: Tamamlanan Konu
+        - generic [ref=e125]:
+          - generic [ref=e126]: 📚
+          - generic [ref=e127]: "434"
+          - generic [ref=e128]: Toplam Konu
+        - generic [ref=e129]:
+          - generic [ref=e130]: 🎯
+          - generic [ref=e131]: 0%
+          - generic [ref=e132]: Başarı Yüzdesi
+        - generic [ref=e133]:
+          - generic [ref=e134]: ⚠️
+          - generic [ref=e135]: "0"
+          - generic [ref=e136]: Zayıf Konu
+        - generic [ref=e137]:
+          - generic [ref=e138]: 🪞
+          - generic [ref=e139]: "0"
+          - generic [ref=e140]: Yanılsama Bölgesi
+          - generic [ref=e141]: Harika! Yanılsama bölgeniz boş 🎉
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - generic [ref=e146]: ÇALIŞMA ANALİTİĞİ
+            - heading "Haftalık odak akışı" [level=3] [ref=e147]
+          - generic [ref=e148]: Son 7 gün
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - generic [ref=e151]: 0 dk
+            - strong [ref=e154]: Paz
+          - generic [ref=e155]:
+            - generic [ref=e156]: 0 dk
+            - strong [ref=e159]: Sal
+          - generic [ref=e160]:
+            - generic [ref=e161]: 0 dk
+            - strong [ref=e164]: Çar
+          - generic [ref=e165]:
+            - generic [ref=e166]: 0 dk
+            - strong [ref=e169]: Per
+          - generic [ref=e170]:
+            - generic [ref=e171]: 0 dk
+            - strong [ref=e174]: Cum
+          - generic [ref=e175]:
+            - generic [ref=e176]: 0 dk
+            - strong [ref=e179]: Cum
+          - generic [ref=e180]:
+            - generic [ref=e181]: 0 dk
+            - strong [ref=e184]: Paz
+      - generic [ref=e186]:
+        - generic [ref=e187]:
+          - generic [ref=e188]: METABİLİŞSEL ANALİTİK
+          - heading "Bilişsel Güven Radarı" [level=3] [ref=e189]
+        - generic [ref=e190]: Son 30 quiz
+      - generic [ref=e193]:
+        - generic [ref=e194]:
+          - generic [ref=e195]:
+            - generic [ref=e196]: KOLEKSİYON
+            - heading "Kazanılan Rozetler" [level=3] [ref=e197]
+          - generic [ref=e198]: 1 / 100
+        - generic [ref=e199]:
+          - article [ref=e200]:
+            - generic [ref=e201]: 🌊
+            - strong [ref=e202]: İlk Dalga
+            - generic [ref=e203]: +50 XP
+            - text: İlk zamanlayıcı oturumunu tamamla.
+          - article [ref=e204]:
+            - generic [ref=e205]: 🦈
+            - strong [ref=e206]: Küçük Balina
+            - generic [ref=e207]: +150 XP
+            - text: Toplam 5 oturum bitir.
+          - article [ref=e208]:
+            - generic [ref=e209]: 🐋
+            - strong [ref=e210]: Okyanus Hakimi
+            - generic [ref=e211]: +500 XP
+            - text: Toplam 25 oturum bitir.
+          - article [ref=e212]:
+            - generic [ref=e213]: 🔱
+            - strong [ref=e214]: Poseidon'un Saati
+            - generic [ref=e215]: +2000 XP
+            - text: Toplam 100 oturum bitir.
+          - article [ref=e216]:
+            - generic [ref=e217]: ⏱️
+            - strong [ref=e218]: Akıntıya Karşı
+            - generic [ref=e219]: +300 XP
+            - text: Kesintisiz 50 dakika odaklan.
+          - article [ref=e220]:
+            - generic [ref=e221]: 🌪️
+            - strong [ref=e222]: Derin Girdap
+            - generic [ref=e223]: +600 XP
+            - text: Tek seferde 90 dakika odaklan.
+          - article [ref=e224]:
+            - generic [ref=e225]: 🌅
+            - strong [ref=e226]: Gün Doğumu Çalışması
+            - generic [ref=e227]: +250 XP
+            - text: 05:00 - 08:00 arasında oturum tamamla.
+          - article [ref=e228]:
+            - generic [ref=e229]: 🌌
+            - strong [ref=e230]: Gece Gezgini
+            - generic [ref=e231]: +250 XP
+            - text: 00:00 - 04:00 arasında oturum tamamla.
+          - article [ref=e232]:
+            - generic [ref=e233]: 📅
+            - strong [ref=e234]: İstikrarlı Resif
+            - generic [ref=e235]: +400 XP
+            - text: Üst üste 3 gün çalış.
+          - article [ref=e236]:
+            - generic [ref=e237]: 🏝️
+            - strong [ref=e238]: Sönmez Enerji
+            - generic [ref=e239]: +1000 XP
+            - text: Üst üste 7 gün günde 2 oturum tamamla.
+          - article [ref=e240]:
+            - generic [ref=e241]: 🐙
+            - strong [ref=e242]: Kollu Çalışma
+            - generic [ref=e243]: +500 XP
+            - text: Aynı gün 5 farklı oturum tamamla.
+          - article [ref=e244]:
+            - generic [ref=e245]: ⏳
+            - strong [ref=e246]: Kum Tanesi
+            - generic [ref=e247]: +600 XP
+            - text: Toplam 500 dakika odaklan.
+          - article [ref=e248]:
+            - generic [ref=e249]: 🐚
+            - strong [ref=e250]: Deniz Kabuğu Biriktiricisi
+            - generic [ref=e251]: +1500 XP
+            - text: Toplam 2000 dakika odaklan.
+          - article [ref=e252]:
+            - generic [ref=e253]: 🧭
+            - strong [ref=e254]: Pusula Ustası
+            - generic [ref=e255]: +700 XP
+            - text: Haftalık odak hedefini doldur.
+          - article [ref=e256]:
+            - generic [ref=e257]: 🚀
+            - strong [ref=e258]: Işık Hızı
+            - generic [ref=e259]: +200 XP
+            - text: Biten oturumdan sonra yenisini başlat.
+          - article [ref=e260]:
+            - generic [ref=e261]: 🧊
+            - strong [ref=e262]: Buzdağı
+            - generic [ref=e263]: +300 XP
+            - text: Sekme değiştirmeden 30 dakika odaklan.
+          - article [ref=e264]:
+            - generic [ref=e265]: ⚓
+            - strong [ref=e266]: Demir Atmak
+            - generic [ref=e267]: +1200 XP
+            - text: Tek günde 5 saat odaklan.
+          - article [ref=e268]:
+            - generic [ref=e269]: 🧜‍♂️
+            - strong [ref=e270]: Deniz Erkeği
+            - generic [ref=e271]: +200 XP
+            - text: Erkek avatarıyla 10 oturum tamamla.
+          - article [ref=e272]:
+            - generic [ref=e273]: 🧜‍♀️
+            - strong [ref=e274]: Deniz Kızı
+            - generic [ref=e275]: +200 XP
+            - text: Kadın avatarıyla 10 oturum tamamla.
+          - article [ref=e276]:
+            - generic [ref=e277]: 🛠️
+            - strong [ref=e278]: Tamirci
+            - generic [ref=e279]: +50 XP
+            - text: Zamanlayıcıyı düzenle veya sıfırla.
+          - article [ref=e280]:
+            - generic [ref=e281]: 🌬️
+            - strong [ref=e282]: Rüzgarı Yakala
+            - generic [ref=e283]: +150 XP
+            - text: Kısa moladan zamanında dön.
+          - article [ref=e284]:
+            - generic [ref=e285]: 🏄‍♂️
+            - strong [ref=e286]: Dalga Sörfçüsü
+            - generic [ref=e287]: +200 XP
+            - text: Uzun mola sonrası oturum bitir.
+          - article [ref=e288]:
+            - generic [ref=e289]: 🛑
+            - strong [ref=e290]: Molasız Maraton
+            - generic [ref=e291]: +500 XP
+            - text: İki uzun oturumu tamamla.
+          - article [ref=e292]:
+            - generic [ref=e293]: 📈
+            - strong [ref=e294]: Sürekli Yükseliş
+            - generic [ref=e295]: +600 XP
+            - text: Önceki haftaya göre %20 geliş.
+          - article [ref=e296]:
+            - generic [ref=e297]: 👑
+            - strong [ref=e298]: Okyanusun Kralı
+            - generic [ref=e299]: +2500 XP
+            - text: Aylık ilk 10’a gir.
+          - article [ref=e300]:
+            - generic [ref=e301]: 📝
+            - strong [ref=e302]: İlk İnci
+            - generic [ref=e303]: +50 XP
+            - text: İlk quizini çöz.
+          - article [ref=e304]:
+            - generic [ref=e305]: 🎯
+            - strong [ref=e306]: Nokta Atışı
+            - generic [ref=e307]: +400 XP
+            - text: Bir testi tamamen doğru bitir.
+          - article [ref=e308]:
+            - generic [ref=e309]: 🧠
+            - strong [ref=e310]: Matematik Dehası
+            - generic [ref=e311]: +1000 XP
+            - text: Bir matematik konusunu %100 ustalaştır.
+          - article [ref=e312]:
+            - generic [ref=e313]: 🧪
+            - strong [ref=e314]: Bilim İnsanı
+            - generic [ref=e315]: +1000 XP
+            - text: Bir fen konusunu %100 ustalaştır.
+          - article [ref=e316]:
+            - generic [ref=e317]: 📜
+            - strong [ref=e318]: Tarihçi Balık
+            - generic [ref=e319]: +500 XP
+            - text: Sosyal testlerinde 50 doğruya ulaş.
+          - article [ref=e320]:
+            - generic [ref=e321]: 🗣️
+            - strong [ref=e322]: Edebiyat Gurusu
+            - generic [ref=e323]: +600 XP
+            - text: 20 doğruyu arka arkaya yap.
+          - article [ref=e324]:
+            - generic [ref=e325]: ⚡
+            - strong [ref=e326]: Hızlı Yüzücü
+            - generic [ref=e327]: +150 XP
+            - text: Bir soruyu 5 saniyede doğru çöz.
+          - article [ref=e328]:
+            - generic [ref=e329]: 🐢
+            - strong [ref=e330]: Sakin Kaplumbağa
+            - generic [ref=e331]: +150 XP
+            - text: İki dakika düşünüp doğruyu bul.
+          - article [ref=e332]:
+            - generic [ref=e333]: 🔄
+            - strong [ref=e334]: Geri Dönüş
+            - generic [ref=e335]: +400 XP
+            - text: 10 yanlışı doğruya çevir.
+          - article [ref=e336]:
+            - generic [ref=e337]: 📊
+            - strong [ref=e338]: Matris Çözücü
+            - generic [ref=e339]: +800 XP
+            - text: 5 konuyu yüksek ustalığa çıkar.
+          - article [ref=e340]:
+            - generic [ref=e341]: 🗺️
+            - strong [ref=e342]: Harita Kaşifi
+            - generic [ref=e343]: +350 XP
+            - text: Hatasız coğrafya testi bitir.
+          - article [ref=e344]:
+            - generic [ref=e345]: 📐
+            - strong [ref=e346]: Geometri Sihirbazı
+            - generic [ref=e347]: +500 XP
+            - text: Üçgenlerde 10 doğru seri yap.
+          - article [ref=e348]:
+            - generic [ref=e349]: 🧮
+            - strong [ref=e350]: Sayıların Efendisi
+            - generic [ref=e351]: +400 XP
+            - text: Temel Kavramlar quizini bitir.
+          - article [ref=e352]:
+            - generic [ref=e353]: 🔍
+            - strong [ref=e354]: Detaycı
+            - generic [ref=e355]: +300 XP
+            - text: Zayıf konu quizini çöz.
+          - article [ref=e356]:
+            - generic [ref=e357]: 🥊
+            - strong [ref=e358]: Kusursuz Seri
+            - generic [ref=e359]: +700 XP
+            - text: 15 soruyu arka arkaya bil.
+          - article [ref=e360]:
+            - generic [ref=e361]: 💎
+            - strong [ref=e362]: Kristal Doğruluk
+            - generic [ref=e363]: +1200 XP
+            - text: Başarı yüzdesini %85’e çıkar.
+          - article [ref=e364]:
+            - generic [ref=e365]: 🎒
+            - strong [ref=e366]: Çalışkan Öğrenci
+            - generic [ref=e367]: +500 XP
+            - text: Bir günde 5 quiz bitir.
+          - article [ref=e368]:
+            - generic [ref=e369]: 🏫
+            - strong [ref=e370]: Sınav Müdavimi
+            - generic [ref=e371]: +1500 XP
+            - text: 50 benzersiz quiz tamamla.
+          - article [ref=e372]:
+            - generic [ref=e373]: 🏁
+            - strong [ref=e374]: Son Düzlük
+            - generic [ref=e375]: +250 XP
+            - text: Son saniyede doğru cevap ver.
+          - article [ref=e376]:
+            - generic [ref=e377]: 🎈
+            - strong [ref=e378]: Hafif Akıntı
+            - generic [ref=e379]: +200 XP
+            - text: Kolay testi hatasız bitir.
+          - article [ref=e380]:
+            - generic [ref=e381]: 🌊
+            - strong [ref=e382]: Derin Su
+            - generic [ref=e383]: +500 XP
+            - text: Zor testi %80 başarıyla bitir.
+          - article [ref=e384]:
+            - generic [ref=e385]: 🧩
+            - strong [ref=e386]: Mantık Bükücü
+            - generic [ref=e387]: +400 XP
+            - text: Problemlerde 5 doğru seri yap.
+          - article [ref=e388]:
+            - generic [ref=e389]: 🔋
+            - strong [ref=e390]: Tam Kapasite
+            - generic [ref=e391]: +400 XP
+            - text: Aynı gün Matematik ve Türkçe quizini bitir.
+          - article [ref=e392]:
+            - generic [ref=e393]: 🏹
+            - strong [ref=e394]: Avcı
+            - generic [ref=e395]: +900 XP
+            - text: 3 zayıf konuyu güçlendir.
+          - article [ref=e396]:
+            - generic [ref=e397]: 🎓
+            - strong [ref=e398]: Mezuniyet Yakın
+            - generic [ref=e399]: +3000 XP
+            - text: Tüm TYT konularında %50’ye ulaş.
+          - article [ref=e400]:
+            - generic [ref=e401]: 📌
+            - strong [ref=e402]: İlk Görev
+            - generic [ref=e403]: +50 XP
+            - text: İlk planner görevini ekle.
+          - article [ref=e404]:
+            - generic [ref=e405]: 🧹
+            - strong [ref=e406]: Temiz Sahil
+            - generic [ref=e407]: +300 XP
+            - text: Günlük görevlerini tamamla ve temizle.
+          - article [ref=e408]:
+            - generic [ref=e409]: 🗓️
+            - strong [ref=e410]: Haftalık Düzen
+            - generic [ref=e411]: +400 XP
+            - text: 10 planner görevi ekle.
+          - article [ref=e412]:
+            - generic [ref=e413]: 🛒
+            - strong [ref=e414]: İlk Alışveriş
+            - generic [ref=e415]: +100 XP
+            - text: İlk mağaza ödülünü al.
+          - article [ref=e416]:
+            - generic [ref=e417]: 💰
+            - strong [ref=e418]: Altın Balık
+            - generic [ref=e419]: +500 XP
+            - text: 500 XP biriktir.
+          - article [ref=e420]:
+            - generic [ref=e421]: 🏦
+            - strong [ref=e422]: Hazine Odası
+            - generic [ref=e423]: +1500 XP
+            - text: 2000 XP biriktir.
+          - article [ref=e424]:
+            - generic [ref=e425]: 🛍️
+            - strong [ref=e426]: Alışveriş Çılgını
+            - generic [ref=e427]: +600 XP
+            - text: Aynı gün 3 ürün al.
+          - article [ref=e428]:
+            - generic [ref=e429]: 🦪
+            - strong [ref=e430]: İnci Avcısı
+            - generic [ref=e431]: +1000 XP
+            - text: Premium görevi tamamla.
+          - article [ref=e432]:
+            - generic [ref=e433]: 🃏
+            - strong [ref=e434]: Koleksiyoncu
+            - generic [ref=e435]: +800 XP
+            - text: 3 özel tema aç.
+          - article [ref=e436]:
+            - generic [ref=e437]: 🎯
+            - strong [ref=e438]: Hedef Odaklı
+            - generic [ref=e439]: +400 XP
+            - text: 5 yüksek öncelikli görev bitir.
+          - article [ref=e440]:
+            - generic [ref=e441]: ⏰
+            - strong [ref=e442]: Erken Kalkan
+            - generic [ref=e443]: +200 XP
+            - text: 09:00’dan önce görev bitir.
+          - article [ref=e444]:
+            - generic [ref=e445]: 📝
+            - strong [ref=e446]: Düzenli Noter
+            - generic [ref=e447]: +150 XP
+            - text: İlk ders notunu kaydet.
+          - article [ref=e448]:
+            - generic [ref=e449]: 📁
+            - strong [ref=e450]: Arşivci
+            - generic [ref=e451]: +500 XP
+            - text: 30 tamamlanmış görevi listele.
+          - article [ref=e452]:
+            - generic [ref=e453]: 🌟
+            - strong [ref=e454]: Yıldız Öğrenci
+            - generic [ref=e455]: +1200 XP
+            - text: 5 gün hedeflerini tamamla.
+          - article [ref=e456]:
+            - generic [ref=e457]: 🍃
+            - strong [ref=e458]: Hafif Yük
+            - generic [ref=e459]: +200 XP
+            - text: 5 tamamlanmış görevi sil.
+          - article [ref=e460]:
+            - generic [ref=e461]: 🦾
+            - strong [ref=e462]: İstikrarlı Planner
+            - generic [ref=e463]: +500 XP
+            - text: Planner’ı bir hafta kullan.
+          - article [ref=e464]:
+            - generic [ref=e465]: 🔮
+            - strong [ref=e466]: Gelecek Planı
+            - generic [ref=e467]: +300 XP
+            - text: Gelecek aya görev ekle.
+          - article [ref=e468]:
+            - generic [ref=e469]: 🎈
+            - strong [ref=e470]: Küçük Mutluluklar
+            - generic [ref=e471]: +50 XP
+            - text: En ucuz ödülü satın al.
+          - article [ref=e472]:
+            - generic [ref=e473]: 🏝️
+            - strong [ref=e474]: Büyük Yatırım
+            - generic [ref=e475]: +1000 XP
+            - text: En pahalı ödülü satın al.
+          - article [ref=e476]:
+            - generic [ref=e477]: 🤝
+            - strong [ref=e478]: Destek Rolü
+            - generic [ref=e479]: +250 XP
+            - text: AI Öğretmen’den plan tavsiyesi al.
+          - article [ref=e480]:
+            - generic [ref=e481]: 🛑
+            - strong [ref=e482]: Erteleme Canavarı
+            - generic [ref=e483]: +200 XP
+            - text: Gecikmiş görevi tamamla.
+          - article [ref=e484]:
+            - generic [ref=e485]: 🥇
+            - strong [ref=e486]: Birincil Hedef
+            - generic [ref=e487]: +300 XP
+            - text: Günün önemli görevini bitir.
+          - article [ref=e488]:
+            - generic [ref=e489]: 🎨
+            - strong [ref=e490]: Tasarımcı
+            - generic [ref=e491]: +150 XP
+            - text: Profil temasını özelleştir.
+          - article [ref=e492]:
+            - generic [ref=e493]: 💎
+            - strong [ref=e494]: Seçkin Akvaryum
+            - generic [ref=e495]: +2000 XP
+            - text: Tüm deniz figürlerini aç.
+          - article [ref=e496]:
+            - generic [ref=e497]: 🌌
+            - strong [ref=e498]: Gece Planı
+            - generic [ref=e499]: +300 XP
+            - text: 22:00’den sonra yarını planla.
+          - article [ref=e500]:
+            - generic [ref=e501]: 🔒
+            - strong [ref=e502]: Gizli Rozet
+            - generic [ref=e503]: +500 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e504]:
+            - generic [ref=e505]: 🔒
+            - strong [ref=e506]: Gizli Rozet
+            - generic [ref=e507]: +400 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e508]:
+            - generic [ref=e509]: 🔒
+            - strong [ref=e510]: Gizli Rozet
+            - generic [ref=e511]: +200 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e512]:
+            - generic [ref=e513]: 🔒
+            - strong [ref=e514]: Gizli Rozet
+            - generic [ref=e515]: +500 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e516]:
+            - generic [ref=e517]: 🔒
+            - strong [ref=e518]: Gizli Rozet
+            - generic [ref=e519]: +100 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e520]:
+            - generic [ref=e521]: 🔒
+            - strong [ref=e522]: Gizli Rozet
+            - generic [ref=e523]: +300 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e524]:
+            - generic [ref=e525]: 🔒
+            - strong [ref=e526]: Gizli Rozet
+            - generic [ref=e527]: +600 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e528]:
+            - generic [ref=e529]: 🔒
+            - strong [ref=e530]: Gizli Rozet
+            - generic [ref=e531]: +300 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e532]:
+            - generic [ref=e533]: 🔒
+            - strong [ref=e534]: Gizli Rozet
+            - generic [ref=e535]: +400 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e536]:
+            - generic [ref=e537]: 🔒
+            - strong [ref=e538]: Gizli Rozet
+            - generic [ref=e539]: +666 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e540]:
+            - generic [ref=e541]: 🔒
+            - strong [ref=e542]: Gizli Rozet
+            - generic [ref=e543]: +150 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e544]:
+            - generic [ref=e545]: 🔒
+            - strong [ref=e546]: Gizli Rozet
+            - generic [ref=e547]: +100 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e548]:
+            - generic [ref=e549]: 🔒
+            - strong [ref=e550]: Gizli Rozet
+            - generic [ref=e551]: +250 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e552]:
+            - generic [ref=e553]: 🔒
+            - strong [ref=e554]: Gizli Rozet
+            - generic [ref=e555]: +350 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e556]:
+            - generic [ref=e557]: 🔒
+            - strong [ref=e558]: Gizli Rozet
+            - generic [ref=e559]: +180 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e560]:
+            - generic [ref=e561]: 🔒
+            - strong [ref=e562]: Gizli Rozet
+            - generic [ref=e563]: +450 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e564]:
+            - generic [ref=e565]: 🔒
+            - strong [ref=e566]: Gizli Rozet
+            - generic [ref=e567]: +700 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e568]:
+            - generic [ref=e569]: 🔒
+            - strong [ref=e570]: Gizli Rozet
+            - generic [ref=e571]: +800 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e572]:
+            - generic [ref=e573]: 🔒
+            - strong [ref=e574]: Gizli Rozet
+            - generic [ref=e575]: +500 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e576]:
+            - generic [ref=e577]: 🔒
+            - strong [ref=e578]: Gizli Rozet
+            - generic [ref=e579]: +300 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e580]:
+            - generic [ref=e581]: 🔒
+            - strong [ref=e582]: Gizli Rozet
+            - generic [ref=e583]: +600 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e584]:
+            - generic [ref=e585]: 🔒
+            - strong [ref=e586]: Gizli Rozet
+            - generic [ref=e587]: +450 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e588]:
+            - generic [ref=e589]: 🔒
+            - strong [ref=e590]: Gizli Rozet
+            - generic [ref=e591]: +900 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e592]:
+            - generic [ref=e593]: 🔒
+            - strong [ref=e594]: Gizli Rozet
+            - generic [ref=e595]: +1500 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"
+          - article [ref=e596]:
+            - generic [ref=e597]: 🔒
+            - strong [ref=e598]: Gizli Rozet
+            - generic [ref=e599]: +5000 XP
+            - text: "Gizli Başarı: Keşfedilmeyi Bekliyor!"

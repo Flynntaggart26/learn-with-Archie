@@ -1,6 +1,18 @@
 // ===== Learn with Archie - TYT & AYT Yol Haritası =====
 
 import { CURRICULUM } from './curriculum-data.js';
+import {
+  Chart,
+  RadarController,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 // ===== Curriculum Data =====
 
@@ -92,6 +104,7 @@ const STORAGE_KEYS = {
   timerCountdown: 'archie.timerCountdown',
   timerPomodoro: 'archie.timerPomodoro',
   rewardState: 'archie.rewardState',
+  metacognition: 'archie.metacognition',
   theme: 'archie.theme',
   avatar: 'archie.avatar',
   displayName: 'archie.displayName',
@@ -1207,7 +1220,7 @@ let quizState = {
   currentIndex: 0,
   correctCount: 0,
   selectedOption: null,
-  topicId: null,
+  confidence: null,
 };
 
 function refreshQuizTopicSelect(level) {
@@ -1274,6 +1287,7 @@ function startQuiz(topicId) {
     currentIndex: 0,
     correctCount: 0,
     selectedOption: null,
+    confidence: null,
     topicId,
   };
 
@@ -1316,6 +1330,26 @@ function renderQuizQuestion() {
   if (jokerBtn) {
     jokerBtn.style.display = jokerState.jokerAvailable > 0 ? '' : 'none';
     if ($('quizJokerCount')) $('quizJokerCount').textContent = jokerState.jokerAvailable || 0;
+  }
+
+  // Reset confidence selection
+  quizState.confidence = null;
+  const confidenceContainer = $('quizConfidence');
+  if (confidenceContainer) confidenceContainer.style.display = '';
+  confidenceContainer?.querySelectorAll('.quiz-confidence-btn').forEach((btn) => {
+    btn.classList.remove('selected');
+    btn.disabled = false;
+  });
+
+  const nextBtn = $('quizNextBtn');
+  if (nextBtn) nextBtn.style.display = 'none';
+
+  // Attach confidence handlers once
+  if (confidenceContainer && !confidenceContainer.dataset.bound) {
+    confidenceContainer.dataset.bound = '1';
+    confidenceContainer.querySelectorAll('.quiz-confidence-btn').forEach((btn) => {
+      btn.onclick = () => selectConfidence(btn.dataset.confidence);
+    });
   }
 }
 
@@ -1362,22 +1396,58 @@ function selectOption(index) {
       : `❌ Yanlış. Doğru cevap: ${question.options[question.answer]}`;
   }
 
+  updateQuizNextButton();
+}
+
+function selectConfidence(level) {
+  if (!level || quizState.selectedOption === null) return;
+  quizState.confidence = level;
+  $('quizConfidence')?.querySelectorAll('.quiz-confidence-btn').forEach((btn) => {
+    btn.classList.toggle('selected', btn.dataset.confidence === level);
+  });
+  updateQuizNextButton();
+}
+
+function updateQuizNextButton() {
   const nextBtn = $('quizNextBtn');
-  if (nextBtn) {
-    nextBtn.style.display = '';
-    nextBtn.textContent = quizState.currentIndex + 1 >= quizState.questions.length
-      ? '🏁 Sonucu Gör'
-      : '▶️ Sonraki';
+  if (!nextBtn) return;
+  if (quizState.selectedOption === null || !quizState.confidence) {
+    nextBtn.style.display = 'none';
+    return;
   }
+  nextBtn.style.display = '';
+  nextBtn.textContent = quizState.currentIndex + 1 >= quizState.questions.length
+    ? '🏁 Sonucu Gör'
+    : '▶️ Sonraki';
+}
+
+function saveMetacognitionRecord() {
+  if (quizState.selectedOption === null || !quizState.confidence) return;
+  const question = quizState.questions[quizState.currentIndex];
+  const topic = getAllTopics().find((t) => t.id === quizState.topicId);
+  const record = {
+    topicId: quizState.topicId,
+    subject: topic?.subject || 'Genel',
+    level: topic?.level || 'tyt',
+    prompt: question?.prompt || '',
+    isCorrect: quizState.selectedOption === question.answer,
+    confidence: quizState.confidence,
+    timestamp: new Date().toISOString(),
+  };
+  const data = readStorage(STORAGE_KEYS.metacognition, []);
+  data.push(record);
+  writeStorage(STORAGE_KEYS.metacognition, data);
 }
 
 function nextQuestion() {
+  saveMetacognitionRecord();
   if (quizState.currentIndex + 1 >= quizState.questions.length) {
     finishQuiz();
     return;
   }
   quizState.currentIndex++;
   quizState.selectedOption = null;
+  quizState.confidence = null;
   renderQuizQuestion();
 }
 
@@ -2714,17 +2784,6 @@ function initTeacherChat() {
     };
   }
 
-  const clearBtn = $('teacherClear');
-  if (clearBtn) {
-    clearBtn.onclick = () => {
-      const canvas = $('teacherBoard');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
-  }
-
   // Chat
   const teacherForm = $('teacherForm');
   if (teacherForm) {
@@ -2821,17 +2880,6 @@ function initStudentChat() {
     };
   }
 
-  const clearBtn = $('studentClear');
-  if (clearBtn) {
-    clearBtn.onclick = () => {
-      const canvas = $('studentBoard');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
-  }
-
   const studentForm = $('studentForm');
   if (studentForm) {
     studentForm.onsubmit = (e) => {
@@ -2876,7 +2924,11 @@ function initChatModes(type) {
     if (mode === 'board') {
       const penBtn = boardBox?.querySelector('.wb-tool[data-tool="pen"]');
       if (penBtn) penBtn.click();
-      window.requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+      const boardCanvas = $(`${type}Board`);
+      window.requestAnimationFrame(() => {
+        if (boardCanvas?.__wbResize) boardCanvas.__wbResize();
+        else window.dispatchEvent(new Event('resize'));
+      });
     }
   };
   modeTabs.forEach((tab) => { tab.onclick = () => setMode(tab.dataset.chatMode || 'chat'); });
@@ -2949,186 +3001,295 @@ function initWhiteboards() {
 
   boards.forEach(({ canvasId, toolsId, clearId }) => {
     const canvas = $(canvasId);
-    if (!canvas) return;
+    if (!canvas || canvas.dataset.wbReady === '1') return;
+    canvas.dataset.wbReady = '1';
+
     const ctx = canvas.getContext('2d');
     let drawing = false;
     let tool = 'pen';
     let color = '#1e293b';
-    let startX = 0, startY = 0;
-    // History of finished strokes for redraw
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastY = 0;
     const history = [];
 
-    // Set initial color from checked radio (fallback to visible dark)
-    const checkedColor = canvas.closest('.whiteboard-box')?.querySelector('.wb-color input:checked');
+    const boardBox = canvas.closest('.whiteboard-box');
+    const bgCanvas = document.createElement('canvas');
+    bgCanvas.className = 'whiteboard-bg sky-board-bg';
+    bgCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+    canvas.style.position = 'relative';
+    canvas.style.zIndex = '1';
+    if (boardBox && !boardBox.querySelector('.whiteboard-bg')) {
+      boardBox.style.position = 'relative';
+      boardBox.insertBefore(bgCanvas, canvas);
+    }
+    const bgCtx = bgCanvas.getContext('2d');
+    const checkedColor = boardBox?.querySelector('.wb-color input:checked');
     if (checkedColor) color = checkedColor.value;
 
-    // Set canvas size
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      redrawAll();
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Redraw all history + current preview (if drawing)
-    function redrawAll() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      history.forEach(stroke => {
-        ctx.strokeStyle = stroke.color;
-        ctx.lineWidth = stroke.lineWidth || 2;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.beginPath();
-        if (stroke.type === 'pen') {
-          stroke.points.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
-          ctx.stroke();
-        } else if (stroke.type === 'line') {
-          ctx.moveTo(stroke.x1, stroke.y1);
-          ctx.lineTo(stroke.x2, stroke.y2);
-          ctx.stroke();
-        } else if (stroke.type === 'rect') {
-          ctx.strokeRect(stroke.x, stroke.y, stroke.w, stroke.h);
-        } else if (stroke.type === 'circle') {
-          ctx.arc(stroke.x, stroke.y, stroke.r, 0, Math.PI * 2);
-          ctx.stroke();
-        } else if (stroke.type === 'triangle') {
-          ctx.moveTo(stroke.x1, stroke.y1);
-          ctx.lineTo(stroke.x2, stroke.y2);
-          ctx.lineTo(stroke.x3, stroke.y3);
-          ctx.closePath();
-          ctx.stroke();
-        }
-      });
-    }
-
-    // Clear board
-    const clearBtn = $(clearId);
-    if (clearBtn) {
-      clearBtn.onclick = () => {
-        history.length = 0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        playAppSound('planDeleted');
+    function getPoint(e) {
+      const rect = canvas.getBoundingClientRect();
+      const source = e.touches?.[0] || e.changedTouches?.[0] || e;
+      const scaleX = canvas.width / Math.max(1, rect.width);
+      const scaleY = canvas.height / Math.max(1, rect.height);
+      return {
+        x: (source.clientX - rect.left) * scaleX,
+        y: (source.clientY - rect.top) * scaleY,
       };
     }
 
-    // Tools
+    function drawCloud(cx, cy, scale) {
+      bgCtx.fillStyle = 'rgba(255,255,255,0.72)';
+      bgCtx.beginPath();
+      bgCtx.ellipse(cx, cy, 28 * scale, 16 * scale, 0, 0, Math.PI * 2);
+      bgCtx.ellipse(cx - 18 * scale, cy + 4 * scale, 18 * scale, 12 * scale, 0, 0, Math.PI * 2);
+      bgCtx.ellipse(cx + 20 * scale, cy + 2 * scale, 20 * scale, 13 * scale, 0, 0, Math.PI * 2);
+      bgCtx.ellipse(cx + 4 * scale, cy - 10 * scale, 16 * scale, 12 * scale, 0, 0, Math.PI * 2);
+      bgCtx.fill();
+    }
+
+    function drawSkyBackground() {
+      const w = bgCanvas.width;
+      const h = bgCanvas.height;
+      const sky = bgCtx.createLinearGradient(0, 0, 0, h);
+      sky.addColorStop(0, '#7dd3fc');
+      sky.addColorStop(0.45, '#bae6fd');
+      sky.addColorStop(0.78, '#e0f2fe');
+      sky.addColorStop(1, '#f0f9ff');
+      bgCtx.fillStyle = sky;
+      bgCtx.fillRect(0, 0, w, h);
+
+      // Soft sun glow
+      const sun = bgCtx.createRadialGradient(w * 0.82, h * 0.18, 4, w * 0.82, h * 0.18, Math.max(40, w * 0.14));
+      sun.addColorStop(0, 'rgba(253, 224, 71, 0.55)');
+      sun.addColorStop(1, 'rgba(253, 224, 71, 0)');
+      bgCtx.fillStyle = sun;
+      bgCtx.fillRect(0, 0, w, h);
+
+      // Light clouds that do not block drawings
+      drawCloud(w * 0.18, h * 0.22, Math.max(0.7, w / 420));
+      drawCloud(w * 0.48, h * 0.14, Math.max(0.55, w / 520));
+      drawCloud(w * 0.72, h * 0.28, Math.max(0.65, w / 460));
+    }
+
+    function paintStroke(stroke, preview = false) {
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = stroke.lineWidth || (stroke.type === 'eraser' ? 22 : 2.5);
+      ctx.strokeStyle = stroke.color || color;
+
+      if (stroke.type === 'pen' || stroke.type === 'eraser') {
+        const pts = stroke.points || [];
+        if (pts.length < 2) {
+          if (pts[0]) {
+            ctx.beginPath();
+            ctx.arc(pts[0].x, pts[0].y, ctx.lineWidth / 2, 0, Math.PI * 2);
+            if (stroke.type === 'eraser') {
+              ctx.globalCompositeOperation = 'destination-out';
+              ctx.fillStyle = 'rgba(0,0,0,1)';
+            } else {
+              ctx.globalCompositeOperation = 'source-over';
+              ctx.fillStyle = ctx.strokeStyle;
+            }
+            ctx.fill();
+          }
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(pts[0].x, pts[0].y);
+          for (let i = 1; i < pts.length; i += 1) ctx.lineTo(pts[i].x, pts[i].y);
+          if (stroke.type === 'eraser') {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.strokeStyle = 'rgba(0,0,0,1)';
+            ctx.stroke();
+          } else {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.stroke();
+          }
+        }
+      } else if (stroke.type === 'line') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath();
+        ctx.moveTo(stroke.x1, stroke.y1);
+        ctx.lineTo(stroke.x2, stroke.y2);
+        ctx.stroke();
+      } else if (stroke.type === 'rect') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeRect(stroke.x, stroke.y, stroke.w, stroke.h);
+      } else if (stroke.type === 'circle') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath();
+        ctx.arc(stroke.x, stroke.y, Math.max(0, stroke.r || 0), 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (stroke.type === 'triangle') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath();
+        ctx.moveTo(stroke.x1, stroke.y1);
+        ctx.lineTo(stroke.x2, stroke.y2);
+        ctx.lineTo(stroke.x3, stroke.y3);
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      if (preview && stroke.sizeLabel) {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.font = '12px monospace';
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(stroke.sizeLabel, stroke.labelX, stroke.labelY);
+      }
+      ctx.restore();
+    }
+
+    function redrawAll(previewStroke = null) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      history.forEach((stroke) => paintStroke(stroke));
+      if (previewStroke) paintStroke(previewStroke, true);
+    }
+
+    function clearBoard() {
+      history.length = 0;
+      drawing = false;
+      redrawAll();
+      playAppSound('planDeleted');
+    }
+
+    function resizeCanvas() {
+      const cssW = Math.max(1, Math.floor(canvas.clientWidth || canvas.offsetWidth || 300));
+      const cssH = Math.max(1, Math.floor(canvas.clientHeight || canvas.offsetHeight || 240));
+      canvas.width = cssW;
+      canvas.height = cssH;
+      bgCanvas.width = cssW;
+      bgCanvas.height = cssH;
+      drawSkyBackground();
+      redrawAll();
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    // When board becomes visible, size may be 0 initially
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => resizeCanvas()) : null;
+    if (ro) ro.observe(canvas);
+
+    const clearBtn = $(clearId);
+    if (clearBtn) clearBtn.onclick = clearBoard;
+
     const toolsContainer = $(toolsId);
     if (toolsContainer) {
       toolsContainer.querySelectorAll('.wb-tool').forEach((btn) => {
         btn.onclick = () => {
           toolsContainer.querySelectorAll('.wb-tool').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');
-          tool = btn.dataset.tool;
+          tool = btn.dataset.tool || 'pen';
           playAppSound('click');
         };
       });
     }
 
-    // Colors
-    canvas.closest('.whiteboard-box')?.querySelectorAll('.wb-color input').forEach((radio) => {
-      radio.onchange = () => { color = radio.value; };
+    boardBox?.querySelectorAll('.wb-color input').forEach((radio) => {
+      radio.onchange = () => { if (radio.checked) color = radio.value; };
     });
 
-    // Drawing
-    canvas.addEventListener('mousedown', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      startX = e.clientX - rect.left;
-      startY = e.clientY - rect.top;
+    function beginStroke(point) {
       drawing = true;
-
+      startX = point.x;
+      startY = point.y;
+      lastX = point.x;
+      lastY = point.y;
       if (tool === 'pen') {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        history.push({ type: 'pen', color, points: [{ x: startX, y: startY }] });
-      }
-    });
-
-    canvas.addEventListener('mousemove', (e) => {
-      if (!drawing) return;
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      ctx.strokeStyle = color;
-      ctx.lineWidth = tool === 'eraser' ? 20 : 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      if (tool === 'pen') {
-        const last = history[history.length - 1];
-        if (last && last.type === 'pen' && last.points.length > 0) {
-          const prev = last.points[last.points.length - 1];
-          ctx.beginPath();
-          ctx.moveTo(prev.x, prev.y);
-          ctx.lineTo(x, y);
-          ctx.stroke();
-          last.points.push({ x, y });
-        }
+        history.push({ type: 'pen', color, lineWidth: 2.5, points: [{ x: point.x, y: point.y }] });
       } else if (tool === 'eraser') {
-        ctx.clearRect(x - 10, y - 10, 20, 20);
-      } else {
-        // Preview shapes: clear + redraw history + draw preview + size text
-        redrawAll();
-        ctx.beginPath();
-        const w = x - startX;
-        const h = y - startY;
-        if (tool === 'rect') {
-          ctx.strokeRect(startX, startY, w, h);
-        } else if (tool === 'circle') {
-          const radius = Math.sqrt(w * w + h * h);
-          ctx.arc(startX, startY, radius, 0, Math.PI * 2);
-          ctx.stroke();
-        } else if (tool === 'line') {
-          ctx.moveTo(startX, startY);
-          ctx.lineTo(x, y);
-          ctx.stroke();
-        } else if (tool === 'triangle') {
-          // Right triangle: start -> (currentX, currentY) -> (startX, currentY) -> close
-          ctx.moveTo(startX, startY);
-          ctx.lineTo(x, y);
-          ctx.lineTo(startX, y);
-          ctx.closePath();
-          ctx.stroke();
-        }
-        // Size text
-        ctx.font = '13px monospace';
-        ctx.fillStyle = '#1e293b';
-        ctx.fillText(`${Math.abs(w)}x${Math.abs(h)}px`, x + 15, y + 15);
+        history.push({ type: 'eraser', lineWidth: 22, points: [{ x: point.x, y: point.y }] });
       }
-    });
+    }
 
-    canvas.addEventListener('mouseup', (e) => {
+    function moveStroke(point) {
+      if (!drawing) return;
+      lastX = point.x;
+      lastY = point.y;
+
+      if (tool === 'pen' || tool === 'eraser') {
+        const last = history[history.length - 1];
+        if (last && (last.type === 'pen' || last.type === 'eraser')) {
+          last.points.push({ x: point.x, y: point.y });
+          redrawAll();
+        }
+        return;
+      }
+
+      const w = point.x - startX;
+      const h = point.y - startY;
+      let preview = null;
+      if (tool === 'line') {
+        preview = { type: 'line', color, x1: startX, y1: startY, x2: point.x, y2: point.y };
+      } else if (tool === 'rect') {
+        preview = { type: 'rect', color, x: startX, y: startY, w, h };
+      } else if (tool === 'circle') {
+        preview = { type: 'circle', color, x: startX, y: startY, r: Math.hypot(w, h) };
+      } else if (tool === 'triangle') {
+        preview = { type: 'triangle', color, x1: startX, y1: startY, x2: point.x, y2: point.y, x3: startX, y3: point.y };
+      }
+      if (preview) {
+        preview.sizeLabel = `${Math.abs(Math.round(w))}x${Math.abs(Math.round(h))}px`;
+        preview.labelX = point.x + 12;
+        preview.labelY = point.y + 14;
+        redrawAll(preview);
+      }
+    }
+
+    function endStroke() {
       if (!drawing) return;
       drawing = false;
-      const rect = canvas.getBoundingClientRect();
-      const endX = e.clientX - rect.left;
-      const endY = e.clientY - rect.top;
-
-      if (tool === 'pen') {
-        ctx.closePath();
-      } else if (tool === 'line' || tool === 'rect' || tool === 'circle' || tool === 'triangle') {
-        const w = endX - startX;
-        const h = endY - startY;
-        let stroke;
-        if (tool === 'line') {
-          stroke = { type: 'line', color, x1: startX, y1: startY, x2: endX, y2: endY };
-        } else if (tool === 'rect') {
-          stroke = { type: 'rect', color, x: startX, y: startY, w, h };
-        } else if (tool === 'circle') {
-          const radius = Math.sqrt(w * w + h * h);
-          stroke = { type: 'circle', color, x: startX, y: startY, r: radius };
-        } else if (tool === 'triangle') {
-          // Right triangle with vertices at start, (endX, endY), (startX, endY)
-          stroke = { type: 'triangle', color, x1: startX, y1: startY, x2: endX, y2: endY, x3: startX, y3: endY };
-        }
-        if (stroke) history.push(stroke);
+      if (tool === 'pen' || tool === 'eraser') {
         redrawAll();
+        return;
       }
-      // pen points already recorded in mousemove
-    });
 
-    canvas.addEventListener('mouseleave', () => { drawing = false; });
+      const endX = lastX;
+      const endY = lastY;
+      const w = endX - startX;
+      const h = endY - startY;
+      let stroke = null;
+      if (tool === 'line') {
+        stroke = { type: 'line', color, x1: startX, y1: startY, x2: endX, y2: endY };
+      } else if (tool === 'rect') {
+        stroke = { type: 'rect', color, x: startX, y: startY, w, h };
+      } else if (tool === 'circle') {
+        stroke = { type: 'circle', color, x: startX, y: startY, r: Math.hypot(w, h) };
+      } else if (tool === 'triangle') {
+        stroke = { type: 'triangle', color, x1: startX, y1: startY, x2: endX, y2: endY, x3: startX, y3: endY };
+      }
+      if (stroke && (Math.abs(w) > 1 || Math.abs(h) > 1 || tool === 'line')) {
+        history.push(stroke);
+      }
+      redrawAll();
+    }
+
+    canvas.addEventListener('mousedown', (e) => beginStroke(getPoint(e)));
+    canvas.addEventListener('mousemove', (e) => moveStroke(getPoint(e)));
+    canvas.addEventListener('mouseup', endStroke);
+    canvas.addEventListener('mouseleave', endStroke);
+
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      beginStroke(getPoint(e));
+    }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      moveStroke(getPoint(e));
+    }, { passive: false });
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      endStroke();
+    }, { passive: false });
+    canvas.addEventListener('touchcancel', endStroke);
+
+    // Expose clear for external callers if needed
+    canvas.__wbClear = clearBoard;
+    canvas.__wbResize = resizeCanvas;
+    redrawAll();
   });
 }
 
@@ -3178,6 +3339,160 @@ function renderProfileStudyChart() {
   values[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1] += Number(timer.focusMinutes) || 0;
   const max = Math.max(...values, 1);
   chart.innerHTML = values.map((value, index) => `<div class="profile-chart-column"><span class="profile-chart-value">${value} dk</span><div class="profile-chart-track"><i style="height:${Math.max(7, Math.round((value / max) * 100))}%"></i></div><strong>${WEEKDAYS[index].slice(0, 3)}</strong></div>`).join('');
+}
+
+// ===== Metacognitive Learning Radar =====
+const CONFIDENCE_WEIGHTS = { low: 1, medium: 2, high: 3 };
+const SUBJECT_CATEGORIES = {
+  Matematik: 'Sayısal',
+  Geometri: 'Sayısal',
+  Fizik: 'Fen Bilimleri',
+  Kimya: 'Fen Bilimleri',
+  Biyoloji: 'Fen Bilimleri',
+  Türkçe: 'Sözel',
+  Edebiyat: 'Sözel',
+  Tarih: 'Sosyal Bilimler',
+  Coğrafya: 'Sosyal Bilimler',
+  Felsefe: 'Sosyal Bilimler',
+  'Din Kültürü': 'Sosyal Bilimler',
+};
+
+function getMetacognitionRecords() {
+  return readStorage(STORAGE_KEYS.metacognition, []);
+}
+
+function getCategoryRecords(records) {
+  return records.reduce((acc, record) => {
+    const category = SUBJECT_CATEGORIES[record.subject] || 'Genel';
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(record);
+    return acc;
+  }, {});
+}
+
+function computeCalibrationScore(records) {
+  if (!records || records.length === 0) return 50;
+  const raw = records.reduce((sum, r) => {
+    const w = CONFIDENCE_WEIGHTS[r.confidence] || 2;
+    return sum + (r.isCorrect ? w : -w);
+  }, 0) / records.length;
+  return Math.min(100, Math.max(0, Math.round(50 + raw * 15)));
+}
+
+function computeMetacognitionScores(records) {
+  const recent = records.slice(-30);
+  const byCategory = getCategoryRecords(recent);
+  const scores = {};
+  Object.keys(byCategory).forEach((category) => {
+    scores[category] = computeCalibrationScore(byCategory[category]);
+  });
+  scores['Genel Kalibrasyon'] = computeCalibrationScore(recent);
+  return scores;
+}
+
+function getIllusionTopics() {
+  const records = getMetacognitionRecords();
+  const byTopic = {};
+  records.forEach((r) => {
+    if (!byTopic[r.topicId]) byTopic[r.topicId] = { records: [], subject: r.subject };
+    byTopic[r.topicId].records.push(r);
+  });
+
+  const topics = getAllTopics();
+  const illusions = [];
+  Object.entries(byTopic).forEach(([topicId, data]) => {
+    const recs = data.records;
+    if (recs.length < 2) return;
+    const correct = recs.filter((r) => r.isCorrect).length;
+    const accuracy = correct / recs.length;
+    const avgConfidence = recs.reduce((sum, r) => sum + (CONFIDENCE_WEIGHTS[r.confidence] || 2), 0) / recs.length;
+    const highConfidenceWrong = recs.some((r) => !r.isCorrect && r.confidence === 'high');
+    if (accuracy < 0.5 && avgConfidence >= 2.4 && highConfidenceWrong) {
+      const topic = topics.find((t) => t.id === topicId);
+      illusions.push({
+        topicId,
+        name: topic?.name || topicId,
+        subject: topic?.subject || data.subject,
+        accuracy,
+        avgConfidence,
+      });
+    }
+  });
+
+  illusions.sort((a, b) => b.avgConfidence - a.accuracy - (a.avgConfidence - a.accuracy));
+  return illusions.slice(0, 5);
+}
+
+let metacognitionChart = null;
+
+function renderMetacognitionRadar() {
+  const canvas = $('metacognitionRadarChart');
+  if (!canvas) return;
+  const records = getMetacognitionRecords();
+  const scores = computeMetacognitionScores(records);
+  const labels = ['Sayısal', 'Fen Bilimleri', 'Sözel', 'Sosyal Bilimler', 'Genel Kalibrasyon'];
+  const data = labels.map((label) => scores[label] ?? 50);
+
+  if (metacognitionChart) metacognitionChart.destroy();
+  metacognitionChart = new Chart(canvas.getContext('2d'), {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Bilişsel Güven',
+        data,
+        backgroundColor: 'rgba(37, 99, 235, 0.18)',
+        borderColor: '#2563eb',
+        pointBackgroundColor: '#0ea5e9',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#2563eb',
+        borderWidth: 2,
+        pointRadius: 4,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(125, 177, 202, .25)' },
+          grid: { color: 'rgba(125, 177, 202, .2)' },
+          pointLabels: { color: '#31536b', font: { size: 11, weight: '700' } },
+          suggestedMin: 0,
+          suggestedMax: 100,
+          ticks: { display: false, stepSize: 25 },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(49, 83, 107, .92)',
+          titleColor: '#e0f2fe',
+          bodyColor: '#fff',
+          callbacks: { label: (item) => `${item.label}: ${item.raw}` },
+        },
+      },
+    },
+  });
+}
+
+function renderIllusionOfKnowledge() {
+  const countEl = $('illusionKnowledgeCount');
+  const listEl = $('illusionTopicList');
+  if (!countEl || !listEl) return;
+  const illusions = getIllusionTopics();
+  countEl.textContent = illusions.length;
+  if (illusions.length === 0) {
+    listEl.innerHTML = '<div class="illusion-topic-item">Harika! Yanılsama bölgeniz boş 🎉</div>';
+    return;
+  }
+  listEl.innerHTML = illusions.map((t) => `
+    <div class="illusion-topic-item">
+      <span>⚠️</span>
+      <span>${t.subject} • ${t.name}</span>
+    </div>
+  `).join('');
 }
 
 function renderProfilePage() {
@@ -3266,6 +3581,8 @@ function renderProfilePage() {
   renderClassProgress();
   renderWeakTopics();
   renderProfileStudyChart();
+  renderMetacognitionRadar();
+  renderIllusionOfKnowledge();
   renderProfileBadges();
 }
 

@@ -3028,6 +3028,14 @@ function initWhiteboards() {
     const checkedColor = boardBox?.querySelector('.wb-color input:checked');
     if (checkedColor) color = checkedColor.value;
 
+    // Ensure default white background
+    boardBox.style.setProperty('background', '#ffffff', 'important');
+    boardBox.style.setProperty('background-color', '#ffffff', 'important');
+    boardBox.style.setProperty('background-image', 'none', 'important');
+    boardBox.style.setProperty('background-size', '', 'important');
+    boardBox.style.setProperty('background-position', '', 'important');
+    boardBox.style.setProperty('background-repeat', '', 'important');
+
     function getPoint(e) {
       const rect = canvas.getBoundingClientRect();
       const source = e.touches?.[0] || e.changedTouches?.[0] || e;
@@ -3039,38 +3047,11 @@ function initWhiteboards() {
       };
     }
 
-    function drawCloud(cx, cy, scale) {
-      bgCtx.fillStyle = 'rgba(255,255,255,0.72)';
-      bgCtx.beginPath();
-      bgCtx.ellipse(cx, cy, 28 * scale, 16 * scale, 0, 0, Math.PI * 2);
-      bgCtx.ellipse(cx - 18 * scale, cy + 4 * scale, 18 * scale, 12 * scale, 0, 0, Math.PI * 2);
-      bgCtx.ellipse(cx + 20 * scale, cy + 2 * scale, 20 * scale, 13 * scale, 0, 0, Math.PI * 2);
-      bgCtx.ellipse(cx + 4 * scale, cy - 10 * scale, 16 * scale, 12 * scale, 0, 0, Math.PI * 2);
-      bgCtx.fill();
-    }
-
-    function drawSkyBackground() {
+    function drawWhiteBackground() {
       const w = bgCanvas.width;
       const h = bgCanvas.height;
-      const sky = bgCtx.createLinearGradient(0, 0, 0, h);
-      sky.addColorStop(0, '#7dd3fc');
-      sky.addColorStop(0.45, '#bae6fd');
-      sky.addColorStop(0.78, '#e0f2fe');
-      sky.addColorStop(1, '#f0f9ff');
-      bgCtx.fillStyle = sky;
+      bgCtx.fillStyle = '#ffffff';
       bgCtx.fillRect(0, 0, w, h);
-
-      // Soft sun glow
-      const sun = bgCtx.createRadialGradient(w * 0.82, h * 0.18, 4, w * 0.82, h * 0.18, Math.max(40, w * 0.14));
-      sun.addColorStop(0, 'rgba(253, 224, 71, 0.55)');
-      sun.addColorStop(1, 'rgba(253, 224, 71, 0)');
-      bgCtx.fillStyle = sun;
-      bgCtx.fillRect(0, 0, w, h);
-
-      // Light clouds that do not block drawings
-      drawCloud(w * 0.18, h * 0.22, Math.max(0.7, w / 420));
-      drawCloud(w * 0.48, h * 0.14, Math.max(0.55, w / 520));
-      drawCloud(w * 0.72, h * 0.28, Math.max(0.65, w / 460));
     }
 
     function paintStroke(stroke, preview = false) {
@@ -3163,7 +3144,7 @@ function initWhiteboards() {
       canvas.height = cssH;
       bgCanvas.width = cssW;
       bgCanvas.height = cssH;
-      drawSkyBackground();
+      drawWhiteBackground();
       redrawAll();
     }
 
@@ -3186,6 +3167,72 @@ function initWhiteboards() {
           playAppSound('click');
         };
       });
+    }
+
+    // Whiteboard theme dropdown (only for student board)
+    if (canvasId === 'studentBoard') {
+      const settingsBtn = boardBox?.querySelector('.wb-settings-btn');
+      const dropdown = boardBox?.querySelector('.wb-theme-dropdown');
+      const themeOptions = boardBox?.querySelectorAll('.wb-theme-option');
+
+      if (settingsBtn && dropdown) {
+        // Toggle dropdown
+        settingsBtn.onclick = (e) => {
+          e.stopPropagation();
+          dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+          settingsBtn.setAttribute('aria-expanded', dropdown.style.display === 'block');
+        };
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+          if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = 'none';
+            settingsBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        // Update locked state based on localStorage
+        const updateThemeLocks = () => {
+          const sahilUnlocked = localStorage.getItem('unlocked_sahil') === 'true';
+          const karatahtaUnlocked = localStorage.getItem('unlocked_karatahta') === 'true';
+          
+          themeOptions.forEach((opt) => {
+            const theme = opt.dataset.theme;
+            if (theme === 'sahil') {
+              opt.disabled = !sahilUnlocked;
+              opt.style.opacity = sahilUnlocked ? '1' : '0.6';
+              opt.style.cursor = sahilUnlocked ? 'pointer' : 'not-allowed';
+              opt.style.color = sahilUnlocked ? 'var(--text)' : 'var(--text-light)';
+              opt.innerHTML = sahilUnlocked ? '🏖️ Gerçekçi Sahil' : '🔒 🏖️ Gerçekçi Sahil';
+            } else if (theme === 'karatahta') {
+              opt.disabled = !karatahtaUnlocked;
+              opt.style.opacity = karatahtaUnlocked ? '1' : '0.6';
+              opt.style.cursor = karatahtaUnlocked ? 'pointer' : 'not-allowed';
+              opt.style.color = karatahtaUnlocked ? 'var(--text)' : 'var(--text-light)';
+              opt.innerHTML = karatahtaUnlocked ? '🏫 Klasik Kara Tahta' : '🔒 🏫 Klasik Kara Tahta';
+            }
+          });
+        };
+
+        // Initial lock state
+        updateThemeLocks();
+
+        // Theme selection
+        themeOptions.forEach((opt) => {
+          opt.onclick = () => {
+            if (opt.disabled) return;
+            const theme = opt.dataset.theme;
+            
+            themeOptions.forEach((o) => o.classList.remove('active'));
+            opt.classList.add('active');
+            
+            applyWhiteboardTheme(boardBox, theme);
+            dropdown.style.display = 'none';
+            settingsBtn.setAttribute('aria-expanded', 'false');
+            playAppSound('click');
+          };
+        });
+      }
     }
 
     boardBox?.querySelectorAll('.wb-color input').forEach((radio) => {
@@ -3291,6 +3338,30 @@ function initWhiteboards() {
     canvas.__wbResize = resizeCanvas;
     redrawAll();
   });
+}
+
+// Apply whiteboard theme helper
+function applyWhiteboardTheme(boardBox, theme) {
+  if (!boardBox) return;
+  if (theme === 'sahil') {
+    boardBox.style.setProperty('background-image', "url('/images/sahil-arkaplan%C4%B1.png.jpg')", 'important');
+    boardBox.style.setProperty('background-size', 'cover', 'important');
+    boardBox.style.setProperty('background-position', 'center', 'important');
+    boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
+    boardBox.style.setProperty('background-color', 'transparent', 'important');
+  } else if (theme === 'karatahta') {
+    boardBox.style.setProperty('background-image', "url('/images/yaz%C4%B1tahtas%C4%B1.png.jpg')", 'important');
+    boardBox.style.setProperty('background-size', 'cover', 'important');
+    boardBox.style.setProperty('background-position', 'center', 'important');
+    boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
+    boardBox.style.setProperty('background-color', 'transparent', 'important');
+  } else {
+    boardBox.style.setProperty('background-image', 'none', 'important');
+    boardBox.style.setProperty('background-color', '#ffffff', 'important');
+    boardBox.style.setProperty('background-size', '', 'important');
+    boardBox.style.setProperty('background-position', '', 'important');
+    boardBox.style.setProperty('background-repeat', '', 'important');
+  }
 }
 
 // ===== Profile and badge collection =====
@@ -3686,6 +3757,8 @@ const STORE_ITEMS = [
   { id: 'sea-star-joker', icon: '🔮', name: 'Geleceği Gören Deniz Yıldızı', desc: 'Zorlandığın bir quiz sorusunda iki yanlış şıkkı eler.', price: 250 },
   { id: 'streak-freeze', icon: '🧊', name: 'Seri Dondurucu', desc: 'Bir günü kaçırırsan serini korumak için otomatik harcanır.', price: 400, repeatable: true },
   { id: 'lucky-oyster', icon: '🦪', name: 'Şanslı İstiridye', desc: 'Satın alındığında 25 XP teselli veya 300 XP ikramiye kazan.', price: 100, repeatable: true },
+  { id: 'sahil-temasi', icon: '🏖️', name: 'Gerçekçi Sahil Teması', desc: 'Çizim tahtasının arka planını gerçekçi bir sahil manzarasıyla değiştirir.', price: 10 },
+  { id: 'kara-tahta', icon: '🏫', name: 'Klasik Okul Kara Tahtası', desc: 'Çizim tahtasının arka planını klasik okul kara tahtası dokusuyla değiştirir.', price: 10 },
 ];
 
 function applyStoreReward(itemId) {
@@ -3742,7 +3815,7 @@ function renderStorePage() {
     `;
   }).join('');
 
-  itemsEl.querySelectorAll('.store-buy-btn:not(.disabled)').forEach((btn) => {
+itemsEl.querySelectorAll('.store-buy-btn:not(.disabled)').forEach((btn) => {
     btn.onclick = () => {
       const itemId = btn.dataset.item;
       const item = STORE_ITEMS.find((i) => i.id === itemId);
@@ -3750,17 +3823,25 @@ function renderStorePage() {
 
        if (AppState.xp >= item.price) {
          AppState.xp -= item.price;
-        writeStorage(STORAGE_KEYS.xp, AppState.xp);
-        const ownedItems = readStorage(STORAGE_KEYS.ownedItems, []);
-        ownedItems.push(itemId);
+         writeStorage(STORAGE_KEYS.xp, AppState.xp);
+         const ownedItems = readStorage(STORAGE_KEYS.ownedItems, []);
+         ownedItems.push(itemId);
          writeStorage(STORAGE_KEYS.ownedItems, ownedItems);
          const rewardMessage = applyStoreReward(itemId);
+         
+         // Handle whiteboard theme purchases
+         if (itemId === 'sahil-temasi') {
+           localStorage.setItem('unlocked_sahil', 'true');
+         } else if (itemId === 'kara-tahta') {
+           localStorage.setItem('unlocked_karatahta', 'true');
+         }
+         
          playAppSound('purchase');
-        updateXpDisplay();
-        renderStorePage();
+         updateXpDisplay();
+         renderStorePage();
          showToast(`${item.icon} "${item.name}" satın alındı!${rewardMessage ? ` ${rewardMessage}` : ''}`);
-      }
-    };
+       }
+     };
   });
 }
 

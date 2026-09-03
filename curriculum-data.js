@@ -5,930 +5,216 @@ const CURRICULUM = {
   tyt: {
     Matematik: [
       {
-        id: 'tyt-mat-sayi-kumeleri',
-        name: 'Sayı Kümeleri',
+        id: 'tyt-mat-temel-kavramlar',
+        name: 'Temel Kavramlar',
         icon: '🔢',
         subtopics: [
-          'Doğal Sayılar',
-          'Tam Sayılar',
-          'Rasyonel Sayılar',
-          'İrrasyonel Sayılar',
-          'Gerçek Sayılar'
+          'Sayı Kümeleri',
+          'Tek ve Çift Sayılar',
+          'Pozitif ve Negatif Sayılar',
+          'Asal Sayılar',
+          'Ardışık Sayılar',
+          'Faktöriyel',
         ]
       },
       {
-        id: 'tyt-mat-temel-islemler',
-        name: 'Temel İşlemler',
-        icon: '➗',
-        subtopics: [
-          'Toplama ve Çıkarma',
-          'Çarpma ve Bölme',
-          'İşlem Önceliği',
-          'Parantezli İşlemler'
-        ]
-      },
-      {
-        id: 'tyt-mat-tek-cift',
-        name: 'Tek ve Çift Sayılar',
-        icon: '👥',
-        subtopics: [
-          'Tek Sayılar',
-          'Çift Sayılar',
-          'Tek-Çift İşlem Kuralları'
-        ]
-      },
-      {
-        id: 'tyt-mat-poz-neg',
-        name: 'Pozitif ve Negatif Sayılar',
-        icon: '➕',
-        subtopics: [
-          'Pozitif Sayılar',
-          'Negatif Sayılar',
-          'Sıfır',
-          'İşaret Kuralları'
-        ]
-      },
-      {
-        id: 'tyt-mat-ardisik',
-        name: 'Ardışık Sayılar',
-        icon: '🔢',
-        subtopics: [
-          'Ardışık Tam Sayılar',
-          'Ardışık Çift Sayılar',
-          'Ardışık Tek Sayılar',
-          'Ardışık Sayıların Toplamı'
-        ]
-      },
-      {
-        id: 'tyt-mat-basamak',
+        id: 'tyt-mat-sayi-basamaklari',
         name: 'Sayı Basamakları',
         icon: '🔢',
         subtopics: [
           'Basamak Değeri',
-          'Sayı Değeri',
-          'Çözümleme',
-          'Basamak Kavramı'
+          'Sayı Çözümleme',
+          'Basamak Problemleri',
         ]
       },
       {
-        id: 'tyt-mat-asal',
-        name: 'Asal ve Aralarında Asal Sayılar',
-        icon: '🔢',
-        subtopics: [
-          'Asal Sayılar',
-          'Aralarında Asal Sayılar',
-          'Asal Sayı Testleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-kalanli-bolme',
-        name: 'Tam Sayılarda Kalanlı Bölme',
+        id: 'tyt-mat-bolme-bolunebilme',
+        name: 'Bölme ve Bölünebilme',
         icon: '➗',
         subtopics: [
-          'Bölme İşlemi',
-          'Kalan Kavramı',
-          'Bölünen-Bölen-Bölüm-Kalan İlişkisi'
-        ]
-      },
-      {
-        id: 'tyt-mat-bolunebilme1',
-        name: 'Bölünebilme Kuralları 1',
-        icon: '➗',
-        subtopics: [
-          '2 ile Bölünebilme',
-          '3 ile Bölünebilme',
-          '4 ile Bölünebilme',
-          '5 ile Bölünebilme'
-        ]
-      },
-      {
-        id: 'tyt-mat-bolunebilme2',
-        name: 'Bölünebilme Kuralları 2',
-        icon: '➗',
-        subtopics: [
-          '6 ile Bölünebilme',
-          '8 ile Bölünebilme',
-          '9 ile Bölünebilme',
-          '10 ile Bölünebilme',
-          '11 ile Bölünebilme'
-        ]
-      },
-      {
-        id: 'tyt-mat-asal-carpan',
-        name: 'Asal Çarpanlar',
-        icon: '🔢',
-        subtopics: [
-          'Asal Çarpanlara Ayırma',
-          'Çarpan Ağacı',
-          'Bölen Sayısı Bulma'
+          'Bölme Kuralları',
+          'Bölünebilme Kuralları',
+          'Kalan Aritmetiği',
         ]
       },
       {
         id: 'tyt-mat-ebob-ekok',
-        name: 'EBOB-EKOK Kavramları',
-        icon: '⚖️',
+        name: 'EBOB - EKOK',
+        icon: '🧮',
         subtopics: [
-          'EBOB Kavramı',
-          'EKOK Kavramı',
-          'EBOB-EKOK İlişkisi',
-          'EBOB-EKOK Bulma Yöntemleri'
+          'Asal Çarpanlara Ayırma',
+          'EBOB Hesaplama',
+          'EKOK Hesaplama',
+          'EBOB-EKOK Problemleri',
         ]
       },
       {
-        id: 'tyt-mat-ebob-ekok-problem',
-        name: 'EBOB-EKOK Problemleri',
+        id: 'tyt-mat-rasyonel-ondalik',
+        name: 'Rasyonel ve Ondalık Sayılar',
+        icon: '🔣',
+        subtopics: [
+          'Kesir Türleri ve İşlemler',
+          'Ondalık Sayılar',
+          'Devirli Sayılar',
+          'Sıralama',
+        ]
+      },
+      {
+        id: 'tyt-mat-birinci-derece-denklemler',
+        name: 'Birinci Dereceden Denklemler',
         icon: '📝',
         subtopics: [
-          'EBOB Problemleri',
-          'EKOK Problemleri',
-          'Karışık Problemler'
+          'Denklem Çözme Yöntemleri',
+          'Çözüm Kümesi İnceleme',
         ]
       },
       {
-        id: 'tyt-mat-periyodik',
-        name: 'Periyodik Problemler',
-        icon: '🔄',
-        subtopics: [
-          'Periyodik Tekrar',
-          'Gün-Hafta Problemleri',
-          'Saat Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-rasyonel',
-        name: 'Rasyonel Sayılarda İşlemler',
-        icon: '🔢',
-        subtopics: [
-          'Rasyonel Sayı Tanımı',
-          'Toplama-Çıkarma',
-          'Çarpma-Bölme',
-          'Sıralama'
-        ]
-      },
-      {
-        id: 'tyt-mat-devirli',
-        name: 'Ondalıklı ve Devirli Sayılar',
-        icon: '🔢',
-        subtopics: [
-          'Ondalık Gösterim',
-          'Devirli Ondalık Sayılar',
-          'Ondalık-Rasyonel Dönüşümü'
-        ]
-      },
-      {
-        id: 'tyt-mat-aralik',
-        name: 'Gerçek Sayılarda Aralık Kavramı',
-        icon: '📏',
-        subtopics: [
-          'Kapalı Aralık',
-          'Açık Aralık',
-          'Yarı Açık Aralık',
-          'Aralık Gösterimleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-birinci-denklem',
-        name: 'Birinci Dereceden Denklemler',
-        icon: '➗',
-        subtopics: [
-          'Denklem Kavramı',
-          'Birinci Dereceden Denklem Çözümü',
-          'Denklem Kurma Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-basit-esitsizlik',
+        id: 'tyt-mat-basit-esitsizlikler',
         name: 'Basit Eşitsizlikler',
         icon: '⚖️',
         subtopics: [
-          'Eşitsizlik Kavramı',
-          'Eşitsizlik Çözümü',
-          'Eşitsizlik Özellikleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-iki-bilinmeyen',
-        name: 'İki Bilinmeyenli Denklemler',
-        icon: '➗',
-        subtopics: [
-          'İki Bilinmeyenli Denklem Sistemi',
-          'Yerine Koyma Yöntemi',
-          'Yok Etme Yöntemi'
-        ]
-      },
-      {
-        id: 'tyt-mat-iki-bil-esitsizlik',
-        name: 'İki Bilinmeyenli Eşitsizlikler',
-        icon: '⚖️',
-        subtopics: [
-          'İki Bilinmeyenli Eşitsizlik',
-          'Çözüm Kümesi',
-          'Grafik Gösterimi'
-        ]
-      },
-      {
-        id: 'tyt-mat-esitsizlik-sistem',
-        name: 'Eşitsizlik Sistemleri',
-        icon: '⚖️',
-        subtopics: [
-          'Eşitsizlik Sistemi Çözümü',
-          'Kesişim Kümesi',
-          'Grafik Yöntemi'
+          'Aralık Kavramı',
+          'Eşitsizlik Özellikleri',
+          'Üs ve Aralık İnceleme',
         ]
       },
       {
         id: 'tyt-mat-mutlak-deger',
-        name: 'Mutlak Değer Kavramı',
+        name: 'Mutlak Değer',
         icon: '📏',
         subtopics: [
-          'Mutlak Değer Tanımı',
           'Mutlak Değer Özellikleri',
-          'Mutlak Değerli İfadeler'
-        ]
-      },
-      {
-        id: 'tyt-mat-mutlak-denkle',
-        name: 'Mutlak Değerli Denklemler',
-        icon: '⚖️',
-        subtopics: [
           'Mutlak Değerli Denklemler',
           'Mutlak Değerli Eşitsizlikler',
-          'Çözüm Kümesi Bulma'
         ]
       },
       {
-        id: 'tyt-mat-uslu',
-        name: 'Üslü İfadeler ve Özellikleri',
-        icon: '🔢',
+        id: 'tyt-mat-uslu-ifadeler',
+        name: 'Üslü İfadeler',
+        icon: '💪',
         subtopics: [
-          'Üslü Sayı Tanımı',
           'Üslü Sayı Özellikleri',
-          'Negatif Üs',
-          'Sıfır Üssü'
-        ]
-      },
-      {
-        id: 'tyt-mat-uslu-denkle',
-        name: 'Üslü İfade İçeren Denklemler',
-        icon: '➗',
-        subtopics: [
+          'Üslü Sayılarda İşlemler',
           'Üslü Denklemler',
-          'Üslü Eşitsizlikler',
-          'Taban-Üs İlişkisi'
         ]
       },
       {
-        id: 'tyt-mat-koklu',
-        name: 'Köklü İfadeler ve Özellikleri',
-        icon: '√',
+        id: 'tyt-mat-koklu-ifadeler',
+        name: 'Köklü İfadeler',
+        icon: '🌳',
         subtopics: [
-          'Karekök',
-          'Küpkök',
           'Köklü Sayı Özellikleri',
-          'Köklü Sayılarda İşlemler'
+          'Köklü Sayılarda İşlemler',
+          'Paydayı Rasyonel Yapma (Eşlenik)',
+          'Özel Kökler',
         ]
       },
       {
-        id: 'tyt-mat-koklu-denkle',
-        name: 'Köklü İfadeli Denklemler',
-        icon: '√',
+        id: 'tyt-mat-carpanlara-ayirma',
+        name: 'Çarpanlara Ayırma',
+        icon: '🧩',
         subtopics: [
-          'Köklü Denklemler',
-          'Köklü Eşitsizlikler',
-          'Köklü İfadelerde Sıralama'
+          'Ortak Parantez ve Gruplandırma',
+          'Özdeşlikler',
+          'Rasyonel İfadelerde Sadeleştirme',
         ]
       },
       {
         id: 'tyt-mat-oran-oranti',
-        name: 'Oran-Orantı Kavramı',
+        name: 'Oran ve Orantı',
         icon: '⚖️',
         subtopics: [
-          'Oran Kavramı',
-          'Orantı Kavramı',
-          'Doğru Orantı',
-          'Ters Orantı',
-          'Bileşik Orantı'
+          'Doğru ve Ters Orantı',
+          'Bileşik Orantı',
+          'Aritmetik ve Geometrik Ortalama',
         ]
       },
       {
-        id: 'tyt-mat-oran-problem',
-        name: 'Oran-Orantı Problemleri',
-        icon: '📝',
-        subtopics: [
-          'Doğru Orantı Problemleri',
-          'Ters Orantı Problemleri',
-          'Bileşik Orantı Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-sayi-problem',
-        name: 'Sayı Problemleri',
-        icon: '🔢',
-        subtopics: [
-          'Sayı Problemleri',
-          'Rakam Problemleri',
-          'İki Basamaklı Sayılar'
-        ]
-      },
-      {
-        id: 'tyt-mat-kesir-problem',
-        name: 'Kesir Problemleri',
-        icon: '🍕',
-        subtopics: [
-          'Kesir Problemleri',
-          'Parça-Bütün İlişkisi',
-          'Kesirli İşlem Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-yas-problem',
-        name: 'Yaş Problemleri',
-        icon: '👨‍👩‍👦',
-        subtopics: [
-          'Yaş Problemleri',
-          'Geçmiş-Bugün-Gelecek',
-          'Yaş Farkı Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-isci-problem',
-        name: 'İşçi Problemleri',
-        icon: '👷',
-        subtopics: [
-          'İşçi Problemleri',
-          'Havuz Problemleri',
-          'Birlikte Çalışma'
-        ]
-      },
-      {
-        id: 'tyt-mat-yuzde-problem',
-        name: 'Yüzde Problemleri',
-        icon: '💯',
-        subtopics: [
-          'Yüzde Kavramı',
-          'Yüzde Artış-Azalış',
-          'Yüzde Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-kar-zarar',
-        name: 'Kâr-Zarar Problemleri',
-        icon: '💰',
-        subtopics: [
-          'Kâr Problemleri',
-          'Zarar Problemleri',
-          'İndirim Problemleri',
-          'Kâr-Zarar Yüzdesi'
-        ]
-      },
-      {
-        id: 'tyt-mat-karisim',
-        name: 'Karışım Problemleri',
-        icon: '🧪',
-        subtopics: [
-          'Karışım Problemleri',
-          'Karışım Oranları',
-          'Karışım Yüzdeleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-hareket',
-        name: 'Hareket Problemleri',
-        icon: '🏃',
-        subtopics: [
-          'Hız-Zaman-Yol',
-          'Karşılıklı Hareket',
-          'Aynı Yönde Hareket',
-          'Nehir Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-rutin-olmayan',
-        name: 'Rutin Olmayan Problemler',
-        icon: '🧩',
-        subtopics: [
-          'Mantık Problemleri',
-          'Zeka Soruları',
-          'Kombinasyonel Problemler'
-        ]
-      },
-      {
-        id: 'tyt-mat-onermeler',
-        name: 'Önermeler',
+        id: 'tyt-mat-problemler',
+        name: 'Problemler',
         icon: '🧠',
         subtopics: [
-          'Önerme Kavramı',
-          'Doğruluk Değeri',
-          'Önerme Çeşitleri'
+          'Sayı ve Kesir Problemleri',
+          'Yaş Problemleri',
+          'Yüzde, Kâr ve Zarar Problemleri',
+          'Karışım Problemleri',
+          'Hız ve Hareket Problemleri',
+          'İşçi Problemleri',
+          'Grafik ve Tablo Problemleri',
+          'Rutin Olmayan Problemler',
         ]
       },
       {
-        id: 'tyt-mat-bilesik-onerme',
-        name: 'Bileşik Önermeler',
-        icon: '🔀',
+        id: 'tyt-mat-kumeler',
+        name: 'Kümeler ve Kartezyen Çarpım',
+        icon: '🫧',
         subtopics: [
-          'VE Bağlacı',
-          'VEYA Bağlacı',
-          'DEĞİL Bağlacı',
-          'Doğruluk Tablosu'
-        ]
-      },
-      {
-        id: 'tyt-mat-kosullu-onerme',
-        name: 'Koşullu Önerme',
-        icon: '🔗',
-        subtopics: [
-          'Koşullu Önerme',
-          'İse Bağlacı',
-          'Karşıt Ters Düz'
-        ]
-      },
-      {
-        id: 'tyt-mat-kosullu-cift',
-        name: 'İki Yönlü Koşullu Önerme',
-        icon: '🔗',
-        subtopics: [
-          'Ancak ve Ancak',
-          'İki Yönlü Koşullu Önerme',
-          'Denklik'
-        ]
-      },
-      {
-        id: 'tyt-mat-niceleyici',
-        name: 'Niceleyiciler',
-        icon: '∀',
-        subtopics: [
-          'Her Niceleyicisi',
-          'Bazı Niceleyicisi',
-          'Niceleyicilerin Değili'
-        ]
-      },
-      {
-        id: 'tyt-mat-tanim-aksiyom',
-        name: 'Tanım, Aksiyom, Teorem ve İspat',
-        icon: '📖',
-        subtopics: [
-          'Tanım',
-          'Aksiyom',
-          'Teorem',
-          'İspat Yöntemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-kume-temel',
-        name: 'Kümelerde Temel Kavramlar',
-        icon: '⭕',
-        subtopics: [
-          'Küme Kavramı',
-          'Küme Gösterimleri',
-          'Eleman Sayısı',
-          'Boş Küme',
-          'Evrensel Küme'
-        ]
-      },
-      {
-        id: 'tyt-mat-alt-kume',
-        name: 'Alt Küme',
-        icon: '⊂',
-        subtopics: [
-          'Alt Küme Kavramı',
-          'Alt Küme Sayısı',
-          'Öz Alt Küme'
-        ]
-      },
-      {
-        id: 'tyt-mat-kesisim',
-        name: 'Kümelerde Kesişim ve Birleşim',
-        icon: '∩',
-        subtopics: [
-          'Kesişim İşlemi',
-          'Birleşim İşlemi',
-          'Kesişim-Birleşim Özellikleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-fark-tumleme',
-        name: 'Kümelerde Fark ve Tümleme',
-        icon: '➗',
-        subtopics: [
-          'Fark İşlemi',
-          'Tümleme İşlemi',
-          'De Morgan Kuralları'
-        ]
-      },
-      {
-        id: 'tyt-mat-kume-problem',
-        name: 'Küme Problemleri',
-        icon: '📝',
-        subtopics: [
+          'Küme Tanımı ve Alt Küme',
+          'Kümelerde İşlemler',
           'Küme Problemleri',
-          'Venn Şeması',
-          'Kesişim-Birleşim Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-kartezyen',
-        name: 'Kartezyen Çarpım',
-        icon: '📍',
-        subtopics: [
-          'Sıralı İkili',
           'Kartezyen Çarpım',
-          'Kartezyen Çarpımın Özellikleri'
         ]
       },
       {
-        id: 'tyt-mat-sayma',
-        name: 'Saymanın Temel İlkesi',
-        icon: '🔢',
+        id: 'tyt-mat-mantik',
+        name: 'Mantık',
+        icon: '💡',
         subtopics: [
-          'Toplama Yoluyla Sayma',
-          'Çarpma Yoluyla Sayma',
-          'Sayma Problemleri'
+          'Önermeler ve Bağlaçlar',
+          'Koşullu Önermeler (İse / Ancak ve Ancak)',
+          'Niceleyiciler',
         ]
       },
       {
-        id: 'tyt-mat-faktoriyel',
-        name: 'Faktöriyel Kavramı',
-        icon: '❕',
+        id: 'tyt-mat-fonksiyonlar',
+        name: 'Fonksiyonlar',
+        icon: 'ƒx',
         subtopics: [
-          'Faktöriyel Tanımı',
-          'Faktöriyel Hesaplama',
-          'Faktöriyelli İfadeler'
+          'Fonksiyon Tanımı ve Türleri',
+          'Bileşke Fonksiyon',
+          'Ters Fonksiyon',
+          'Fonksiyon Grafikleri Okuma',
         ]
       },
       {
-        id: 'tyt-mat-permutasyon',
-        name: 'Permütasyon',
-        icon: '🎲',
+        id: 'tyt-mat-polinomlar',
+        name: 'Polinomlar',
+        icon: '➿',
         subtopics: [
-          'Permütasyon Kavramı',
-          'Permütasyon Hesaplama',
-          'Diziliş Problemleri'
+          'Polinom Tanımı ve İşlemler',
+          'Katsayılar Toplamı ve Sabit Terim',
+          'Polinom Bölmesi ve Kalan Bulma',
         ]
       },
       {
-        id: 'tyt-mat-tekrarli-permutasyon',
-        name: 'Tekrarlı Permütasyon',
-        icon: '🔁',
-        subtopics: [
-          'Tekrarlı Permütasyon',
-          'Özdeş Nesnelerin Dizilişi'
-        ]
-      },
-      {
-        id: 'tyt-mat-kombinasyon',
-        name: 'Kombinasyon Kavramı',
-        icon: '🔢',
-        subtopics: [
-          'Kombinasyon Tanımı',
-          'Kombinasyon Özellikleri',
-          'C(n,r) Hesaplama'
-        ]
-      },
-      {
-        id: 'tyt-mat-kombinasyon-problem',
-        name: 'Kombinasyon Problemleri',
-        icon: '📝',
-        subtopics: [
-          'Seçim Problemleri',
-          'Grup Oluşturma',
-          'Komisyon Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-kombinasyon-geometri',
-        name: 'Kombinasyon ve Geometri',
+        id: 'tyt-mat-ikinci-derece-denklemler',
+        name: 'İkinci Dereceden Denklemler',
         icon: '📐',
         subtopics: [
-          'Doğru Üzerinde Noktalar',
-          'Çember Üzerinde Noktalar',
-          'Çokgen Köşegenleri'
+          'Çarpanlara Ayırma ve Diskriminant (Δ)',
+          'Kökler ve Katsayılar İlişkisi',
         ]
       },
       {
-        id: 'tyt-mat-binom',
-        name: 'Binom Açılımı',
-        icon: '🔢',
-        subtopics: [
-          'Binom Açılımı',
-          'Pascal Üçgeni',
-          'Binom Katsayıları'
-        ]
-      },
-      {
-        id: 'tyt-mat-olasilik-temel',
-        name: 'Olasılıkta Temel Kavramlar',
-        icon: '🎯',
-        subtopics: [
-          'Olasılık Kavramı',
-          'Örnek Uzay',
-          'Olay Çeşitleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-basit-olay',
-        name: 'Basit Olayların Olasılıkları',
+        id: 'tyt-mat-sayma-olasilik',
+        name: 'Sayma ve Olasılık',
         icon: '🎲',
         subtopics: [
-          'Basit Olay Olasılığı',
-          'Eşit Olasılıklı Olaylar',
-          'Olasılık Hesaplama'
+          'Toplama ve Çarpma Yoluyla Sayma',
+          'Permütasyon (Sıralama)',
+          'Kombinasyon (Seçme)',
+          'Binom Açılımı',
+          'Olasılık Hesaplama',
         ]
       },
       {
-        id: 'tyt-mat-fonksiyon-kavram',
-        name: 'Fonksiyon Kavramı ve Gösterimi',
-        icon: '📈',
-        subtopics: [
-          'Fonksiyon Tanımı',
-          'Fonksiyon Gösterimi',
-          'Tanım ve Değer Kümesi'
-        ]
-      },
-      {
-        id: 'tyt-mat-fonksiyon-sorular',
-        name: 'Fonksiyon Soruları Çözüm Teknikleri',
-        icon: '📝',
-        subtopics: [
-          'Fonksiyon Değeri Bulma',
-          'Fonksiyon Grafiği Okuma',
-          'Fonksiyon Soru Tipleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-ic-or-ten',
-        name: 'İçine, Örten, Birebir ve Eşit Fonksiyonlar',
-        icon: '📈',
-        subtopics: [
-          'İçine Fonksiyon',
-          'Örten Fonksiyon',
-          'Birebir Fonksiyon',
-          'Eşit Fonksiyon'
-        ]
-      },
-      {
-        id: 'tyt-mat-birim-sabit',
-        name: 'Birim ve Sabit Fonksiyon',
-        icon: '📈',
-        subtopics: [
-          'Birim Fonksiyon',
-          'Sabit Fonksiyon',
-          'Özellikleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-dogrusal-parcali',
-        name: 'Doğrusal ve Parçalı Fonksiyon',
-        icon: '📈',
-        subtopics: [
-          'Doğrusal Fonksiyon',
-          'Parçalı Fonksiyon',
-          'Grafik Çizimi'
-        ]
-      },
-      {
-        id: 'tyt-mat-cift-tek',
-        name: 'Çift ve Tek Fonksiyon',
-        icon: '📉',
-        subtopics: [
-          'Çift Fonksiyon',
-          'Tek Fonksiyon',
-          'Simetri Özellikleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-dort-islem',
-        name: 'Fonksiyonlarda Dört İşlem',
-        icon: '➕',
-        subtopics: [
-          'Fonksiyonlarda Toplama',
-          'Fonksiyonlarda Çıkarma',
-          'Fonksiyonlarda Çarpma',
-          'Fonksiyonlarda Bölme'
-        ]
-      },
-      {
-        id: 'tyt-mat-grafik-cizme',
-        name: 'Fonksiyon Grafiklerini Çizme',
+        id: 'tyt-mat-veri-istatistik',
+        name: 'Veri ve İstatistik',
         icon: '📊',
         subtopics: [
-          'Grafik Çizme',
-          'Eksen Kesişimleri',
-          'Grafik Dönüşümleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-bileske',
-        name: 'İki Fonksiyonun Bileşkesi',
-        icon: '🔀',
-        subtopics: [
-          'Bileşke Fonksiyon',
-          'Bileşke Özellikleri',
-          'Bileşke Hesaplama'
-        ]
-      },
-      {
-        id: 'tyt-mat-ters-fonksiyon',
-        name: 'Bir Fonksiyonun Tersi',
-        icon: '🔄',
-        subtopics: [
-          'Ters Fonksiyon',
-          'Ters Fonksiyon Bulma',
-          'Ters Fonksiyon Özellikleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-grafik-uygulama',
-        name: 'Fonksiyon Grafikleri ile Uygulamalar',
-        icon: '📊',
-        subtopics: [
-          'Grafik Okuma',
-          'Grafik Yorumlama',
-          'Uygulama Problemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-polinom-kavram',
-        name: 'Polinom Kavramı',
-        icon: '📊',
-        subtopics: [
-          'Polinom Tanımı',
-          'Polinom Derecesi',
-          'Polinom Katsayıları',
-          'Sabit Polinom',
-          'Sıfır Polinomu'
-        ]
-      },
-      {
-        id: 'tyt-mat-polinom-islem',
-        name: 'Polinomlarda Toplama, Çıkarma ve Çarpma',
-        icon: '➕',
-        subtopics: [
-          'Polinomlarda Toplama',
-          'Polinomlarda Çıkarma',
-          'Polinomlarda Çarpma'
-        ]
-      },
-      {
-        id: 'tyt-mat-polinom-bolme',
-        name: 'Polinomlarda Bölme İşlemi',
-        icon: '➗',
-        subtopics: [
-          'Polinom Bölme',
-          'Bölme Algoritması',
-          'Bölüm ve Kalan'
-        ]
-      },
-      {
-        id: 'tyt-mat-polinom-kalan',
-        name: 'Polinomlarda Kalan Bulma',
-        icon: '➗',
-        subtopics: [
-          'Kalan Teoremi',
-          'Çarpan Teoremi',
-          'Kalan Bulma Yöntemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-carpan-ortak',
-        name: 'Ortak Çarpan Parantezine Alma',
-        icon: '🔢',
-        subtopics: [
-          'Ortak Çarpan',
-          'Paranteze Alma',
-          'Gruplandırma'
-        ]
-      },
-      {
-        id: 'tyt-mat-ozdeslik',
-        name: 'Tam Kare ve İki Kare Farkı',
-        icon: '🧮',
-        subtopics: [
-          'Tam Kare Özdeşliği',
-          'İki Kare Farkı',
-          'Özdeşlik Uygulamaları'
-        ]
-      },
-      {
-        id: 'tyt-mat-kup-ozdeslik',
-        name: 'Tam Küp, İki Küp Farkı ve Toplamı',
-        icon: '🧮',
-        subtopics: [
-          'Tam Küp Özdeşliği',
-          'İki Küp Farkı',
-          'İki Küp Toplamı'
-        ]
-      },
-      {
-        id: 'tyt-mat-uc-terimli',
-        name: 'Üç Terimli İfadelerin Çarpanlara Ayrılması',
-        icon: '🧮',
-        subtopics: [
-          'ax²+bx+c Çarpanlara Ayırma',
-          'Çarpanlara Ayırma Yöntemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-rasyonel-sadeles',
-        name: 'Rasyonel İfadelerin Sadeleştirilmesi',
-        icon: '🧮',
-        subtopics: [
-          'Rasyonel İfadeler',
-          'Sadeleştirme',
-          'Payda Eşitleme'
-        ]
-      },
-      {
-        id: 'tyt-mat-ikinci-denklem',
-        name: 'İkinci Dereceden Denklemler',
-        icon: '➗',
-        subtopics: [
-          'İkinci Dereceden Denklem',
-          'ax²+bx+c=0',
-          'Çözüm Yöntemleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-ikinci-cozum',
-        name: 'İkinci Dereceden Denklemlerin Çözüm Kümesi',
-        icon: '➗',
-        subtopics: [
-          'Çarpanlara Ayırma ile Çözüm',
-          'Kareye Tamamlama',
-          'Formül ile Çözüm'
-        ]
-      },
-      {
-        id: 'tyt-mat-diskriminant',
-        name: 'Diskriminant Kavramı',
-        icon: '🧮',
-        subtopics: [
-          'Diskriminant (Δ)',
-          'Δ>0 Durumu',
-          'Δ=0 Durumu',
-          'Δ<0 Durumu'
-        ]
-      },
-      {
-        id: 'tyt-mat-karmasik-sayi',
-        name: 'Karmaşık Sayılar',
-        icon: 'ℹ️',
-        subtopics: [
-          'Karmaşık Sayı Tanımı',
-          'i Sayısı',
-          'Karmaşık Sayılarda İşlemler'
-        ]
-      },
-      {
-        id: 'tyt-mat-kok-katsayi',
-        name: 'Kök-Katsayı İlişkisi',
-        icon: '➗',
-        subtopics: [
-          'Kökler Toplamı',
-          'Kökler Çarpımı',
-          'Kök-Katsayı Formülleri'
-        ]
-      },
-      {
-        id: 'tyt-mat-veri',
-        name: 'Veri',
-        icon: '📊',
-        subtopics: [
-          'Veri Toplama',
-          'Veri Düzenleme',
-          'Veri Analizi'
-        ]
-      },
-      {
-        id: 'tyt-mat-merkezi-yayilim',
-        name: 'Merkezi Yayılım Ölçüleri',
-        icon: '📊',
-        subtopics: [
-          'Aritmetik Ortalama',
-          'Medyan',
-          'Mod',
-          'Açıklık',
-          'Standart Sapma'
-        ]
-      },
-      {
-        id: 'tyt-mat-histogram',
-        name: 'Histogram',
-        icon: '📊',
-        subtopics: [
-          'Histogram Oluşturma',
-          'Sınıf Aralıkları',
-          'Frekans Tablosu'
-        ]
-      },
-      {
-        id: 'tyt-mat-grafik-cesit',
-        name: 'Grafik Çeşitleri',
-        icon: '📈',
-        subtopics: [
-          'Sütun Grafiği',
-          'Çizgi Grafiği',
-          'Daire Grafiği'
+          'Merkezi Eğilim Ölçüleri (Ortalama, Medyan, Mod)',
+          'Merkezi Yayılım Ölçüleri (Açıklık, Standart Sapma)',
+          'Grafik Türleri ve Yorumlama',
         ]
       }
     ],
@@ -1316,1433 +602,554 @@ const CURRICULUM = {
     ],
     Türkçe: [
       {
-        id: 'tyt-turk-sozcuk1',
-        name: 'Sözcükte Anlam 1',
+        id: 'tyt-turk-sozcukte-anlam',
+        name: 'Sözcükte Anlam',
         icon: '📖',
         subtopics: [
-          'Sözcükte Anlam 1 - Temel Kavramlar',
-          'Sözcükte Anlam 1 - Örnek Sorular',
-          'Sözcükte Anlam 1 - Test'
+          'Sözcükte Anlam Türleri',
+          'Sözcükler Arası Anlam İlişkileri',
+          'Söz Öbekleri ve Deyimler/Atasözleri',
         ]
       },
       {
-        id: 'tyt-turk-sozcuk2',
-        name: 'Sözcükte Anlam 2',
-        icon: '📖',
+        id: 'tyt-turk-cumlede-anlam',
+        name: 'Cümlede Anlam',
+        icon: '💬',
         subtopics: [
-          'Sözcükte Anlam 2 - Temel Kavramlar',
-          'Sözcükte Anlam 2 - Örnek Sorular',
-          'Sözcükte Anlam 2 - Test'
+          'Cümle Yorumlama ve Kavramlar',
+          'Cümleler Arası Anlam İlişkileri',
+          'Cümle Tamamlama ve Oluşturma',
         ]
       },
       {
-        id: 'tyt-turk-sozcuk3',
-        name: 'Sözcükte Anlam 3',
-        icon: '📖',
-        subtopics: [
-          'Sözcükte Anlam 3 - Temel Kavramlar',
-          'Sözcükte Anlam 3 - Örnek Sorular',
-          'Sözcükte Anlam 3 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-sozcuk4',
-        name: 'Sözcükte Anlam 4',
-        icon: '📖',
-        subtopics: [
-          'Sözcükte Anlam 4 - Temel Kavramlar',
-          'Sözcükte Anlam 4 - Örnek Sorular',
-          'Sözcükte Anlam 4 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-cumle1',
-        name: 'Cümlede Anlam 1',
-        icon: '📝',
-        subtopics: [
-          'Cümlede Anlam 1 - Temel Kavramlar',
-          'Cümlede Anlam 1 - Örnek Sorular',
-          'Cümlede Anlam 1 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-cumle2',
-        name: 'Cümlede Anlam 2',
-        icon: '📝',
-        subtopics: [
-          'Cümlede Anlam 2 - Temel Kavramlar',
-          'Cümlede Anlam 2 - Örnek Sorular',
-          'Cümlede Anlam 2 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-cumle3',
-        name: 'Cümlede Anlam 3',
-        icon: '📝',
-        subtopics: [
-          'Cümlede Anlam 3 - Temel Kavramlar',
-          'Cümlede Anlam 3 - Örnek Sorular',
-          'Cümlede Anlam 3 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-paragraf1',
-        name: 'Paragrafta Anlam 1',
+        id: 'tyt-turk-paragrafta-anlam',
+        name: 'Paragrafta Anlam',
         icon: '📄',
         subtopics: [
-          'Paragrafta Anlam 1 - Temel Kavramlar',
-          'Paragrafta Anlam 1 - Örnek Sorular',
-          'Paragrafta Anlam 1 - Test'
+          'Paragrafın Ana Fikri ve Yardımcı Fikirleri',
+          'Paragrafın Yapısı ve Akışı',
+          'Anlatım Biçimleri ve Düşünceyi Geliştirme Yolları',
+          'Çoklu ve Soru-Cevap Paragrafları',
         ]
       },
       {
-        id: 'tyt-turk-paragraf2',
-        name: 'Paragrafta Anlam 2',
-        icon: '📄',
-        subtopics: [
-          'Paragrafta Anlam 2 - Temel Kavramlar',
-          'Paragrafta Anlam 2 - Örnek Sorular',
-          'Paragrafta Anlam 2 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-paragraf3',
-        name: 'Paragrafta Anlam 3',
-        icon: '📄',
-        subtopics: [
-          'Paragrafta Anlam 3 - Temel Kavramlar',
-          'Paragrafta Anlam 3 - Örnek Sorular',
-          'Paragrafta Anlam 3 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-paragraf-yapi',
-        name: 'Paragrafın Yapısı',
-        icon: '📄',
-        subtopics: [
-          'Paragrafın Yapısı - Temel Kavramlar',
-          'Paragrafın Yapısı - Örnek Sorular',
-          'Paragrafın Yapısı - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-ses1',
-        name: 'Ses Bilgisi 1',
+        id: 'tyt-turk-ses-bilgisi',
+        name: 'Ses Bilgisi',
         icon: '🔊',
         subtopics: [
-          'Ses Bilgisi 1 - Temel Kavramlar',
-          'Ses Bilgisi 1 - Örnek Sorular',
-          'Ses Bilgisi 1 - Test'
+          'Ünlü Olayları (Düşme, Daralma, Türeme)',
+          'Ünsüz Olayları (Benzeşme, Yumuşama, Düşme, Türeme)',
         ]
       },
       {
-        id: 'tyt-turk-ses2',
-        name: 'Ses Bilgisi 2',
-        icon: '🔊',
-        subtopics: [
-          'Ses Bilgisi 2 - Temel Kavramlar',
-          'Ses Bilgisi 2 - Örnek Sorular',
-          'Ses Bilgisi 2 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-yazim1',
-        name: 'Yazım Kuralları 1',
+        id: 'tyt-turk-yazim-kurallari',
+        name: 'Yazım Kuralları',
         icon: '✍️',
         subtopics: [
-          'Yazım Kuralları 1 - Temel Kavramlar',
-          'Yazım Kuralları 1 - Örnek Sorular',
-          'Yazım Kuralları 1 - Test'
+          'Bitişik ve Ayrı Yazılan Sözcükler',
+          'Büyük Harfler, Sayılar ve Kısaltmalar',
+          '"da/de", "ki" ve "mi"nin Yazımı',
         ]
       },
       {
-        id: 'tyt-turk-yazim2',
-        name: 'Yazım Kuralları 2',
-        icon: '✍️',
-        subtopics: [
-          'Yazım Kuralları 2 - Temel Kavramlar',
-          'Yazım Kuralları 2 - Örnek Sorular',
-          'Yazım Kuralları 2 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-yazim3',
-        name: 'Yazım Kuralları 3',
-        icon: '✍️',
-        subtopics: [
-          'Yazım Kuralları 3 - Temel Kavramlar',
-          'Yazım Kuralları 3 - Örnek Sorular',
-          'Yazım Kuralları 3 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-noktalama1',
-        name: 'Noktalama İşaretleri 1',
+        id: 'tyt-turk-noktalama',
+        name: 'Noktalama İşaretleri',
         icon: '❗',
         subtopics: [
-          'Noktalama İşaretleri 1 - Temel Kavramlar',
-          'Noktalama İşaretleri 1 - Örnek Sorular',
-          'Noktalama İşaretleri 1 - Test'
+          'Nokta, Virgül, Noktalı Virgül ve İki Nokta',
+          'Kesme, Tırnak ve Yay Ayraç',
+          'Diğer Noktalama İşaretleri',
         ]
       },
       {
-        id: 'tyt-turk-noktalama2',
-        name: 'Noktalama İşaretleri 2',
-        icon: '❗',
+        id: 'tyt-turk-sozcukte-yapi',
+        name: 'Sözcükte Yapı',
+        icon: '🧱',
         subtopics: [
-          'Noktalama İşaretleri 2 - Temel Kavramlar',
-          'Noktalama İşaretleri 2 - Örnek Sorular',
-          'Noktalama İşaretleri 2 - Test'
+          'Kök ve Ek Türleri (Yapım / Çekim)',
+          'Sözcük Yapısı (Basit, Türemiş, Birleşik)',
         ]
       },
       {
-        id: 'tyt-turk-noktalama3',
-        name: 'Noktalama İşaretleri 3',
-        icon: '❗',
+        id: 'tyt-turk-sozcuk-turleri',
+        name: 'Sözcük Türleri',
+        icon: '🏷️',
         subtopics: [
-          'Noktalama İşaretleri 3 - Temel Kavramlar',
-          'Noktalama İşaretleri 3 - Örnek Sorular',
-          'Noktalama İşaretleri 3 - Test'
+          'İsimler ve İsim Tamlamaları',
+          'Sıfatlar (Ön Adlar) ve Sıfat Tamlamaları',
+          'Zamirler (Adıllar)',
+          'Zarflar (Belirteçler)',
+          'Edat, Bağlaç ve Ünlem',
         ]
       },
       {
-        id: 'tyt-turk-bicim1',
-        name: 'Biçim Bilgisi 1',
-        icon: '🔤',
+        id: 'tyt-turk-fiiller',
+        name: 'Fiiller (Eylemler)',
+        icon: '⚡',
         subtopics: [
-          'Biçim Bilgisi 1 - Temel Kavramlar',
-          'Biçim Bilgisi 1 - Örnek Sorular',
-          'Biçim Bilgisi 1 - Test'
+          'Fiil Çekimi ve Kip/Kişi',
+          'Ek Fiil (Ek Eylem)',
+          'Fiilimsiler (Eylemsiler)',
+          'Fiil Çatıları',
         ]
       },
       {
-        id: 'tyt-turk-bicim2',
-        name: 'Biçim Bilgisi 2',
-        icon: '🔤',
-        subtopics: [
-          'Biçim Bilgisi 2 - Temel Kavramlar',
-          'Biçim Bilgisi 2 - Örnek Sorular',
-          'Biçim Bilgisi 2 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-isim',
-        name: 'İsim',
-        icon: '🔤',
-        subtopics: [
-          'İsim - Temel Kavramlar',
-          'İsim - Örnek Sorular',
-          'İsim - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-sifat',
-        name: 'Sıfat',
-        icon: '🔤',
-        subtopics: [
-          'Sıfat - Temel Kavramlar',
-          'Sıfat - Örnek Sorular',
-          'Sıfat - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-zamir',
-        name: 'Zamir',
-        icon: '🔤',
-        subtopics: [
-          'Zamir - Temel Kavramlar',
-          'Zamir - Örnek Sorular',
-          'Zamir - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-tamlama',
-        name: 'İsim ve Sıfat Tamlamaları',
-        icon: '🔤',
-        subtopics: [
-          'İsim ve Sıfat Tamlamaları - Temel Kavramlar',
-          'İsim ve Sıfat Tamlamaları - Örnek Sorular',
-          'İsim ve Sıfat Tamlamaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-zarf',
-        name: 'Zarf',
-        icon: '🔤',
-        subtopics: [
-          'Zarf - Temel Kavramlar',
-          'Zarf - Örnek Sorular',
-          'Zarf - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-edat-baglac',
-        name: 'Edat, Bağlaç, Ünlem',
-        icon: '🔗',
-        subtopics: [
-          'Edat, Bağlaç, Ünlem - Temel Kavramlar',
-          'Edat, Bağlaç, Ünlem - Örnek Sorular',
-          'Edat, Bağlaç, Ünlem - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-fiil-kip',
-        name: 'Fiilde Kip',
-        icon: '⏰',
-        subtopics: [
-          'Fiilde Kip - Temel Kavramlar',
-          'Fiilde Kip - Örnek Sorular',
-          'Fiilde Kip - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-ekfiil',
-        name: 'Ek-Fiil',
-        icon: '🔗',
-        subtopics: [
-          'Ek-Fiil - Temel Kavramlar',
-          'Ek-Fiil - Örnek Sorular',
-          'Ek-Fiil - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-fiil-yapi',
-        name: 'Fiilde Yapı',
-        icon: '🔤',
-        subtopics: [
-          'Fiilde Yapı - Temel Kavramlar',
-          'Fiilde Yapı - Örnek Sorular',
-          'Fiilde Yapı - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-fiilimsi',
-        name: 'Fiilimsiler',
-        icon: '🔤',
-        subtopics: [
-          'Fiilimsiler - Temel Kavramlar',
-          'Fiilimsiler - Örnek Sorular',
-          'Fiilimsiler - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-fiil-cati',
-        name: 'Fiilde Çatı',
-        icon: '🔤',
-        subtopics: [
-          'Fiilde Çatı - Temel Kavramlar',
-          'Fiilde Çatı - Örnek Sorular',
-          'Fiilde Çatı - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-ogeler',
+        id: 'tyt-turk-cumlenin-ogeleri',
         name: 'Cümlenin Ögeleri',
-        icon: '📝',
+        icon: '🧩',
         subtopics: [
-          'Cümlenin Ögeleri - Temel Kavramlar',
-          'Cümlenin Ögeleri - Örnek Sorular',
-          'Cümlenin Ögeleri - Test'
+          'Temel Ögeler (Özne, Yüklem)',
+          'Yardımcı Ögeler (Nesne, Tümleçler)',
+          'Cümle Vurgusu ve Ara Cümle',
         ]
       },
       {
         id: 'tyt-turk-cumle-turleri',
         name: 'Cümle Türleri',
-        icon: '📝',
+        icon: '🔀',
         subtopics: [
-          'Cümle Türleri - Temel Kavramlar',
-          'Cümle Türleri - Örnek Sorular',
-          'Cümle Türleri - Test'
+          'Yüklemin Türü ve Yerine Göre Cümleler',
+          'Anlamına Göre Cümleler',
+          'Yapısına Göre Cümleler (Basit, Birleşik, Sıralı, Bağlı)',
         ]
       },
       {
-        id: 'tyt-turk-anlatim-boz1',
-        name: 'Anlatım Bozuklukları 1',
-        icon: '❌',
+        id: 'tyt-turk-anlatim-bozukluklari',
+        name: 'Anlatım Bozuklukları',
+        icon: '🩹',
         subtopics: [
-          'Anlatım Bozuklukları 1 - Temel Kavramlar',
-          'Anlatım Bozuklukları 1 - Örnek Sorular',
-          'Anlatım Bozuklukları 1 - Test'
-        ]
-      },
-      {
-        id: 'tyt-turk-anlatim-boz2',
-        name: 'Anlatım Bozuklukları 2',
-        icon: '❌',
-        subtopics: [
-          'Anlatım Bozuklukları 2 - Temel Kavramlar',
-          'Anlatım Bozuklukları 2 - Örnek Sorular',
-          'Anlatım Bozuklukları 2 - Test'
+          'Anlama Dayalı Bozukluklar',
+          'Yapıya Dayalı Bozukluklar',
         ]
       }
     ],
     Fizik: [
       {
-        id: 'tyt-fiz-bilimine-giris',
+        id: 'tyt-fiz-bilime-giris',
         name: 'Fizik Bilimine Giriş',
         icon: '🔬',
         subtopics: [
-          'Fizik Bilimine Giriş - Temel Kavramlar',
-          'Fizik Bilimine Giriş - Örnek Sorular',
-          'Fizik Bilimine Giriş - Test'
+          'Fiziğin Alt Dalları',
+          'Fiziksel Niceliklerin Sınıflandırılması (Temel - Türetilmiş, Skaler - Vektörel)',
+          'Bilimsel Araştırma Merkezleri',
         ]
       },
       {
-        id: 'tyt-fiz-alt-dallar',
-        name: 'Fizik Bilimi ve Alt Dalları',
-        icon: '🔬',
+        id: 'tyt-fiz-madde',
+        name: 'Madde ve Özellikleri',
+        icon: '🧱',
         subtopics: [
-          'Fizik Bilimi ve Alt Dalları - Temel Kavramlar',
-          'Fizik Bilimi ve Alt Dalları - Örnek Sorular',
-          'Fizik Bilimi ve Alt Dalları - Test'
+          'Kütle, Hacim ve Özkütle',
+          'Katılarda Dayanıklılık',
+          'Adhezyon (Yapışma) ve Kohezyon (Tutma)',
+          'Yüzey Gerilimi ve Kılcallık',
         ]
       },
       {
-        id: 'tyt-fiz-nicelik',
-        name: 'Fiziksel Niceliklerin Sınıflandırılması',
-        icon: '📏',
-        subtopics: [
-          'Fiziksel Niceliklerin Sınıflandırılması - Temel Kavramlar',
-          'Fiziksel Niceliklerin Sınıflandırılması - Örnek Sorular',
-          'Fiziksel Niceliklerin Sınıflandırılması - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-arastirma',
-        name: 'Bilim Araştırma Merkezleri',
-        icon: '🔬',
-        subtopics: [
-          'Bilim Araştırma Merkezleri - Temel Kavramlar',
-          'Bilim Araştırma Merkezleri - Örnek Sorular',
-          'Bilim Araştırma Merkezleri - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-madde-kutle',
-        name: 'Madde ve Kütle',
-        icon: '⚖️',
-        subtopics: [
-          'Madde ve Kütle - Temel Kavramlar',
-          'Madde ve Kütle - Örnek Sorular',
-          'Madde ve Kütle - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-hacim',
-        name: 'Hacim ve Hacim Ölçümü',
-        icon: '📦',
-        subtopics: [
-          'Hacim ve Hacim Ölçümü - Temel Kavramlar',
-          'Hacim ve Hacim Ölçümü - Örnek Sorular',
-          'Hacim ve Hacim Ölçümü - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-ozkutle',
-        name: 'Özkütle ve Karışımların Özkütlesi',
-        icon: '⚖️',
-        subtopics: [
-          'Özkütle ve Karışımların Özkütlesi - Temel Kavramlar',
-          'Özkütle ve Karışımların Özkütlesi - Örnek Sorular',
-          'Özkütle ve Karışımların Özkütlesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-dayaniklilik',
-        name: 'Dayanıklılık ve Kare-Küp Kanunu',
-        icon: '🏗️',
-        subtopics: [
-          'Dayanıklılık ve Kare-Küp Kanunu - Temel Kavramlar',
-          'Dayanıklılık ve Kare-Küp Kanunu - Örnek Sorular',
-          'Dayanıklılık ve Kare-Küp Kanunu - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-adezyon',
-        name: 'Adezyon, Kohezyon, Yüzey Gerilimi',
+        id: 'tyt-fiz-basinc-kaldirma',
+        name: 'Basınç ve Kaldırma Kuvveti',
         icon: '💧',
         subtopics: [
-          'Adezyon, Kohezyon, Yüzey Gerilimi - Temel Kavramlar',
-          'Adezyon, Kohezyon, Yüzey Gerilimi - Örnek Sorular',
-          'Adezyon, Kohezyon, Yüzey Gerilimi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-hareket-kavram',
-        name: 'Hareket Kavramları',
-        icon: '🏃',
-        subtopics: [
-          'Hareket Kavramları - Temel Kavramlar',
-          'Hareket Kavramları - Örnek Sorular',
-          'Hareket Kavramları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-dogrusal-hareket',
-        name: 'Düzgün Doğrusal Hareket',
-        icon: '➡️',
-        subtopics: [
-          'Düzgün Doğrusal Hareket - Temel Kavramlar',
-          'Düzgün Doğrusal Hareket - Örnek Sorular',
-          'Düzgün Doğrusal Hareket - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-ivme',
-        name: 'İvme Kavramı ve İvmeli Hareket',
-        icon: '📈',
-        subtopics: [
-          'İvme Kavramı ve İvmeli Hareket - Temel Kavramlar',
-          'İvme Kavramı ve İvmeli Hareket - Örnek Sorular',
-          'İvme Kavramı ve İvmeli Hareket - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-kuvvet',
-        name: 'Kuvvet Kavramı ve Temel Kuvvetler',
-        icon: '💪',
-        subtopics: [
-          'Kuvvet Kavramı ve Temel Kuvvetler - Temel Kavramlar',
-          'Kuvvet Kavramı ve Temel Kuvvetler - Örnek Sorular',
-          'Kuvvet Kavramı ve Temel Kuvvetler - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-newton',
-        name: 'Newton\'ın Hareket Yasaları',
-        icon: '🍎',
-        subtopics: [
-          'Newton\'ın Hareket Yasaları - Temel Kavramlar',
-          'Newton\'ın Hareket Yasaları - Örnek Sorular',
-          'Newton\'ın Hareket Yasaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-surtunme',
-        name: 'Sürtünme Kuvveti',
-        icon: '🛑',
-        subtopics: [
-          'Sürtünme Kuvveti - Temel Kavramlar',
-          'Sürtünme Kuvveti - Örnek Sorular',
-          'Sürtünme Kuvveti - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-is-enerji-guc',
-        name: 'İş, Enerji ve Güç Kavramları',
-        icon: '⚡',
-        subtopics: [
-          'İş, Enerji ve Güç Kavramları - Temel Kavramlar',
-          'İş, Enerji ve Güç Kavramları - Örnek Sorular',
-          'İş, Enerji ve Güç Kavramları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-kinetik-potansiyel',
-        name: 'Kinetik ve Potansiyel Enerji',
-        icon: '⚡',
-        subtopics: [
-          'Kinetik ve Potansiyel Enerji - Temel Kavramlar',
-          'Kinetik ve Potansiyel Enerji - Örnek Sorular',
-          'Kinetik ve Potansiyel Enerji - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-mekanik-enerji',
-        name: 'Mekanik Enerji ve Enerji Korunumu',
-        icon: '⚡',
-        subtopics: [
-          'Mekanik Enerji ve Enerji Korunumu - Temel Kavramlar',
-          'Mekanik Enerji ve Enerji Korunumu - Örnek Sorular',
-          'Mekanik Enerji ve Enerji Korunumu - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-verim',
-        name: 'Verim ve Enerji Kaynakları',
-        icon: '🔋',
-        subtopics: [
-          'Verim ve Enerji Kaynakları - Temel Kavramlar',
-          'Verim ve Enerji Kaynakları - Örnek Sorular',
-          'Verim ve Enerji Kaynakları - Test'
+          'Katı, Sıvı ve Gaz Basıncı',
+          'Akışkanların Basıncı ve Pascal Prensibi',
+          'Sıvıların Kaldırma Kuvveti ve Cisimlerin Denge Durumları',
         ]
       },
       {
         id: 'tyt-fiz-isi-sicaklik',
-        name: 'Isı, Sıcaklık ve İç Enerji',
+        name: 'Isı, Sıcaklık ve Genleşme',
         icon: '🌡️',
         subtopics: [
-          'Isı, Sıcaklık ve İç Enerji - Temel Kavramlar',
-          'Isı, Sıcaklık ve İç Enerji - Örnek Sorular',
-          'Isı, Sıcaklık ve İç Enerji - Test'
+          'Isı, Sıcaklık ve İç Enerji Kavramları',
+          'Termometreler ve Sıcaklık Birimleri',
+          'Öz Isı, Isı Sığası ve Hal Değişimi',
+          'Isı Aktarım Yolları (İletim, Konveksiyon, Işıma) ve Yalıtım',
+          'Katı, Sıvı ve Gazlarda Genleşme',
         ]
       },
       {
-        id: 'tyt-fiz-termometre',
-        name: 'Termometreler ve Sıcaklık Birimleri',
-        icon: '🌡️',
+        id: 'tyt-fiz-hareket-kuvvet',
+        name: 'Hareket ve Kuvvet',
+        icon: '🏃',
         subtopics: [
-          'Termometreler ve Sıcaklık Birimleri - Temel Kavramlar',
-          'Termometreler ve Sıcaklık Birimleri - Örnek Sorular',
-          'Termometreler ve Sıcaklık Birimleri - Test'
+          'Konum, Yer Değiştirme, Hız ve Sürat',
+          'Düzgün Doğrusal Hareket ve Grafikleri',
+          'Kuvvet Çeşitleri ve Sürtünme Kuvveti',
+          'Newton\'un Hareket Yasaları',
         ]
       },
       {
-        id: 'tyt-fiz-oz-isi',
-        name: 'Öz Isı ve Isı Sığası',
-        icon: '🌡️',
-        subtopics: [
-          'Öz Isı ve Isı Sığası - Temel Kavramlar',
-          'Öz Isı ve Isı Sığası - Örnek Sorular',
-          'Öz Isı ve Isı Sığası - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-hal-degisimi',
-        name: 'Hâl Değişimi ve Hâl Değiştirme Isısı',
-        icon: '❄️',
-        subtopics: [
-          'Hâl Değişimi ve Hâl Değiştirme Isısı - Temel Kavramlar',
-          'Hâl Değişimi ve Hâl Değiştirme Isısı - Örnek Sorular',
-          'Hâl Değişimi ve Hâl Değiştirme Isısı - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-isil-denge',
-        name: 'Isıl Denge ve Denge Sıcaklığı',
-        icon: '⚖️',
-        subtopics: [
-          'Isıl Denge ve Denge Sıcaklığı - Temel Kavramlar',
-          'Isıl Denge ve Denge Sıcaklığı - Örnek Sorular',
-          'Isıl Denge ve Denge Sıcaklığı - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-enerji-yayilma',
-        name: 'Enerji Yayılma Yolları',
-        icon: '🔥',
-        subtopics: [
-          'Enerji Yayılma Yolları - Temel Kavramlar',
-          'Enerji Yayılma Yolları - Örnek Sorular',
-          'Enerji Yayılma Yolları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-genlesme',
-        name: 'Genleşme ve Büzülme',
-        icon: '📏',
-        subtopics: [
-          'Genleşme ve Büzülme - Temel Kavramlar',
-          'Genleşme ve Büzülme - Örnek Sorular',
-          'Genleşme ve Büzülme - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-elektrik-yuk',
-        name: 'Elektrik Yükleri ve Yüklenme',
+        id: 'tyt-fiz-is-guc-enerji',
+        name: 'İş, Güç ve Enerji',
         icon: '⚡',
         subtopics: [
-          'Elektrik Yükleri ve Yüklenme - Temel Kavramlar',
-          'Elektrik Yükleri ve Yüklenme - Örnek Sorular',
-          'Elektrik Yükleri ve Yüklenme - Test'
+          'İş ve Güç Kavramları',
+          'Mekanik Enerji (Kinetik ve Potansiyel Enerji)',
+          'Enerjinin Korunumu ve Dönüşümleri',
+          'Verim ve Enerji Kaynakları',
         ]
       },
       {
-        id: 'tyt-fiz-iletken-yalitkan',
-        name: 'İletken ve Yalıtkanlarda Yük Dağılımı',
-        icon: '⚡',
-        subtopics: [
-          'İletken ve Yalıtkanlarda Yük Dağılımı - Temel Kavramlar',
-          'İletken ve Yalıtkanlarda Yük Dağılımı - Örnek Sorular',
-          'İletken ve Yalıtkanlarda Yük Dağılımı - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-coulomb',
-        name: 'Coulomb Kanunu ve Elektrik Alan',
-        icon: '⚡',
-        subtopics: [
-          'Coulomb Kanunu ve Elektrik Alan - Temel Kavramlar',
-          'Coulomb Kanunu ve Elektrik Alan - Örnek Sorular',
-          'Coulomb Kanunu ve Elektrik Alan - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-akim',
-        name: 'Elektrik Akımı, Potansiyel Farkı ve Direnç',
-        icon: '⚡',
-        subtopics: [
-          'Elektrik Akımı, Potansiyel Farkı ve Direnç - Temel Kavramlar',
-          'Elektrik Akımı, Potansiyel Farkı ve Direnç - Örnek Sorular',
-          'Elektrik Akımı, Potansiyel Farkı ve Direnç - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-ohm',
-        name: 'Ohm Yasası ve Dirençlerin Bağlanması',
-        icon: '⚡',
-        subtopics: [
-          'Ohm Yasası ve Dirençlerin Bağlanması - Temel Kavramlar',
-          'Ohm Yasası ve Dirençlerin Bağlanması - Örnek Sorular',
-          'Ohm Yasası ve Dirençlerin Bağlanması - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-uretecler',
-        name: 'Üreteçler ve Bağlanması',
-        icon: '🔋',
-        subtopics: [
-          'Üreteçler ve Bağlanması - Temel Kavramlar',
-          'Üreteçler ve Bağlanması - Örnek Sorular',
-          'Üreteçler ve Bağlanması - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-elektrik-guc',
-        name: 'Elektriksel Güç ve Lamba Parlaklıkları',
-        icon: '💡',
-        subtopics: [
-          'Elektriksel Güç ve Lamba Parlaklıkları - Temel Kavramlar',
-          'Elektriksel Güç ve Lamba Parlaklıkları - Örnek Sorular',
-          'Elektriksel Güç ve Lamba Parlaklıkları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-miknatis',
-        name: 'Mıknatıs ve Manyetik Alan',
-        icon: '🧲',
-        subtopics: [
-          'Mıknatıs ve Manyetik Alan - Temel Kavramlar',
-          'Mıknatıs ve Manyetik Alan - Örnek Sorular',
-          'Mıknatıs ve Manyetik Alan - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-elektromiknatis',
-        name: 'Akım Geçen İletkenin Manyetik Alanı',
-        icon: '🧲',
-        subtopics: [
-          'Akım Geçen İletkenin Manyetik Alanı - Temel Kavramlar',
-          'Akım Geçen İletkenin Manyetik Alanı - Örnek Sorular',
-          'Akım Geçen İletkenin Manyetik Alanı - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-kati-basinc',
-        name: 'Katılarda Basınç',
-        icon: '📦',
-        subtopics: [
-          'Katılarda Basınç - Temel Kavramlar',
-          'Katılarda Basınç - Örnek Sorular',
-          'Katılarda Basınç - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-sivi-basinc',
-        name: 'Durgun Sıvılarda Basınç ve Pascal',
-        icon: '💧',
-        subtopics: [
-          'Durgun Sıvılarda Basınç ve Pascal - Temel Kavramlar',
-          'Durgun Sıvılarda Basınç ve Pascal - Örnek Sorular',
-          'Durgun Sıvılarda Basınç ve Pascal - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-gaz-basinc',
-        name: 'Gaz Basıncı ve Basınç Ölçen Aletler',
+        id: 'tyt-fiz-elektrostatik',
+        name: 'Elektrostatik',
         icon: '🎈',
         subtopics: [
-          'Gaz Basıncı ve Basınç Ölçen Aletler - Temel Kavramlar',
-          'Gaz Basıncı ve Basınç Ölçen Aletler - Örnek Sorular',
-          'Gaz Basıncı ve Basınç Ölçen Aletler - Test'
+          'Elektrik Yükleri ve Yüklenme Yöntemleri',
+          'Elektroskop',
+          'Coulomb Yasası ve Elektriksel Alan',
         ]
       },
       {
-        id: 'tyt-fiz-akiskan-basinc',
-        name: 'Akışkan Basıncı (Bernoulli İlkesi)',
-        icon: '💨',
+        id: 'tyt-fiz-elektrik-manyetizma',
+        name: 'Elektrik ve Manyetizma',
+        icon: '🧲',
         subtopics: [
-          'Akışkan Basıncı (Bernoulli İlkesi) - Temel Kavramlar',
-          'Akışkan Basıncı (Bernoulli İlkesi) - Örnek Sorular',
-          'Akışkan Basıncı (Bernoulli İlkesi) - Test'
+          'Elektrik Akımı, Potansiyel Farkı ve Direnç (Ohm Yasası)',
+          'Dirençlerin Bağlanması ve Devreler',
+          'Elektriksel Güç, Enerji ve Üreteçlerin Bağlanması',
+          'Mıknatıslar ve Manyetik Alan',
         ]
       },
       {
-        id: 'tyt-fiz-kaldirma',
-        name: 'Sıvıların ve Gazların Kaldırma Kuvveti',
-        icon: '🚢',
-        subtopics: [
-          'Sıvıların ve Gazların Kaldırma Kuvveti - Temel Kavramlar',
-          'Sıvıların ve Gazların Kaldırma Kuvveti - Örnek Sorular',
-          'Sıvıların ve Gazların Kaldırma Kuvveti - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-dalga-temel',
-        name: 'Dalgalarda Temel Kavramlar',
+        id: 'tyt-fiz-dalgalar',
+        name: 'Dalgalar',
         icon: '🌊',
         subtopics: [
-          'Dalgalarda Temel Kavramlar - Temel Kavramlar',
-          'Dalgalarda Temel Kavramlar - Örnek Sorular',
-          'Dalgalarda Temel Kavramlar - Test'
+          'Dalgaların Temel Değişkenleri (Dalga Boyu, Periyot, Frekans, Hız)',
+          'Yay Dalgaları',
+          'Su Dalgaları (Yansıma ve Kırılma)',
+          'Ses ve Deprem Dalgaları',
         ]
       },
       {
-        id: 'tyt-fiz-yay-dalga',
-        name: 'Yay Dalgaları',
-        icon: '〰️',
+        id: 'tyt-fiz-optik',
+        name: 'Optik',
+        icon: '🔦',
         subtopics: [
-          'Yay Dalgaları - Temel Kavramlar',
-          'Yay Dalgaları - Örnek Sorular',
-          'Yay Dalgaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-su-dalga',
-        name: 'Su Dalgaları',
-        icon: '🌊',
-        subtopics: [
-          'Su Dalgaları - Temel Kavramlar',
-          'Su Dalgaları - Örnek Sorular',
-          'Su Dalgaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-ses-dalga',
-        name: 'Ses Dalgaları',
-        icon: '🔊',
-        subtopics: [
-          'Ses Dalgaları - Temel Kavramlar',
-          'Ses Dalgaları - Örnek Sorular',
-          'Ses Dalgaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-deprem-dalga',
-        name: 'Deprem Dalgaları',
-        icon: '🌋',
-        subtopics: [
-          'Deprem Dalgaları - Temel Kavramlar',
-          'Deprem Dalgaları - Örnek Sorular',
-          'Deprem Dalgaları - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-isik-siddet',
-        name: 'Işık Şiddeti ve Aydınlanma',
-        icon: '💡',
-        subtopics: [
-          'Işık Şiddeti ve Aydınlanma - Temel Kavramlar',
-          'Işık Şiddeti ve Aydınlanma - Örnek Sorular',
-          'Işık Şiddeti ve Aydınlanma - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-golge',
-        name: 'Gölge ve Yarı Gölge',
-        icon: '🌑',
-        subtopics: [
-          'Gölge ve Yarı Gölge - Temel Kavramlar',
-          'Gölge ve Yarı Gölge - Örnek Sorular',
-          'Gölge ve Yarı Gölge - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-yansima',
-        name: 'Işığın Yansıması ve Düzlem Aynalar',
-        icon: '🪞',
-        subtopics: [
-          'Işığın Yansıması ve Düzlem Aynalar - Temel Kavramlar',
-          'Işığın Yansıması ve Düzlem Aynalar - Örnek Sorular',
-          'Işığın Yansıması ve Düzlem Aynalar - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-kuresel-ayna',
-        name: 'Küresel Aynalar',
-        icon: '🪞',
-        subtopics: [
-          'Küresel Aynalar - Temel Kavramlar',
-          'Küresel Aynalar - Örnek Sorular',
-          'Küresel Aynalar - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-kirilma',
-        name: 'Işığın Kırılması ve Tam Yansıma',
-        icon: '💧',
-        subtopics: [
-          'Işığın Kırılması ve Tam Yansıma - Temel Kavramlar',
-          'Işığın Kırılması ve Tam Yansıma - Örnek Sorular',
-          'Işığın Kırılması ve Tam Yansıma - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-mercek',
-        name: 'Mercekler ve Görüntü Oluşumu',
-        icon: '🔍',
-        subtopics: [
-          'Mercekler ve Görüntü Oluşumu - Temel Kavramlar',
-          'Mercekler ve Görüntü Oluşumu - Örnek Sorular',
-          'Mercekler ve Görüntü Oluşumu - Test'
-        ]
-      },
-      {
-        id: 'tyt-fiz-prizma-renk',
-        name: 'Işık Prizmaları ve Renk',
-        icon: '🌈',
-        subtopics: [
-          'Işık Prizmaları ve Renk - Temel Kavramlar',
-          'Işık Prizmaları ve Renk - Örnek Sorular',
-          'Işık Prizmaları ve Renk - Test'
+          'Aydınlanma, Işık Şiddeti ve Işık Akısı',
+          'Gölge, Yarı Gölge ve Güneş/Ay Tutulmaları',
+          'Yansıma ve Düzlem Aynalar',
+          'Küresel Aynalar (Çukur ve Tümsek Ayna)',
+          'Işığın Kırılması ve Tam Yansıma',
+          'Mercekler ve Göz Kusurları',
+          'Renk Oluşumu',
         ]
       }
     ],
     Kimya: [
       {
-        id: 'tyt-kim-simya',
-        name: 'Simyadan Kimyaya',
+        id: 'tyt-kim-bilim',
+        name: 'Kimya Bilimi',
         icon: '🧪',
         subtopics: [
-          'Simyadan Kimyaya - Temel Kavramlar',
-          'Simyadan Kimyaya - Örnek Sorular',
-          'Simyadan Kimyaya - Test'
+          'Simyadan Kimyaya',
+          'Kimyanın Disiplinleri ve Çalışma Alanları',
+          'Sembolik Dil (Elementler ve Bileşikler)',
+          'Kimya Uygulamalarında İş Sağlığı ve Güvenliği',
         ]
       },
       {
-        id: 'tyt-kim-disiplin',
-        name: 'Kimya Disiplinleri ve Çalışma Alanları',
-        icon: '🧪',
-        subtopics: [
-          'Kimya Disiplinleri ve Çalışma Alanları - Temel Kavramlar',
-          'Kimya Disiplinleri ve Çalışma Alanları - Örnek Sorular',
-          'Kimya Disiplinleri ve Çalışma Alanları - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-sembolik',
-        name: 'Kimyanın Sembolik Dili',
-        icon: '🔤',
-        subtopics: [
-          'Kimyanın Sembolik Dili - Temel Kavramlar',
-          'Kimyanın Sembolik Dili - Örnek Sorular',
-          'Kimyanın Sembolik Dili - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-is-sagligi',
-        name: 'İş Sağlığı ve Güvenliği',
-        icon: '🦺',
-        subtopics: [
-          'İş Sağlığı ve Güvenliği - Temel Kavramlar',
-          'İş Sağlığı ve Güvenliği - Örnek Sorular',
-          'İş Sağlığı ve Güvenliği - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-atom-model',
-        name: 'Atom Modelleri',
+        id: 'tyt-kim-atom-periyodik',
+        name: 'Atom ve Periyodik Sistem',
         icon: '⚛️',
         subtopics: [
-          'Atom Modelleri - Temel Kavramlar',
-          'Atom Modelleri - Örnek Sorular',
-          'Atom Modelleri - Test'
+          'Atom Modelleri (Dalton, Thomson, Rutherford, Bohr)',
+          'Atomun Yapısı ve Tanecikler (Proton, Nötron, Elektron)',
+          'İzotop, İzobar, İzoton ve İzoelektronik Tanecikler',
+          'Periyodik Sistem ve Katman Elektron Dizilimi',
+          'Periyodik Özelliklerin Değişimi (Yarıçap, İyonlaşma Enerjisi, Elektronegatiflik vb.)',
         ]
       },
       {
-        id: 'tyt-kim-atom-yapi',
-        name: 'Atomun Yapısı',
-        icon: '⚛️',
-        subtopics: [
-          'Atomun Yapısı - Temel Kavramlar',
-          'Atomun Yapısı - Örnek Sorular',
-          'Atomun Yapısı - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-periyodik',
-        name: 'Periyodik Sistemde Yerleşim',
-        icon: '📊',
-        subtopics: [
-          'Periyodik Sistemde Yerleşim - Temel Kavramlar',
-          'Periyodik Sistemde Yerleşim - Örnek Sorular',
-          'Periyodik Sistemde Yerleşim - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-element-sinif',
-        name: 'Elementlerin Sınıflandırılması',
-        icon: '⚛️',
-        subtopics: [
-          'Elementlerin Sınıflandırılması - Temel Kavramlar',
-          'Elementlerin Sınıflandırılması - Örnek Sorular',
-          'Elementlerin Sınıflandırılması - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-periyodik-ozellik',
-        name: 'Periyodik Özellikler',
-        icon: '📊',
-        subtopics: [
-          'Periyodik Özellikler - Temel Kavramlar',
-          'Periyodik Özellikler - Örnek Sorular',
-          'Periyodik Özellikler - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-tur-etkilesim',
+        id: 'tyt-kim-turler',
         name: 'Kimyasal Türler Arası Etkileşimler',
         icon: '🔗',
         subtopics: [
-          'Kimyasal Türler Arası Etkileşimler - Temel Kavramlar',
-          'Kimyasal Türler Arası Etkileşimler - Örnek Sorular',
-          'Kimyasal Türler Arası Etkileşimler - Test'
+          'Kimyasal Türler (Atom, Molekül, İyon)',
+          'Güçlü Etkileşimler (İyonik, Kovalent ve Metalik Bağ)',
+          'Zayıf Etkileşimler (Van der Waals ve Hidrojen Bağı)',
+          'Fiziksel ve Kimyasal Değişimler',
         ]
       },
       {
-        id: 'tyt-kim-guclu-etkilesim',
-        name: 'Güçlü Etkileşimler (Bağlar)',
-        icon: '🔗',
-        subtopics: [
-          'Güçlü Etkileşimler (Bağlar) - Temel Kavramlar',
-          'Güçlü Etkileşimler (Bağlar) - Örnek Sorular',
-          'Güçlü Etkileşimler (Bağlar) - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-zayif-etkilesim',
-        name: 'Zayıf Etkileşimler',
-        icon: '🔗',
-        subtopics: [
-          'Zayıf Etkileşimler - Temel Kavramlar',
-          'Zayıf Etkileşimler - Örnek Sorular',
-          'Zayıf Etkileşimler - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-fiziksel-kimyasal',
-        name: 'Fiziksel ve Kimyasal Değişimler',
-        icon: '🔄',
-        subtopics: [
-          'Fiziksel ve Kimyasal Değişimler - Temel Kavramlar',
-          'Fiziksel ve Kimyasal Değişimler - Örnek Sorular',
-          'Fiziksel ve Kimyasal Değişimler - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-madde-hal',
-        name: 'Maddenin Fiziksel Hâlleri',
-        icon: '🧊',
-        subtopics: [
-          'Maddenin Fiziksel Hâlleri - Temel Kavramlar',
-          'Maddenin Fiziksel Hâlleri - Örnek Sorular',
-          'Maddenin Fiziksel Hâlleri - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-kati-sivi',
-        name: 'Katılar ve Sıvılar',
-        icon: '🧊',
-        subtopics: [
-          'Katılar ve Sıvılar - Temel Kavramlar',
-          'Katılar ve Sıvılar - Örnek Sorular',
-          'Katılar ve Sıvılar - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-gaz-plazma',
-        name: 'Gazlar ve Plazma Hâli',
-        icon: '🎈',
-        subtopics: [
-          'Gazlar ve Plazma Hâli - Temel Kavramlar',
-          'Gazlar ve Plazma Hâli - Örnek Sorular',
-          'Gazlar ve Plazma Hâli - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-su-hayat',
-        name: 'Su ve Hayat',
+        id: 'tyt-kim-madde-halleri',
+        name: 'Maddenin Halleri',
         icon: '💧',
         subtopics: [
-          'Su ve Hayat - Temel Kavramlar',
-          'Su ve Hayat - Örnek Sorular',
-          'Su ve Hayat - Test'
+          'Maddenin Fiziksel Halleri ve Özellikleri',
+          'Katılar (Amorf ve Kristal Katılar)',
+          'Sıvılar (Viskozite, Buhar Basıncı, Kaynama)',
+          'Gazlar ve Temel Özellikleri',
+          'Plazma Hali',
         ]
       },
       {
-        id: 'tyt-kim-cevre',
-        name: 'Çevre Kimyası',
-        icon: '🌍',
+        id: 'tyt-kim-doga',
+        name: 'Doğa ve Kimya',
+        icon: '🌿',
         subtopics: [
-          'Çevre Kimyası - Temel Kavramlar',
-          'Çevre Kimyası - Örnek Sorular',
-          'Çevre Kimyası - Test'
+          'Su ve Hayat (Su Sertliği ve Su Tasarrufu)',
+          'Çevre Kimyası (Hava, Su ve Toprak Kirleticiler)',
         ]
       },
       {
-        id: 'tyt-kim-temel-kanun',
-        name: 'Kimyanın Temel Kanunları',
+        id: 'tyt-kim-kanunlar',
+        name: 'Kimyanın Temel Kanunları ve Kimyasal Hesaplamalar',
         icon: '⚖️',
         subtopics: [
-          'Kimyanın Temel Kanunları - Temel Kavramlar',
-          'Kimyanın Temel Kanunları - Örnek Sorular',
-          'Kimyanın Temel Kanunları - Test'
+          'Kimyanın Temel Kanunları (Kütlenin Korunumu, Sabit Oranlar, Katlı Oranlar)',
+          'Mol Kavramı ve Hesaplamaları',
+          'Kimyasal Tepkime Türleri ve Denklekleştirme',
+          'Kimyasal Tepkimelerde Hesaplamalar',
         ]
       },
       {
-        id: 'tyt-kim-mol',
-        name: 'Mol Kavramı',
-        icon: '⚖️',
+        id: 'tyt-kim-karisimlar',
+        name: 'Karışımlar',
+        icon: '🥤',
         subtopics: [
-          'Mol Kavramı - Temel Kavramlar',
-          'Mol Kavramı - Örnek Sorular',
-          'Mol Kavramı - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-tepkimeler',
-        name: 'Kimyasal Tepkimeler ve Denklemler',
-        icon: '⚗️',
-        subtopics: [
-          'Kimyasal Tepkimeler ve Denklemler - Temel Kavramlar',
-          'Kimyasal Tepkimeler ve Denklemler - Örnek Sorular',
-          'Kimyasal Tepkimeler ve Denklemler - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-hesaplama',
-        name: 'Kimyasal Tepkimelerde Hesaplamalar',
-        icon: '🧮',
-        subtopics: [
-          'Kimyasal Tepkimelerde Hesaplamalar - Temel Kavramlar',
-          'Kimyasal Tepkimelerde Hesaplamalar - Örnek Sorular',
-          'Kimyasal Tepkimelerde Hesaplamalar - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-karisim',
-        name: 'Homojen ve Heterojen Karışımlar',
-        icon: '🧪',
-        subtopics: [
-          'Homojen ve Heterojen Karışımlar - Temel Kavramlar',
-          'Homojen ve Heterojen Karışımlar - Örnek Sorular',
-          'Homojen ve Heterojen Karışımlar - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-ayirma',
-        name: 'Ayırma ve Saflaştırma Teknikleri',
-        icon: '🔬',
-        subtopics: [
-          'Ayırma ve Saflaştırma Teknikleri - Temel Kavramlar',
-          'Ayırma ve Saflaştırma Teknikleri - Örnek Sorular',
-          'Ayırma ve Saflaştırma Teknikleri - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-asit-baz-ozellik',
-        name: 'Asitlerin ve Bazların Özellikleri',
-        icon: '🧫',
-        subtopics: [
-          'Asitlerin ve Bazların Özellikleri - Temel Kavramlar',
-          'Asitlerin ve Bazların Özellikleri - Örnek Sorular',
-          'Asitlerin ve Bazların Özellikleri - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-asit-baz-tepkim',
-        name: 'Asitlerin ve Bazların Tepkimeleri',
-        icon: '⚗️',
-        subtopics: [
-          'Asitlerin ve Bazların Tepkimeleri - Temel Kavramlar',
-          'Asitlerin ve Bazların Tepkimeleri - Örnek Sorular',
-          'Asitlerin ve Bazların Tepkimeleri - Test'
+          'Homojen ve Heterojen Karışımlar',
+          'Çözünme Süreci ve Çözeltiler',
+          'Derişim Birimleri (Kütlece/Hacimce Yüzde Derişim, PPM)',
+          'Koligatif Özellikler (Kaynama ve Donma Noktası Değişimi)',
+          'Karışımları Ayırma ve Saflaştırma Yöntemleri',
         ]
       },
       {
         id: 'tyt-kim-asit-baz-tuz',
         name: 'Asitler, Bazlar ve Tuzlar',
-        icon: '🧂',
-        subtopics: [
-          'Asitler, Bazlar ve Tuzlar - Temel Kavramlar',
-          'Asitler, Bazlar ve Tuzlar - Örnek Sorular',
-          'Asitler, Bazlar ve Tuzlar - Test'
-        ]
-      },
-      {
-        id: 'tyt-kim-gunluk',
-        name: 'Yaygın Günlük Hayat Kimyasalları',
         icon: '🧴',
         subtopics: [
-          'Yaygın Günlük Hayat Kimyasalları - Temel Kavramlar',
-          'Yaygın Günlük Hayat Kimyasalları - Örnek Sorular',
-          'Yaygın Günlük Hayat Kimyasalları - Test'
+          'Asitlerin ve Bazların Genel Özellikleri',
+          'pH Kavramı ve İndikatörler',
+          'Asit ve Bazların Tepkimeleri (Nötralleşme ve Metallerle Tepkimeler)',
+          'Yaygın Asit-Bazlar ve Güvenlik Önlemleri',
+          'Tuzlar ve Kullanım Alanları',
         ]
       },
       {
-        id: 'tyt-kim-kozmetik',
-        name: 'Kozmetikler, İlaçlar ve Gıdalar',
-        icon: '💊',
+        id: 'tyt-kim-her-yerde',
+        name: 'Kimya Her Yerde',
+        icon: '🏠',
         subtopics: [
-          'Kozmetikler, İlaçlar ve Gıdalar - Temel Kavramlar',
-          'Kozmetikler, İlaçlar ve Gıdalar - Örnek Sorular',
-          'Kozmetikler, İlaçlar ve Gıdalar - Test'
+          'Temizlik Maddeleri (Sabun, Deterjan, Hijyen Malzemeleri)',
+          'Yaygın Polimerler ve Geri Dönüşüm',
+          'Kozmetik Malzemeler ve İlaçlar',
+          'Gıdalar ve Yağ Türleri',
         ]
       }
     ],
     Biyoloji: [
       {
-        id: 'tyt-bio-ortak-ozellik',
-        name: 'Canlıların Ortak Özellikleri',
+        id: 'tyt-biy-yasam-bilimi',
+        name: 'Yaşam Bilimi Biyoloji',
         icon: '🧬',
         subtopics: [
-          'Canlıların Ortak Özellikleri - Temel Kavramlar',
-          'Canlıların Ortak Özellikleri - Örnek Sorular',
-          'Canlıların Ortak Özellikleri - Test'
+          'Canlıların Ortak Özellikleri',
+          'İnorganik Bileşikler (Su, Mineraller, Asit, Baz, Tuz)',
+          'Organik Bileşikler (Karbonhidratlar, Yağlar, Proteinler)',
+          'Enzimler, Vitaminler ve ATP',
+          'Nükleik Asitler (DNA ve RNA)',
         ]
       },
       {
-        id: 'tyt-bio-inorganik',
-        name: 'İnorganik Bileşikler',
-        icon: '💧',
-        subtopics: [
-          'İnorganik Bileşikler - Temel Kavramlar',
-          'İnorganik Bileşikler - Örnek Sorular',
-          'İnorganik Bileşikler - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-organik',
-        name: 'Organik Bileşikler',
-        icon: '🧬',
-        subtopics: [
-          'Organik Bileşikler - Temel Kavramlar',
-          'Organik Bileşikler - Örnek Sorular',
-          'Organik Bileşikler - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-hucre-yapi',
-        name: 'Hücresel Yapılar ve Görevleri',
+        id: 'tyt-biy-hucre',
+        name: 'Hücre',
         icon: '🔬',
         subtopics: [
-          'Hücresel Yapılar ve Görevleri - Temel Kavramlar',
-          'Hücresel Yapılar ve Görevleri - Örnek Sorular',
-          'Hücresel Yapılar ve Görevleri - Test'
+          'Hücre Teorisi ve Hücre Çeşitleri (Prokaryot - Ökaryot)',
+          'Hücre Zarı ve Zardan Madde Geçişleri (Pasif ve Aktif Taşıma)',
+          'Hücre Organelleri ve Çekirdek',
+          'Hücre Karşılaştırmaları (Bitki ve Hayvan Hücresi)',
         ]
       },
       {
-        id: 'tyt-bio-madde-gecis',
-        name: 'Hücre Zarından Madde Geçişleri',
-        icon: '🔬',
-        subtopics: [
-          'Hücre Zarından Madde Geçişleri - Temel Kavramlar',
-          'Hücre Zarından Madde Geçişleri - Örnek Sorular',
-          'Hücre Zarından Madde Geçişleri - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-bilimsel-yontem',
-        name: 'Bilimsel Yöntem',
-        icon: '🔬',
-        subtopics: [
-          'Bilimsel Yöntem - Temel Kavramlar',
-          'Bilimsel Yöntem - Örnek Sorular',
-          'Bilimsel Yöntem - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-siniflandirma',
-        name: 'Canlıların Sınıflandırılması',
+        id: 'tyt-biy-canlilar-dunyasi',
+        name: 'Canlılar Dünyası ve Sınıflandırılması',
         icon: '🌍',
         subtopics: [
-          'Canlıların Sınıflandırılması - Temel Kavramlar',
-          'Canlıların Sınıflandırılması - Örnek Sorular',
-          'Canlıların Sınıflandırılması - Test'
+          'Sınıflandırma İlkeleri ve Kategoriler (İkili Adlandırma)',
+          'Bakteriler ve Arkeler Alemi',
+          'Protistalar ve Mantarlar Alemi',
+          'Bitkiler Alemi',
+          'Hayvanlar Alemi (Omurgasızlar ve Omurgalılar)',
+          'Virüsler',
         ]
       },
       {
-        id: 'tyt-bio-alemler',
-        name: 'Canlı Âlemleri',
-        icon: '🌍',
+        id: 'tyt-biy-bolunme-ureme',
+        name: 'Hücre Bölünmeleri ve Üreme',
+        icon: '➗',
         subtopics: [
-          'Canlı Âlemleri - Temel Kavramlar',
-          'Canlı Âlemleri - Örnek Sorular',
-          'Canlı Âlemleri - Test'
+          'Hücre Döngüsü ve Mitoz Bölünme',
+          'Eşeysiz Üreme Çeşitleri',
+          'Mayoz Bölünme',
+          'Eşeyli Üreme',
         ]
       },
       {
-        id: 'tyt-bio-mitoz',
-        name: 'Hücre Döngüsü ve Mitoz',
-        icon: '🔬',
+        id: 'tyt-biy-kalitim',
+        name: 'Kalıtımın Genel İlkeleri',
+        icon: '🧪',
         subtopics: [
-          'Hücre Döngüsü ve Mitoz - Temel Kavramlar',
-          'Hücre Döngüsü ve Mitoz - Örnek Sorular',
-          'Hücre Döngüsü ve Mitoz - Test'
+          'Mendel İlkeleri ve Temel Kalıtım Kavramları',
+          'Monohibrit ve Dihibrit Çaprazlamalar',
+          'Eş Baskınlık ve Çok Alellilik (Kan Grupları)',
+          'Eşeye Bağlı Kalıtım ve Soyağaçları',
         ]
       },
       {
-        id: 'tyt-bio-eseysiz-ureme',
-        name: 'Eşeysiz Üreme',
-        icon: '🌱',
-        subtopics: [
-          'Eşeysiz Üreme - Temel Kavramlar',
-          'Eşeysiz Üreme - Örnek Sorular',
-          'Eşeysiz Üreme - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-mayoz',
-        name: 'Mayoz ve Eşeyli Üreme',
-        icon: '🧬',
-        subtopics: [
-          'Mayoz ve Eşeyli Üreme - Temel Kavramlar',
-          'Mayoz ve Eşeyli Üreme - Örnek Sorular',
-          'Mayoz ve Eşeyli Üreme - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-kalitim',
-        name: 'Kalıtım',
-        icon: '🧬',
-        subtopics: [
-          'Kalıtım - Temel Kavramlar',
-          'Kalıtım - Örnek Sorular',
-          'Kalıtım - Test'
-        ]
-      },
-      {
-        id: 'tyt-bio-genetik-ekoloji',
-        name: 'Genetik Varyasyonlar ve Ekoloji',
+        id: 'tyt-biy-ekosistem',
+        name: 'Ekosistem Ekolojisi ve Güncel Çevre Sorunları',
         icon: '🌿',
         subtopics: [
-          'Genetik Varyasyonlar ve Ekoloji - Temel Kavramlar',
-          'Genetik Varyasyonlar ve Ekoloji - Örnek Sorular',
-          'Genetik Varyasyonlar ve Ekoloji - Test'
+          'Ekosistemin Bileşenleri ve Ekolojik Kavramlar',
+          'Besin Piramidi, Enerji Akışı ve Biyobirikim',
+          'Madde Döngüleri (Su, Karbon, Azot)',
+          'Güncel Çevre Sorunları ve Biyoçeşitliliğin Korunması',
         ]
       }
     ],
     Tarih: [
       {
-        id: 'tyt-tar-bilimine-giris',
-        name: 'Tarih Bilimine Giriş',
+        id: 'tyt-tar-tarih-zaman',
+        name: 'Tarih ve Zaman',
         icon: '📜',
         subtopics: [
-          'Tarih Bilimine Giriş - Temel Kavramlar',
-          'Tarih Bilimine Giriş - Örnek Sorular',
-          'Tarih Bilimine Giriş - Test'
+          'Tarih Bilimine Giriş ve Yöntemi',
+          'Zamanın Taksimi ve Takvimler',
         ]
       },
       {
-        id: 'tyt-tar-ilk-turk',
-        name: 'İlk Türk Devletleri',
-        icon: '🏹',
+        id: 'tyt-tar-insanligin-ilk-donemleri',
+        name: 'İnsanlığın İlk Dönemleri',
+        icon: '🗿',
         subtopics: [
-          'İlk Türk Devletleri - Temel Kavramlar',
-          'İlk Türk Devletleri - Örnek Sorular',
-          'İlk Türk Devletleri - Test'
+          'İlk Çağ Medeniyetleri',
+          'Yazının İcadı ve İlk Çağda Hukuk',
         ]
       },
       {
-        id: 'tyt-tar-islamiyet',
-        name: 'İslamiyetin Doğuşu ve Türk-İslam',
+        id: 'tyt-tar-ilk-orta-cag-turk',
+        name: 'İlk ve Orta Çağlarda Türk Dünyası',
+        icon: '🐺',
+        subtopics: [
+          'İlk Türk Devletleri ve Özellikleri',
+          'Türklerde Devlet Teşkilatı, Ordu ve Töre',
+        ]
+      },
+      {
+        id: 'tyt-tar-islam-turk-islam',
+        name: 'İslam Medeniyetinin Doğuşu ve İlk Türk İslam Devletleri',
         icon: '☪️',
         subtopics: [
-          'İslamiyetin Doğuşu ve Türk-İslam - Temel Kavramlar',
-          'İslamiyetin Doğuşu ve Türk-İslam - Örnek Sorular',
-          'İslamiyetin Doğuşu ve Türk-İslam - Test'
+          'İslamiyet\'in Doğuşu ve Dört Halife Dönemi',
+          'Karahanlı, Gazneli ve Büyük Selçuklu Devleti',
         ]
       },
       {
-        id: 'tyt-tar-selcuklu',
-        name: 'Selçuklular ve Anadolu',
+        id: 'tyt-tar-selcuklu-turkiyesi',
+        name: 'Yerleşme ve Devletleşme Sürecinde Selçuklu Türkiye\'si',
         icon: '🏰',
         subtopics: [
-          'Selçuklular ve Anadolu - Temel Kavramlar',
-          'Selçuklular ve Anadolu - Örnek Sorular',
-          'Selçuklular ve Anadolu - Test'
+          'Anadolu\'ya Türk Göçleri ve İlk Beylikler',
+          'Türkiye Selçuklu Devleti ve Haçlı Seferleri',
         ]
       },
       {
-        id: 'tyt-tar-osmanli-kurulus',
-        name: 'Osmanlının Kuruluşu',
-        icon: '🕌',
-        subtopics: [
-          'Osmanlının Kuruluşu - Temel Kavramlar',
-          'Osmanlının Kuruluşu - Örnek Sorular',
-          'Osmanlının Kuruluşu - Test'
-        ]
-      },
-      {
-        id: 'tyt-tar-osmanli-yukselis',
-        name: 'Osmanlının Yükselişi',
-        icon: '👑',
-        subtopics: [
-          'Osmanlının Yükselişi - Temel Kavramlar',
-          'Osmanlının Yükselişi - Örnek Sorular',
-          'Osmanlının Yükselişi - Test'
-        ]
-      },
-      {
-        id: 'tyt-tar-duraklama',
-        name: 'Duraklama ve Değişim Dönemi',
-        icon: '📉',
-        subtopics: [
-          'Duraklama ve Değişim Dönemi - Temel Kavramlar',
-          'Duraklama ve Değişim Dönemi - Örnek Sorular',
-          'Duraklama ve Değişim Dönemi - Test'
-        ]
-      },
-      {
-        id: 'tyt-tar-gerileme',
-        name: 'Gerileme ve Modernleşme Dönemi',
-        icon: '🔄',
-        subtopics: [
-          'Gerileme ve Modernleşme Dönemi - Temel Kavramlar',
-          'Gerileme ve Modernleşme Dönemi - Örnek Sorular',
-          'Gerileme ve Modernleşme Dönemi - Test'
-        ]
-      },
-      {
-        id: 'tyt-tar-20yy',
-        name: '20. Yüzyıl Başı ve I. Dünya Savaşı',
+        id: 'tyt-tar-beylikten-devlete',
+        name: 'Beylikten Devlete Osmanlı Siyaseti (1302-1453)',
         icon: '⚔️',
         subtopics: [
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Temel Kavramlar',
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Örnek Sorular',
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Test'
+          'Osmanlı Devleti\'nin Kuruluşu',
+          'Balkanlar\'da Fetihler ve İskân Politikası',
+        ]
+      },
+      {
+        id: 'tyt-tar-dunya-gucu',
+        name: 'Dünya Gücü Osmanlı (1453-1595)',
+        icon: '🌍',
+        subtopics: [
+          'İstanbul\'un Fethi ve Yükselme Dönemi',
+          'Osmanlı Merkez ve Eyalet Teşkilatı',
+        ]
+      },
+      {
+        id: 'tyt-tar-degisen-dengeler',
+        name: 'Değişen Dünya Dengeleri Karşısında Osmanlı (17. ve 18. Yüzyıl)',
+        icon: '⚖️',
+        subtopics: [
+          'Osmanlı Devleti\'nde Arayış Yılları',
+          'Osmanlı-Avrupa İlişkileri ve Islahat Hareketleri',
+        ]
+      },
+      {
+        id: 'tyt-tar-en-uzun-yuzyil',
+        name: 'En Uzun Yüzyıl (1814-1914)',
+        icon: '⏳',
+        subtopics: [
+          'Uluslararası İlişkilerde Denge Stratejisi',
+          'Tanzimat, Islahat Fermanları ve Meşrutiyet Dönemi',
+        ]
+      },
+      {
+        id: 'tyt-tar-20-yuzyil-osmanli',
+        name: '20. Yüzyıl Başlarında Osmanlı Devleti',
+        icon: '💥',
+        subtopics: [
+          'Trablusgarp ve Balkan Savaşları',
+          'I. Dünya Savaşı ve Cepheler',
         ]
       },
       {
         id: 'tyt-tar-milli-mucadele',
-        name: 'Millî Mücadele ve Cumhuriyet',
+        name: 'Millî Mücadele (Kurtuluş Savaşı)',
         icon: '🇹🇷',
         subtopics: [
-          'Millî Mücadele ve Cumhuriyet - Temel Kavramlar',
-          'Millî Mücadele ve Cumhuriyet - Örnek Sorular',
-          'Millî Mücadele ve Cumhuriyet - Test'
+          'Hazırlık Dönemi (Genelgeler ve Kongreler)',
+          'Kurtuluş Savaşı Cepheleri (Doğu, Güney, Batı)',
+          'Mudanya Ateşkesi ve Lozan Barış Antlaşması',
+        ]
+      },
+      {
+        id: 'tyt-tar-ataturkculuk',
+        name: 'Atatürkçülük ve Türk İnkılabı',
+        icon: '⭐',
+        subtopics: [
+          'Siyasal, Hukuki ve Toplumsal Alanda İnkılaplar',
+          'Eğitim, Kültür ve Ekonomi Alanında İnkılaplar',
+          'Atatürk İlkeleri ve Atatürk Dönemi Dış Politika',
         ]
       }
     ],
     Coğrafya: [
       {
-        id: 'tyt-cog-giris',
-        name: 'Coğrafyaya Giriş ve Doğa-İnsan',
+        id: 'tyt-cog-doga-insan',
+        name: 'Doğa ve İnsan',
         icon: '🌍',
         subtopics: [
-          'Coğrafyaya Giriş ve Doğa-İnsan - Temel Kavramlar',
-          'Coğrafyaya Giriş ve Doğa-İnsan - Örnek Sorular',
-          'Coğrafyaya Giriş ve Doğa-İnsan - Test'
+          'Doğa ve İnsan Etkileşimi',
+          'Coğrafyanın Konusu ve Bölümleri',
         ]
       },
       {
-        id: 'tyt-cog-dunya-hareket',
-        name: 'Dünya\'nın Hareketleri ve Konum',
-        icon: '🌍',
+        id: 'tyt-cog-dunya-sekli',
+        name: 'Dünya\'nın Şekli ve Hareketleri',
+        icon: '🌏',
         subtopics: [
-          'Dünya\'nın Hareketleri ve Konum - Temel Kavramlar',
-          'Dünya\'nın Hareketleri ve Konum - Örnek Sorular',
-          'Dünya\'nın Hareketleri ve Konum - Test'
+          'Dünya\'nın Şekli ve Sonuçları',
+          'Günlük (Eksen) Hareket ve Sonuçları',
+          'Yıllık Hareket ve Eksen Eğikliği',
+        ]
+      },
+      {
+        id: 'tyt-cog-cografi-konum',
+        name: 'Coğrafi Konum',
+        icon: '📍',
+        subtopics: [
+          'Paralel, Meridyen ve Koordinat Sistemi',
+          'Yerel Saat Hesaplamaları',
+          'Türkiye\'nin Mutlak ve Göreceli Konumu',
         ]
       },
       {
@@ -2750,59 +1157,53 @@ const CURRICULUM = {
         name: 'Harita Bilgisi',
         icon: '🗺️',
         subtopics: [
-          'Harita Bilgisi - Temel Kavramlar',
-          'Harita Bilgisi - Örnek Sorular',
-          'Harita Bilgisi - Test'
+          'Harita Elemanları ve Ölçek Türleri',
+          'İzohipsler ve Yer Şekilleri',
+          'Harita Projeksiyonları',
         ]
       },
       {
-        id: 'tyt-cog-iklim',
-        name: 'İklim Bilgisi',
-        icon: '🌤️',
+        id: 'tyt-cog-atmosfer-iklim',
+        name: 'Atmosfer ve İklim Bilgisi',
+        icon: '🌦️',
         subtopics: [
-          'İklim Bilgisi - Temel Kavramlar',
-          'İklim Bilgisi - Örnek Sorular',
-          'İklim Bilgisi - Test'
+          'Atmosferin Yapısı ve Özellikleri',
+          'Sıcaklık ve Etkileyen Faktörler',
+          'Basınç ve Rüzgârlar',
+          'Nem ve Yağış',
+          'İklim Tipleri ve Türkiye İklimi',
         ]
       },
       {
-        id: 'tyt-cog-yerlesme',
-        name: 'Yerleşme ve Çevre',
-        icon: '🏘️',
+        id: 'tyt-cog-ic-dis-kuvvetler',
+        name: 'İç ve Dış Kuvvetler',
+        icon: '🌋',
         subtopics: [
-          'Yerleşme ve Çevre - Temel Kavramlar',
-          'Yerleşme ve Çevre - Örnek Sorular',
-          'Yerleşme ve Çevre - Test'
+          'Dünya\'nın İç Yapısı ve Jeolojik Zamanlar',
+          'İç Kuvvetler (Orojenez, Epirojenez, Volkanizma, Deprem)',
+          'Dış Kuvvetler (Akarsu, Rüzgâr, Karstik, Buzul, Dalga)',
+          'Türkiye\'nin Yeryüzü Şekilleri',
         ]
       },
       {
-        id: 'tyt-cog-yer-sekilleri',
-        name: 'Yer Şekilleri (Jeomorfoloji)',
-        icon: '⛰️',
+        id: 'tyt-cog-dogal-unsurlar',
+        name: 'Doğal Unsurlar (Su, Toprak, Bitki)',
+        icon: '💧',
         subtopics: [
-          'Yer Şekilleri (Jeomorfoloji) - Temel Kavramlar',
-          'Yer Şekilleri (Jeomorfoloji) - Örnek Sorular',
-          'Yer Şekilleri (Jeomorfoloji) - Test'
+          'Dünyada ve Türkiye\'de Sular',
+          'Toprak Oluşumu ve Türleri',
+          'Bitki Örtüsü Çeşitleri ve Dağılışı',
         ]
       },
       {
-        id: 'tyt-cog-su-toprak-bitki',
-        name: 'Su, Toprak ve Bitki Örtüsü',
-        icon: '🌿',
-        subtopics: [
-          'Su, Toprak ve Bitki Örtüsü - Temel Kavramlar',
-          'Su, Toprak ve Bitki Örtüsü - Örnek Sorular',
-          'Su, Toprak ve Bitki Örtüsü - Test'
-        ]
-      },
-      {
-        id: 'tyt-cog-nufus-goc',
-        name: 'Nüfus ve Göç',
+        id: 'tyt-cog-nufus-yerlesme',
+        name: 'Nüfus ve Yerleşme',
         icon: '👥',
         subtopics: [
-          'Nüfus ve Göç - Temel Kavramlar',
-          'Nüfus ve Göç - Örnek Sorular',
-          'Nüfus ve Göç - Test'
+          'Nüfusun Tanımı, Yapısı ve Piramitler',
+          'Dünyada ve Türkiye\'de Nüfusun Dağılışı',
+          'Yerleşme Tipleri ve Doku Özellikleri',
+          'Göç Türleri ve Nedenleri',
         ]
       },
       {
@@ -2810,141 +1211,74 @@ const CURRICULUM = {
         name: 'Ekonomik Faaliyetler ve Ulaşım',
         icon: '🚂',
         subtopics: [
-          'Ekonomik Faaliyetler ve Ulaşım - Temel Kavramlar',
-          'Ekonomik Faaliyetler ve Ulaşım - Örnek Sorular',
-          'Ekonomik Faaliyetler ve Ulaşım - Test'
+          'Ekonomik Faaliyet Türleri (Birincil, İkincil, Üçüncül)',
+          'Dünyadaki Ulaşım Yolları ve Boğazlar/Kanallar',
+        ]
+      },
+      {
+        id: 'tyt-cog-bolge',
+        name: 'Bölge Kavramı',
+        icon: '🧭',
+        subtopics: [
+          'Şekilsel ve İşlevsel Bölgeler',
+          'Bölge Sınırlarının Değişimi',
         ]
       },
       {
         id: 'tyt-cog-afetler',
-        name: 'Afetler',
+        name: 'Doğal Afetler',
         icon: '⚠️',
         subtopics: [
-          'Afetler - Temel Kavramlar',
-          'Afetler - Örnek Sorular',
-          'Afetler - Test'
+          'Doğal Afet Türleri ve Oluşum Nedenleri',
+          'Dünyada ve Türkiye\'de Afetlerin Dağılışı',
         ]
       }
     ],
     Felsefe: [
       {
-        id: 'tyt-fel-giris',
-        name: 'Felsefeye Giriş',
-        icon: '🧠',
+        id: 'tyt-fel-felsefeyi-tanima',
+        name: 'Felsefeyi Tanıma',
+        icon: '🤔',
         subtopics: [
-          'Felsefeye Giriş - Temel Kavramlar',
-          'Felsefeye Giriş - Örnek Sorular',
-          'Felsefeye Giriş - Test'
+          'Felsefenin Anlamı ve Doğuşu',
+          'Felsefi Düşüncenin Özellikleri',
+          'Felsefenin Bireysel ve Toplumsal İşlevleri',
         ]
       },
       {
-        id: 'tyt-fel-bilgi',
-        name: 'Bilgi Felsefesi',
+        id: 'tyt-fel-felsefe-ile-dusunme',
+        name: 'Felsefe ile Düşünme',
         icon: '💭',
         subtopics: [
-          'Bilgi Felsefesi - Temel Kavramlar',
-          'Bilgi Felsefesi - Örnek Sorular',
-          'Bilgi Felsefesi - Test'
+          'Akıl Yürütme Türleri (Tümdengelim, Tümevarım, Analoji)',
+          'Argüman, Önerme ve Görüş Kavramları',
+          'Dil ve Düşünme İlişkisi',
         ]
       },
       {
-        id: 'tyt-fel-varlik',
-        name: 'Varlık Felsefesi',
-        icon: '🌌',
-        subtopics: [
-          'Varlık Felsefesi - Temel Kavramlar',
-          'Varlık Felsefesi - Örnek Sorular',
-          'Varlık Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-ahlak',
-        name: 'Ahlak Felsefesi',
-        icon: '⚖️',
-        subtopics: [
-          'Ahlak Felsefesi - Temel Kavramlar',
-          'Ahlak Felsefesi - Örnek Sorular',
-          'Ahlak Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-sanat',
-        name: 'Sanat Felsefesi',
-        icon: '🎨',
-        subtopics: [
-          'Sanat Felsefesi - Temel Kavramlar',
-          'Sanat Felsefesi - Örnek Sorular',
-          'Sanat Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-din',
-        name: 'Din Felsefesi',
-        icon: '☪️',
-        subtopics: [
-          'Din Felsefesi - Temel Kavramlar',
-          'Din Felsefesi - Örnek Sorular',
-          'Din Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-siyaset',
-        name: 'Siyaset Felsefesi',
+        id: 'tyt-fel-temel-alanlar',
+        name: 'Felsefenin Temel Alanları ve Problemleri',
         icon: '🏛️',
         subtopics: [
-          'Siyaset Felsefesi - Temel Kavramlar',
-          'Siyaset Felsefesi - Örnek Sorular',
-          'Siyaset Felsefesi - Test'
+          'Varlık Felsefesi (Ontoloji)',
+          'Bilgi Felsefesi (Epistemoloji)',
+          'Bilim Felsefesi',
+          'Ahlak Felsefesi (Etik)',
+          'Sanat Felsefesi (Estetik)',
+          'Din Felsefesi',
+          'Siyaset Felsefesi',
         ]
       },
       {
-        id: 'tyt-fel-bilim',
-        name: 'Bilim Felsefesi',
-        icon: '🔬',
+        id: 'tyt-fel-tarihsel-donemler',
+        name: 'Felsefenin Tarihsel Dönemleri',
+        icon: '⏳',
         subtopics: [
-          'Bilim Felsefesi - Temel Kavramlar',
-          'Bilim Felsefesi - Örnek Sorular',
-          'Bilim Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-akimlar',
-        name: 'Felsefi Akımlar',
-        icon: '🌊',
-        subtopics: [
-          'Felsefi Akımlar - Temel Kavramlar',
-          'Felsefi Akımlar - Örnek Sorular',
-          'Felsefi Akımlar - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-mantik',
-        name: 'Mantık',
-        icon: '🧮',
-        subtopics: [
-          'Mantık - Temel Kavramlar',
-          'Mantık - Örnek Sorular',
-          'Mantık - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-psikoloji',
-        name: 'Psikoloji',
-        icon: '🧠',
-        subtopics: [
-          'Psikoloji - Temel Kavramlar',
-          'Psikoloji - Örnek Sorular',
-          'Psikoloji - Test'
-        ]
-      },
-      {
-        id: 'tyt-fel-sosyoloji',
-        name: 'Sosyoloji',
-        icon: '👥',
-        subtopics: [
-          'Sosyoloji - Temel Kavramlar',
-          'Sosyoloji - Örnek Sorular',
-          'Sosyoloji - Test'
+          'MÖ 6. Yüzyıl - MS 2. Yüzyıl (İlk Çağ Felsefesi)',
+          'MS 2. Yüzyıl - MS 15. Yüzyıl (Orta Çağ Felsefesi)',
+          '15. Yüzyıl - 17. Yüzyıl (Rönesans ve Modern Felsefe)',
+          '18. Yüzyıl - 19. Yüzyıl (Aydınlanma Felsefesi)',
+          '20. Yüzyıl Felsefesi ve Temel Akımlar',
         ]
       }
     ],
@@ -2952,145 +1286,125 @@ const CURRICULUM = {
       {
         id: 'tyt-din-bilgi-inanc',
         name: 'Bilgi ve İnanç',
-        icon: '📖',
+        icon: '🧠',
         subtopics: [
-          'Bilgi ve İnanç - Temel Kavramlar',
-          'Bilgi ve İnanç - Örnek Sorular',
-          'Bilgi ve İnanç - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-din-islam',
-        name: 'Din ve İslam',
-        icon: '☪️',
-        subtopics: [
-          'Din ve İslam - Temel Kavramlar',
-          'Din ve İslam - Örnek Sorular',
-          'Din ve İslam - Test'
+          'İslam\'da Bilgi Kaynakları (Akl-ı Selim, Haber-i Sadık, Havass-ı Selime)',
+          'İnançla İlgili Felsefi Yaklaşımlar (Ateizm, Deizm, Agnostisizm, Nihilizm)',
+          'Allah\'ın Varlığı, Birliği ve Sıfatları (Zati ve Subuti Sıfatlar)',
         ]
       },
       {
         id: 'tyt-din-ibadet',
-        name: 'İslam ve İbadet',
+        name: 'İbadet',
         icon: '🕌',
         subtopics: [
-          'İslam ve İbadet - Temel Kavramlar',
-          'İslam ve İbadet - Örnek Sorular',
-          'İslam ve İbadet - Test'
+          'İslam\'da İbadetin Amacı ve Temel İlkeleri',
+          'Temel İbadetler (Namaz, Oruç, Zekat, Hac)',
+          'İbadetlerin Bireysel ve Toplumsal Faydaları',
         ]
       },
       {
-        id: 'tyt-din-genclik',
-        name: 'Gençlik ve Değerler',
-        icon: '🌟',
-        subtopics: [
-          'Gençlik ve Değerler - Temel Kavramlar',
-          'Gençlik ve Değerler - Örnek Sorular',
-          'Gençlik ve Değerler - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-hz-muhammed',
-        name: 'Hz. Muhammed ve Gençlik',
-        icon: '🕋',
-        subtopics: [
-          'Hz. Muhammed ve Gençlik - Temel Kavramlar',
-          'Hz. Muhammed ve Gençlik - Örnek Sorular',
-          'Hz. Muhammed ve Gençlik - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-gonul-cografya',
-        name: 'Gönül Coğrafyamız ve İslam Medeniyeti',
-        icon: '🌍',
-        subtopics: [
-          'Gönül Coğrafyamız ve İslam Medeniyeti - Temel Kavramlar',
-          'Gönül Coğrafyamız ve İslam Medeniyeti - Örnek Sorular',
-          'Gönül Coğrafyamız ve İslam Medeniyeti - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-allah-insan',
-        name: 'Allah-İnsan İlişkisi',
-        icon: '☪️',
-        subtopics: [
-          'Allah-İnsan İlişkisi - Temel Kavramlar',
-          'Allah-İnsan İlişkisi - Örnek Sorular',
-          'Allah-İnsan İlişkisi - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-din-hayat',
-        name: 'Din ve Hayat',
-        icon: '🏠',
-        subtopics: [
-          'Din ve Hayat - Temel Kavramlar',
-          'Din ve Hayat - Örnek Sorular',
-          'Din ve Hayat - Test'
-        ]
-      },
-      {
-        id: 'tyt-din-ahlak',
-        name: 'Ahlaki Tutum ve Davranışlar',
+        id: 'tyt-din-ahlak-degerler',
+        name: 'Ahlak ve Değerler',
         icon: '💚',
         subtopics: [
-          'Ahlaki Tutum ve Davranışlar - Temel Kavramlar',
-          'Ahlaki Tutum ve Davranışlar - Örnek Sorular',
-          'Ahlaki Tutum ve Davranışlar - Test'
+          'İslam Ahlakının Kaynağı ve Mahiyeti',
+          'Kur\'an-ı Kerim\'de Geçen Temel Ahlaki Tutumlar (Adalet, İffet, Hikmet, Şecaat)',
+          'Değerler ve Değer Oluşum Süreci',
         ]
       },
       {
-        id: 'tyt-din-mezhepler',
-        name: 'İslam Düşüncesinde Yorumlar',
+        id: 'tyt-din-kultur-medeniyet',
+        name: 'Din, Kültür ve Medeniyet',
+        icon: '🏛️',
+        subtopics: [
+          'Din ve Kültür İlişkisi',
+          'İslam Medeniyeti ve Özellikleri',
+          'Kültürümüzde ve Mimaride Dinin İzleri',
+        ]
+      },
+      {
+        id: 'tyt-din-hz-muhammed-genclik',
+        name: 'Hz. Muhammed ve Gençlik',
+        icon: '🌙',
+        subtopics: [
+          'Hz. Muhammed\'in Örnek Kişiliği ve Vasıfları',
+          'Hz. Muhammed\'in Gençlerle İlişkisi',
+          'Öne Çıkan Genç Sahabiler',
+        ]
+      },
+      {
+        id: 'tyt-din-kuran-kavramlar',
+        name: 'Kur\'an-ı Kerim ve Temel Kavramlar',
+        icon: '📖',
+        subtopics: [
+          'Kur\'an-ı Kerim\'in Yapısı ve Ana Konuları',
+          'Temel Kavramlar (Hidayet, İhsan, Takva, Sırat-ı Müstakim, Cihat)',
+          'Kur\'an-ı Kerim\'i Anlama ve Yorumlama',
+        ]
+      },
+      {
+        id: 'tyt-din-itikadi-ameli',
+        name: 'İslam Düşüncesinde İtikadi ve Ameli Yorumlar',
         icon: '📚',
         subtopics: [
-          'İslam Düşüncesinde Yorumlar - Temel Kavramlar',
-          'İslam Düşüncesinde Yorumlar - Örnek Sorular',
-          'İslam Düşüncesinde Yorumlar - Test'
+          'Dini Yorum Farklılıklarının Nedenleri',
+          'İtikadi Yorumlar (Eş\'ariyye, Maturidiyye)',
+          'Ameli-Fıkhi Yorumlar (Hanefilik, Şafilik, Malikilik, Hanbelilik)',
+          'Tasavvufi Yorumlar (Mevlevilik, Bektaşilik, Alevilik-Bektaşilik)',
+        ]
+      },
+      {
+        id: 'tyt-din-dunya-dinleri',
+        name: 'Yaşayan Dünya Dinleri',
+        icon: '🌐',
+        subtopics: [
+          'İlahi Dinler (Yahudilik, Hristiyanlık)',
+          'Hint ve Doğu Asya Dinleri (Hinduizm, Budizm, Taoizm, Konfüçyüsçülük)',
         ]
       }
-    ]
+    ],
   },
   ayt: {
     Matematik: [
       {
-        id: 'ayt-mat-fonksiyon-uyg',
-        name: 'Fonksiyon Uygulamaları',
-        icon: '📈',
+        id: 'ayt-mat-polinomlar',
+        name: 'Polinomlar',
+        icon: '➿',
         subtopics: [
-          'Fonksiyon Uygulamaları - Temel Kavramlar',
-          'Fonksiyon Uygulamaları - Örnek Sorular',
-          'Fonksiyon Uygulamaları - Test'
+          'Polinom Kavramı ve İşlemler',
+          'Katsayılar Toplamı ve Sabit Terim',
+          'Polinom Bölmesi ve Kalan Bulma',
+        ]
+      },
+      {
+        id: 'ayt-mat-ikinci-derece-denklemler',
+        name: 'İkinci Dereceden Denklemler',
+        icon: '📐',
+        subtopics: [
+          'Çözüm Kümesi ve Diskriminant (Δ)',
+          'Kökler ve Katsayılar İlişkisi',
+          'Karmaşık Sayılar',
         ]
       },
       {
         id: 'ayt-mat-parabol',
         name: 'Parabol (İkinci Dereceden Fonksiyonlar)',
-        icon: '📈',
+        icon: '📉',
         subtopics: [
-          'Parabol (İkinci Dereceden Fonksiyonlar) - Temel Kavramlar',
-          'Parabol (İkinci Dereceden Fonksiyonlar) - Örnek Sorular',
-          'Parabol (İkinci Dereceden Fonksiyonlar) - Test'
+          'Parabol Grafiği ve Tepe Noktası',
+          'Eksenleri Kestiği Noktalar',
+          'Parabol ve Doğrunun Durumları',
         ]
       },
       {
-        id: 'ayt-mat-denklem-sistem',
-        name: 'İkinci Dereceden Denklem/Eşitsizlik Sistemleri',
-        icon: '➗',
+        id: 'ayt-mat-ikinci-derece-esitsizlikler',
+        name: 'İkinci Dereceden Eşitsizlikler',
+        icon: '⚖️',
         subtopics: [
-          'İkinci Dereceden Denklem/Eşitsizlik Sistemleri - Temel Kavramlar',
-          'İkinci Dereceden Denklem/Eşitsizlik Sistemleri - Örnek Sorular',
-          'İkinci Dereceden Denklem/Eşitsizlik Sistemleri - Test'
-        ]
-      },
-      {
-        id: 'ayt-mat-olasilik',
-        name: 'Olasılık',
-        icon: '🎯',
-        subtopics: [
-          'Olasılık - Temel Kavramlar',
-          'Olasılık - Örnek Sorular',
-          'Olasılık - Test'
+          'İşaret Tablosu İnceleme',
+          'Tek ve Çift Katlı Kökler',
+          'Eşitsizlik Sistemleri',
         ]
       },
       {
@@ -3098,19 +1412,22 @@ const CURRICULUM = {
         name: 'Trigonometri',
         icon: '📐',
         subtopics: [
-          'Trigonometri - Temel Kavramlar',
-          'Trigonometri - Örnek Sorular',
-          'Trigonometri - Test'
+          'Yönlü Açılar ve Trigonometrik Fonksiyonlar',
+          'Trigonometrik Özdeşlikler ve İndirgeme',
+          'Sinüs ve Kosinüs Teoremleri',
+          'Toplam-Fark ve Yarım Açı Formülleri',
+          'Ters Trigonometrik Fonksiyonlar',
+          'Trigonometrik Denklemler',
         ]
       },
       {
-        id: 'ayt-mat-uslu-logaritma',
-        name: 'Üstel ve Logaritmik Fonksiyonlar',
-        icon: '📈',
+        id: 'ayt-mat-logaritma',
+        name: 'Logaritma',
+        icon: '🪵',
         subtopics: [
-          'Üstel ve Logaritmik Fonksiyonlar - Temel Kavramlar',
-          'Üstel ve Logaritmik Fonksiyonlar - Örnek Sorular',
-          'Üstel ve Logaritmik Fonksiyonlar - Test'
+          'Üstel Fonksiyon ve Logaritma Tanımı',
+          'Logaritma Özellikleri ve Taban Değiştirme',
+          'Logaritmik Denklemler ve Eşitsizlikler',
         ]
       },
       {
@@ -3118,29 +1435,32 @@ const CURRICULUM = {
         name: 'Diziler',
         icon: '🔢',
         subtopics: [
-          'Diziler - Temel Kavramlar',
-          'Diziler - Örnek Sorular',
-          'Diziler - Test'
+          'Dizi Tanımı ve Genel Terim',
+          'Aritmetik Dizi',
+          'Geometrik Dizi',
+          'Toplam Sembolü ve İlk n Terim Toplamı',
         ]
       },
       {
-        id: 'ayt-mat-limit',
+        id: 'ayt-mat-limit-sureklilik',
         name: 'Limit ve Süreklilik',
-        icon: '∞',
+        icon: '🎯',
         subtopics: [
-          'Limit ve Süreklilik - Temel Kavramlar',
-          'Limit ve Süreklilik - Örnek Sorular',
-          'Limit ve Süreklilik - Test'
+          'Sağ-Sol Limit Kavramı',
+          'Limit Kuralları ve Belirsizlikler (0/0)',
+          'Süreklilik Tanımı ve Uygulamaları',
         ]
       },
       {
         id: 'ayt-mat-turev',
         name: 'Türev',
-        icon: '📉',
+        icon: '📈',
         subtopics: [
-          'Türev - Temel Kavramlar',
-          'Türev - Örnek Sorular',
-          'Türev - Test'
+          'Türev Tanımı ve Anlık Değişim Oranı',
+          'Türev Alma Kuralları',
+          'Teğet ve Normal Denklemleri',
+          'Artan-Azalanlık ve Ekstremum Noktaları',
+          'Maksimum - Minimum Problemleri',
         ]
       },
       {
@@ -3148,39 +1468,21 @@ const CURRICULUM = {
         name: 'İntegral',
         icon: '∫',
         subtopics: [
-          'İntegral - Temel Kavramlar',
-          'İntegral - Örnek Sorular',
-          'İntegral - Test'
+          'Belirsiz İntegral ve İntegral Alma Kuralları',
+          'Değişken Değiştirme Yöntemi',
+          'Belirli İntegral',
+          'İntegral ile Alan Hesabı',
         ]
       },
       {
-        id: 'ayt-mat-analitik-geo',
-        name: 'Analitik Geometri',
-        icon: '📐',
+        id: 'ayt-mat-sayma-olasilik',
+        name: 'Sayma ve Olasılık (AYT)',
+        icon: '🎲',
         subtopics: [
-          'Analitik Geometri - Temel Kavramlar',
-          'Analitik Geometri - Örnek Sorular',
-          'Analitik Geometri - Test'
-        ]
-      },
-      {
-        id: 'ayt-mat-cember-daire',
-        name: 'Çember ve Daire',
-        icon: '⭕',
-        subtopics: [
-          'Çember ve Daire - Temel Kavramlar',
-          'Çember ve Daire - Örnek Sorular',
-          'Çember ve Daire - Test'
-        ]
-      },
-      {
-        id: 'ayt-mat-kati-cisim',
-        name: 'Katı Cisimler (Silindir, Koni, Küre)',
-        icon: '🧊',
-        subtopics: [
-          'Katı Cisimler (Silindir, Koni, Küre) - Temel Kavramlar',
-          'Katı Cisimler (Silindir, Koni, Küre) - Örnek Sorular',
-          'Katı Cisimler (Silindir, Koni, Küre) - Test'
+          'Tekrarlı Permütasyon',
+          'Geometrik Kombinasyon',
+          'Binom Açılımı',
+          'Koşullu Olasılık',
         ]
       }
     ],
@@ -3248,275 +1550,230 @@ const CURRICULUM = {
     ],
     Edebiyat: [
       {
-        id: 'ayt-edb-giris',
-        name: 'Edebiyata Giriş',
+        id: 'ayt-edeb-metinler-siir',
+        name: 'Metinlerin Sınıflandırılması ve Şiir Bilgisi',
         icon: '📚',
         subtopics: [
-          'Edebiyata Giriş - Temel Kavramlar',
-          'Edebiyata Giriş - Örnek Sorular',
-          'Edebiyata Giriş - Test'
+          'Edebiyat ve Sanat İlişkisi',
+          'Metin Türleri ve Özellikleri',
+          'Şiirde Ahenk Unsurları (Ölçü, Kafiye, Redif)',
+          'Şiir Türleri ve Nazım Biçimleri',
+          'Edebi Sanatlar (Söz Sanatları)',
         ]
       },
       {
-        id: 'ayt-edb-siir-bilgi',
-        name: 'Şiir Bilgisi',
-        icon: '📜',
+        id: 'ayt-edeb-islamiyet-oncesi',
+        name: 'İslamiyet Öncesi ve Geçiş Dönemi Türk Edebiyatı',
+        icon: '🏺',
         subtopics: [
-          'Şiir Bilgisi - Temel Kavramlar',
-          'Şiir Bilgisi - Örnek Sorular',
-          'Şiir Bilgisi - Test'
+          'Sözlü ve Yazılı Edebiyat (Koşuk, Sagu, Sav)',
+          'Türk Destanları',
+          'Geçiş Dönemi Eserleri ve Yazarları',
         ]
       },
       {
-        id: 'ayt-edb-sanatlar',
-        name: 'Edebî Sanatlar',
-        icon: '🎨',
+        id: 'ayt-edeb-halk',
+        name: 'Halk Edebiyatı',
+        icon: '🎻',
         subtopics: [
-          'Edebî Sanatlar - Temel Kavramlar',
-          'Edebî Sanatlar - Örnek Sorular',
-          'Edebî Sanatlar - Test'
+          'Anonim Halk Edebiyatı (Mani, Türkü, Masal)',
+          'Âşık Tarzı Halk Edebiyatı ve Temsilcileri',
+          'Tekke-Tasavvuf Edebiyatı ve Temsilcileri',
+          'Halk Edebiyatı Nazım Biçimleri (Koşma, Semai, Varsağı, Destan)',
         ]
       },
       {
-        id: 'ayt-edb-islamiyet-oncesi',
-        name: 'İslamiyet Öncesi ve Geçiş Dönemi',
-        icon: '🏹',
-        subtopics: [
-          'İslamiyet Öncesi ve Geçiş Dönemi - Temel Kavramlar',
-          'İslamiyet Öncesi ve Geçiş Dönemi - Örnek Sorular',
-          'İslamiyet Öncesi ve Geçiş Dönemi - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-halk-siiri',
-        name: 'Halk Şiiri',
-        icon: '🎵',
-        subtopics: [
-          'Halk Şiiri - Temel Kavramlar',
-          'Halk Şiiri - Örnek Sorular',
-          'Halk Şiiri - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-divan-siiri',
-        name: 'Divan Şiiri',
+        id: 'ayt-edeb-divan',
+        name: 'Divan Edebiyatı',
         icon: '🕌',
         subtopics: [
-          'Divan Şiiri - Temel Kavramlar',
-          'Divan Şiiri - Örnek Sorular',
-          'Divan Şiiri - Test'
+          'Divan Şiiri Nazım Biçimleri (Gazel, Kaside, Mesnevi vb.)',
+          'Divan Edebiyatı Şairleri ve Eserleri',
+          'Divan Nesri ve Eserleri',
         ]
       },
       {
-        id: 'ayt-edb-tanzimat-siir',
-        name: 'Tanzimat Dönemi Türk Şiiri',
-        icon: '📜',
+        id: 'ayt-edeb-tanzimat',
+        name: 'Tanzimat Edebiyatı',
+        icon: '🏛️',
         subtopics: [
-          'Tanzimat Dönemi Türk Şiiri - Temel Kavramlar',
-          'Tanzimat Dönemi Türk Şiiri - Örnek Sorular',
-          'Tanzimat Dönemi Türk Şiiri - Test'
+          '1. Dönem Tanzimat Edebiyatı ve Sanatçıları',
+          '2. Dönem Tanzimat Edebiyatı ve Sanatçıları',
+          'Tanzimat Dönemi Şiir, Roman, Hikâye ve Tiyatro',
         ]
       },
       {
-        id: 'ayt-edb-servetifunun-siir',
-        name: 'Servetifünun Dönemi Türk Şiiri',
-        icon: '📜',
+        id: 'ayt-edeb-servetifunun',
+        name: 'Servet-i Fünun ve Fecr-i Âti Edebiyatı',
+        icon: '💡',
         subtopics: [
-          'Servetifünun Dönemi Türk Şiiri - Temel Kavramlar',
-          'Servetifünun Dönemi Türk Şiiri - Örnek Sorular',
-          'Servetifünun Dönemi Türk Şiiri - Test'
+          'Servet-i Fünun Dönemi ve Sanatçıları',
+          'Fecr-i Âti Topluluğu ve Temsilcileri',
+          'Servet-i Fünun\'da Şiir, Roman ve Hikâye',
         ]
       },
       {
-        id: 'ayt-edb-fecriati-siir',
-        name: 'Fecriati Dönemi Türk Şiiri',
-        icon: '📜',
-        subtopics: [
-          'Fecriati Dönemi Türk Şiiri - Temel Kavramlar',
-          'Fecriati Dönemi Türk Şiiri - Örnek Sorular',
-          'Fecriati Dönemi Türk Şiiri - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-milli-siir',
-        name: 'Millî Edebiyat Dönemi Türk Şiiri',
+        id: 'ayt-edeb-milli',
+        name: 'Millî Edebiyat Dönemi',
         icon: '🇹🇷',
         subtopics: [
-          'Millî Edebiyat Dönemi Türk Şiiri - Temel Kavramlar',
-          'Millî Edebiyat Dönemi Türk Şiiri - Örnek Sorular',
-          'Millî Edebiyat Dönemi Türk Şiiri - Test'
+          'Millî Edebiyat Oluşumu ve Beş Hececiler',
+          'Millî Edebiyat Dönemi Sanatçıları ve Eserleri',
+          'Millî Mücadele Dönemi Eserleri',
         ]
       },
       {
-        id: 'ayt-edb-cumhuriyet-siir',
-        name: 'Cumhuriyet Dönemi Türk Şiiri',
-        icon: '📜',
+        id: 'ayt-edeb-cumhuriyet-siir',
+        name: 'Cumhuriyet Dönemi Şiir',
+        icon: '✒️',
         subtopics: [
-          'Cumhuriyet Dönemi Türk Şiiri - Temel Kavramlar',
-          'Cumhuriyet Dönemi Türk Şiiri - Örnek Sorular',
-          'Cumhuriyet Dönemi Türk Şiiri - Test'
+          'Yedi Meşaleciler',
+          'Serbest Nazım ve Toplumcu Şiir',
+          'Garip Akımı (I. Yeni)',
+          'İkinci Yeni ve İkinci Yeni Sonrası Şiir',
+          'Dini Değerleri Öne Çıkaran Şiir',
+          'Saf (Öz) Şiir Anlayışı',
         ]
       },
       {
-        id: 'ayt-edb-hikaye',
-        name: 'Hikâye',
+        id: 'ayt-edeb-cumhuriyet-roman',
+        name: 'Cumhuriyet Dönemi Roman ve Hikâye',
         icon: '📖',
         subtopics: [
-          'Hikâye - Temel Kavramlar',
-          'Hikâye - Örnek Sorular',
-          'Hikâye - Test'
+          'Toplumcu Gerçekçi Roman ve Hikâye',
+          'Bireyin İç Dünyasını Esas Alan Romanlar',
+          'Millî Edebiyat Zevk ve Anlayışını Sürdürenler',
+          'Modernist ve Postmodernist Romanlar',
         ]
       },
       {
-        id: 'ayt-edb-roman',
-        name: 'Roman',
-        icon: '📚',
-        subtopics: [
-          'Roman - Temel Kavramlar',
-          'Roman - Örnek Sorular',
-          'Roman - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-tiyatro',
-        name: 'Tiyatro',
+        id: 'ayt-edeb-cumhuriyet-tiyatro',
+        name: 'Cumhuriyet Dönemi Tiyatro ve Öğretici Metinler',
         icon: '🎭',
         subtopics: [
-          'Tiyatro - Temel Kavramlar',
-          'Tiyatro - Örnek Sorular',
-          'Tiyatro - Test'
+          'Cumhuriyet Dönemi Tiyatro Yazarları ve Eserleri',
+          'Deneme, Makale, Anı, Gezi Yazısı ve Temsilcileri',
         ]
       },
       {
-        id: 'ayt-edb-masal-fabl',
-        name: 'Masal/Fabl',
-        icon: '🧚',
-        subtopics: [
-          'Masal/Fabl - Temel Kavramlar',
-          'Masal/Fabl - Örnek Sorular',
-          'Masal/Fabl - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-destan-efsane',
-        name: 'Destan/Efsane',
-        icon: '⚔️',
-        subtopics: [
-          'Destan/Efsane - Temel Kavramlar',
-          'Destan/Efsane - Örnek Sorular',
-          'Destan/Efsane - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-ogretici',
-        name: 'Öğretici Metinler',
-        icon: '📄',
-        subtopics: [
-          'Öğretici Metinler - Temel Kavramlar',
-          'Öğretici Metinler - Örnek Sorular',
-          'Öğretici Metinler - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-nesir',
-        name: 'Divan Edebiyatı Nesir Türleri',
-        icon: '📜',
-        subtopics: [
-          'Divan Edebiyatı Nesir Türleri - Temel Kavramlar',
-          'Divan Edebiyatı Nesir Türleri - Örnek Sorular',
-          'Divan Edebiyatı Nesir Türleri - Test'
-        ]
-      },
-      {
-        id: 'ayt-edb-akimlar',
-        name: 'Edebi Akımlar',
+        id: 'ayt-edeb-akimlar',
+        name: 'Edebî Akımlar',
         icon: '🌊',
         subtopics: [
-          'Edebi Akımlar - Temel Kavramlar',
-          'Edebi Akımlar - Örnek Sorular',
-          'Edebi Akımlar - Test'
+          'Batı Edebiyatı Akımları (Klasisizm, Romantizm, Realizm, Natüralizm, Parnasizm, Sembolizm, Eksistansiyalizm)',
         ]
       }
     ],
     Fizik: [
       {
-        id: 'ayt-fiz-kuvvet-hareket',
-        name: 'Kuvvet ve Hareket',
-        icon: '🏃',
+        id: 'ayt-fiz-vektor-denge',
+        name: 'Vektörler ve Kuvvet-Denge',
+        icon: '➡️',
         subtopics: [
-          'Kuvvet ve Hareket - Temel Kavramlar',
-          'Kuvvet ve Hareket - Örnek Sorular',
-          'Kuvvet ve Hareket - Test'
+          'Vektörler ve Özellikleri',
+          'Tork (Kuvvet Momenti)',
+          'Denge ve Denge Şartları',
+          'Kütle ve Ağırlık Merkezi',
+          'Basit Makineler',
+        ]
+      },
+      {
+        id: 'ayt-fiz-newton-hareket',
+        name: 'Newton\'un Hareket Yasaları ve Hareket (AYT)',
+        icon: '🚀',
+        subtopics: [
+          'Sabit İvmeli Hareket ve Grafikler',
+          'İki Boyutta Hareket ve Atışlar (Serbest, Düşey, Yatay ve Eğik Atış)',
+          'Sürtünmeli Yüzeylerde İvmeli Hareket',
+        ]
+      },
+      {
+        id: 'ayt-fiz-itme-momentum',
+        name: 'İtme ve Momentum',
+        icon: '💥',
+        subtopics: [
+          'İtme (Impuls) ve Çizgisel Momentum',
+          'Momentumun Korunumu',
+          'Esnek ve Esnek Olmayan Çarpışmalar',
+        ]
+      },
+      {
+        id: 'ayt-fiz-is-enerji',
+        name: 'İş, Güç ve Enerji (AYT)',
+        icon: '⚡',
+        subtopics: [
+          'İş ve Enerji İlişkisi',
+          'Mekanik Enerjinin Korunumu',
+          'Yay Esneklik Potansiyel Enerjisi',
         ]
       },
       {
         id: 'ayt-fiz-elektrik-manyetizma',
-        name: 'Elektrik ve Manyetizma',
-        icon: '⚡',
+        name: 'Elektrik ve Manyetizma (AYT)',
+        icon: '🧲',
         subtopics: [
-          'Elektrik ve Manyetizma - Temel Kavramlar',
-          'Elektrik ve Manyetizma - Örnek Sorular',
-          'Elektrik ve Manyetizma - Test'
+          'Elektriksel Kuvvet (Coulomb Yasası) ve Elektrik Alan',
+          'Elektriksel Potansiyel, Potansiyel Enerji ve İş',
+          'Düzgün Elektrik Alan ve Sığaçlar (Kondansatörler)',
+          'Akım Geçen İletkenlerin Manyetik Alanı',
+          'Manyetik Kuvvet ve Tork',
+          'Elektromanyetik İndüksiyon ve Öz-İndüksiyon',
+          'Alternatif Akım Devreleri',
+          'Transformatörler',
         ]
       },
       {
         id: 'ayt-fiz-cembersel',
-        name: 'Çembersel Hareket ve Kütle Çekimi',
-        icon: '🔄',
+        name: 'Çembersel Hareket ve Gravitasyon',
+        icon: '🪐',
         subtopics: [
-          'Çembersel Hareket ve Kütle Çekimi - Temel Kavramlar',
-          'Çembersel Hareket ve Kütle Çekimi - Örnek Sorular',
-          'Çembersel Hareket ve Kütle Çekimi - Test'
+          'Düzgün Çembersel Hareket ve Temel Değişkenler',
+          'Virajlı Yollar ve Düşey Düzlemde Hareket',
+          'Dönerek Öteleme Hareketi ve Açısal Momentum',
+          'Kütle Çekim Kuvveti ve Kepler Yasaları',
         ]
       },
       {
-        id: 'ayt-fiz-basit-harmonik',
+        id: 'ayt-fiz-bh',
         name: 'Basit Harmonik Hareket',
-        icon: '〰️',
+        icon: '🎵',
         subtopics: [
-          'Basit Harmonik Hareket - Temel Kavramlar',
-          'Basit Harmonik Hareket - Örnek Sorular',
-          'Basit Harmonik Hareket - Test'
+          'Basit Harmonik Hareket Kavramları (Genlik, Periyot, Frekans)',
+          'Yaylı Sarkaç ve Basit Sarkaç',
+          'Kuvvet, İvme ve Hız Değişimleri',
         ]
       },
       {
         id: 'ayt-fiz-dalga-mekanigi',
         name: 'Dalga Mekaniği',
-        icon: '🌊',
+        icon: '📡',
         subtopics: [
-          'Dalga Mekaniği - Temel Kavramlar',
-          'Dalga Mekaniği - Örnek Sorular',
-          'Dalga Mekaniği - Test'
+          'Su Dalgalarında Kırınım ve Girişim',
+          'Işıkta Girişim (Çift Yarık) ve Kırınım (Tek Yarık)',
+          'Doppler Etkisi (Ses ve Işık)',
+          'Elektromanyetik Dalgalar ve Özellikleri',
         ]
       },
       {
-        id: 'ayt-fiz-atom-fizigi',
-        name: 'Atom Fiziğine Giriş ve Radyoaktivite',
+        id: 'ayt-fiz-modern',
+        name: 'Modern Fizik',
         icon: '⚛️',
         subtopics: [
-          'Atom Fiziğine Giriş ve Radyoaktivite - Temel Kavramlar',
-          'Atom Fiziğine Giriş ve Radyoaktivite - Örnek Sorular',
-          'Atom Fiziğine Giriş ve Radyoaktivite - Test'
+          'Özel Görelilik (Rölativite) Kuramı',
+          'Siyah Cisim Işıması ve Kuantum Fiziğine Giriş',
+          'Fotoelektrik Olayı',
+          'Compton Saçılması ve De Broglie Dalga Boyu',
         ]
       },
       {
-        id: 'ayt-fiz-modern-fizik',
-        name: 'Modern Fizik',
-        icon: '🔬',
-        subtopics: [
-          'Modern Fizik - Temel Kavramlar',
-          'Modern Fizik - Örnek Sorular',
-          'Modern Fizik - Test'
-        ]
-      },
-      {
-        id: 'ayt-fiz-teknoloji',
+        id: 'ayt-fiz-modern-teknoloji',
         name: 'Modern Fiziğin Teknolojideki Uygulamaları',
         icon: '💻',
         subtopics: [
-          'Modern Fiziğin Teknolojideki Uygulamaları - Temel Kavramlar',
-          'Modern Fiziğin Teknolojideki Uygulamaları - Örnek Sorular',
-          'Modern Fiziğin Teknolojideki Uygulamaları - Test'
+          'Görüntüleme Teknolojileri (Röntgen, BT, MR, PET, Ultrason)',
+          'Yarı İletken Teknolojisi, Diyot, Transistör ve Güneş Pilleri',
+          'Süper İletkenler ve Nanoteknoloji',
+          'Nükleer Fizik, Radyoaktivite ve Temel Parçacıklar (Standart Model)',
         ]
       }
     ],
@@ -3526,9 +1783,10 @@ const CURRICULUM = {
         name: 'Modern Atom Teorisi',
         icon: '⚛️',
         subtopics: [
-          'Modern Atom Teorisi - Temel Kavramlar',
-          'Modern Atom Teorisi - Örnek Sorular',
-          'Modern Atom Teorisi - Test'
+          'Bohr Atom Modeli ve Sınırlılıkları',
+          'Kuantum Sayıları ve Orbital Kavramı',
+          'Elektron Dizilimleri (Aufbau, Hund, Pauli)',
+          'Periyodik Sistem ve Periyodik Özelliklerin Değişimi',
         ]
       },
       {
@@ -3536,29 +1794,33 @@ const CURRICULUM = {
         name: 'Gazlar',
         icon: '🎈',
         subtopics: [
-          'Gazlar - Temel Kavramlar',
-          'Gazlar - Örnek Sorular',
-          'Gazlar - Test'
+          'Gaz Yasaları (Boyle, Charles, Gay-Lussac, Avogadro)',
+          'İdeal Gaz Denklemi (PV = nRT)',
+          'Gazlarda Difüzyon ve Efüzyon (Graham Yasası)',
+          'Gaz Karışımları ve Kısmi Basınç (Dalton Yasası)',
+          'Gerçek Gazlar ve Faz Diyagramları',
         ]
       },
       {
         id: 'ayt-kim-cozeltiler',
         name: 'Sıvı Çözeltiler ve Çözünürlük',
-        icon: '🧪',
+        icon: '💧',
         subtopics: [
-          'Sıvı Çözeltiler ve Çözünürlük - Temel Kavramlar',
-          'Sıvı Çözeltiler ve Çözünürlük - Örnek Sorular',
-          'Sıvı Çözeltiler ve Çözünürlük - Test'
+          'Çözünme Süreci ve Çözücü-Çözünen Etkileşimleri',
+          'Derişim Birimleri (Molarite, Molalite, Mol Kesri, PPM)',
+          'Koligatif Özellikler (Buhar Basıncı, Kaynama ve Donma Noktası Değişimi, Osmoz)',
+          'Çözünürlük ve Çözünürlüğe Etki Eden Faktörler',
         ]
       },
       {
         id: 'ayt-kim-enerji',
         name: 'Kimyasal Tepkimelerde Enerji',
-        icon: '⚡',
+        icon: '🔥',
         subtopics: [
-          'Kimyasal Tepkimelerde Enerji - Temel Kavramlar',
-          'Kimyasal Tepkimelerde Enerji - Örnek Sorular',
-          'Kimyasal Tepkimelerde Enerji - Test'
+          'Tepkime Isısı ve Entalpi (ΔH)',
+          'Standart Oluşum Entalpileri',
+          'Bağ Enerjileri ile Entalpi Hesaplama',
+          'Hess Yasası',
         ]
       },
       {
@@ -3566,9 +1828,10 @@ const CURRICULUM = {
         name: 'Kimyasal Tepkimelerde Hız',
         icon: '⏱️',
         subtopics: [
-          'Kimyasal Tepkimelerde Hız - Temel Kavramlar',
-          'Kimyasal Tepkimelerde Hız - Örnek Sorular',
-          'Kimyasal Tepkimelerde Hız - Test'
+          'Tepkime Hızı ve Çarpışma Teorisi',
+          'Tepkime Hızını Etkileyen Faktörler',
+          'Hız Denklemi, Tepkime Derecesi ve Molekülerite',
+          'Mekanizmalı Tepkimelerde Hız',
         ]
       },
       {
@@ -3576,9 +1839,11 @@ const CURRICULUM = {
         name: 'Kimyasal Tepkimelerde Denge',
         icon: '⚖️',
         subtopics: [
-          'Kimyasal Tepkimelerde Denge - Temel Kavramlar',
-          'Kimyasal Tepkimelerde Denge - Örnek Sorular',
-          'Kimyasal Tepkimelerde Denge - Test'
+          'Kimyasal Denge Kavramı ve Denge Sabiti (Kc, Kp)',
+          'Dengeyi Etkileyen Faktörler (Le Chatelier İlkesi)',
+          'Sulu Çözelti Dengeleri (Asit-Baz Dengesi, pH/pOH)',
+          'Tampon Çözeltiler ve Hidroliz',
+          'Çözünürlük Dengesi (Kcc) ve Çökelme',
         ]
       },
       {
@@ -3586,707 +1851,472 @@ const CURRICULUM = {
         name: 'Kimya ve Elektrik',
         icon: '🔋',
         subtopics: [
-          'Kimya ve Elektrik - Temel Kavramlar',
-          'Kimya ve Elektrik - Örnek Sorular',
-          'Kimya ve Elektrik - Test'
+          'Redoks (İndirgenme-Yükseltgenme) Tepkimeleri',
+          'Elektrokimyasal Hücreler (Galvanik Piller)',
+          'Standart Pil Potansiyelleri ve Nernst Denklemi',
+          'Elektroliz ve Faraday Yasaları',
+          'Korozyon ve Önleme Yöntemleri',
         ]
       },
       {
-        id: 'ayt-kim-organik-giris',
-        name: 'Organik Kimyaya Giriş',
+        id: 'ayt-kim-karbon',
+        name: 'Karbon Kimyasına Giriş',
+        icon: '💎',
+        subtopics: [
+          'Anorganik ve Organik Bileşikler',
+          'Karbon Allotropları (Elmas, Grafit, Grafen, Fulleren)',
+          'Lewis Formülleri ve Hibritleşme (sp, sp2, sp3)',
+          'Molekül Geometrisi ve VSEPR Gösterimi',
+        ]
+      },
+      {
+        id: 'ayt-kim-organik',
+        name: 'Organik Kimya',
         icon: '🧬',
         subtopics: [
-          'Organik Kimyaya Giriş - Temel Kavramlar',
-          'Organik Kimyaya Giriş - Örnek Sorular',
-          'Organik Kimyaya Giriş - Test'
-        ]
-      },
-      {
-        id: 'ayt-kim-organik-bilesik',
-        name: 'Organik Bileşikler',
-        icon: '🧪',
-        subtopics: [
-          'Organik Bileşikler - Temel Kavramlar',
-          'Organik Bileşikler - Örnek Sorular',
-          'Organik Bileşikler - Test'
-        ]
-      },
-      {
-        id: 'ayt-kim-enerji-kaynak',
-        name: 'Enerji Kaynakları ve Bilimsel Gelişmeler',
-        icon: '🔋',
-        subtopics: [
-          'Enerji Kaynakları ve Bilimsel Gelişmeler - Temel Kavramlar',
-          'Enerji Kaynakları ve Bilimsel Gelişmeler - Örnek Sorular',
-          'Enerji Kaynakları ve Bilimsel Gelişmeler - Test'
+          'Fonksiyonel Gruplar ve İzomeri',
+          'Hidrokarbonlar (Alkanlar, Alkenler, Alkinler, Aromatik Bileşikler)',
+          'Alkoller ve Eterler',
+          'Aldehitler ve Ketonlar',
+          'Karboksilli Asitler ve Esterler',
         ]
       }
     ],
     Biyoloji: [
       {
-        id: 'ayt-bio-sinir',
-        name: 'Sinir Sistemi',
+        id: 'ayt-biy-denetleyici',
+        name: 'Denetleyici ve Düzenleyici Sistemler',
         icon: '🧠',
         subtopics: [
-          'Sinir Sistemi - Temel Kavramlar',
-          'Sinir Sistemi - Örnek Sorular',
-          'Sinir Sistemi - Test'
+          'Sinir Sistemi (Nöron Yapısı ve İmpuls İletimi)',
+          'Merkezi ve Çevresel Sinir Sistemi',
+          'Endokrin Sistem (Hormonlar ve Bezler)',
         ]
       },
       {
-        id: 'ayt-bio-endokrin',
-        name: 'Endokrin Sistem',
-        icon: '🩸',
-        subtopics: [
-          'Endokrin Sistem - Temel Kavramlar',
-          'Endokrin Sistem - Örnek Sorular',
-          'Endokrin Sistem - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-duyu',
+        id: 'ayt-biy-duyu',
         name: 'Duyu Organları',
         icon: '👁️',
         subtopics: [
-          'Duyu Organları - Temel Kavramlar',
-          'Duyu Organları - Örnek Sorular',
-          'Duyu Organları - Test'
+          'Duyu Reseptörleri',
+          'Göz, Kulak, Burun, Dil ve Deri',
+          'Duyu Organı Rahatsızlıkları',
         ]
       },
       {
-        id: 'ayt-bio-iskelet',
-        name: 'İskelet Sistemi',
+        id: 'ayt-biy-destek-hareket',
+        name: 'Destek ve Hareket Sistemi',
         icon: '🦴',
         subtopics: [
-          'İskelet Sistemi - Temel Kavramlar',
-          'İskelet Sistemi - Örnek Sorular',
-          'İskelet Sistemi - Test'
+          'Kemik, Kıkırdak ve Eklem Doku',
+          'Kas Sistemi ve Kasılma Mekanizması (Huxley Kayan İplikler Modeli)',
+          'Destek ve Hareket Sistemi Hastalıkları',
         ]
       },
       {
-        id: 'ayt-bio-kas',
-        name: 'Kas Sistemi',
-        icon: '💪',
-        subtopics: [
-          'Kas Sistemi - Temel Kavramlar',
-          'Kas Sistemi - Örnek Sorular',
-          'Kas Sistemi - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-sindirim',
+        id: 'ayt-biy-sindirim',
         name: 'Sindirim Sistemi',
         icon: '🍽️',
         subtopics: [
-          'Sindirim Sistemi - Temel Kavramlar',
-          'Sindirim Sistemi - Örnek Sorular',
-          'Sindirim Sistemi - Test'
+          'Sindirim Organları ve Yapısı',
+          'Besinlerin Kimyasal ve Fiziksel Sindirimi',
+          'Yağ, Protein ve Karbonhidratların Emilimi',
+          'Karaciğerin Görevleri ve Sindirim Hastalıkları',
         ]
       },
       {
-        id: 'ayt-bio-dolasim',
-        name: 'Kan Dolaşımı',
+        id: 'ayt-biy-dolasim',
+        name: 'Dolaşım ve Bağışıklık Sistemi',
         icon: '❤️',
         subtopics: [
-          'Kan Dolaşımı - Temel Kavramlar',
-          'Kan Dolaşımı - Örnek Sorular',
-          'Kan Dolaşımı - Test'
+          'Kalp, Damarlar ve Kan Doku',
+          'Lenf Dolaşımı',
+          'Dolaşım Sistemi Hastalıkları',
+          'Bağışıklık Çeşitleri ve Hücreleri (Özgül / Özgül Olmayan)',
         ]
       },
       {
-        id: 'ayt-bio-bagisiklik',
-        name: 'Bağışıklık Sistemi',
-        icon: '🛡️',
-        subtopics: [
-          'Bağışıklık Sistemi - Temel Kavramlar',
-          'Bağışıklık Sistemi - Örnek Sorular',
-          'Bağışıklık Sistemi - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-solunum',
+        id: 'ayt-biy-solunum',
         name: 'Solunum Sistemi',
         icon: '🫁',
         subtopics: [
-          'Solunum Sistemi - Temel Kavramlar',
-          'Solunum Sistemi - Örnek Sorular',
-          'Solunum Sistemi - Test'
+          'Solunum Organları ve Yapısı',
+          'Soluk Alıp Verme Mekanizması',
+          'Gazların (O2 ve CO2) Kan Yoluyla Taşınması',
+          'Solunum Sistemi Hastalıkları',
         ]
       },
       {
-        id: 'ayt-bio-uriner',
-        name: 'Üriner Sistem',
-        icon: '🫘',
+        id: 'ayt-biy-uriner',
+        name: 'Üriner (Boşaltım) Sistem',
+        icon: '💧',
         subtopics: [
-          'Üriner Sistem - Temel Kavramlar',
-          'Üriner Sistem - Örnek Sorular',
-          'Üriner Sistem - Test'
+          'Böbreğin Yapısı ve Nefronlar',
+          'İdrar Oluşumu (Süzülme, Geri Emilim, Salgılama)',
+          'Homeostazi ve Su-Tuz Dengesi',
         ]
       },
       {
-        id: 'ayt-bio-ureme',
-        name: 'Üreme Sistemi',
-        icon: '👶',
+        id: 'ayt-biy-ureme',
+        name: 'Üreme Sistemi ve Embriyonik Gelişim',
+        icon: '🤰',
         subtopics: [
-          'Üreme Sistemi - Temel Kavramlar',
-          'Üreme Sistemi - Örnek Sorular',
-          'Üreme Sistemi - Test'
+          'Erkek ve Dişi Üreme Sistemi Yapısı',
+          'Menstrüal Döngü ve Hormonal Kontrol',
+          'Döllenme, Embriyonik Gelişim Evreleri ve Hamilelik',
         ]
       },
       {
-        id: 'ayt-bio-embriyonik',
-        name: 'Embriyonik Gelişim',
-        icon: '🥚',
+        id: 'ayt-biy-komunite',
+        name: 'Komünite ve Popülasyon Ekolojisi',
+        icon: '🦁',
         subtopics: [
-          'Embriyonik Gelişim - Temel Kavramlar',
-          'Embriyonik Gelişim - Örnek Sorular',
-          'Embriyonik Gelişim - Test'
+          'Komünite Ekolojisi (Türler Arası İlişkiler, Süksesyon)',
+          'Popülasyon Ekolojisi (Yoğunluk, Dağılım, Büyüme Eğrileri, Yaş Piramitleri)',
         ]
       },
       {
-        id: 'ayt-bio-komunite',
-        name: 'Komünite Ekolojisi',
-        icon: '🌿',
-        subtopics: [
-          'Komünite Ekolojisi - Temel Kavramlar',
-          'Komünite Ekolojisi - Örnek Sorular',
-          'Komünite Ekolojisi - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-populasyon',
-        name: 'Popülasyon Ekolojisi',
-        icon: '📊',
-        subtopics: [
-          'Popülasyon Ekolojisi - Temel Kavramlar',
-          'Popülasyon Ekolojisi - Örnek Sorular',
-          'Popülasyon Ekolojisi - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-nukleik',
-        name: 'Nükleik Asitler',
+        id: 'ayt-biy-gen-protein',
+        name: 'Genden Proteine',
         icon: '🧬',
         subtopics: [
-          'Nükleik Asitler - Temel Kavramlar',
-          'Nükleik Asitler - Örnek Sorular',
-          'Nükleik Asitler - Test'
+          'Nükleik Asitlerin Yapısı (DNA ve RNA)',
+          'DNA Replikasyonu (Yarı Korunumlu Eşlenme)',
+          'Genetik Kod ve Protein Sentezi (Transkripsiyon ve Translasyon)',
         ]
       },
       {
-        id: 'ayt-bio-protein',
-        name: 'Genetik Şifre ve Protein Sentezi',
-        icon: '🧬',
-        subtopics: [
-          'Genetik Şifre ve Protein Sentezi - Temel Kavramlar',
-          'Genetik Şifre ve Protein Sentezi - Örnek Sorular',
-          'Genetik Şifre ve Protein Sentezi - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-genetik-muh',
-        name: 'Genetik Mühendisliği ve Biyoteknoloji',
-        icon: '🔬',
-        subtopics: [
-          'Genetik Mühendisliği ve Biyoteknoloji - Temel Kavramlar',
-          'Genetik Mühendisliği ve Biyoteknoloji - Örnek Sorular',
-          'Genetik Mühendisliği ve Biyoteknoloji - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-enerji',
-        name: 'Canlılık ve Enerji',
+        id: 'ayt-biy-enerji',
+        name: 'Canlılarda Enerji Dönüşümleri',
         icon: '⚡',
         subtopics: [
-          'Canlılık ve Enerji - Temel Kavramlar',
-          'Canlılık ve Enerji - Örnek Sorular',
-          'Canlılık ve Enerji - Test'
+          'ATP ve Hücresel Enerji',
+          'Fotosentez (Işığa Bağımlı ve Işıktan Bağımsız Reaksiyonlar)',
+          'Kemosentez',
+          'Hücresel Solunum (Oksijenli Solunum, Oksijensiz Solunum, Fermentasyon)',
         ]
       },
       {
-        id: 'ayt-bio-fotosentez',
-        name: 'Fotosentez',
-        icon: '🌿',
-        subtopics: [
-          'Fotosentez - Temel Kavramlar',
-          'Fotosentez - Örnek Sorular',
-          'Fotosentez - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-kemosentez',
-        name: 'Kemosentez',
-        icon: '🧪',
-        subtopics: [
-          'Kemosentez - Temel Kavramlar',
-          'Kemosentez - Örnek Sorular',
-          'Kemosentez - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-solunum-enerji',
-        name: 'Hücresel Solunum',
-        icon: '⚡',
-        subtopics: [
-          'Hücresel Solunum - Temel Kavramlar',
-          'Hücresel Solunum - Örnek Sorular',
-          'Hücresel Solunum - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-fermantasyon',
-        name: 'Fermantasyon',
-        icon: '🍞',
-        subtopics: [
-          'Fermantasyon - Temel Kavramlar',
-          'Fermantasyon - Örnek Sorular',
-          'Fermantasyon - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-bitki-doku',
-        name: 'Bitkisel Dokular',
+        id: 'ayt-biy-bitki',
+        name: 'Bitki Biyolojisi',
         icon: '🌱',
         subtopics: [
-          'Bitkisel Dokular - Temel Kavramlar',
-          'Bitkisel Dokular - Örnek Sorular',
-          'Bitkisel Dokular - Test'
+          'Bitkisel Dokular (Meristem, Temel, İletim, Örtü Doku)',
+          'Bitki Organları (Kök, Gövde, Yaprak)',
+          'Bitkide Madde Taşınması (Ksilem ve Soymuk Boruları)',
+          'Bitkilerde Hareket (Tropizma ve Nasti) ve Hormonlar',
+          'Bitkide Üreme, Çiçek Yapısı, Tozlaşma ve Çimlenme',
         ]
       },
       {
-        id: 'ayt-bio-bitki-organ',
-        name: 'Bitkisel Organlar',
-        icon: '🌿',
-        subtopics: [
-          'Bitkisel Organlar - Temel Kavramlar',
-          'Bitkisel Organlar - Örnek Sorular',
-          'Bitkisel Organlar - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-bitki-hormon',
-        name: 'Bitki Hormonları',
-        icon: '🌱',
-        subtopics: [
-          'Bitki Hormonları - Temel Kavramlar',
-          'Bitki Hormonları - Örnek Sorular',
-          'Bitki Hormonları - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-bitki-hareket',
-        name: 'Bitkilerde Hareket',
-        icon: '🌻',
-        subtopics: [
-          'Bitkilerde Hareket - Temel Kavramlar',
-          'Bitkilerde Hareket - Örnek Sorular',
-          'Bitkilerde Hareket - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-bitki-tasima',
-        name: 'Bitkilerde Madde Taşınması',
-        icon: '🌳',
-        subtopics: [
-          'Bitkilerde Madde Taşınması - Temel Kavramlar',
-          'Bitkilerde Madde Taşınması - Örnek Sorular',
-          'Bitkilerde Madde Taşınması - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-bitki-ureme',
-        name: 'Bitkilerde Eşeyli Üreme',
-        icon: '🌸',
-        subtopics: [
-          'Bitkilerde Eşeyli Üreme - Temel Kavramlar',
-          'Bitkilerde Eşeyli Üreme - Örnek Sorular',
-          'Bitkilerde Eşeyli Üreme - Test'
-        ]
-      },
-      {
-        id: 'ayt-bio-canli-cevre',
+        id: 'ayt-biy-cevre',
         name: 'Canlılar ve Çevre',
         icon: '🌍',
         subtopics: [
-          'Canlılar ve Çevre - Temel Kavramlar',
-          'Canlılar ve Çevre - Örnek Sorular',
-          'Canlılar ve Çevre - Test'
+          'Genetik Mühendisliği ve Biyoteknoloji',
+          'Model Organizmalar ve Klonlama',
         ]
       }
     ],
     Tarih: [
       {
-        id: 'ayt-tar-giris',
-        name: 'Tarih Bilimine Giriş',
+        id: 'ayt-tar-tarih-bilimi',
+        name: 'Tarih Bilimi ve Tarih Yazıcılığı',
         icon: '📜',
         subtopics: [
-          'Tarih Bilimine Giriş - Temel Kavramlar',
-          'Tarih Bilimine Giriş - Örnek Sorular',
-          'Tarih Bilimine Giriş - Test'
+          'Tarihin Tanımı, Konusu ve Yöntemi',
+          'Tarih Yazıcılığı Türleri ve Belge İnceleme',
         ]
       },
       {
-        id: 'ayt-tar-ilk-cag',
-        name: 'İlk Çağ Dünya Tarihi',
-        icon: '🏛️',
+        id: 'ayt-tar-ilk-donemler',
+        name: 'İnsanlığın İlk Dönemleri ve İlk Çağ Medeniyetleri',
+        icon: '🗿',
         subtopics: [
-          'İlk Çağ Dünya Tarihi - Temel Kavramlar',
-          'İlk Çağ Dünya Tarihi - Örnek Sorular',
-          'İlk Çağ Dünya Tarihi - Test'
+          'Taş ve Maden Devirleri',
+          'Mezopotamya, Mısır, Yunan ve Anadolu Medeniyetleri',
+          'İlk Çağda Hukuk ve Ordu Sistemleri',
         ]
       },
       {
-        id: 'ayt-tar-orta-cag',
-        name: 'Orta Çağ Dünya Tarihi',
-        icon: '🏰',
+        id: 'ayt-tar-ilk-orta-cag-turk',
+        name: 'İlk ve Orta Çağlarda Türk Dünyası',
+        icon: '🐺',
         subtopics: [
-          'Orta Çağ Dünya Tarihi - Temel Kavramlar',
-          'Orta Çağ Dünya Tarihi - Örnek Sorular',
-          'Orta Çağ Dünya Tarihi - Test'
+          'Türklerin Anayurdu ve Göçler',
+          'Asya Hun, Göktürk ve Uygur Devletleri',
+          'Diğer Türk Boyları ve Devletleri',
+          'Türklerde Devlet Teşkilatı, Töre ve Kültür',
         ]
       },
       {
-        id: 'ayt-tar-ilk-turk',
-        name: 'İlk Türk Devletleri',
-        icon: '🏹',
-        subtopics: [
-          'İlk Türk Devletleri - Temel Kavramlar',
-          'İlk Türk Devletleri - Örnek Sorular',
-          'İlk Türk Devletleri - Test'
-        ]
-      },
-      {
-        id: 'ayt-tar-islamiyet',
-        name: 'İslamiyetin Doğuşu ve Türk-İslam',
+        id: 'ayt-tar-islam-turk-islam',
+        name: 'İslam Medeniyetinin Doğuşu ve İlk Türk-İslam Devletleri',
         icon: '☪️',
         subtopics: [
-          'İslamiyetin Doğuşu ve Türk-İslam - Temel Kavramlar',
-          'İslamiyetin Doğuşu ve Türk-İslam - Örnek Sorular',
-          'İslamiyetin Doğuşu ve Türk-İslam - Test'
+          'Hz. Muhammed, Dört Halife, Emeviler ve Abbasiler',
+          'Karahanlı, Gazneli ve Büyük Selçuklu Devleti',
+          'Türk-İslam Kültür ve Medeniyeti',
         ]
       },
       {
-        id: 'ayt-tar-selcuklu',
-        name: 'Selçuklular ve Anadolu',
+        id: 'ayt-tar-selcuklu-beylikler',
+        name: 'Selçuklu Türkiye\'si ve Anadolu Beylikleri',
         icon: '🏰',
         subtopics: [
-          'Selçuklular ve Anadolu - Temel Kavramlar',
-          'Selçuklular ve Anadolu - Örnek Sorular',
-          'Selçuklular ve Anadolu - Test'
+          'Malazgirt Sonrası Anadolu\'da İlk Beylikler',
+          'Türkiye Selçuklu Devleti Siyasi Tarihi',
+          'Anadolu\'da İkinci Beylikler Dönemi',
         ]
       },
       {
-        id: 'ayt-tar-osmanli-kurulus',
-        name: 'Osmanlının Kuruluşu',
-        icon: '🕌',
-        subtopics: [
-          'Osmanlının Kuruluşu - Temel Kavramlar',
-          'Osmanlının Kuruluşu - Örnek Sorular',
-          'Osmanlının Kuruluşu - Test'
-        ]
-      },
-      {
-        id: 'ayt-tar-osmanli-yukselis',
-        name: 'Osmanlının Yükselişi',
-        icon: '👑',
-        subtopics: [
-          'Osmanlının Yükselişi - Temel Kavramlar',
-          'Osmanlının Yükselişi - Örnek Sorular',
-          'Osmanlının Yükselişi - Test'
-        ]
-      },
-      {
-        id: 'ayt-tar-duraklama',
-        name: 'Duraklama ve Değişim Dönemi',
-        icon: '📉',
-        subtopics: [
-          'Duraklama ve Değişim Dönemi - Temel Kavramlar',
-          'Duraklama ve Değişim Dönemi - Örnek Sorular',
-          'Duraklama ve Değişim Dönemi - Test'
-        ]
-      },
-      {
-        id: 'ayt-tar-gerileme',
-        name: 'Gerileme ve Modernleşme Dönemi',
-        icon: '🔄',
-        subtopics: [
-          'Gerileme ve Modernleşme Dönemi - Temel Kavramlar',
-          'Gerileme ve Modernleşme Dönemi - Örnek Sorular',
-          'Gerileme ve Modernleşme Dönemi - Test'
-        ]
-      },
-      {
-        id: 'ayt-tar-1-dunya',
-        name: '20. Yüzyıl Başı ve I. Dünya Savaşı',
+        id: 'ayt-tar-beylikten-devlete',
+        name: 'Beylikten Devlete Osmanlı Siyaseti (1302-1453)',
         icon: '⚔️',
         subtopics: [
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Temel Kavramlar',
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Örnek Sorular',
-          '20. Yüzyıl Başı ve I. Dünya Savaşı - Test'
+          'Kuruluş Dönemi Siyasi Gelişmeleri',
+          'İskân ve İstimâlet Politikası',
+          'Askerî ve İdari Teşkilatlanma',
+        ]
+      },
+      {
+        id: 'ayt-tar-dunya-gucu',
+        name: 'Dünya Gücü Osmanlı (1453-1595)',
+        icon: '🌍',
+        subtopics: [
+          'Yükselme Dönemi ve Fetihler',
+          'Osmanlı Klasik Çağ Devlet Teşkilatı',
+          'Tımar Sistemi ve Eyalet Yönetimi',
+        ]
+      },
+      {
+        id: 'ayt-tar-degisen-dengeler',
+        name: 'Değişen Dünya Dengeleri Karşısında Osmanlı (17. ve 18. Yüzyıl)',
+        icon: '⚖️',
+        subtopics: [
+          'Arayış Yılları ve Islahatlar (17. Yüzyıl)',
+          'Karlofça Sonrası Osmanlı ve Avrupa İlişkileri',
+          'Lale Devri ve 18. Yüzyıl Islahatları',
+        ]
+      },
+      {
+        id: 'ayt-tar-en-uzun-yuzyil',
+        name: 'En Uzun Yüzyıl (1814-1914)',
+        icon: '⏳',
+        subtopics: [
+          'Denge Stratejisi ve Şark Meselesi',
+          'Tanzimat, Islahat ve I.-II. Meşrutiyet Dönemi',
+          'Yüzyıl Fikir Akımları (Osmanlıcılık, İslamcılık, Türkçülük)',
+        ]
+      },
+      {
+        id: 'ayt-tar-20-yuzyil-savas',
+        name: '20. Yüzyıl Başlarında Osmanlı ve I. Dünya Savaşı',
+        icon: '💥',
+        subtopics: [
+          'Trablusgarp ve Balkan Savaşları',
+          'I. Dünya Savaşı Cepheleri ve Antlaşmalar',
+          'Gizli Antlaşmalar ve İşgaller',
         ]
       },
       {
         id: 'ayt-tar-milli-mucadele',
-        name: 'Millî Mücadele',
+        name: 'Millî Mücadele Dönemi',
         icon: '🇹🇷',
         subtopics: [
-          'Millî Mücadele - Temel Kavramlar',
-          'Millî Mücadele - Örnek Sorular',
-          'Millî Mücadele - Test'
+          'İşgaller, Cemiyetler ve Genelgeler/Kongreler',
+          'BMM\'nin Açılması ve İsyanlar',
+          'Doğu, Güney ve Batı Cepheleri',
+          'Mudanya Ateşkesi ve Lozan Antlaşması',
         ]
       },
       {
-        id: 'ayt-tar-ataturk',
-        name: 'Atatürk Dönemi',
+        id: 'ayt-tar-ataturkculuk',
+        name: 'Atatürkçülük ve Türk İnkılabı',
         icon: '⭐',
         subtopics: [
-          'Atatürk Dönemi - Temel Kavramlar',
-          'Atatürk Dönemi - Örnek Sorular',
-          'Atatürk Dönemi - Test'
+          'Siyasal, Toplumsal, Eğitim ve Ekonomi İnkılapları',
+          'Atatürk İlkeleri ve Bütünleyici İlkeler',
+          'Atatürk Dönemi Türk Dış Politikası',
         ]
       },
       {
-        id: 'ayt-tar-2-dunya',
-        name: 'II. Dünya Savaşı ve Sonrası',
-        icon: '🌍',
+        id: 'ayt-tar-iki-savas-arasi',
+        name: 'İki Dünya Savaşı Arasındaki Dönem',
+        icon: '🌐',
         subtopics: [
-          'II. Dünya Savaşı ve Sonrası - Temel Kavramlar',
-          'II. Dünya Savaşı ve Sonrası - Örnek Sorular',
-          'II. Dünya Savaşı ve Sonrası - Test'
+          'II. Dünya Savaşı\'na Giden Yol ve Totaliter Rejimler',
+          'Orta Doğu\'da Manda Rejimleri ve Yükselen Güçler',
         ]
       },
       {
-        id: 'ayt-tar-guncel',
-        name: 'Güncel Dönem',
-        icon: '📰',
+        id: 'ayt-tar-soguk-savas',
+        name: 'II. Dünya Savaşı ve Soğuk Savaş Dönemi',
+        icon: '❄️',
         subtopics: [
-          'Güncel Dönem - Temel Kavramlar',
-          'Güncel Dönem - Örnek Sorular',
-          'Güncel Dönem - Test'
+          'II. Dünya Savaşı\'nın Gelişimi ve Türkiye\'nin Tutumu',
+          'Doğu ve Batı Bloklarının Kuruluşu (NATO, Varşova Paktı)',
+          'Soğuk Savaş Döneminde Türkiye',
+        ]
+      },
+      {
+        id: 'ayt-tar-yumusama',
+        name: 'Yumuşama Dönemi ve Küreselleşen Dünya',
+        icon: '🕊️',
+        subtopics: [
+          'Yumuşama (Detant) Dönemi ve Bölgesel Çatışmalar (Kıbrıs Meselesi vb.)',
+          'SSCB\'nin Dağılması ve Türk Cumhuriyetleri',
+          'Küreselleşen Dünya, Orta Doğu ve Türkiye',
         ]
       }
     ],
     Coğrafya: [
       {
-        id: 'ayt-cog-ekoloji',
-        name: 'Ekoloji ve Doğal Ortam',
+        id: 'ayt-cog-ekosistem',
+        name: 'Ekosistem ve Biyoçeşitlilik',
         icon: '🌿',
         subtopics: [
-          'Ekoloji ve Doğal Ortam - Temel Kavramlar',
-          'Ekoloji ve Doğal Ortam - Örnek Sorular',
-          'Ekoloji ve Doğal Ortam - Test'
+          'Biyoçeşitlilik ve Ekosistem Unsurları',
+          'Madde Döngüleri (Karbon, Azot, Su)',
+          'Enerji Akışı ve Besin Piramidi',
         ]
       },
       {
-        id: 'ayt-cog-nufus',
-        name: 'Nüfus ve Yerleşme',
+        id: 'ayt-cog-sehirler',
+        name: 'Şehirlerin Fonksiyonları ve Etki Alanları',
+        icon: '🏙️',
+        subtopics: [
+          'Şehirlerin Gelişimi ve Fonksiyonel Özellikleri',
+          'Şehirlerin Etki Alanları (Küresel, Bölgesel, Yerel)',
+          'Sakin Şehirler (Cittaslow) ve Geleceğin Şehirleri',
+        ]
+      },
+      {
+        id: 'ayt-cog-turkiye-nufus',
+        name: 'Türkiye\'de Nüfus ve Yerleşme',
         icon: '👥',
         subtopics: [
-          'Nüfus ve Yerleşme - Temel Kavramlar',
-          'Nüfus ve Yerleşme - Örnek Sorular',
-          'Nüfus ve Yerleşme - Test'
+          'Türkiye\'nin Nüfus Politikaları ve Projeksiyonları',
+          'Türkiye\'de Şehirlerin Fonksiyonları',
+          'Türkiye\'de Kır Yerleşme Tipleri ve Doku Özellikleri',
         ]
       },
       {
-        id: 'ayt-cog-ekonomi',
-        name: 'Ekonomik Coğrafya',
-        icon: '💰',
+        id: 'ayt-cog-turkiye-ekonomi',
+        name: 'Türkiye\'nin Ekonomi Politikaları ve Sektörleri',
+        icon: '🏭',
         subtopics: [
-          'Ekonomik Coğrafya - Temel Kavramlar',
-          'Ekonomik Coğrafya - Örnek Sorular',
-          'Ekonomik Coğrafya - Test'
+          'Türkiye\'de Uygulanan Ekonomi Politikaları',
+          'Türkiye\'de Tarım ve Hayvancılık',
+          'Türkiye\'de Madenler ve Enerji Kaynakları',
+          'Türkiye\'de Sanayi, Ticaret ve Turizm',
         ]
       },
       {
-        id: 'ayt-cog-tarim',
-        name: 'Türkiyede Tarım, Ormancılık, Sanayi',
-        icon: '🌾',
+        id: 'ayt-cog-bolgesel-kalkinma',
+        name: 'Bölgesel Kalkınma Projeleri',
+        icon: '🏗️',
         subtopics: [
-          'Türkiyede Tarım, Ormancılık, Sanayi - Temel Kavramlar',
-          'Türkiyede Tarım, Ormancılık, Sanayi - Örnek Sorular',
-          'Türkiyede Tarım, Ormancılık, Sanayi - Test'
+          'GAP, DAP, DOKAP, ZBK, KOP ve YGP Projeleri',
+          'Projelerin Amaçları ve Bölgesel Etkileri',
         ]
       },
       {
-        id: 'ayt-cog-kultur',
-        name: 'Kültür Coğrafyası',
+        id: 'ayt-cog-kuresel-ticaret',
+        name: 'Küresel Ticaret, Ulaşım ve Pazar',
+        icon: '🌐',
+        subtopics: [
+          'Hammadde, Üretim ve Pazar Alanları',
+          'Küresel Ticaret ve Ulaşım Ağları',
+          'Turizm Faaliyetlerinin Küresel Etkileri',
+        ]
+      },
+      {
+        id: 'ayt-cog-ulkeler-medeniyet',
+        name: 'Ülkeler Coğrafyası ve Medeniyetler',
         icon: '🏛️',
         subtopics: [
-          'Kültür Coğrafyası - Temel Kavramlar',
-          'Kültür Coğrafyası - Örnek Sorular',
-          'Kültür Coğrafyası - Test'
+          'İlk Medeniyet Merkezleri ve Yayılış Alanları',
+          'Ülkelerin Gelişmişlik Düzeyi ve Doğal Kaynak İlişkisi',
+          'Kültür Bölgeleri ve Türk Kültürü',
         ]
       },
       {
-        id: 'ayt-cog-ticaret-turizm',
-        name: 'Küresel Ticaret ve Turizm',
-        icon: '✈️',
+        id: 'ayt-cog-orgutler',
+        name: 'Küresel ve Bölgesel Örgütler',
+        icon: '🤝',
         subtopics: [
-          'Küresel Ticaret ve Turizm - Temel Kavramlar',
-          'Küresel Ticaret ve Turizm - Örnek Sorular',
-          'Küresel Ticaret ve Turizm - Test'
-        ]
-      },
-      {
-        id: 'ayt-cog-cevre',
-        name: 'Çevre Sorunları',
-        icon: '⚠️',
-        subtopics: [
-          'Çevre Sorunları - Temel Kavramlar',
-          'Çevre Sorunları - Örnek Sorular',
-          'Çevre Sorunları - Test'
-        ]
-      },
-      {
-        id: 'ayt-cog-doga-gelecek',
-        name: 'Doğa Olayları ve Gelecek',
-        icon: '🔮',
-        subtopics: [
-          'Doğa Olayları ve Gelecek - Temel Kavramlar',
-          'Doğa Olayları ve Gelecek - Örnek Sorular',
-          'Doğa Olayları ve Gelecek - Test'
-        ]
-      },
-      {
-        id: 'ayt-cog-bolgeler',
-        name: 'Türkiyenin Bölgeleri ve Kalkınma',
-        icon: '🗺️',
-        subtopics: [
-          'Türkiyenin Bölgeleri ve Kalkınma - Temel Kavramlar',
-          'Türkiyenin Bölgeleri ve Kalkınma - Örnek Sorular',
-          'Türkiyenin Bölgeleri ve Kalkınma - Test'
-        ]
-      },
-      {
-        id: 'ayt-cog-hizmet',
-        name: 'Hizmet Sektörü, Ticaret, Turizm',
-        icon: '🏨',
-        subtopics: [
-          'Hizmet Sektörü, Ticaret, Turizm - Temel Kavramlar',
-          'Hizmet Sektörü, Ticaret, Turizm - Örnek Sorular',
-          'Hizmet Sektörü, Ticaret, Turizm - Test'
+          'Siyasi ve Askerî Örgütler (BM, NATO vb.)',
+          'Ekonomik Örgütler (AB, IMF, OECD, İİT, KEİ vb.)',
+          'Çevre Örgütleri',
         ]
       },
       {
         id: 'ayt-cog-jeopolitik',
-        name: 'Jeopolitik ve Küresel Gelişmişlik',
-        icon: '🌍',
+        name: 'Türkiye\'nin Jeopolitik Konumu ve Çatışma Bölgeleri',
+        icon: '🛰️',
         subtopics: [
-          'Jeopolitik ve Küresel Gelişmişlik - Temel Kavramlar',
-          'Jeopolitik ve Küresel Gelişmişlik - Örnek Sorular',
-          'Jeopolitik ve Küresel Gelişmişlik - Test'
+          'Türkiye\'nin Jeopolitik Konumu ve Değişen Rolü',
+          'Geçmişten Günümüze Sıcak Çatışma Bölgeleri',
+          'Türk Dünyası ve Bölgesel İlişkiler',
         ]
       },
       {
-        id: 'ayt-cog-cevre-politika',
-        name: 'Çevre Politikaları',
-        icon: '📋',
+        id: 'ayt-cog-cevre',
+        name: 'Çevre ve Sürdürülebilirlik',
+        icon: '♻️',
         subtopics: [
-          'Çevre Politikaları - Temel Kavramlar',
-          'Çevre Politikaları - Örnek Sorular',
-          'Çevre Politikaları - Test'
+          'Küresel Çevre Sorunları ve Türleri',
+          'Doğal Kaynak Kullanımının Çevresel Etkileri',
+          'Sürdürülebilir Arazi Kullanımı ve Çevre Anlaşmaları',
         ]
       }
     ],
     Felsefe: [
       {
-        id: 'ayt-fel-giris',
-        name: 'Felsefeye Giriş',
-        icon: '🧠',
+        id: 'ayt-fel-felsefeyi-tanima',
+        name: 'Felsefeyi Tanıma',
+        icon: '🤔',
         subtopics: [
-          'Felsefeye Giriş - Temel Kavramlar',
-          'Felsefeye Giriş - Örnek Sorular',
-          'Felsefeye Giriş - Test'
+          'Felsefenin Anlamı ve Doğuşu',
+          'Felsefi Düşüncenin Özellikleri',
+          'Felsefenin Bireysel ve Toplumsal İşlevleri',
         ]
       },
       {
-        id: 'ayt-fel-bilgi',
-        name: 'Bilgi Felsefesi',
+        id: 'ayt-fel-felsefe-ile-dusunme',
+        name: 'Felsefe ile Düşünme',
         icon: '💭',
         subtopics: [
-          'Bilgi Felsefesi - Temel Kavramlar',
-          'Bilgi Felsefesi - Örnek Sorular',
-          'Bilgi Felsefesi - Test'
+          'Akıl Yürütme Türleri (Tümdengelim, Tümevarım, Analoji)',
+          'Argüman, Önerme ve Görüş Kavramları',
+          'Dil ve Düşünme İlişkisi',
         ]
       },
       {
-        id: 'ayt-fel-varlik',
-        name: 'Varlık Felsefesi',
-        icon: '🌌',
-        subtopics: [
-          'Varlık Felsefesi - Temel Kavramlar',
-          'Varlık Felsefesi - Örnek Sorular',
-          'Varlık Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-ahlak',
-        name: 'Ahlak Felsefesi',
-        icon: '⚖️',
-        subtopics: [
-          'Ahlak Felsefesi - Temel Kavramlar',
-          'Ahlak Felsefesi - Örnek Sorular',
-          'Ahlak Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-sanat',
-        name: 'Sanat Felsefesi',
-        icon: '🎨',
-        subtopics: [
-          'Sanat Felsefesi - Temel Kavramlar',
-          'Sanat Felsefesi - Örnek Sorular',
-          'Sanat Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-din',
-        name: 'Din Felsefesi',
-        icon: '☪️',
-        subtopics: [
-          'Din Felsefesi - Temel Kavramlar',
-          'Din Felsefesi - Örnek Sorular',
-          'Din Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-siyaset',
-        name: 'Siyaset Felsefesi',
+        id: 'ayt-fel-temel-alanlar',
+        name: 'Felsefenin Temel Alanları ve Problemleri',
         icon: '🏛️',
         subtopics: [
-          'Siyaset Felsefesi - Temel Kavramlar',
-          'Siyaset Felsefesi - Örnek Sorular',
-          'Siyaset Felsefesi - Test'
+          'Varlık Felsefesi (Ontoloji)',
+          'Bilgi Felsefesi (Epistemoloji)',
+          'Bilim Felsefesi',
+          'Ahlak Felsefesi (Etik)',
+          'Sanat Felsefesi (Estetik)',
+          'Din Felsefesi',
+          'Siyaset Felsefesi',
         ]
       },
       {
-        id: 'ayt-fel-bilim',
-        name: 'Bilim Felsefesi',
-        icon: '🔬',
+        id: 'ayt-fel-tarihsel-donemler',
+        name: 'Felsefenin Tarihsel Dönemleri',
+        icon: '⏳',
         subtopics: [
-          'Bilim Felsefesi - Temel Kavramlar',
-          'Bilim Felsefesi - Örnek Sorular',
-          'Bilim Felsefesi - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-akimlar',
-        name: 'Felsefi Akımlar',
-        icon: '🌊',
-        subtopics: [
-          'Felsefi Akımlar - Temel Kavramlar',
-          'Felsefi Akımlar - Örnek Sorular',
-          'Felsefi Akımlar - Test'
-        ]
-      },
-      {
-        id: 'ayt-fel-mantik',
-        name: 'Mantık',
-        icon: '🧮',
-        subtopics: [
-          'Mantık - Temel Kavramlar',
-          'Mantık - Örnek Sorular',
-          'Mantık - Test'
+          'MÖ 6. Yüzyıl - MS 2. Yüzyıl (İlk Çağ Felsefesi)',
+          'MS 2. Yüzyıl - MS 15. Yüzyıl (Orta Çağ Felsefesi)',
+          '15. Yüzyıl - 17. Yüzyıl (Rönesans ve Modern Felsefe)',
+          '18. Yüzyıl - 19. Yüzyıl (Aydınlanma Felsefesi)',
+          '20. Yüzyıl Felsefesi ve Temel Akımlar',
         ]
       },
       {
@@ -4294,9 +2324,10 @@ const CURRICULUM = {
         name: 'Psikoloji',
         icon: '🧠',
         subtopics: [
-          'Psikoloji - Temel Kavramlar',
-          'Psikoloji - Örnek Sorular',
-          'Psikoloji - Test'
+          'Psikoloji Bilimini Tanıyalım (Tanımı, Yaklaşımları, Araştırma Yöntemleri)',
+          'Psikolojinin Temel Süreçleri (Duyum, Algı, Güdülenme, Duygu)',
+          'Öğrenme, Bellek ve Düşünme',
+          'Ruh Sağlığı, Stres ve Kişilik Kuramları',
         ]
       },
       {
@@ -4304,9 +2335,22 @@ const CURRICULUM = {
         name: 'Sosyoloji',
         icon: '👥',
         subtopics: [
-          'Sosyoloji - Temel Kavramlar',
-          'Sosyoloji - Örnek Sorular',
-          'Sosyoloji - Test'
+          'Sosyolojiye Giriş (Tanımı, Yöntemleri ve Araştırma Teknikleri)',
+          'Toplumsal Yapı, İlişkiler ve Tabakalaşma',
+          'Toplumsal Değişme ve Gelişme',
+          'Toplum ve Kültür',
+          'Toplumsal Kurumlar (Aile, Eğitim, Din, Ekonomi, Siyaset)',
+        ]
+      },
+      {
+        id: 'ayt-fel-mantik',
+        name: 'Mantık',
+        icon: '🔀',
+        subtopics: [
+          'Mantığa Giriş (Tanımı, Akıl İlkeleri ve Mantığın Doğuşu)',
+          'Klasik Mantık (Kavram, Terim, Önerme ve Kıyas)',
+          'Mantık ve Dil (Anlam Analizi ve Tanım Türleri)',
+          'Sembolik Mantık (Önermeler Mantığı ve Yüklemler Mantığı)',
         ]
       }
     ],
@@ -4316,102 +2360,62 @@ const CURRICULUM = {
         name: 'Dünya ve Ahiret',
         icon: '🌍',
         subtopics: [
-          'Dünya ve Ahiret - Temel Kavramlar',
-          'Dünya ve Ahiret - Örnek Sorular',
-          'Dünya ve Ahiret - Test'
+          'Ahiret Hayatının Aşamaları (Ölüm, Berzah, Kıyamet, Ba\'s, Haşır, Mahşer, Mizan, Sırat)',
+          'Dünya ve Ahiret Hayatı Arasındaki İlişki',
+          'Cennet ve Cehennem Kavramları',
         ]
       },
       {
-        id: 'ayt-din-hz-muhammed',
-        name: 'Kurana Göre Hz. Muhammed',
-        icon: '🕋',
-        subtopics: [
-          'Kurana Göre Hz. Muhammed - Temel Kavramlar',
-          'Kurana Göre Hz. Muhammed - Örnek Sorular',
-          'Kurana Göre Hz. Muhammed - Test'
-        ]
-      },
-      {
-        id: 'ayt-din-kavramlar',
-        name: 'Kuranda Bazı Kavramlar',
+        id: 'ayt-din-kuran-anlasilmasi',
+        name: 'Kur\'an-ı Kerim ve Anlaşılması',
         icon: '📖',
         subtopics: [
-          'Kuranda Bazı Kavramlar - Temel Kavramlar',
-          'Kuranda Bazı Kavramlar - Örnek Sorular',
-          'Kuranda Bazı Kavramlar - Test'
+          'Tefsir, Meal, Tevil ve Tecvid Kavramları',
+          'Kur\'an-ı Kerim\'in Toplanması, Çoğaltılması ve Nüzul Süreci',
+          'Kur\'an\'ı Okuma ve Anlama Yöntemleri',
         ]
       },
       {
-        id: 'ayt-din-inanc-mesele',
-        name: 'İnançla İlgili Meseleler',
-        icon: '💭',
+        id: 'ayt-din-mezhepler',
+        name: 'İslam Düşüncesinde Yorumlar ve Mezhepler',
+        icon: '📚',
         subtopics: [
-          'İnançla İlgili Meseleler - Temel Kavramlar',
-          'İnançla İlgili Meseleler - Örnek Sorular',
-          'İnançla İlgili Meseleler - Test'
-        ]
-      },
-      {
-        id: 'ayt-din-yahudi-hristiyan',
-        name: 'Yahudilik ve Hristiyanlık',
-        icon: '✝️',
-        subtopics: [
-          'Yahudilik ve Hristiyanlık - Temel Kavramlar',
-          'Yahudilik ve Hristiyanlık - Örnek Sorular',
-          'Yahudilik ve Hristiyanlık - Test'
-        ]
-      },
-      {
-        id: 'ayt-din-islam-bilim',
-        name: 'İslam ve Bilim',
-        icon: '🔬',
-        subtopics: [
-          'İslam ve Bilim - Temel Kavramlar',
-          'İslam ve Bilim - Örnek Sorular',
-          'İslam ve Bilim - Test'
-        ]
-      },
-      {
-        id: 'ayt-din-anadolu-islam',
-        name: 'Anadoluda İslam',
-        icon: '🕌',
-        subtopics: [
-          'Anadoluda İslam - Temel Kavramlar',
-          'Anadoluda İslam - Örnek Sorular',
-          'Anadoluda İslam - Test'
+          'Dini Yorum Farklılıklarının Nedenleri',
+          'Siyasi ve İtikadi Mezhepler (Mürcie, Mu\'tezile, Şia, Haricilik, Eş\'ariyye, Maturidiyye)',
+          'Ameli ve Fıkhi Yorumlar (Hanefilik, Şafilik, Malikilik, Hanbelilik, Caferilik)',
         ]
       },
       {
         id: 'ayt-din-tasavvuf',
-        name: 'İslam Düşüncesinde Tasavvufi Yorumlar',
-        icon: '📿',
+        name: 'Tasavvuf ve Tasavvufi Yorumlar',
+        icon: '🕊️',
         subtopics: [
-          'İslam Düşüncesinde Tasavvufi Yorumlar - Temel Kavramlar',
-          'İslam Düşüncesinde Tasavvufi Yorumlar - Örnek Sorular',
-          'İslam Düşüncesinde Tasavvufi Yorumlar - Test'
+          'Tasavvuf Kavramı ve Temel Terimler (Zühd, Seyr-i Süluk, İhsan)',
+          'Tasavvufi Düşüncede Edep ve Erkan',
+          'Tasavvufi Yorumlar (Yesevilik, Mevlevilik, Nakşibendilik, Kadirilik, Alevilik-Bektaşilik)',
         ]
       },
       {
-        id: 'ayt-din-guncel-mesele',
-        name: 'Güncel Dini Meseleler',
-        icon: '📋',
+        id: 'ayt-din-bilim-fikih-sanat',
+        name: 'İslam Düşüncesinde Bilim, Fıkıh ve Sanat',
+        icon: '🔬',
         subtopics: [
-          'Güncel Dini Meseleler - Temel Kavramlar',
-          'Güncel Dini Meseleler - Örnek Sorular',
-          'Güncel Dini Meseleler - Test'
+          'İslam Bilim Tarihi ve Öne Çıkan Müslüman Bilim İnsanları',
+          'Fıkıh Kavramı, Ef\'al-i Mükellefin ve Şer\'i Deliller',
+          'İslam Sanat Dalları (Hüsn-i Hat, Tezhip, Ebru, Minyatür, Edebi ve Mimari Eserler)',
         ]
       },
       {
-        id: 'ayt-din-hint-cin',
-        name: 'Hint, Çin ve Diğer Dinler',
-        icon: '🕉️',
+        id: 'ayt-din-dinler-tarihi',
+        name: 'Dinler Tarihi ve Yaşayan Dünya Dinleri',
+        icon: '🌐',
         subtopics: [
-          'Hint, Çin ve Diğer Dinler - Temel Kavramlar',
-          'Hint, Çin ve Diğer Dinler - Örnek Sorular',
-          'Hint, Çin ve Diğer Dinler - Test'
+          'Din Tanımı ve Dinlerin Sınıflandırılması',
+          'İlahi Dinler (Yahudilik ve Hristiyanlık Tarihi, İnanç Esasları, Ritüelleri)',
+          'Hint ve Çin Dinleri (Hinduizm, Budizm, Taoizm, Konfüçyüsçülük)',
         ]
       }
-    ]
+    ],
   }
 };
 

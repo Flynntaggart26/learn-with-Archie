@@ -1731,3 +1731,92 @@ body {
     justify-content: flex-end;
   }
 }
+
+/* ===== Screenshot-style Roadmap (rm-*) ===== */
+.rm-bg { background-color: #f6f9fc; background-image: linear-gradient(#e9eff5 1px, transparent 1px), linear-gradient(90deg, #e9eff5 1px, transparent 1px); background-size: 28px 28px; border-radius: 18px; padding: 18px; }
+.rm-wrap { max-width: 1080px; margin: 0 auto; padding-bottom: 10px; }
+.rm-header { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid #e3ecf3; border-radius: 16px; padding: 16px 20px; box-shadow: 0 4px 14px rgba(15,42,67,.06); margin: 6px 0 22px; }
+.rm-header-icon { width: 44px; height: 44px; display: grid; place-items: center; font-size: 22px; background: linear-gradient(145deg,#dbeafe,#bfdbfe); border-radius: 12px; flex-shrink: 0; }
+.rm-header-title { font-size: 17px; font-weight: 900; color: #0f2a43; letter-spacing: -.2px; }
+.rm-header-sub { font-size: 12px; color: #6b8299; font-weight: 600; }
+.rm-flow { position: relative; display: flex; flex-direction: column; gap: 26px; }
+.rm-row { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.rm-cell { display: flex; } .rm-cell .rm-card { width: 100%; }
+.rm-spine { position: relative; display: flex; align-items: center; justify-content: center; }
+.rm-spine::before { content: ""; position: absolute; top: -26px; bottom: -26px; width: 3px; background: linear-gradient(#34d399,#60a5fa); border-radius: 3px; opacity: .7; }
+.rm-row:first-child .rm-spine::before { top: 0; }
+.rm-dot { position: relative; z-index: 1; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 900; color: #fff; border: 3px solid #fff; box-shadow: 0 3px 10px rgba(15,42,67,.18); }
+.rm-dot.done { background: #22c55e; } .rm-dot.active { background: #3b82f6; } .rm-dot.locked { background: #94a3b8; }
+.rm-card { text-align: left; font: inherit; border-radius: 16px; padding: 14px 16px 12px; border: 1.5px solid; cursor: pointer; transition: transform .18s, box-shadow .18s; box-shadow: 0 6px 18px rgba(15,42,67,.08); background: #fff; color: #0f2a43; }
+.rm-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15,42,67,.14); }
+.rm-card.done { background: linear-gradient(135deg,#d3f8e2 0%,#eefdf3 60%,#f7fff9 100%); border-color: #86efac; }
+.rm-card.active { background: linear-gradient(135deg,#dbeafe 0%,#e9e4fb 60%,#f3efff 100%); border-color: #93c5fd; box-shadow: 0 8px 22px rgba(59,130,246,.18); }
+.rm-card.locked { background: #eef1f5; border-color: #dde3ea; cursor: default; }
+.rm-card-top { display: flex; align-items: center; gap: 10px; }
+.rm-ico { width: 38px; height: 38px; display: grid; place-items: center; font-size: 18px; border-radius: 10px; background: rgba(255,255,255,.8); border: 1px solid rgba(15,42,67,.08); flex-shrink: 0; }
+.rm-card.done .rm-ico { background: #bbf7d0; } .rm-card.active .rm-ico { background: #dbeafe; } .rm-card.locked .rm-ico { background: #e2e8f0; filter: grayscale(1); }
+.rm-name { flex: 1; font-size: 15px; font-weight: 800; line-height: 1.25; }
+.rm-card.locked .rm-name { color: #64748b; }
+.rm-pill { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.rm-card.done .rm-pill { background: #dcfce7; color: #16a34a; border: 1px solid #86efac; }
+.rm-card.active .rm-pill { background: #2563eb; color: #fff; }
+.rm-card.locked .rm-pill { background: #e2e8f0; color: #94a3b8; }
+.rm-bar { height: 8px; border-radius: 99px; background: rgba(15,42,67,.1); margin: 12px 0 10px; overflow: hidden; }
+.rm-bar i { display: block; height: 100%; border-radius: 99px; }
+.rm-card.done .rm-bar i { background: linear-gradient(90deg,#22c55e,#4ade80); }
+.rm-card.active .rm-bar i { background: linear-gradient(90deg,#3b82f6,#60a5fa); }
+.rm-card.locked .rm-bar i { background: #cbd5e1; }
+.rm-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 700; color: #5b7288; }
+.rm-foot-right { display: flex; align-items: center; gap: 6px; color: #0f2a43; }
+.rm-dot-sm { font-size: 10px; font-style: normal; }
+.rm-dot-sm.done { color: #22c55e; } .rm-dot-sm.missing { color: #f59e0b; } .rm-dot-sm.wrong { color: #ef4444; }
+.rm-legend { display: flex; gap: 14px; flex-wrap: wrap; background: #fff; border: 1px solid #e3ecf3; border-radius: 14px; padding: 12px 16px; font-size: 12px; font-weight: 700; color: #33475c; box-shadow: 0 8px 22px rgba(15,42,67,.12); margin-top: 26px; width: fit-content; margin-left: auto; }
+.rm-legend i { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-style: normal; font-size: 11px; color: #fff; margin-right: 6px; }
+.rm-lg.done { background: #22c55e; } .rm-lg.active { background: #3b82f6; } .rm-lg.locked { background: #cbd5e1; } .rm-lg.missing { background: #f59e0b; } .rm-lg.wrong { background: #ef4444; }
+@media (max-width: 860px) { .rm-row { grid-template-columns: 1fr 44px; } .rm-row .rm-cell:nth-of-type(3) { grid-column: 1; grid-row: 2; } .rm-spine { grid-column: 2; grid-row: 1 / span 2; } }
+
+/* ===== Roadmap selectors — Deep Marine modern ===== */
+.roadmap-section { background: linear-gradient(160deg, #0F213A 0%, #0B1A30 100%); border: 1px solid rgba(0,216,246,.16); border-radius: 16px; padding: 16px 18px; margin: 0 0 16px; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
+.roadmap-section-label { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #F8FAFC; margin-bottom: 12px; }
+.roadmap-section-num { width: 26px; height: 26px; display: grid; place-items: center; font-size: 13px; font-weight: 900; color: #070F1E; background: linear-gradient(135deg,#00D8F6,#7DD3FC); border-radius: 9px; box-shadow: 0 3px 10px rgba(0,216,246,.35); }
+.roadmap-level-tabs { display: flex; gap: 8px; background: rgba(7,15,30,.7); border: 1px solid rgba(148,163,184,.15); border-radius: 12px; padding: 5px; }
+.roadmap-level-tab { flex: 1; padding: 10px; border: none; border-radius: 9px; background: transparent; color: #94A3B8; font: inherit; font-size: 14px; font-weight: 800; letter-spacing: .04em; cursor: pointer; transition: all .2s ease; }
+.roadmap-level-tab:hover:not(.active) { background: rgba(0,216,246,.1); color: #00D8F6; }
+.roadmap-level-tab.active { background: linear-gradient(135deg,#00D8F6,#38BDF8); color: #070F1E; box-shadow: 0 4px 14px rgba(0,216,246,.35); }
+.roadmap-bubbles { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+.roadmap-bubble { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 13px 14px; background: #0B1A30; border: 1px solid rgba(148,163,184,.18); border-radius: 13px; color: #F8FAFC; font: inherit; cursor: pointer; text-align: left; transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease; }
+.roadmap-bubble:hover { transform: translateY(-2px); border-color: rgba(0,216,246,.55); box-shadow: 0 8px 20px rgba(0,216,246,.12); }
+.roadmap-bubble.selected { border-color: #00D8F6; background: linear-gradient(160deg, rgba(0,216,246,.16), rgba(0,216,246,.04)); box-shadow: 0 0 0 1px #00D8F6, 0 8px 22px rgba(0,216,246,.18); }
+.roadmap-bubble-emoji { font-size: 20px; width: 36px; height: 36px; display: grid; place-items: center; background: rgba(0,216,246,.1); border: 1px solid rgba(0,216,246,.2); border-radius: 10px; }
+.roadmap-bubble.selected .roadmap-bubble-emoji { background: rgba(0,216,246,.2); }
+.roadmap-bubble-name { font-size: 13.5px; font-weight: 800; line-height: 1.3; }
+.roadmap-bubble-mastery { font-size: 11px; font-weight: 800; padding: 2px 9px; border: 1px solid; border-radius: 999px; background: rgba(7,15,30,.6); }
+.roadmap-bubble-meta { font-size: 11px; color: #94A3B8; font-weight: 600; }
+.roadmap-bubble-topic, .roadmap-bubble-sub { position: relative; overflow: hidden; }
+.roadmap-bubble-topic::before, .roadmap-bubble-sub::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--bubble-color, #00D8F6); opacity: .85; }
+.roadmap-empty-box, .roadmap-empty-state { background: #0B1A30; border: 1px dashed rgba(148,163,184,.3); border-radius: 13px; padding: 22px; text-align: center; color: #94A3B8; font-size: 13.5px; }
+.roadmap-empty-state h3 { color: #F8FAFC; margin: 8px 0 4px; font-size: 16px; }
+.roadmap-empty-icon { font-size: 30px; }
+@media (max-width: 640px) { .roadmap-bubbles { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== Roadmap fixes: legend position, plain white bg ===== */
+.rm-bg { background-color: #fff !important; background-image: none !important; }
+.rm-legend { position: static !important; float: none !important; clear: both; margin: 34px 0 10px auto !important; }
+
+/* ===== Legend pinned top-right, independent of cards ===== */
+.rm-legend { position: fixed !important; top: 118px; right: 22px; margin: 0 !important; z-index: 40; flex-wrap: nowrap; }
+@media (max-width: 1150px) { .rm-legend { position: static !important; margin: 20px 0 10px auto !important; flex-wrap: wrap; } }
+
+/* ===== Legend compact bottom-right (clear stale top/bottom) ===== */
+.rm-legend { position: fixed !important; top: auto !important; bottom: 18px !important; right: 22px !important; left: auto !important; width: max-content !important; max-width: calc(100vw - 44px); height: auto !important; margin: 0 !important; z-index: 40; flex-wrap: nowrap; align-items: center; }
+@media (max-width: 1150px) { .rm-legend { position: static !important; width: fit-content !important; margin: 20px 0 10px auto !important; flex-wrap: wrap; } }
+
+/* ===== Legend bottom-center ===== */
+.rm-legend { right: auto !important; left: 50% !important; transform: translateX(-50%); bottom: 10px !important; }
+@media (max-width: 1150px) { .rm-legend { left: auto !important; transform: none !important; } }
+
+/* ===== Legend bottom-right, same height ===== */
+.rm-legend { left: auto !important; right: 22px !important; transform: none !important; bottom: 10px !important; }
+
+/* ===== Legend on top, in flow above cards ===== */
+.rm-legend { position: static !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; transform: none !important; width: fit-content !important; max-width: 100%; margin: 0 0 18px auto !important; }

@@ -456,6 +456,11 @@ function showPage(page) {
   if (page === 'dashboard') {
     if ($('dashboardContainer')) $('dashboardContainer').style.display = '';
     renderDashboard();
+  } else if (page === 'roadmap' || page === 'learn') {
+    AppState.activePage = 'roadmap';
+    if ($('controlsBar')) $('controlsBar').style.display = '';
+    if ($('roadmapContainer')) $('roadmapContainer').style.display = '';
+    renderRoadmap();
   } else if (page === 'teacher') {
     if ($('teacherSelection')) $('teacherSelection').style.display = '';
     renderTeacherSelection();
@@ -860,59 +865,102 @@ function renderRoadmap() {
   }
 }
 
+function rmTopicState(topicId, idx, list, progress) {
+  const entry = progress[topicId];
+  const isCompleted = entry && entry.total > 0;
+  const percent = getMasteryPercent(topicId);
+  const isWeak = percent > 0 && percent < 40;
+  const prev = list.slice(0, idx);
+  const hasPrevCompleted = idx === 0 || prev.some((t, i) => {
+    const pid = typeof t === 'string' ? `${list._parentId}-sub-${i}` : t.id;
+    return progress[pid]?.total > 0;
+  });
+  let state = 'locked';
+  if (isCompleted) state = 'done';
+  else if (hasPrevCompleted) state = 'active';
+  return { state, percent, isWeak, isCompleted };
+}
+
+function rmCardHtml(opts) {
+  const { idAttr, idVal, icon, name, state, percent, footLeft, footRight, dot } = opts;
+  const pill = state === 'done' ? 'Tamamlandı' : state === 'active' ? 'Devam Ediyor' : 'Kilitli 🔒';
+  const bar = state === 'locked' ? 0 : Math.max(percent, state === 'done' ? 100 : percent);
+  return `
+    <button class="rm-card ${state}" ${idAttr}="${idVal}" title="${name}">
+      <div class="rm-card-top">
+        <span class="rm-ico">${icon}</span>
+        <span class="rm-name">${name}</span>
+        <span class="rm-pill">${pill}</span>
+      </div>
+      <div class="rm-bar"><i style="width:${bar}%"></i></div>
+      <div class="rm-foot">
+        <span>${footLeft}</span>
+        <span class="rm-foot-right">${footRight} ${dot}</span>
+      </div>
+    </button>`;
+}
+
+function rmSpineDot(state) {
+  if (state === 'done') return '<span class="rm-dot done">✓</span>';
+  if (state === 'active') return '<span class="rm-dot active">›</span>';
+  return '<span class="rm-dot locked">›</span>';
+}
+
+function rmLegendHtml() {
+  return `
+    <div class="rm-legend">
+      <span><i class="rm-lg done">✓</i>Tamamlandı</span>
+      <span><i class="rm-lg active">●</i>Devam Ediyor</span>
+      <span><i class="rm-lg locked">●</i>Kilitli</span>
+      <span><i class="rm-lg missing">●</i>Eksik</span>
+      <span><i class="rm-lg wrong">✕</i>Yanlış</span>
+    </div>`;
+}
+
 function renderMainTopicRoadmap(roadmapEl, subject, topics, progress, allTopics) {
   let html = `
-    <div class="subject-header">
-      <div class="subject-header-content">
-        <span class="subject-icon">${CLASS_ICONS[subject] || '📚'}</span>
-        <div class="subject-info">
-          <span class="subject-name">${subject}</span>
-          <span class="subject-level">${currentRoadmapLevel.toUpperCase()}</span>
-        </div>
+    <div class="rm-header">
+      <span class="rm-header-icon">🗺️</span>
+      <div>
+        <div class="rm-header-title">Yol Haritası - ${subject} (${currentRoadmapLevel.toUpperCase()})</div>
+        <div class="rm-header-sub">${currentRoadmapLevel.toUpperCase()} ${subject} Başarısına Adım Adım Yolculuğunuz - Konu ve İlerleme Takibi</div>
       </div>
     </div>`;
 
   if (topics.length === 0) {
     html += '<div class="empty-msg">Bu ders için konu bulunamadı.</div>';
   } else {
-    topics.forEach((topic, idx) => {
-      const entry = progress[topic.id];
-      const isCompleted = entry && entry.total > 0;
-      const percent = getMasteryPercent(topic.id);
-      const isWeak = percent > 0 && percent < 40;
-
-      let nodeClass = 'node locked';
-      const prevTopics = topics.slice(0, idx);
-      const hasPrevCompleted = idx === 0 || prevTopics.some((t) => progress[t.id]?.total > 0);
-      if (isCompleted) nodeClass = 'node completed';
-      else if (hasPrevCompleted) nodeClass = 'node current';
-      if (isWeak) nodeClass = 'node weak';
-
-      const offset = idx % 2 === 1 ? ' offset-right' : ' offset-left';
-      const subtopicCount = topic.subtopics ? topic.subtopics.length : 0;
-      const statusLabel = isCompleted ? 'Tamamlandı' : hasPrevCompleted ? 'Devam Edilebilir' : 'Kilitli';
-
-      html += `
-        <div class="node-row${offset}">
-          <button class="${nodeClass}" data-topic="${topic.id}" title="${topic.name} (${subtopicCount} alt konu)">
-            <span class="node-icon">${topic.icon}</span>
-            <div class="node-content">
-              <span class="node-title">${topic.name}</span>
-              <div class="node-meta">
-                ${isCompleted ? `<span class="node-progress">${percent}% • ${getMasteryLabel(percent)}</span>` : `<span class="node-status">${statusLabel}</span>`}
-                ${subtopicCount > 0 ? `<span class="node-subtopic-count">${subtopicCount} alt konu</span>` : ''}
-              </div>
-            </div>
-            ${isCompleted ? '<span class="node-check">✓</span>' : ''}
-          </button>
-        </div>
-      `;
-    });
+    html += rmLegendHtml();
+    html += '<div class="rm-flow">';
+    for (let r = 0; r < topics.length; r += 2) {
+      const pair = [topics[r], topics[r + 1]].filter(Boolean);
+      const left = pair[0] ? rmTopicState(pair[0].id, r, topics, progress) : null;
+      const right = pair[1] ? rmTopicState(pair[1].id, r + 1, topics, progress) : null;
+      const spineState = left && left.state !== 'locked' ? left.state : (right && right.state !== 'locked' ? right.state : 'locked');
+      html += '<div class="rm-row">';
+      html += '<div class="rm-cell">';
+      if (pair[0]) {
+        const sub = pair[0].subtopics ? pair[0].subtopics.length : 0;
+        const dot = left.isWeak ? '<b class="rm-dot-sm wrong">✕</b>' : left.state === 'done' ? '<b class="rm-dot-sm done">●</b>' : '<b class="rm-dot-sm missing">●</b>';
+        html += rmCardHtml({ idAttr: 'data-topic', idVal: pair[0].id, icon: pair[0].icon || '📚', name: pair[0].name, state: left.state, percent: left.percent, footLeft: `Test Bankası • ${sub} alt konu`, footRight: left.state === 'done' ? `${left.percent}/100` : `${sub > 0 ? '1/' + sub : left.percent + '/100'}`, dot });
+      }
+      html += '</div>';
+      html += `<div class="rm-spine">${rmSpineDot(spineState)}</div>`;
+      html += '<div class="rm-cell">';
+      if (pair[1]) {
+        const sub = pair[1].subtopics ? pair[1].subtopics.length : 0;
+        const dot = right.isWeak ? '<b class="rm-dot-sm wrong">✕</b>' : right.state === 'done' ? '<b class="rm-dot-sm done">●</b>' : '<b class="rm-dot-sm missing">●</b>';
+        html += rmCardHtml({ idAttr: 'data-topic', idVal: pair[1].id, icon: pair[1].icon || '📚', name: pair[1].name, state: right.state, percent: right.percent, footLeft: `Test Bankası • ${sub} alt konu`, footRight: right.state === 'done' ? `${right.percent}/100` : `${sub > 0 ? '1/' + sub : right.percent + '/100'}`, dot });
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
   }
 
   roadmapEl.innerHTML = html;
 
-  roadmapEl.querySelectorAll('.node').forEach((node) => {
+  roadmapEl.querySelectorAll('.rm-card').forEach((node) => {
     if (node.classList.contains('locked')) return;
     const topicId = node.dataset.topic;
     const topic = allTopics.find((t) => t.id === topicId);
@@ -932,60 +980,48 @@ function renderSubtopicRoadmap(roadmapEl, mainTopic, progress, allTopics) {
   const level = currentRoadmapLevel;
 
   let html = `
-    <div class="subject-header">
+    <div class="rm-header">
       <button class="back-btn" id="backToMainTopics" title="Ana konulara dön">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
       </button>
-      <div class="subject-header-content">
-        <span class="subject-icon">${mainTopic.icon}</span>
-        <div class="subject-info">
-          <span class="subject-name">${mainTopic.name}</span>
-          <span class="subject-level">${level.toUpperCase()} • ${subject}</span>
-        </div>
+      <span class="rm-header-icon">${mainTopic.icon || '📚'}</span>
+      <div>
+        <div class="rm-header-title">Yol Haritası - ${mainTopic.name} (${level.toUpperCase()})</div>
+        <div class="rm-header-sub">${level.toUpperCase()} • ${subject} - Alt konular ve ilerleme takibi</div>
       </div>
     </div>`;
 
   if (subtopics.length === 0) {
     html += '<div class="empty-msg">Bu konu için alt konu bulunamadı.</div>';
   } else {
-    subtopics.forEach((subtopicName, idx) => {
-      // Create a unique ID for subtopic progress tracking
-      const subtopicId = `${mainTopic.id}-sub-${idx}`;
-      const entry = progress[subtopicId];
-      const isCompleted = entry && entry.total > 0;
-      const percent = getMasteryPercent(subtopicId);
-      const isWeak = percent > 0 && percent < 40;
-
-      let nodeClass = 'node locked';
-      const prevSubtopics = subtopics.slice(0, idx);
-      const hasPrevCompleted = idx === 0 || prevSubtopics.some((st, i) => {
-        const stId = `${mainTopic.id}-sub-${i}`;
-        return progress[stId]?.total > 0;
-      });
-      if (isCompleted) nodeClass = 'node completed';
-      else if (hasPrevCompleted) nodeClass = 'node current';
-      if (isWeak) nodeClass = 'node weak';
-
-      const offset = idx % 2 === 1 ? ' offset-right' : ' offset-left';
-      const statusLabel = isCompleted ? 'Tamamlandı' : hasPrevCompleted ? 'Devam Edilebilir' : 'Kilitli';
-
-      html += `
-        <div class="node-row${offset}">
-          <button class="${nodeClass}" data-subtopic="${subtopicId}" title="${subtopicName}">
-            <span class="node-icon">📝</span>
-            <div class="node-content">
-              <span class="node-title">${subtopicName}</span>
-              <div class="node-meta">
-                ${isCompleted ? `<span class="node-progress">${percent}% • ${getMasteryLabel(percent)}</span>` : `<span class="node-status">${statusLabel}</span>`}
-              </div>
-            </div>
-            ${isCompleted ? '<span class="node-check">✓</span>' : ''}
-          </button>
-        </div>
-      `;
-    });
+    const list = subtopics.map((_, i) => `${mainTopic.id}-sub-${i}`);
+    list._parentId = mainTopic.id;
+    html += rmLegendHtml();
+    html += '<div class="rm-flow">';
+    for (let r = 0; r < subtopics.length; r += 2) {
+      const pair = [[subtopics[r], r], subtopics[r + 1] !== undefined ? [subtopics[r + 1], r + 1] : null].filter(Boolean);
+      const leftSt = rmTopicState(`${mainTopic.id}-sub-${pair[0][1]}`, pair[0][1], list, progress);
+      const rightSt = pair[1] ? rmTopicState(`${mainTopic.id}-sub-${pair[1][1]}`, pair[1][1], list, progress) : null;
+      const spineState = leftSt.state !== 'locked' ? leftSt.state : (rightSt && rightSt.state !== 'locked' ? rightSt.state : 'locked');
+      html += '<div class="rm-row">';
+      html += '<div class="rm-cell">';
+      {
+        const dot = leftSt.isWeak ? '<b class="rm-dot-sm wrong">✕</b>' : leftSt.state === 'done' ? '<b class="rm-dot-sm done">●</b>' : '<b class="rm-dot-sm missing">●</b>';
+        html += rmCardHtml({ idAttr: 'data-subtopic', idVal: `${mainTopic.id}-sub-${pair[0][1]}`, icon: '📝', name: pair[0][0], state: leftSt.state, percent: leftSt.percent, footLeft: 'Test Bankası', footRight: leftSt.state === 'done' ? `${leftSt.percent}/100` : '0/100', dot });
+      }
+      html += '</div>';
+      html += `<div class="rm-spine">${rmSpineDot(spineState)}</div>`;
+      html += '<div class="rm-cell">';
+      if (pair[1]) {
+        const dot = rightSt.isWeak ? '<b class="rm-dot-sm wrong">✕</b>' : rightSt.state === 'done' ? '<b class="rm-dot-sm done">●</b>' : '<b class="rm-dot-sm missing">●</b>';
+        html += rmCardHtml({ idAttr: 'data-subtopic', idVal: `${mainTopic.id}-sub-${pair[1][1]}`, icon: '📝', name: pair[1][0], state: rightSt.state, percent: rightSt.percent, footLeft: 'Test Bankası', footRight: rightSt.state === 'done' ? `${rightSt.percent}/100` : '0/100', dot });
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
   }
 
   roadmapEl.innerHTML = html;
@@ -1000,7 +1036,7 @@ function renderSubtopicRoadmap(roadmapEl, mainTopic, progress, allTopics) {
   }
 
   // Subtopic click handlers
-  roadmapEl.querySelectorAll('.node').forEach((node) => {
+  roadmapEl.querySelectorAll('.rm-card').forEach((node) => {
     if (node.classList.contains('locked')) return;
     const subtopicId = node.dataset.subtopic;
     node.addEventListener('click', () => {
@@ -3861,7 +3897,7 @@ function showToast(message) {
 function renderAll() {
   updateXpDisplay();
   renderDashboard();
-  if (AppState.activePage === 'learn') renderRoadmap();
+  if (AppState.activePage === 'learn' || AppState.activePage === 'roadmap') renderRoadmap();
 }
 
 // ===== Initialize =====

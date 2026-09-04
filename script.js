@@ -104,6 +104,7 @@ const STORAGE_KEYS = {
   timerCountdown: 'archie.timerCountdown',
   timerPomodoro: 'archie.timerPomodoro',
   rewardState: 'archie.rewardState',
+  aquarium: 'archie.aquarium',
   metacognition: 'archie.metacognition',
   theme: 'archie.theme',
   avatar: 'archie.avatar',
@@ -447,7 +448,7 @@ function initAuth() {
 // ===== Page Navigation =====
 function showPage(page) {
   if (page !== 'timer') stopTimerPageIntervals();
-  document.querySelectorAll('.dashboard-container, .controls, .roadmap-container, .selection-container, .chat-container, .quiz-container, .planner-container, .profile-container, .store-container, .timer-container').forEach((el) => {
+  document.querySelectorAll('.dashboard-container, .controls, .roadmap-container, .selection-container, .chat-container, .quiz-container, .planner-container, .profile-container, .store-container, .timer-container, .aquarium-container').forEach((el) => {
     el.style.display = 'none';
   });
 
@@ -482,6 +483,9 @@ function showPage(page) {
   } else if (page === 'timer') {
     if ($('timerContainer')) $('timerContainer').style.display = '';
     initTimerPage();
+  } else if (page === 'aquarium') {
+    if ($('aquariumContainer')) $('aquariumContainer').style.display = '';
+    renderAquarium();
   }
 
   document.querySelectorAll('.nav-link').forEach((link) => {
@@ -524,6 +528,13 @@ function initNavigation() {
   document.querySelectorAll('.dash-action-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const page = btn.dataset.page;
+      if (page) showPage(page);
+    });
+  });
+
+  document.querySelectorAll('[data-goto]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const page = btn.dataset.goto;
       if (page) showPage(page);
     });
   });
@@ -1101,12 +1112,29 @@ function initLevelButtons() {
         } else if (toggle.id === 'quizLevelToggle') {
           AppState.activeLevel = level;
           refreshQuizTopicSelect(level);
-        } else if (toggle.id === 'teacherLevelToggle') {
+        } else if (toggle.id === 'teacherSelectionLevelToggle') {
+          currentTeacherLevel = level;
           AppState.activeLevel = level;
+          // Seviye değişince ders/konu seçimini sıfırla (yol haritasındaki davranışla aynı)
+          currentTeacherSubject = null;
+          currentTeacherMainTopic = null;
+          currentTeacherSubtopic = null;
+          AppState.activeSubject = null;
+          AppState.activeTopic = null;
+          renderSubjectGrid('teacherSubjectGrid', 'teacher');
           renderTeacherTopics();
-        } else if (toggle.id === 'studentLevelToggle') {
+          renderTeacherSubtopics();
+        } else if (toggle.id === 'studentSelectionLevelToggle') {
+          currentStudentLevel = level;
           AppState.activeLevel = level;
+          currentStudentSubject = null;
+          currentStudentMainTopic = null;
+          currentStudentSubtopic = null;
+          AppState.activeSubject = null;
+          AppState.activeTopic = null;
+          renderSubjectGrid('studentSubjectGrid', 'student');
           renderStudentTopics();
+          renderStudentSubtopics();
         }
       });
     });
@@ -1259,37 +1287,92 @@ let quizState = {
   confidence: null,
 };
 
-function refreshQuizTopicSelect(level) {
-  const topicSelect = $('quizTopicSelect');
-  if (!topicSelect) return;
-  topicSelect.innerHTML = '';
-  const topics = getAllTopics().filter((t) => t.level === level);
-  topics.forEach((topic) => {
-    const opt = document.createElement('option');
-    opt.value = topic.id;
-    opt.textContent = `${topic.subject} • ${topic.name}`;
-    topicSelect.appendChild(opt);
+let quizTopicOptions = [];
+let quizSelectedSubject = null;
+let quizSelectedTopicId = null;
+
+function quizSubjectsForLevel(level) {
+  const seen = [];
+  getAllTopics().filter((t) => t.level === level).forEach((t) => {
+    if (!seen.includes(t.subject)) seen.push(t.subject);
+  });
+  return seen;
+}
+
+function setQuizSelectedTopic(topicId) {
+  quizSelectedTopicId = topicId;
+  document.querySelectorAll('#quizTopicCards .quiz-topic-card').forEach((el) => {
+    el.classList.toggle('selected', el.dataset.topicId === topicId);
   });
 }
 
-function initQuizPage() {
-  const topicSelect = $('quizTopicSelect');
-  if (!topicSelect) return;
-
-  topicSelect.innerHTML = '';
-  const allTopics = getAllTopics();
-  allTopics.forEach((topic) => {
-    const opt = document.createElement('option');
-    opt.value = topic.id;
-    opt.textContent = `${topic.subject} • ${topic.name}`;
-    topicSelect.appendChild(opt);
+function renderQuizSubjects() {
+  const list = $('quizSubjectList');
+  if (!list) return;
+  list.innerHTML = '';
+  quizSubjectsForLevel(AppState.activeLevel).forEach((subject) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'quiz-subject-btn' + (subject === quizSelectedSubject ? ' selected' : '');
+    btn.innerHTML = `<span class="quiz-subject-icon">${CLASS_ICONS[subject] || '📚'}</span><span>${subject}</span>`;
+    btn.onclick = () => {
+      quizSelectedSubject = subject;
+      list.querySelectorAll('.quiz-subject-btn').forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      renderQuizTopics(true);
+    };
+    list.appendChild(btn);
   });
+}
+
+function renderQuizTopics(animate = false) {
+  const pane = $('quizTopicCards');
+  if (!pane) return;
+  pane.innerHTML = '';
+  const topics = quizTopicOptions.filter((t) => t.subject === quizSelectedSubject);
+  if (topics.length && !topics.some((t) => t.id === quizSelectedTopicId)) {
+    quizSelectedTopicId = topics[0].id;
+  }
+  topics.forEach((topic, i) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'quiz-topic-card' + (topic.id === quizSelectedTopicId ? ' selected' : '');
+    card.dataset.topicId = topic.id;
+    if (animate) card.style.animationDelay = `${Math.min(i * 45, 600)}ms`;
+    card.innerHTML = `<span class="quiz-topic-icon">${topic.icon || '📖'}</span><span>${topic.name}</span>`;
+    card.onclick = () => setQuizSelectedTopic(topic.id);
+    pane.appendChild(card);
+  });
+  if (topics.length === 0) {
+    pane.innerHTML = '<div class="quiz-topics-empty">Bu derste konu bulunamadı.</div>';
+  }
+}
+
+function refreshQuizTopicSelect(level) {
+  AppState.activeLevel = level;
+  quizTopicOptions = getAllTopics().filter((t) => t.level === level);
+  const subjects = quizSubjectsForLevel(level);
+  quizSelectedSubject = subjects.length ? subjects[0] : null;
+  quizSelectedTopicId = null;
+  renderQuizSubjects();
+  renderQuizTopics(false);
+}
+
+function initQuizPage() {
+  const setup = $('quizSetup');
+  if (!setup) return;
+
+  quizTopicOptions = getAllTopics().filter((t) => t.level === AppState.activeLevel);
+  const subjects = quizSubjectsForLevel(AppState.activeLevel);
+  quizSelectedSubject = subjects.length ? subjects[0] : null;
+  quizSelectedTopicId = null;
+  renderQuizSubjects();
+  renderQuizTopics(false);
 
   const startBtn = $('quizStartBtn');
   if (startBtn) {
     startBtn.onclick = () => {
-      const topicId = topicSelect.value;
-      if (topicId) startQuiz(topicId);
+      if (quizSelectedTopicId) startQuiz(quizSelectedTopicId);
     };
   }
 
@@ -2534,7 +2617,8 @@ function initTimerPomodoro() {
     if ($('timerSessionProgress')) $('timerSessionProgress').style.width = `${Math.min(100, (aquariumSessions / 4) * 100)}%`;
     if ($('aquariumProgressFill')) $('aquariumProgressFill').style.width = `${Math.min(100, (aquariumSessions / 4) * 100)}%`;
     if ($('aquariumProgressLabel')) $('aquariumProgressLabel').textContent = `${aquariumSessions} / 4 oturum`;
-    if ($('aquariumRewardCount')) $('aquariumRewardCount').textContent = `${Math.floor(timerSessionCount / 4)} mercan`;
+    const aqState = syncAquarium(timerSessionCount, false);
+    if ($('aquariumRewardCount')) $('aquariumRewardCount').textContent = `${aqState.corals.length} mercan · ${aqState.fish.length} balık`;
     if ($('timerNextSession')) $('timerNextSession').textContent = (TIMER_MODES[timerPomodoroMode] || TIMER_MODES.focus).nextLabel;
     document.querySelectorAll('[data-focus-mode]').forEach((button) => button.classList.toggle('active', button.dataset.focusMode === timerPomodoroMode));
   };
@@ -2578,6 +2662,7 @@ function initTimerPomodoro() {
           timerFocusStreak += 1;
           const earnedXp = rewardState.xpMultiplier === 2 ? 10 : 5;
           addXp(earnedXp);
+          syncAquarium(timerSessionCount, true);
           if (rewardState.xpMultiplier === 2) {
             rewardState.xpMultiplier = 1;
             saveRewardState(rewardState);
@@ -2731,9 +2816,91 @@ function generateTutorResponse(msg) {
 }
 
 // ===== AI Teacher & Student Selection =====
+// NOTE: Bu ekranlar veri kaynağı olarak Yol Haritası ile birebir aynı
+// CURRICULUM[level][subject] yapısını kullanır. Yol haritasına yeni konu
+// eklendiğinde buraya otomatik yansır.
+let currentTeacherLevel = 'tyt';
+let currentTeacherSubject = null;
+let currentTeacherMainTopic = null; // seçili ana konu objesi
+let currentTeacherSubtopic = null; // { name, id } veya null
+let currentStudentLevel = 'tyt';
+let currentStudentSubject = null;
+let currentStudentMainTopic = null;
+let currentStudentSubtopic = null;
+
+function selectionLevelFor(type) {
+  return type === 'teacher' ? currentTeacherLevel : currentStudentLevel;
+}
+
+function selectionSubjectFor(type) {
+  return type === 'teacher' ? currentTeacherSubject : currentStudentSubject;
+}
+
+function setSelectionSubject(type, subject) {
+  if (type === 'teacher') {
+    currentTeacherSubject = subject;
+    currentTeacherMainTopic = null;
+    currentTeacherSubtopic = null;
+  } else {
+    currentStudentSubject = subject;
+    currentStudentMainTopic = null;
+    currentStudentSubtopic = null;
+  }
+  AppState.activeLevel = selectionLevelFor(type);
+  AppState.activeSubject = subject;
+  AppState.activeTopic = null;
+}
+
+function selectionMainTopicFor(type) {
+  return type === 'teacher' ? currentTeacherMainTopic : currentStudentMainTopic;
+}
+
+function setSelectionMainTopic(type, topic) {
+  if (type === 'teacher') {
+    currentTeacherMainTopic = topic;
+    currentTeacherSubtopic = null;
+  } else {
+    currentStudentMainTopic = topic;
+    currentStudentSubtopic = null;
+  }
+  AppState.activeLevel = selectionLevelFor(type);
+  AppState.activeSubject = selectionSubjectFor(type);
+  AppState.activeTopic = topic ? topic.id : null;
+}
+
+function setSelectionSubtopic(type, sub) {
+  if (type === 'teacher') currentTeacherSubtopic = sub;
+  else currentStudentSubtopic = sub;
+  if (sub) AppState.activeTopic = sub.id;
+}
+
+function syncSelectionLevelToggle(toggleId, level) {
+  const toggle = $(toggleId);
+  if (!toggle) return;
+  toggle.querySelectorAll('.level-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.level === level);
+  });
+}
+
+function startSelectionChat(type) {
+  const level = selectionLevelFor(type);
+  AppState.activeLevel = level;
+  if (type === 'teacher') {
+    if ($('teacherSelection')) $('teacherSelection').style.display = 'none';
+    if ($('teacherChat')) $('teacherChat').style.display = '';
+    initTeacherChat();
+  } else {
+    if ($('studentSelection')) $('studentSelection').style.display = 'none';
+    if ($('studentChat')) $('studentChat').style.display = '';
+    initStudentChat();
+  }
+}
+
 function renderTeacherSelection() {
+  syncSelectionLevelToggle('teacherSelectionLevelToggle', currentTeacherLevel);
   renderSubjectGrid('teacherSubjectGrid', 'teacher');
   renderTeacherTopics();
+  renderTeacherSubtopics();
 
   const backBtn = $('teacherSelectionBack');
   if (backBtn) {
@@ -2744,70 +2911,167 @@ function renderTeacherSelection() {
   if (changeSubject) {
     changeSubject.onclick = () => {
       if ($('teacherTopicStep')) $('teacherTopicStep').style.display = 'none';
+      if ($('teacherSubtopicStep')) $('teacherSubtopicStep').style.display = 'none';
       if ($('teacherSubjectGrid')) $('teacherSubjectGrid').style.display = '';
+    };
+  }
+
+  const changeTopic = $('teacherChangeTopic');
+  if (changeTopic) {
+    changeTopic.onclick = () => {
+      if ($('teacherSubtopicStep')) $('teacherSubtopicStep').style.display = 'none';
+      if ($('teacherTopicGrid')) $('teacherTopicGrid').style.display = '';
     };
   }
 
   const startChat = $('teacherStartChat');
   if (startChat) {
-    startChat.onclick = () => {
-      if ($('teacherSelection')) $('teacherSelection').style.display = 'none';
-      if ($('teacherChat')) $('teacherChat').style.display = '';
-      initTeacherChat();
-    };
+    startChat.onclick = () => startSelectionChat('teacher');
+  }
+  const startChatSub = $('teacherStartChatSub');
+  if (startChatSub) {
+    startChatSub.onclick = () => startSelectionChat('teacher');
   }
 }
 
 function renderSubjectGrid(containerId, type) {
   const container = $(containerId);
   if (!container) return;
+  const level = selectionLevelFor(type);
+  const subjects = Object.keys(CURRICULUM[level] || {});
+  const selected = selectionSubjectFor(type);
   container.innerHTML = '';
-  SUBJECTS.forEach((subject) => {
+  subjects.forEach((subject) => {
     const card = document.createElement('div');
-    card.className = 'subject-card';
+    card.className = 'subject-card' + (subject === selected ? ' selected' : '');
     card.innerHTML = `
       <span class="subject-icon">${CLASS_ICONS[subject] || '📚'}</span>
       <span class="subject-name">${subject}</span>
+      <span class="topic-sub">${level.toUpperCase()}</span>
     `;
     card.onclick = () => {
       container.querySelectorAll('.subject-card').forEach((c) => c.classList.remove('selected'));
       card.classList.add('selected');
-      AppState.activeSubject = subject;
-      if (type === 'teacher') renderTeacherTopics();
-      else renderStudentTopics();
+      setSelectionSubject(type, subject);
+      if (type === 'teacher') {
+        renderTeacherTopics();
+        renderTeacherSubtopics();
+      } else {
+        renderStudentTopics();
+        renderStudentSubtopics();
+      }
     };
     container.appendChild(card);
   });
 }
 
-function renderTeacherTopics() {
-  const container = $('teacherTopicGrid');
+function renderSelectionTopics(type) {
+  const isTeacher = type === 'teacher';
+  const container = $(isTeacher ? 'teacherTopicGrid' : 'studentTopicGrid');
+  const step = $(isTeacher ? 'teacherTopicStep' : 'studentTopicStep');
+  const subStep = $(isTeacher ? 'teacherSubtopicStep' : 'studentSubtopicStep');
+  const startChat = $(isTeacher ? 'teacherStartChat' : 'studentStartChat');
   if (!container) return;
-  const step = $('teacherTopicStep');
+  const level = selectionLevelFor(type);
+  const subject = selectionSubjectFor(type);
+  const mainTopic = selectionMainTopicFor(type);
+
+  if (!subject) {
+    if (step) step.style.display = 'none';
+    if (subStep) subStep.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
   if (step) step.style.display = '';
 
   container.innerHTML = '';
-  const topics = CURRICULUM[AppState.activeLevel]?.[AppState.activeSubject] || [];
+  // Yol haritası ile aynı kaynak: CURRICULUM[level][subject]
+  const topics = CURRICULUM[level]?.[subject] || [];
+  if (topics.length === 0) {
+    container.innerHTML = '<div class="empty-msg">Bu ders için konu bulunamadı.</div>';
+    if (startChat) startChat.disabled = true;
+    return;
+  }
   topics.forEach((topic) => {
     const card = document.createElement('div');
-    card.className = 'topic-card';
+    card.className = 'topic-card' + (mainTopic && mainTopic.id === topic.id ? ' selected' : '');
+    const subtopics = getSubtopics(topic);
+    const subCount = subtopics.length;
     card.innerHTML = `
-      <span class="topic-icon">${topic.icon}</span>
+      <span class="topic-icon">${topic.icon || '📚'}</span>
       <span class="topic-name">${topic.name}</span>
-      <span class="topic-sub">${AppState.activeLevel.toUpperCase()}</span>
+      <span class="topic-sub">${level.toUpperCase()} • ${subCount} alt konu</span>
     `;
     card.onclick = () => {
       container.querySelectorAll('.topic-card').forEach((c) => c.classList.remove('selected'));
       card.classList.add('selected');
-      AppState.activeTopic = topic.id;
-      const startChat = $('teacherStartChat');
+      setSelectionMainTopic(type, topic);
+      if (isTeacher) renderTeacherSubtopics();
+      else renderStudentSubtopics();
+      // Konu kartına tıklanınca alt konu adımını öne çıkar
+      const grid = $(isTeacher ? 'teacherTopicGrid' : 'studentTopicGrid');
+      if (grid) grid.style.display = '';
       if (startChat) startChat.disabled = false;
     };
     container.appendChild(card);
   });
 
-  const startChat = $('teacherStartChat');
-  if (startChat) startChat.disabled = true;
+  if (startChat) startChat.disabled = !mainTopic;
+}
+
+function renderSelectionSubtopics(type) {
+  const isTeacher = type === 'teacher';
+  const container = $(isTeacher ? 'teacherSubtopicGrid' : 'studentSubtopicGrid');
+  const step = $(isTeacher ? 'teacherSubtopicStep' : 'studentSubtopicStep');
+  const startChatSub = $(isTeacher ? 'teacherStartChatSub' : 'studentStartChatSub');
+  if (!container || !step) return;
+  const mainTopic = selectionMainTopicFor(type);
+  const currentSub = isTeacher ? currentTeacherSubtopic : currentStudentSubtopic;
+
+  if (!mainTopic) {
+    step.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+  step.style.display = '';
+  const title = step.querySelector('.step-title');
+  if (title) title.textContent = `3️⃣ Alt Konu Seç — ${mainTopic.name}`;
+
+  container.innerHTML = '';
+  // Yol haritası ile aynı alt konular: getSubtopics(mainTopic)
+  const subtopics = getSubtopics(mainTopic);
+  if (subtopics.length === 0) {
+    container.innerHTML = '<div class="empty-msg">Bu konu için alt konu bulunamadı.</div>';
+    if (startChatSub) startChatSub.disabled = true;
+    return;
+  }
+  subtopics.forEach((subtopicName, idx) => {
+    const subtopicId = `${mainTopic.id}-sub-${idx}`;
+    const card = document.createElement('div');
+    card.className = 'topic-card' + (currentSub && currentSub.id === subtopicId ? ' selected' : '');
+    card.innerHTML = `
+      <span class="topic-icon">📝</span>
+      <span class="topic-name">${subtopicName}</span>
+      <span class="topic-sub">${mainTopic.name}</span>
+    `;
+    card.onclick = () => {
+      container.querySelectorAll('.topic-card').forEach((c) => c.classList.remove('selected'));
+      card.classList.add('selected');
+      setSelectionSubtopic(type, { name: subtopicName, id: subtopicId });
+      if (startChatSub) startChatSub.disabled = false;
+    };
+    container.appendChild(card);
+  });
+
+  if (startChatSub) startChatSub.disabled = !currentSub;
+}
+
+function renderTeacherTopics() {
+  renderSelectionTopics('teacher');
+}
+
+function renderTeacherSubtopics() {
+  renderSelectionSubtopics('teacher');
 }
 
 function initTeacherChat() {
@@ -2835,23 +3099,13 @@ function initTeacherChat() {
       }, 300);
     };
   }
-
-  // Suggest chips
-  document.querySelectorAll('#teacherSuggestChips .ai-chip').forEach((chip) => {
-    chip.onclick = () => {
-      const txt = chip.dataset.txt;
-      const input = $('teacherInput');
-      if (input) {
-        input.value = txt;
-        input.focus();
-      }
-    };
-  });
 }
 
 function renderStudentSelection() {
+  syncSelectionLevelToggle('studentSelectionLevelToggle', currentStudentLevel);
   renderSubjectGrid('studentSubjectGrid', 'student');
   renderStudentTopics();
+  renderStudentSubtopics();
 
   const backBtn = $('studentSelectionBack');
   if (backBtn) {
@@ -2862,48 +3116,35 @@ function renderStudentSelection() {
   if (changeSubject) {
     changeSubject.onclick = () => {
       if ($('studentTopicStep')) $('studentTopicStep').style.display = 'none';
+      if ($('studentSubtopicStep')) $('studentSubtopicStep').style.display = 'none';
       if ($('studentSubjectGrid')) $('studentSubjectGrid').style.display = '';
+    };
+  }
+
+  const changeTopic = $('studentChangeTopic');
+  if (changeTopic) {
+    changeTopic.onclick = () => {
+      if ($('studentSubtopicStep')) $('studentSubtopicStep').style.display = 'none';
+      if ($('studentTopicGrid')) $('studentTopicGrid').style.display = '';
     };
   }
 
   const startChat = $('studentStartChat');
   if (startChat) {
-    startChat.onclick = () => {
-      if ($('studentSelection')) $('studentSelection').style.display = 'none';
-      if ($('studentChat')) $('studentChat').style.display = '';
-      initStudentChat();
-    };
+    startChat.onclick = () => startSelectionChat('student');
+  }
+  const startChatSub = $('studentStartChatSub');
+  if (startChatSub) {
+    startChatSub.onclick = () => startSelectionChat('student');
   }
 }
 
 function renderStudentTopics() {
-  const container = $('studentTopicGrid');
-  if (!container) return;
-  const step = $('studentTopicStep');
-  if (step) step.style.display = '';
+  renderSelectionTopics('student');
+}
 
-  container.innerHTML = '';
-  const topics = CURRICULUM[AppState.activeLevel]?.[AppState.activeSubject] || [];
-  topics.forEach((topic) => {
-    const card = document.createElement('div');
-    card.className = 'topic-card';
-    card.innerHTML = `
-      <span class="topic-icon">${topic.icon}</span>
-      <span class="topic-name">${topic.name}</span>
-      <span class="topic-sub">${AppState.activeLevel.toUpperCase()}</span>
-    `;
-    card.onclick = () => {
-      container.querySelectorAll('.topic-card').forEach((c) => c.classList.remove('selected'));
-      card.classList.add('selected');
-      AppState.activeTopic = topic.id;
-      const startChat = $('studentStartChat');
-      if (startChat) startChat.disabled = false;
-    };
-    container.appendChild(card);
-  });
-
-  const startChat = $('studentStartChat');
-  if (startChat) startChat.disabled = true;
+function renderStudentSubtopics() {
+  renderSelectionSubtopics('student');
 }
 
 function initStudentChat() {
@@ -2930,17 +3171,6 @@ function initStudentChat() {
       }, 300);
     };
   }
-
-  document.querySelectorAll('#studentSuggestChips .ai-chip').forEach((chip) => {
-    chip.onclick = () => {
-      const txt = chip.dataset.txt;
-      const input = $('studentInput');
-      if (input) {
-        input.value = txt;
-        input.focus();
-      }
-    };
-  });
 }
 
 function initChatModes(type) {
@@ -3064,13 +3294,10 @@ function initWhiteboards() {
     const checkedColor = boardBox?.querySelector('.wb-color input:checked');
     if (checkedColor) color = checkedColor.value;
 
-    // Ensure default white background
-    boardBox.style.setProperty('background', '#ffffff', 'important');
-    boardBox.style.setProperty('background-color', '#ffffff', 'important');
-    boardBox.style.setProperty('background-image', 'none', 'important');
-    boardBox.style.setProperty('background-size', '', 'important');
-    boardBox.style.setProperty('background-position', '', 'important');
-    boardBox.style.setProperty('background-repeat', '', 'important');
+    // Varsayılan tema: saf beyaz. Mağazadan alınan sahil/kara tahta
+    // teması seçilirse görsel kutuya tam oturacak şekilde uygulanır.
+    if (boardBox && !boardBox.dataset.wbTheme) boardBox.dataset.wbTheme = 'default';
+    applyWhiteboardTheme(boardBox, boardBox ? boardBox.dataset.wbTheme : 'default');
 
     function getPoint(e) {
       const rect = canvas.getBoundingClientRect();
@@ -3084,10 +3311,20 @@ function initWhiteboards() {
     }
 
     function drawWhiteBackground() {
+      paintBoardBackground();
+    }
+
+    // Tahta zeminini aktif temaya göre boya: beyaz temada opak beyaz,
+    // görsel temalarda şeffaf (alttaki tam oturan arka plan görünür).
+    function paintBoardBackground() {
+      const theme = boardBox?.dataset.wbTheme || 'default';
       const w = bgCanvas.width;
       const h = bgCanvas.height;
-      bgCtx.fillStyle = '#ffffff';
-      bgCtx.fillRect(0, 0, w, h);
+      bgCtx.clearRect(0, 0, w, h);
+      if (theme === 'default') {
+        bgCtx.fillStyle = '#ffffff';
+        bgCtx.fillRect(0, 0, w, h);
+      }
     }
 
     function paintStroke(stroke, preview = false) {
@@ -3205,70 +3442,35 @@ function initWhiteboards() {
       });
     }
 
-    // Whiteboard theme dropdown (only for student board)
-    if (canvasId === 'studentBoard') {
-      const settingsBtn = boardBox?.querySelector('.wb-settings-btn');
-      const dropdown = boardBox?.querySelector('.wb-theme-dropdown');
-      const themeOptions = boardBox?.querySelectorAll('.wb-theme-option');
-
-      if (settingsBtn && dropdown) {
-        // Toggle dropdown
-        settingsBtn.onclick = (e) => {
-          e.stopPropagation();
-          dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-          settingsBtn.setAttribute('aria-expanded', dropdown.style.display === 'block');
+    // Tahta arka plan teması menüsü (tüm tahtalarda ortak)
+    const settingsBtn = boardBox?.querySelector('.wb-settings-btn');
+    const themeDropdown = boardBox?.querySelector('.wb-theme-dropdown');
+    const themeOptions = boardBox?.querySelectorAll('.wb-theme-option');
+    if (settingsBtn && themeDropdown && themeOptions) {
+      settingsBtn.onclick = (e) => {
+        e.stopPropagation();
+        updateWhiteboardThemeLocks(boardBox);
+        themeDropdown.style.display = themeDropdown.style.display === 'none' ? 'block' : 'none';
+        settingsBtn.setAttribute('aria-expanded', themeDropdown.style.display === 'block');
+      };
+      document.addEventListener('click', (e) => {
+        if (!settingsBtn.contains(e.target) && !themeDropdown.contains(e.target)) {
+          themeDropdown.style.display = 'none';
+          settingsBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      themeOptions.forEach((opt) => {
+        opt.onclick = () => {
+          const theme = opt.dataset.theme;
+          if (opt.disabled) return;
+          themeOptions.forEach((o) => o.classList.remove('active'));
+          opt.classList.add('active');
+          applyWhiteboardTheme(boardBox, theme);
+          themeDropdown.style.display = 'none';
+          settingsBtn.setAttribute('aria-expanded', 'false');
+          playAppSound('click');
         };
-
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-          if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.style.display = 'none';
-            settingsBtn.setAttribute('aria-expanded', 'false');
-          }
-        });
-
-        // Update locked state based on localStorage
-        const updateThemeLocks = () => {
-          const sahilUnlocked = localStorage.getItem('unlocked_sahil') === 'true';
-          const karatahtaUnlocked = localStorage.getItem('unlocked_karatahta') === 'true';
-          
-          themeOptions.forEach((opt) => {
-            const theme = opt.dataset.theme;
-            if (theme === 'sahil') {
-              opt.disabled = !sahilUnlocked;
-              opt.style.opacity = sahilUnlocked ? '1' : '0.6';
-              opt.style.cursor = sahilUnlocked ? 'pointer' : 'not-allowed';
-              opt.style.color = sahilUnlocked ? 'var(--text)' : 'var(--text-light)';
-              opt.innerHTML = sahilUnlocked ? '🏖️ Gerçekçi Sahil' : '🔒 🏖️ Gerçekçi Sahil';
-            } else if (theme === 'karatahta') {
-              opt.disabled = !karatahtaUnlocked;
-              opt.style.opacity = karatahtaUnlocked ? '1' : '0.6';
-              opt.style.cursor = karatahtaUnlocked ? 'pointer' : 'not-allowed';
-              opt.style.color = karatahtaUnlocked ? 'var(--text)' : 'var(--text-light)';
-              opt.innerHTML = karatahtaUnlocked ? '🏫 Klasik Kara Tahta' : '🔒 🏫 Klasik Kara Tahta';
-            }
-          });
-        };
-
-        // Initial lock state
-        updateThemeLocks();
-
-        // Theme selection
-        themeOptions.forEach((opt) => {
-          opt.onclick = () => {
-            if (opt.disabled) return;
-            const theme = opt.dataset.theme;
-            
-            themeOptions.forEach((o) => o.classList.remove('active'));
-            opt.classList.add('active');
-            
-            applyWhiteboardTheme(boardBox, theme);
-            dropdown.style.display = 'none';
-            settingsBtn.setAttribute('aria-expanded', 'false');
-            playAppSound('click');
-          };
-        });
-      }
+      });
     }
 
     boardBox?.querySelectorAll('.wb-color input').forEach((radio) => {
@@ -3376,21 +3578,51 @@ function initWhiteboards() {
   });
 }
 
-// Apply whiteboard theme helper
+// Tahta arka plan görselleri (kutuya tam oturur: cover + ortalı)
+const WHITEBOARD_THEMES = {
+  default: null,
+  sahil: 'public/images/sahiltahta.png.jpg',
+  karatahta: 'public/images/yazıtahtası.png.jpg',
+};
+
+// Mağaza kilitlerine göre tema menüsündeki seçenekleri güncelle
+function updateWhiteboardThemeLocks(boardBox) {
+  if (!boardBox) return;
+  const sahilUnlocked = localStorage.getItem('unlocked_sahil') === 'true';
+  const karatahtaUnlocked = localStorage.getItem('unlocked_karatahta') === 'true';
+  boardBox.querySelectorAll('.wb-theme-option').forEach((opt) => {
+    const theme = opt.dataset.theme;
+    if (theme === 'default') return;
+    const unlocked = theme === 'sahil' ? sahilUnlocked : karatahtaUnlocked;
+    opt.disabled = !unlocked;
+    opt.style.opacity = unlocked ? '1' : '0.6';
+    opt.style.cursor = unlocked ? 'pointer' : 'not-allowed';
+    const base = theme === 'sahil' ? '🏖️ Gerçekçi Sahil' : '🏫 Klasik Kara Tahta';
+    opt.innerHTML = unlocked ? base : `🔒 ${base}`;
+  });
+}
+
+// Apply whiteboard theme helper — kara tahta çerçeveyle tam sığar,
+// sahil oran korunarak kum altta kalacak şekilde oturur;
+// varsayılan tema saf beyazdır.
 function applyWhiteboardTheme(boardBox, theme) {
   if (!boardBox) return;
-  if (theme === 'sahil') {
-    boardBox.style.setProperty('background-image', "url('/images/sahil-arkaplan%C4%B1.png.jpg')", 'important');
-    boardBox.style.setProperty('background-size', 'cover', 'important');
-    boardBox.style.setProperty('background-position', 'center', 'important');
+  const name = WHITEBOARD_THEMES[theme] ? theme : 'default';
+  boardBox.dataset.wbTheme = name;
+  const url = WHITEBOARD_THEMES[name];
+  if (url) {
+    boardBox.style.setProperty('background-image', `url("${encodeURI(url)}")`, 'important');
+    // Kara tahta: çerçevesiyle birebir tam sığar. Sahil: oran korunur,
+    // kumluk bölge altta (araç çubuğu hizasında) kalacak şekilde oturtulur.
+    if (name === 'karatahta') {
+      boardBox.style.setProperty('background-size', '100% 100%', 'important');
+      boardBox.style.setProperty('background-position', 'center', 'important');
+    } else {
+      boardBox.style.setProperty('background-size', 'cover', 'important');
+      boardBox.style.setProperty('background-position', 'center bottom', 'important');
+    }
     boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
-    boardBox.style.setProperty('background-color', 'transparent', 'important');
-  } else if (theme === 'karatahta') {
-    boardBox.style.setProperty('background-image', "url('/images/yaz%C4%B1tahtas%C4%B1.png.jpg')", 'important');
-    boardBox.style.setProperty('background-size', 'cover', 'important');
-    boardBox.style.setProperty('background-position', 'center', 'important');
-    boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
-    boardBox.style.setProperty('background-color', 'transparent', 'important');
+    boardBox.style.setProperty('background-color', '#ffffff', 'important');
   } else {
     boardBox.style.setProperty('background-image', 'none', 'important');
     boardBox.style.setProperty('background-color', '#ffffff', 'important');
@@ -3398,6 +3630,49 @@ function applyWhiteboardTheme(boardBox, theme) {
     boardBox.style.setProperty('background-position', '', 'important');
     boardBox.style.setProperty('background-repeat', '', 'important');
   }
+  // Çizim katmanları: beyaz temada opak beyaz, görsel temada şeffaf
+  const drawCanvas = boardBox.querySelector('canvas.whiteboard');
+  const bgCanvas = boardBox.querySelector('.whiteboard-bg');
+  const canvasBg = url ? 'transparent' : '#ffffff';
+  if (drawCanvas) drawCanvas.style.setProperty('background', canvasBg, 'important');
+  if (bgCanvas) {
+    bgCanvas.style.setProperty('background', canvasBg, 'important');
+    const bgCtx = bgCanvas.getContext('2d');
+    if (bgCtx && bgCanvas.width > 0) {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      if (!url) {
+        bgCtx.fillStyle = '#ffffff';
+        bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+      }
+    }
+  }
+  const title = boardBox.querySelector('.wb-title');
+  // Araç çubuğu stilleri CSS'teki [data-wb-theme] kurallarıyla yönetilir;
+  // burada yalnızca başlık rengi ve kalem rengi ayarlanır.
+  if (name === 'karatahta') {
+    if (title) {
+      title.textContent = '🏫 Kara Tahta';
+      title.style.setProperty('color', '#e7e5e4', 'important');
+    }
+    // Koyu zeminde görünmesi için kalemi beyaza al
+    const whiteRadio = boardBox.querySelector('.wb-color input[value="#ffffff"]');
+    if (whiteRadio && !whiteRadio.checked) whiteRadio.click();
+  } else if (name === 'sahil') {
+    if (title) {
+      title.textContent = '🏖️ Sahil Tahtası';
+      title.style.setProperty('color', '#78350f', 'important');
+    }
+    const darkRadio = boardBox.querySelector('.wb-color input[value="#1e293b"]');
+    if (darkRadio && !darkRadio.checked) darkRadio.click();
+  } else {
+    if (title) {
+      title.textContent = '🤍 Beyaz Tahta';
+      title.style.removeProperty('color');
+    }
+    const darkRadio = boardBox.querySelector('.wb-color input[value="#1e293b"]');
+    if (darkRadio && !darkRadio.checked) darkRadio.click();
+  }
+  updateWhiteboardThemeLocks(boardBox);
 }
 
 // ===== Profile and badge collection =====
@@ -3891,6 +4166,90 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ===== Aquarium =====
+// Zamanlayıcıda kazanılan mercan ve balıklar burada yaşar.
+// 4 odak oturumu = 1 mercan, 10 odak oturumu = 1 balık.
+const AQUARIUM_FISH = ['🐠', '🐟', '🐡', '🐙', '🦑', '🐬', '🐳', '🦐'];
+const AQUARIUM_CORALS = ['🪸', '🌿', '🐚', '🪨', '⭐', '🌱'];
+const AQUARIUM_CORAL_EVERY = 4;
+const AQUARIUM_FISH_EVERY = 10;
+
+function getAquarium() {
+  const data = readStorage(STORAGE_KEYS.aquarium, null);
+  if (data && Array.isArray(data.corals) && Array.isArray(data.fish)) return data;
+  return { corals: [], fish: [] };
+}
+
+function saveAquarium(aq) {
+  writeStorage(STORAGE_KEYS.aquarium, aq);
+}
+
+function makeCoral(i) {
+  return { kind: AQUARIUM_CORALS[i % AQUARIUM_CORALS.length], x: 4 + ((i * 37) % 88), s: 42 + ((i * 13) % 24) };
+}
+
+function makeFish(i) {
+  return {
+    kind: AQUARIUM_FISH[i % AQUARIUM_FISH.length],
+    y: 6 + ((i * 17) % 60),
+    d: 16 + ((i * 7) % 14),
+    delay: -((i * 5) % 20),
+    rev: i % 2 === 1,
+  };
+}
+
+// Oturum sayısına göre eksik canlıları tamamla. announce=true ise
+// yeni kazanımları tostla duyur ve sahneyi tazele.
+function syncAquarium(sessionCount, announce = false) {
+  const aq = getAquarium();
+  const beforeCorals = aq.corals.length;
+  const beforeFish = aq.fish.length;
+  while (aq.corals.length < Math.floor(sessionCount / AQUARIUM_CORAL_EVERY)) aq.corals.push(makeCoral(aq.corals.length));
+  while (aq.fish.length < Math.floor(sessionCount / AQUARIUM_FISH_EVERY)) aq.fish.push(makeFish(aq.fish.length));
+  const changed = aq.corals.length > beforeCorals || aq.fish.length > beforeFish;
+  if (changed) {
+    saveAquarium(aq);
+    if (announce) {
+      if (aq.corals.length > beforeCorals) showToast(`${aq.corals[aq.corals.length - 1].kind} Yeni mercan akvaryumunda!`);
+      if (aq.fish.length > beforeFish) showToast(`${aq.fish[aq.fish.length - 1].kind} Yeni balık akvaryumunda!`);
+      playAppSound('purchase');
+    }
+    renderAquarium();
+  }
+  return aq;
+}
+
+function renderAquarium() {
+  const scene = $('aquariumScene');
+  if (!scene) return;
+  const saved = readStorage(STORAGE_KEYS.timerPomodoro, null);
+  const sessions = saved && typeof saved.sessionCount === 'number' ? saved.sessionCount : 0;
+  const aq = syncAquarium(sessions, false);
+
+  if ($('aquariumCoralCount')) $('aquariumCoralCount').textContent = aq.corals.length;
+  if ($('aquariumFishCount')) $('aquariumFishCount').textContent = aq.fish.length;
+  if ($('aquariumSessionCount')) $('aquariumSessionCount').textContent = sessions;
+
+  let html = '';
+  for (let b = 0; b < 10; b += 1) {
+    const left = (b * 37 + 11) % 96;
+    const size = 10 + ((b * 7) % 14);
+    const dur = 6 + ((b * 3) % 7);
+    const delay = -((b * 2.3) % 9);
+    html += `<span class="aq-bubble" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">🫧</span>`;
+  }
+  aq.corals.forEach((c) => {
+    html += `<span class="aq-coral" style="left:${c.x}%;font-size:${c.s}px">${c.kind}</span>`;
+  });
+  aq.fish.forEach((f) => {
+    html += `<div class="aq-fish${f.rev ? ' rev' : ''}" style="top:${f.y}%;animation-duration:${f.d}s;animation-delay:${f.delay}s"><span>${f.kind}</span></div>`;
+  });
+  if (aq.corals.length === 0 && aq.fish.length === 0) {
+    html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun! 🐠</div>';
+  }
+  scene.innerHTML = html;
 }
 
 // ===== Render All =====

@@ -174,9 +174,10 @@ const QUALITIES = [
   { q: 5, label: 'Mükemmel hatırladım' },
 ];
 
-// The 9 subjects the user requested for the bubble selector.
+// Yol Haritası (RoadmapView) ile birebir aynı ders listesi.
 const STUDY_SUBJECTS: SubjectCategory[] = [
   'Matematik',
+  'Geometri',
   'Edebiyat',
   'Tarih',
   'Coğrafya',

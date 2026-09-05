@@ -8055,6 +8055,71 @@ canvas.whiteboard {
   font-size: 14px;
   font-weight: 800;
 }
+/* Zengin sahne katmanları */
+.aq-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(105deg, rgba(255, 255, 255, .07) 0 26px, transparent 26px 90px);
+  animation: aqRaysSway 9s ease-in-out infinite alternate;
+}
+@keyframes aqRaysSway {
+  from { transform: translateX(-18px); }
+  to { transform: translateX(18px); }
+}
+.aq-weed {
+  position: absolute;
+  bottom: 44px;
+  z-index: 2;
+  transform-origin: bottom center;
+  animation: aqWeedSway 3.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .25));
+}
+@keyframes aqWeedSway {
+  from { transform: rotate(-7deg); }
+  to { transform: rotate(7deg); }
+}
+.aq-decor {
+  position: absolute;
+  bottom: 18px;
+  z-index: 2;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .25));
+}
+.aq-turtle { font-size: 46px; z-index: 3; }
+.aq-burst {
+  position: absolute;
+  z-index: 5;
+  font-size: 16px;
+  pointer-events: none;
+  animation: aqBurst 1.2s ease-out forwards;
+}
+@keyframes aqBurst {
+  0% { transform: translateY(0) scale(.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-70px) scale(1.15); opacity: 0; }
+}
+.aquarium-collection {
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #d9edf7;
+  box-shadow: 0 12px 26px rgba(125, 177, 202, .15);
+}
+.aq-collection-title { font-size: 13px; font-weight: 900; color: #0c4a6e; margin-bottom: 8px; }
+.aq-collection-title + .aq-chips { margin-bottom: 12px; }
+.aq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.aq-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e0f7ff, #f0f9ff);
+  border: 1px solid #bae6fd;
+  font-size: 20px;
+}
+.aq-chip strong { font-size: 12px; color: #0369a1; }
+.aq-chip.locked { filter: grayscale(1); opacity: .35; }
 .aquarium-rules {
   display: flex;
   gap: 12px;

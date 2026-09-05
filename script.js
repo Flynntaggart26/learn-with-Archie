@@ -4221,6 +4221,24 @@ function syncAquarium(sessionCount, announce = false) {
   return aq;
 }
 
+const AQUARIUM_BG = 'images/akvaryumarkaplan.png.jpg';
+
+function ensureAquariumBackground(scene) {
+  if (!scene || scene.dataset.bgOk === '1') return;
+  const img = new Image();
+  img.onload = () => {
+    scene.style.backgroundImage = `url("${AQUARIUM_BG}")`;
+    scene.style.backgroundSize = 'cover';
+    scene.style.backgroundPosition = 'center bottom';
+    scene.style.backgroundRepeat = 'no-repeat';
+    scene.dataset.bgOk = '1';
+  };
+  img.onerror = () => {
+    scene.dataset.bgOk = '0';
+  };
+  img.src = AQUARIUM_BG;
+}
+
 function renderAquarium() {
   const scene = $('aquariumScene');
   if (!scene) return;
@@ -4232,7 +4250,9 @@ function renderAquarium() {
   if ($('aquariumFishCount')) $('aquariumFishCount').textContent = aq.fish.length;
   if ($('aquariumSessionCount')) $('aquariumSessionCount').textContent = sessions;
 
-  let html = '';
+  ensureAquariumBackground(scene);
+
+  let html = '<div class="aq-rays"></div>';
   for (let b = 0; b < 10; b += 1) {
     const left = (b * 37 + 11) % 96;
     const size = 10 + ((b * 7) % 14);
@@ -4240,16 +4260,65 @@ function renderAquarium() {
     const delay = -((b * 2.3) % 9);
     html += `<span class="aq-bubble" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">🫧</span>`;
   }
+  const weeds = ['🌿', '🌱', '🌿'];
+  weeds.forEach((w, i) => {
+    html += `<span class="aq-weed" style="left:${5 + i * 6}%;font-size:${36 + i * 10}px;animation-delay:${-(i * 1.4)}s">${w}</span>`;
+  });
+  html += '<span class="aq-decor" style="left:16%;font-size:30px">⭐</span>';
+  html += '<span class="aq-decor" style="left:74%;font-size:30px">🐚</span>';
+  html += '<span class="aq-decor" style="left:88%;font-size:34px">🦀</span>';
   aq.corals.forEach((c) => {
     html += `<span class="aq-coral" style="left:${c.x}%;font-size:${c.s}px">${c.kind}</span>`;
   });
   aq.fish.forEach((f) => {
     html += `<div class="aq-fish${f.rev ? ' rev' : ''}" style="top:${f.y}%;animation-duration:${f.d}s;animation-delay:${f.delay}s"><span>${f.kind}</span></div>`;
   });
+  if (aq.fish.length >= 3) {
+    html += '<div class="aq-fish rev aq-turtle" style="top:55%;animation-duration:42s"><span>🐢</span></div>';
+  }
   if (aq.corals.length === 0 && aq.fish.length === 0) {
     html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun! 🐠</div>';
   }
   scene.innerHTML = html;
+  renderAquariumCollection(aq);
+  if (!scene.dataset.clickBound) {
+    scene.dataset.clickBound = '1';
+    scene.addEventListener('click', (e) => {
+      const rect = scene.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      for (let i = 0; i < 6; i += 1) {
+        const s = document.createElement('span');
+        s.className = 'aq-burst';
+        s.textContent = '🫧';
+        s.style.left = `${x + (i - 2.5) * 12}px`;
+        s.style.top = `${y - i * 8}px`;
+        scene.appendChild(s);
+        setTimeout(() => s.remove(), 1300);
+      }
+    });
+  }
+}
+
+function renderAquariumCollection(aq) {
+  const box = $('aquariumCollection');
+  if (!box) return;
+  const fishCount = {};
+  aq.fish.forEach((f) => { fishCount[f.kind] = (fishCount[f.kind] || 0) + 1; });
+  const coralCount = {};
+  aq.corals.forEach((c) => { coralCount[c.kind] = (coralCount[c.kind] || 0) + 1; });
+  let html = '<div class="aq-collection-title">🐠 Balık Koleksiyonu</div><div class="aq-chips">';
+  AQUARIUM_FISH.forEach((kind) => {
+    const n = fishCount[kind] || 0;
+    html += `<div class="aq-chip${n ? '' : ' locked'}"><span>${kind}</span><strong>×${n}</strong></div>`;
+  });
+  html += '</div><div class="aq-collection-title">🪸 Mercan Koleksiyonu</div><div class="aq-chips">';
+  AQUARIUM_CORALS.forEach((kind) => {
+    const n = coralCount[kind] || 0;
+    html += `<div class="aq-chip${n ? '' : ' locked'}"><span>${kind}</span><strong>×${n}</strong></div>`;
+  });
+  html += '</div>';
+  box.innerHTML = html;
 }
 
 // ===== Render All =====

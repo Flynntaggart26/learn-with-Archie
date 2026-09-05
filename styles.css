@@ -8056,17 +8056,6 @@ canvas.whiteboard {
   font-weight: 800;
 }
 /* Zengin sahne katmanları */
-.aq-rays {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(105deg, rgba(255, 255, 255, .07) 0 26px, transparent 26px 90px);
-  animation: aqRaysSway 9s ease-in-out infinite alternate;
-}
-@keyframes aqRaysSway {
-  from { transform: translateX(-18px); }
-  to { transform: translateX(18px); }
-}
 .aq-weed {
   position: absolute;
   bottom: 44px;

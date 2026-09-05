@@ -3578,12 +3578,27 @@ function initWhiteboards() {
   });
 }
 
-// Tahta arka plan görselleri (kutuya tam oturur: cover + ortalı)
+// Tahta arka plan görselleri — her ortamda (dev / build / dosya sunucusu)
+// çalışması için iki aday yol denenir, ilk açılan kullanılır.
 const WHITEBOARD_THEMES = {
   default: null,
-  sahil: 'images/sahiltahta.png.jpg',
-  karatahta: 'images/yazıtahtası.png.jpg',
+  sahil: ['images/sahiltahta.png.jpg', 'public/images/sahiltahta.png.jpg'],
+  karatahta: ['images/yazıtahtası.png.jpg', 'public/images/yazıtahtası.png.jpg'],
 };
+const AQUARIUM_BG_CANDIDATES = ['images/akvaryumarkaplan.png.jpg', 'public/images/akvaryumarkaplan.png.jpg'];
+
+function resolveImage(candidates, cb) {
+  const list = Array.isArray(candidates) ? candidates.slice() : [candidates];
+  const tryNext = () => {
+    if (list.length === 0) { cb(null); return; }
+    const url = list.shift();
+    const img = new Image();
+    img.onload = () => cb(url);
+    img.onerror = tryNext;
+    img.src = url;
+  };
+  tryNext();
+}
 
 // Mağaza kilitlerine göre tema menüsündeki seçenekleri güncelle
 function updateWhiteboardThemeLocks(boardBox) {
@@ -3602,6 +3617,41 @@ function updateWhiteboardThemeLocks(boardBox) {
   });
 }
 
+// Çizim katmanları: beyaz temada opak beyaz, görsel temada şeffaf
+function paintWhiteboardCanvases(boardBox, transparent) {
+  const drawCanvas = boardBox.querySelector('canvas.whiteboard');
+  const bgCanvas = boardBox.querySelector('.whiteboard-bg');
+  const canvasBg = transparent ? 'transparent' : '#ffffff';
+  if (drawCanvas) drawCanvas.style.setProperty('background', canvasBg, 'important');
+  if (bgCanvas) {
+    bgCanvas.style.setProperty('background', canvasBg, 'important');
+    const bgCtx = bgCanvas.getContext('2d');
+    if (bgCtx && bgCanvas.width > 0) {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      if (!transparent) {
+        bgCtx.fillStyle = '#ffffff';
+        bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+      }
+    }
+  }
+}
+
+function applyWhiteboardThemeImage(boardBox, name, url) {
+  boardBox.style.setProperty('background-image', `url("${encodeURI(url)}")`, 'important');
+  // Kara tahta: çerçevesiyle birebir tam sığar. Sahil: oran korunur,
+  // kumluk bölge altta (araç çubuğu hizasında) kalacak şekilde oturtulur.
+  if (name === 'karatahta') {
+    boardBox.style.setProperty('background-size', '100% 100%', 'important');
+    boardBox.style.setProperty('background-position', 'center', 'important');
+  } else {
+    boardBox.style.setProperty('background-size', 'cover', 'important');
+    boardBox.style.setProperty('background-position', 'center bottom', 'important');
+  }
+  boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
+  boardBox.style.setProperty('background-color', '#ffffff', 'important');
+  paintWhiteboardCanvases(boardBox, true);
+}
+
 // Apply whiteboard theme helper — kara tahta çerçeveyle tam sığar,
 // sahil oran korunarak kum altta kalacak şekilde oturur;
 // varsayılan tema saf beyazdır.
@@ -3609,42 +3659,24 @@ function applyWhiteboardTheme(boardBox, theme) {
   if (!boardBox) return;
   const name = WHITEBOARD_THEMES[theme] ? theme : 'default';
   boardBox.dataset.wbTheme = name;
-  const url = WHITEBOARD_THEMES[name];
-  if (url) {
-    boardBox.style.setProperty('background-image', `url("${encodeURI(url)}")`, 'important');
-    // Kara tahta: çerçevesiyle birebir tam sığar. Sahil: oran korunur,
-    // kumluk bölge altta (araç çubuğu hizasında) kalacak şekilde oturtulur.
-    if (name === 'karatahta') {
-      boardBox.style.setProperty('background-size', '100% 100%', 'important');
-      boardBox.style.setProperty('background-position', 'center', 'important');
-    } else {
-      boardBox.style.setProperty('background-size', 'cover', 'important');
-      boardBox.style.setProperty('background-position', 'center bottom', 'important');
-    }
-    boardBox.style.setProperty('background-repeat', 'no-repeat', 'important');
-    boardBox.style.setProperty('background-color', '#ffffff', 'important');
+  const candidates = WHITEBOARD_THEMES[name];
+  if (candidates) {
+    // Görsel yüklenince uygula; hiçbir aday açılmazsa beyaza geri dön.
+    boardBox.dataset.wbThemeToken = String(Date.now());
+    const token = boardBox.dataset.wbThemeToken;
+    resolveImage(candidates, (url) => {
+      if (!url || boardBox.dataset.wbThemeToken !== token || boardBox.dataset.wbTheme !== name) return;
+      applyWhiteboardThemeImage(boardBox, name, url);
+    });
+    // Yükleme bitene kadar şeffaf katmanlarla bekle
+    paintWhiteboardCanvases(boardBox, true);
   } else {
     boardBox.style.setProperty('background-image', 'none', 'important');
     boardBox.style.setProperty('background-color', '#ffffff', 'important');
     boardBox.style.setProperty('background-size', '', 'important');
     boardBox.style.setProperty('background-position', '', 'important');
     boardBox.style.setProperty('background-repeat', '', 'important');
-  }
-  // Çizim katmanları: beyaz temada opak beyaz, görsel temada şeffaf
-  const drawCanvas = boardBox.querySelector('canvas.whiteboard');
-  const bgCanvas = boardBox.querySelector('.whiteboard-bg');
-  const canvasBg = url ? 'transparent' : '#ffffff';
-  if (drawCanvas) drawCanvas.style.setProperty('background', canvasBg, 'important');
-  if (bgCanvas) {
-    bgCanvas.style.setProperty('background', canvasBg, 'important');
-    const bgCtx = bgCanvas.getContext('2d');
-    if (bgCtx && bgCanvas.width > 0) {
-      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-      if (!url) {
-        bgCtx.fillStyle = '#ffffff';
-        bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-      }
-    }
+    paintWhiteboardCanvases(boardBox, false);
   }
   const title = boardBox.querySelector('.wb-title');
   // Araç çubuğu stilleri CSS'teki [data-wb-theme] kurallarıyla yönetilir;
@@ -4221,22 +4253,19 @@ function syncAquarium(sessionCount, announce = false) {
   return aq;
 }
 
-const AQUARIUM_BG = 'images/akvaryumarkaplan.png.jpg';
-
 function ensureAquariumBackground(scene) {
   if (!scene || scene.dataset.bgOk === '1') return;
-  const img = new Image();
-  img.onload = () => {
-    scene.style.backgroundImage = `url("${AQUARIUM_BG}")`;
+  resolveImage(AQUARIUM_BG_CANDIDATES, (url) => {
+    if (!url) {
+      scene.dataset.bgOk = '0';
+      return;
+    }
+    scene.style.backgroundImage = `url("${encodeURI(url)}")`;
     scene.style.backgroundSize = 'cover';
     scene.style.backgroundPosition = 'center bottom';
     scene.style.backgroundRepeat = 'no-repeat';
     scene.dataset.bgOk = '1';
-  };
-  img.onerror = () => {
-    scene.dataset.bgOk = '0';
-  };
-  img.src = AQUARIUM_BG;
+  });
 }
 
 function renderAquarium() {
@@ -4252,7 +4281,7 @@ function renderAquarium() {
 
   ensureAquariumBackground(scene);
 
-  let html = '<div class="aq-rays"></div>';
+  let html = '';
   for (let b = 0; b < 10; b += 1) {
     const left = (b * 37 + 11) % 96;
     const size = 10 + ((b * 7) % 14);

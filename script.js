@@ -3581,8 +3581,8 @@ function initWhiteboards() {
 // Tahta arka plan görselleri (kutuya tam oturur: cover + ortalı)
 const WHITEBOARD_THEMES = {
   default: null,
-  sahil: 'public/images/sahiltahta.png.jpg',
-  karatahta: 'public/images/yazıtahtası.png.jpg',
+  sahil: 'images/sahiltahta.png.jpg',
+  karatahta: 'images/yazıtahtası.png.jpg',
 };
 
 // Mağaza kilitlerine göre tema menüsündeki seçenekleri güncelle

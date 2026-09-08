@@ -1989,6 +1989,25 @@ body.dark-mode .nav-link.active {
 .quiz-active { background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: var(--card-shadow); }
 
 .quiz-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.quiz-quit-btn {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #075c9f, 0 6px 14px rgba(2, 132, 199, .3);
+  transition: transform .15s, filter .15s;
+}
+.quiz-quit-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.quiz-quit-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #075c9f; }
 .quiz-progress-bar {
   flex: 1;
   height: 12px;
@@ -2031,15 +2050,21 @@ body.dark-mode .nav-link.active {
 .quiz-option:hover { border-color: var(--accent); background: var(--gold-100); }
 
 .quiz-option.correct {
-  background: var(--success-bg);
-  border-color: var(--accent);
-  color: var(--accent-deep);
+  background: #22c55e !important;
+  border-color: #16a34a !important;
+  color: #0f172a !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
 }
 
 .quiz-option.wrong {
-  background: #ffd7d7;
-  border-color: var(--error);
-  color: var(--error);
+  background: #ef4444 !important;
+  border-color: #dc2626 !important;
+  color: #0f172a !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
 }
 
 .quiz-feedback {
@@ -8411,14 +8436,22 @@ canvas.whiteboard {
 }
 .quiz-option:hover { border-color: #38bdf8 !important; }
 .quiz-option.correct {
-  border-color: #10b981 !important;
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
-  box-shadow: 0 8px 18px rgba(16, 185, 129, .2) !important;
+  border-color: #16a34a !important;
+  background: #22c55e !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 18px rgba(34, 197, 94, .45) !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
 }
 .quiz-option.wrong {
-  border-color: #f43f5e !important;
-  background: linear-gradient(135deg, #fff1f2, #ffe4e6) !important;
-  box-shadow: 0 8px 18px rgba(244, 63, 94, .15) !important;
+  border-color: #dc2626 !important;
+  background: #ef4444 !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 18px rgba(239, 68, 68, .45) !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
 }
 .quiz-next-btn {
   width: 100% !important;
@@ -8610,6 +8643,12 @@ canvas.whiteboard {
 }
 .quiz-topic-icon { font-size: 22px; flex: 0 0 auto; }
 .quiz-topics-empty { grid-column: 1 / -1; text-align: center; color: #7d9cab; font-size: 13px; font-weight: 700; padding: 24px 0; }
+/* ===== Çıkmış Sorular: ders listesi girişi ===== */
+.quiz-subject-btn.quiz-subject-cikmis .quiz-subject-icon {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 10px;
+  padding: 2px 6px;
+}
 .quiz-start-center {
   display: block !important;
   max-width: 420px !important;
@@ -9353,3 +9392,601 @@ input:focus, select:focus, textarea:focus {
   backdrop-filter: blur(8px);
 }
 .store-toast::before { content: "🫧 "; }
+
+/* ============================================================
+   🌊 SEA THEME ALL PAGES v10 — sığ su havası, modern soft
+   Yalnızca renk/arka plan: zeminler + kutular. Yerleşim,
+   yapı ve özellikler aynı kalır.
+   ============================================================ */
+:root {
+  --bg: #E3F3F5;
+  --bg-elevated: #F2FAFB;
+  --sidebar-bg: linear-gradient(180deg, #D8EFF2 0%, #C2E5E9 100%);
+  --card-bg: #F4FBFC;
+  --card-border: #BFE0E4;
+  --border: #BFE0E4;
+  --border-strong: #8FCBD2;
+  --hover-bg: #D8EFF2;
+  --gradient-card: linear-gradient(145deg, #FFFFFF 0%, #E3F3F5 100%);
+  --gradient-card-hover: linear-gradient(145deg, #E3F3F5 0%, #D2EBEE 100%);
+}
+body {
+  background: linear-gradient(180deg, #EFFAFB 0%, #E0F2F4 45%, #D3EBED 100%) !important;
+  background-attachment: fixed !important;
+}
+.main { background: transparent !important; }
+.topbar {
+  background: rgba(242, 250, 251, 0.85) !important;
+  border-bottom: 1px solid #BFE0E4 !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+/* Tüm sayfa kapları şeffaf: zemin deniz gradyanı görünür */
+.dashboard-container, .roadmap-container, .selection-container,
+.chat-container, .quiz-container, .planner-container, .profile-container,
+.store-container, .timer-container, .aquarium-container, .controls {
+  background: transparent !important;
+}
+/* ---- Dashboard: selamlama turkuaz, istatistikler mercan camı ---- */
+.dashboard-container .dashboard-hero {
+  background: linear-gradient(135deg, #0E7C99 0%, #14B8A6 100%) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.35), 0 10px 26px rgba(14,124,153,0.28) !important;
+}
+.dashboard-container .dashboard-hero h1, .dashboard-container .dashboard-hero p { color: #fff !important; }
+.dashboard-container .exam-countdown {
+  background: rgba(255,255,255,0.2) !important;
+  border: 1px solid rgba(255,255,255,0.45) !important;
+  border-radius: 16px !important;
+}
+.dashboard-container .countdown-label, .dashboard-container .countdown-value, .dashboard-container .countdown-unit { color: #fff !important; }
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(1) {
+  background: linear-gradient(135deg, #CFF6FB 0%, #A5EDF5 100%) !important;
+  border: 1px solid #7EDCE8 !important;
+}
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(2) {
+  background: linear-gradient(135deg, #D3F5E4 0%, #A9EACB 100%) !important;
+  border: 1px solid #7BDCAE !important;
+}
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(3) {
+  background: linear-gradient(135deg, #FFE7CF 0%, #FFD3A8 100%) !important;
+  border: 1px solid #F5B978 !important;
+}
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(4) {
+  background: linear-gradient(135deg, #D6E7FD 0%, #B3D2FB 100%) !important;
+  border: 1px solid #8FB6F2 !important;
+}
+.dashboard-container .dash-stat-value { color: #083344 !important; }
+.dashboard-container .dash-stat-label { color: #155E75 !important; }
+.dashboard-container .dashboard-grid .dash-card:nth-child(1) {
+  background: linear-gradient(135deg, #D2F3EC 0%, #B2E9DD 100%) !important;
+  border: 1px solid #83D5C3 !important;
+}
+.dashboard-container .dashboard-grid .dash-card:nth-child(2) {
+  background: linear-gradient(135deg, #D9EAFD 0%, #BBD8FA 100%) !important;
+  border: 1px solid #93BDF3 !important;
+}
+.dashboard-container .dashboard-grid .dash-card:nth-child(3) {
+  background: linear-gradient(135deg, #FFF3D6 0%, #FFE3A6 100%) !important;
+  border: 1px solid #F0C876 !important;
+}
+.dashboard-container .dashboard-grid .dash-card:nth-child(4) {
+  background: linear-gradient(135deg, #CFF6FB 0%, #A9EDF6 100%) !important;
+  border: 1px solid #7EDCE8 !important;
+}
+.dashboard-container .dash-card-title, .dashboard-container .subject-progress-row span,
+.dashboard-container .subject-progress-row b { color: #0B3B49 !important; }
+.dashboard-container .dash-progress-fill, .dashboard-container .subject-progress-row i {
+  background: linear-gradient(90deg, #22D3EE, #2563EB) !important;
+  box-shadow: 0 0 10px rgba(34,211,238,0.6) !important;
+}
+/* ---- Sınav: aqua cam ---- */
+.quiz-container .quiz-setup, .quiz-container .quiz-active, .quiz-container .quiz-result {
+  background: linear-gradient(145deg, #F2FBFC 0%, #DFF2F4 100%) !important;
+  border-color: #8FCBD2 !important;
+}
+.quiz-container .quiz-option {
+  background: rgba(255,255,255,0.7) !important;
+  border-color: #BFE0E4 !important;
+}
+.quiz-container .quiz-option:hover { border-color: #2AA8B5 !important; background: #fff !important; }
+.quiz-container .quiz-progress-fill { background: linear-gradient(90deg, #22D3EE, #2563EB) !important; }
+/* ---- Planlayıcı: 4 stat mercan tonu, görevler cam ---- */
+.planner-container .planner-stat-card:nth-child(1) {
+  background: linear-gradient(135deg, #CFF6FB 0%, #A5EDF5 100%) !important;
+  border: 1px solid #7EDCE8 !important;
+}
+.planner-container .planner-stat-card:nth-child(2) {
+  background: linear-gradient(135deg, #E2DFFB 0%, #C9C2F5 100%) !important;
+  border: 1px solid #A89DF0 !important;
+}
+.planner-container .planner-stat-card:nth-child(3) {
+  background: linear-gradient(135deg, #D3F5E4 0%, #A9EACB 100%) !important;
+  border: 1px solid #7BDCAE !important;
+}
+.planner-container .planner-stat-card:nth-child(4) {
+  background: linear-gradient(135deg, #FFE7CF 0%, #FFD3A8 100%) !important;
+  border: 1px solid #F5B978 !important;
+}
+.planner-container .planner-task, .planner-container .planner-form, .planner-container .planner-days {
+  background: rgba(244, 251, 252, 0.9) !important;
+  border-color: #BFE0E4 !important;
+}
+.planner-container .planner-day.active {
+  background: linear-gradient(135deg, #0E7C99, #14B8A6) !important;
+  border-color: #0E7C99 !important;
+  color: #fff !important;
+}
+/* ---- Profil / Mağaza / Zamanlayıcı / Yol haritası / AI sayfaları ---- */
+.profile-container .profile-analytics-card, .profile-container .profile-badges-section,
+.store-container .store-items > *, .timer-container .timer-card, .timer-container .timer-next-card,
+.roadmap-container .rm-legend, .selection-container .selection-step, .selection-container .tutor-panel,
+.chat-container .chat-panel, .tutor-panel {
+  background: linear-gradient(145deg, rgba(255,255,255,0.85) 0%, rgba(227,243,245,0.85) 100%) !important;
+  border: 1px solid #BFE0E4 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+.roadmap-container .subject-header {
+  background: linear-gradient(135deg, #D9EFF2 0%, #C2E5E9 100%) !important;
+  border: 1px solid #8FCBD2 !important;
+}
+.selection-container .subject-card:not(.selected), .selection-container .topic-card:not(.selected) {
+  background: rgba(255,255,255,0.7) !important;
+  border: 1px solid #BFE0E4 !important;
+}
+.selection-container .subject-card.selected, .selection-container .topic-card.selected {
+  background: linear-gradient(135deg, #0E7C99 0%, #2563EB 100%) !important;
+  color: #fff !important;
+}
+/* Kontroller: haplar cam */
+.controls .level-btn, .controls .selector-btn {
+  background: rgba(255,255,255,0.7) !important;
+  border-color: #BFE0E4 !important;
+}
+.controls .level-btn.active { background: linear-gradient(135deg, #0E7C99, #14B8A6) !important; color: #fff !important; }
+
+/* ============================================================
+   💙 SINGLE BLUE v11 — tüm kutular tek mavi ton, neon yok
+   Panel + planlayıcı renk cümbüşü yerine tek tip soft mavi cam.
+   ============================================================ */
+.dashboard-container .dashboard-hero {
+  background: linear-gradient(135deg, #0B5CAB 0%, #1E88C7 100%) !important;
+  background-image: linear-gradient(135deg, #0B5CAB 0%, #1E88C7 100%) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.35), 0 10px 26px rgba(11, 92, 171, 0.3) !important;
+}
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(1),
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(2),
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(3),
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(4) {
+  background: linear-gradient(135deg, #DEEFFD 0%, #C2DFFB 100%) !important;
+  background-image: linear-gradient(135deg, #DEEFFD 0%, #C2DFFB 100%) !important;
+  border: 1px solid #9CC4EC !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 6px 18px rgba(30, 136, 199, 0.16) !important;
+}
+.dashboard-container .dashboard-grid .dash-card:nth-child(1),
+.dashboard-container .dashboard-grid .dash-card:nth-child(2),
+.dashboard-container .dashboard-grid .dash-card:nth-child(3),
+.dashboard-container .dashboard-grid .dash-card:nth-child(4) {
+  background: linear-gradient(135deg, #E4F1FD 0%, #CBDEF9 100%) !important;
+  background-image: linear-gradient(135deg, #E4F1FD 0%, #CBDEF9 100%) !important;
+  border: 1px solid #9CC4EC !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 6px 18px rgba(30, 136, 199, 0.14) !important;
+}
+.planner-container .planner-stat-card:nth-child(1),
+.planner-container .planner-stat-card:nth-child(2),
+.planner-container .planner-stat-card:nth-child(3),
+.planner-container .planner-stat-card:nth-child(4) {
+  background: linear-gradient(135deg, #DEEFFD 0%, #C2DFFB 100%) !important;
+  background-image: linear-gradient(135deg, #DEEFFD 0%, #C2DFFB 100%) !important;
+  border: 1px solid #9CC4EC !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 6px 18px rgba(30, 136, 199, 0.16) !important;
+}
+.dashboard-container .dash-progress-fill, .dashboard-container .subject-progress-row i {
+  background: linear-gradient(90deg, #1E88C7, #0B5CAB) !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================
+   🎛️ CONTROLS FIX v12 — seçici butonlar koyu mavi, beyaz yazı
+   Beyaz üstünde eriyen etiketler için yüksek kontrast. ID
+   kapsamlı eski gradyanları ezer, TYT/AYT aynen korunur.
+   ============================================================ */
+#controlsBar .selector-btn {
+  background: linear-gradient(135deg, #0B5CAB 0%, #1E88C7 100%) !important;
+  background-image: linear-gradient(135deg, #0B5CAB 0%, #1E88C7 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(11, 92, 171, 0.35) !important;
+}
+#controlsBar .selector-btn .topic-label, #controlsBar .selector-btn .class-label,
+#controlsBar .selector-btn .topic-box, #controlsBar .selector-btn .arrow {
+  color: #FFFFFF !important;
+}
+#controlsBar .selector-btn .selector-icon {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+#controlsBar .selector-btn:hover {
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 6px 18px rgba(11, 92, 171, 0.45) !important;
+}
+
+/* ============================================================
+   🖼️ ARCHIE IMAGES v13 — AI öğretmen başlık görseli + panel
+   kutu görseli. Yalnızca boyut/konum, yapı aynı.
+   ============================================================ */
+.teacher-header-archie {
+  margin-left: auto !important;
+  align-self: center !important;
+  height: clamp(90px, 14vw, 150px) !important;
+  width: auto !important;
+  max-width: 38% !important;
+  object-fit: contain !important;
+  border-radius: 14px !important;
+  flex-shrink: 1 !important;
+  min-width: 0 !important;
+}
+.dash-archie {
+  display: block !important;
+  width: 100% !important;
+  max-height: 150px !important;
+  object-fit: contain !important;
+  margin-top: 12px !important;
+  border-radius: 12px !important;
+}
+@media (max-width: 650px) {
+  .teacher-header-archie { display: none !important; }
+}
+
+/* ============================================================
+   🖼️ ARCHIE PLACEMENT v14 — öğretmen sayfa sağı + hero
+   altından tutunan Archie. Yalnızca boyut/konum.
+   ============================================================ */
+.teacher-header-archie, .dash-archie { display: none !important; }
+#teacherSelection { position: relative !important; }
+#teacherSelection .selection-header, #teacherSelection .selection-content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.teacher-side-archie { display: none !important; }
+@media (min-width: 1100px) {
+  #teacherSelection {
+    max-width: 1680px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    align-content: flex-start !important;
+  }
+  #teacherSelection .selection-header { flex: 1 1 100% !important; }
+  #teacherSelection .selection-content {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+  .teacher-side-archie {
+    display: block !important;
+    position: sticky !important;
+    top: 48px !important;
+    flex: 0 0 480px !important;
+    width: 480px !important;
+    max-width: 34vw !important;
+    height: auto !important;
+    max-height: 70vh !important;
+    object-fit: contain !important;
+    align-self: flex-start !important;
+    margin: 64px auto 0 auto !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 16px 22px rgba(8, 47, 73, 0.25)) !important;
+  }
+}
+/* Hero: Archie alt kenara tutunur, el sallar */
+.dashboard-hero { position: relative !important; overflow: visible !important; }
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(3) { position: relative !important; overflow: visible !important; }
+.hero-archie {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(100% - 10px) !important;
+  transform: translateX(-50%) !important;
+  height: 132px !important;
+  width: auto !important;
+  max-width: 250px !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+  filter: drop-shadow(0 10px 12px rgba(8, 47, 73, 0.35)) !important;
+}
+@media (max-width: 650px) {
+  .hero-archie { height: 88px !important; max-width: 170px !important; }
+}
+
+/* İç satırlar kartla aynı aileden: beyaz kutu yok */
+.dashboard-container .dash-goal-item,
+.dashboard-container .dash-note-item,
+.dashboard-container .dash-achievement,
+.dashboard-container .dash-analytic-item {
+  background: rgba(255, 255, 255, 0.3) !important;
+  background-image: none !important;
+  border: 1px solid rgba(156, 196, 236, 0.65) !important;
+  box-shadow: none !important;
+}
+
+/* Yatay kaydırma kapalı: tek dikey akış */
+html, body { overflow-x: hidden !important; overflow-x: clip !important; }
+.main { overflow-x: hidden !important; overflow-x: clip !important; }
+.sidebar { overflow-x: hidden !important; overflow-x: clip !important; }
+
+/* ============================================================
+   🎁 CHEST v16 — köşede, engellemeyen video + sonuç popup'ı
+   ============================================================ */
+.store-section-title { color: #0B3B49 !important; font-size: 17px !important; margin: 22px 0 4px 0 !important; }
+.store-section-desc { color: #155E75 !important; font-size: 12.5px !important; margin: 0 0 12px 0 !important; }
+.store-pearl-badge { margin-left: 8px !important; }
+.chest-overlay {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(560px, calc(100vw - 40px)) !important;
+  z-index: 200 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+.chest-result-img {
+  width: 170px !important;
+  height: 170px !important;
+}
+
+/* ============================================================
+   🎬 LESSON INTRO v17 — tam ekran ders girişi
+   ============================================================ */
+.lesson-intro-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 300 !important;
+  background: #06283D !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.lesson-intro-overlay.show { display: flex !important; }
+.lesson-intro-video {
+  width: min(1060px, 94vw) !important;
+  max-height: 88vh !important;
+  border-radius: 18px !important;
+  background: #000 !important;
+}
+.lesson-intro-skip {
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 22px !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  padding: 10px 22px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+.chest-video-panel, .chest-result-panel {
+  pointer-events: auto !important;
+  background: linear-gradient(145deg, #FFFFFF 0%, #E3F3F5 100%) !important;
+  border: 1px solid #8FCBD2 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 14px 34px rgba(8, 47, 73, 0.3) !important;
+  padding: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+.chest-video-panel[hidden], .chest-result-panel[hidden] { display: none !important; }
+.chest-video { width: 100% !important; border-radius: 12px !important; background: #082F49 !important; max-height: 340px !important; }
+.chest-skip, .chest-close {
+  border: 1px solid #8FCBD2 !important;
+  background: #0E7C99 !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  padding: 8px 18px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+.chest-result-img {
+  width: 170px !important;
+  height: 170px !important;
+  object-fit: contain !important;
+}
+.chest-result-name { color: #083344 !important; font-size: 16px !important; }
+.chest-result-rank { font-size: 13px !important; font-weight: 900 !important; letter-spacing: 0.06em !important; }
+.chest-result-rank.rank-common { color: #0284C7 !important; text-shadow: 0 0 12px rgba(56, 189, 248, 0.9) !important; }
+.chest-result-rank.rank-rare { color: #16A34A !important; text-shadow: 0 0 12px rgba(74, 222, 128, 0.9) !important; }
+.chest-result-rank.rank-epic { color: #DC2626 !important; text-shadow: 0 0 12px rgba(248, 113, 113, 0.9) !important; }
+.chest-result-rank.rank-legendary { color: #CA8A04 !important; text-shadow: 0 0 12px rgba(250, 204, 21, 0.95) !important; }
+.chest-result-note { color: #155E75 !important; font-size: 12px !important; }
+.dashboard-container, .dash-stats-grid, .dashboard-grid, .dash-quick-actions {
+  overflow-x: visible !important;
+  max-width: 100% !important;
+}
+@media (max-width: 650px) {
+  .hero-archie { height: 96px !important; max-width: 190px !important; right: 12px !important; bottom: -4px !important; }
+
+/* ============================================================
+   📜 SINGLE SCROLL v15 — panelde iç kaydırma yok, tek akış
+   ============================================================ */
+.main { overflow-y: auto !important; }
+.dashboard-container {
+  overflow: visible !important;
+  height: auto !important;
+  flex: none !important;
+}
+}
+
+/* ============================================================
+   🔵 COMPLETE FRAME v18 — Tamamlandı düğmelerinde mavi çerçeve
+   ============================================================ */
+.complete-btn, .complete-btn.done, .complete-btn:disabled {
+  border: 2px solid #1E88C7 !important;
+}
+.complete-btn.done, .complete-btn:disabled {
+  background: linear-gradient(135deg, #1E88E5, #00ACC1) !important;
+  background-image: linear-gradient(135deg, #1E88E5, #00ACC1) !important;
+  color: #fff !important;
+  cursor: default !important;
+  box-shadow: 0 4px 14px rgba(30, 136, 229, 0.35) !important;
+}
+.chest-video { background: #fff !important; }
+
+/* Odak ısı haritası: 14 gün, gerçek dakikalar */
+.focus-heat { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 8px !important; }
+.focus-heat-cell { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; font-size: 10px !important; font-weight: 700 !important; color: #0E4A5A !important; }
+.focus-heat-sq { width: 100% !important; aspect-ratio: 1 / 1 !important; border-radius: 8px !important; border: 1px solid rgba(156, 196, 236, 0.65) !important; }
+.focus-heat-sq.lv0 { background: rgba(255, 255, 255, 0.3) !important; }
+.focus-heat-sq.lv1 { background: #C4E7EC !important; }
+.focus-heat-sq.lv2 { background: #7CC9D4 !important; }
+.focus-heat-sq.lv3 { background: #1E88C7 !important; }
+.focus-heat-sq.lv4 { background: #0B5CAB !important; }
+
+/* Plan onay kutusu + quiz başarı halkası */
+.dash-plan-check {
+  width: 26px !important;
+  height: 26px !important;
+  flex: 0 0 26px !important;
+  border-radius: 50% !important;
+  border: 2px solid #1E88C7 !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+.dash-plan-check.done { background: linear-gradient(135deg, #1E88E5, #00ACC1) !important; }
+.quiz-ring-wrap { display: flex !important; align-items: center !important; gap: 18px !important; flex-wrap: wrap !important; }
+.quiz-ring {
+  position: relative !important;
+  width: 130px !important;
+  height: 130px !important;
+  flex: 0 0 130px !important;
+  border-radius: 50% !important;
+  background: conic-gradient(#1E88C7 var(--ring-pct), rgba(30, 136, 199, 0.14) var(--ring-pct)) !important;
+}
+.quiz-ring::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 16px !important;
+  border-radius: 50% !important;
+  background: #F2FAFB !important;
+}
+.quiz-ring-center {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #0B3B49 !important;
+}
+.quiz-ring-center strong { font-size: 24px !important; }
+.quiz-ring-center span { font-size: 11px !important; font-weight: 700 !important; color: #155E75 !important; }
+.quiz-ring-legend { display: flex !important; flex-direction: column !important; gap: 8px !important; font-size: 13px !important; color: #0B3B49 !important; font-weight: 600 !important; }
+.quiz-ring-legend i { display: inline-block !important; width: 12px !important; height: 12px !important; border-radius: 4px !important; margin-right: 6px !important; }
+.legend-correct { background: #1E88C7 !important; }
+.legend-wrong { background: #F5B978 !important; }
+.legend-total { background: #0B3B49 !important; }
+
+/* Seviye düğmeleri (TYT/AYT): pasif yazı her zeminde okunur */
+.level-btn:not(.active) { color: #334155 !important; font-weight: 900 !important; }
+.level-btn { font-size: 15px !important; letter-spacing: .3px !important; }
+
+/* ============================================================
+   LEMMY YERLEŞİMLERİ — Archie düzeniyle aynı desen:
+   mobilde gizli, geniş ekranda sağda büyük görsel.
+   ============================================================ */
+.student-side-lemmy,
+.planner-side-lemmy,
+.quiz-side-lemmy { display: none !important; }
+@media (min-width: 1100px) {
+  #studentSelection {
+    position: relative !important;
+    max-width: 1680px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    align-content: flex-start !important;
+  }
+  #studentSelection .selection-header { flex: 1 1 100% !important; }
+  #studentSelection .selection-content {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  .student-side-lemmy {
+    display: block !important;
+    position: sticky !important;
+    top: 48px !important;
+    flex: 0 0 480px !important;
+    width: 480px !important;
+    max-width: 34vw !important;
+    height: auto !important;
+    max-height: 70vh !important;
+    object-fit: contain !important;
+    align-self: flex-start !important;
+    margin: 64px auto 0 auto !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 16px 22px rgba(8, 47, 73, 0.25)) !important;
+  }
+}
+
+/* Pano: Bugünkü Planlarım kartında sağda büyük Lemmy */
+.dash-plans-card { position: relative !important; overflow: hidden !important; }
+.dash-plans-top-lemmy {
+  display: none !important;
+}
+@media (min-width: 1100px) {
+  .dash-plans-top-lemmy {
+    display: block !important;
+    position: absolute !important;
+    top: -10px !important;
+    right: 18px !important;
+    width: 110px !important;
+    height: auto !important;
+    max-height: 130px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 8px 12px rgba(8, 47, 73, 0.18)) !important;
+    z-index: 2 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+}
+
+
+
+/* Yol haritası: Matematik dersinde Lemmy */
+.rm-header-img {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain !important;
+  border-radius: 16px !important;
+  flex: 0 0 auto !important;
+  filter: drop-shadow(0 8px 12px rgba(8, 47, 73, 0.2)) !important;
+}
+
+/* Sınav: zemin tamamen beyaz, mavilik seçim kutularında */
+.quiz-container .quiz-setup, .quiz-container .quiz-active, .quiz-container .quiz-result {
+  background: #ffffff !important;
+  border-color: #e1e9f0 !important;
+}
+.quiz-container .quiz-pane {
+  background: linear-gradient(145deg, #F2FBFC 0%, #DFF2F4 100%) !important;
+  border-color: #8FCBD2 !important;
+}
+
+

@@ -1,6 +1,8 @@
 // ===== Learn with Archie - TYT & AYT Yol Haritası =====
 
 import { CURRICULUM } from './curriculum-data.js';
+import { CIKMIS_TYT, CIKMIS_TYT_DERSLER } from './cikmis-tyt-data.js';
+import { CIKMIS_AYT, CIKMIS_AYT_DERSLER } from './cikmis-ayt-data.js';
 import {
   Chart,
   RadarController,
@@ -103,6 +105,8 @@ const STORAGE_KEYS = {
   pomodoro: 'archie.pomodoro',
   timerCountdown: 'archie.timerCountdown',
   timerPomodoro: 'archie.timerPomodoro',
+  focusLog: 'archie.focusLog',
+  pearls: 'archie.pearls',
   rewardState: 'archie.rewardState',
   aquarium: 'archie.aquarium',
   metacognition: 'archie.metacognition',
@@ -140,14 +144,31 @@ const APP_SOUNDS = {
   click: 'tuştıklama.mp3.mp3',
 };
 
+function appSoundUrl(filename) {
+  // Mutlak /sounds/... yolu alt dizinden yayında bozulur; taban adrese göre çöz.
+  try {
+    return new URL(`sounds/${encodeURIComponent(filename)}`, document.baseURI).href;
+  } catch {
+    return `sounds/${encodeURIComponent(filename)}`;
+  }
+}
+
 function playAppSound(soundName) {
   const filename = APP_SOUNDS[soundName];
   if (!filename) return;
-  const audio = new Audio(`/sounds/${encodeURIComponent(filename)}`);
-  audio.volume = .75;
-  audio.play().catch(() => {
-    // Browsers can block playback until a user gesture is available.
-  });
+  try {
+    const audio = new Audio(appSoundUrl(filename));
+    audio.volume = .75;
+    const started = audio.play();
+    if (started) {
+      started.catch((err) => {
+        // Kullanıcı etkileşimi öncesi tarayıcı engelleyebilir; sessizce geçme, logla.
+        console.debug('[sound] oynatılamadı:', soundName, err?.message || err);
+      });
+    }
+  } catch (err) {
+    console.debug('[sound] hata:', soundName, err?.message || err);
+  }
 }
 
 function handleGlobalClickSound(event) {
@@ -162,6 +183,7 @@ let AppState = {
   currentUser: readStorage(STORAGE_KEYS.displayName, 'Öğrenci'),
   currentUserEmail: readStorage(STORAGE_KEYS.currentUser, ''),
   xp: readStorage(STORAGE_KEYS.xp, 0),
+  pearls: readStorage(STORAGE_KEYS.pearls, 0),
   activeLevel: 'tyt',
   activeTopic: null,
   activeSubject: null,
@@ -274,6 +296,62 @@ function addXp(amount) {
   updateXpDisplay();
 }
 
+// ===== Odak oturum hattı: tüm zamanlayıcılar buraya işler =====
+function getFocusLog() {
+  const log = readStorage(STORAGE_KEYS.focusLog, []);
+  return Array.isArray(log) ? log : [];
+}
+
+function focusDayKey(time) {
+  const d = new Date(time);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function timeAgoTr(time) {
+  const diff = Math.max(0, Date.now() - time);
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'şimdi';
+  if (mins < 60) return `${mins} dk önce`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} sa önce`;
+  const days = Math.floor(hours / 24);
+  return `${days} gün önce`;
+}
+
+function getWeekStart() {
+  const d = new Date();
+  const idx = d.getDay() === 0 ? 6 : d.getDay() - 1;
+  const start = new Date(d.getFullYear(), d.getMonth(), d.getDate() - idx, 0, 0, 0, 0);
+  return start.getTime();
+}
+
+function getWeeklyFocusMinutes() {
+  const values = [0, 0, 0, 0, 0, 0, 0];
+  const start = getWeekStart();
+  getFocusLog().forEach((entry) => {
+    if (!entry || entry.t < start) return;
+    const idx = new Date(entry.t).getDay() === 0 ? 6 : new Date(entry.t).getDay() - 1;
+    values[idx] += Number(entry.minutes) || 0;
+  });
+  return values;
+}
+
+// Tek oturumu tarihli kaydet + sayaçları ilerlet. Her zamanlayıcı burayı çağırır.
+function recordFocusSession(minutes) {
+  const mins = Math.max(1, Math.round(Number(minutes) || 0));
+  const log = getFocusLog();
+  log.push({ t: Date.now(), minutes: mins });
+  writeStorage(STORAGE_KEYS.focusLog, log.slice(-500));
+  const tp = readStorage(STORAGE_KEYS.timerPomodoro, {});
+  tp.sessionCount = (tp.sessionCount || 0) + 1;
+  tp.focusMinutes = (tp.focusMinutes || 0) + mins;
+  writeStorage(STORAGE_KEYS.timerPomodoro, tp);
+  timerSessionCount = tp.sessionCount;
+  timerFocusMinutes = tp.focusMinutes;
+  addPearls(mins);
+  return mins;
+}
+
 function updateXpDisplay() {
   const topbarXp = $('topbarXpValue');
   const storeXp = $('storeXpDisplay');
@@ -281,6 +359,20 @@ function updateXpDisplay() {
   if (topbarXp) topbarXp.textContent = AppState.xp;
   if (storeXp) storeXp.textContent = AppState.xp;
   if (dashXp) dashXp.textContent = AppState.xp;
+}
+
+// ===== İnci: yalnızca zamanlayıcı oturumlarıyla kazanılır (1 dk = 1 inci) =====
+function addPearls(amount) {
+  AppState.pearls = Math.max(0, (AppState.pearls || 0) + amount);
+  writeStorage(STORAGE_KEYS.pearls, AppState.pearls);
+  updatePearlDisplay();
+}
+
+function updatePearlDisplay() {
+  const storePearls = $('storePearlDisplay');
+  if (storePearls) storePearls.textContent = AppState.pearls || 0;
+  const timerPearls = $('timerPearlCount');
+  if (timerPearls) timerPearls.textContent = AppState.pearls || 0;
 }
 
 // ===== Auth =====
@@ -617,21 +709,56 @@ function renderDashboard() {
   const daysLeft = Math.ceil((targetDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
   if ($('countdownValue')) $('countdownValue').textContent = Math.max(0, daysLeft);
 
-  // Goals
-  const goalsEl = $('dashGoals');
-  if (goalsEl) {
-    const goals = [
-      { icon: '🗺️', text: 'Yeni konu çalış', done: completedCount > 0 },
-      { icon: '📝', text: 'En az 10 soru çöz', done: pct > 0 },
-      { icon: '🔁', text: 'Tekrar yap', done: false },
-    ];
-    goalsEl.innerHTML = goals.map((g) => `
+  // Bugünkü Planlarım: planner görevleri, tıklayınca durum değişir
+  const plansEl = $('dashPlans');
+  if (plansEl) {
+    const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+    const todays = getTasks()[getDayKey(todayIndex)] || [];
+    plansEl.innerHTML = todays.length === 0
+      ? '<p style="color:var(--text-light);font-size:13px;">Bugün planlanmış görev yok. Planlayıcıdan ekle, burada takip et!</p>'
+      : todays.slice(0, 6).map((task) => {
+        const status = getTaskStatus(task);
+        const meta = [task.time, task.duration ? `${task.duration} dk` : ''].filter(Boolean).join(' • ');
+        return `
       <div class="dash-goal-item">
-        <span class="goal-icon">${g.icon}</span>
-        <span class="goal-text">${g.text}</span>
-        <span class="goal-status ${g.done ? 'done' : 'pending'}">${g.done ? '✓' : 'Bekliyor'}</span>
+        <button type="button" class="dash-plan-check ${status === 'done' ? 'done' : ''}" data-task="${task.id}" aria-label="Görevi işaretle">${status === 'done' ? '✓' : ''}</button>
+        <span class="goal-text">${task.title || 'Görev'}${meta ? ` <small style="color:var(--text-light);font-weight:600;">${meta}</small>` : ''}</span>
+        <span class="goal-status ${status === 'done' ? 'done' : 'pending'}">${status === 'done' ? 'Bitti' : status === 'doing' ? 'Sürüyor' : 'Bekliyor'}</span>
       </div>
-    `).join('');
+    `;
+      }).join('');
+    plansEl.querySelectorAll('.dash-plan-check').forEach((btn) => {
+      btn.onclick = () => {
+        const record = findPlannerTask(btn.dataset.task);
+        if (!record) return;
+        const next = getTaskStatus(record.task) === 'done' ? 'todo' : 'done';
+        setTaskStatus(record.task, next);
+        record.tasks[record.dayKey] = record.dayTasks;
+        saveTasks(record.tasks);
+        renderDashboard();
+      };
+    });
+  }
+
+  // Quiz Başarı Halkası: tüm quizlerden gerçek doğru/yanlış oranı
+  const ringEl = $('dashQuizRing');
+  if (ringEl) {
+    const history = readStorage(STORAGE_KEYS.quizHistory, []);
+    const correct = history.reduce((sum, entry) => sum + (Number(entry.correct) || 0), 0);
+    const total = history.reduce((sum, entry) => sum + (Number(entry.total) || 0), 0);
+    const wrong = Math.max(0, total - correct);
+    const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+    ringEl.innerHTML = total === 0
+      ? '<p style="color:var(--text-light);font-size:13px;">Henüz quiz çözülmedi. İlk testini bitir, halkan dolsun!</p>'
+      : `
+      <div class="quiz-ring" style="--ring-pct:${pct}%">
+        <div class="quiz-ring-center"><strong>${pct}%</strong><span>başarı</span></div>
+      </div>
+      <div class="quiz-ring-legend">
+        <span><i class="legend-correct"></i>Doğru <b>${correct}</b></span>
+        <span><i class="legend-wrong"></i>Yanlış <b>${wrong}</b></span>
+        <span><i class="legend-total"></i>Soru <b>${total}</b></span>
+      </div>`;
   }
 
   // Achievements
@@ -671,22 +798,13 @@ function renderDashboard() {
   // Analytics
   const analyticsEl = $('dashAnalytics');
   if (analyticsEl) {
-    const attempted = allTopics.filter((t) => progress[t.id]?.total > 0);
-    const avg = attempted.length > 0
-      ? Math.round(attempted.reduce((sum, t) => sum + (progress[t.id].correct / progress[t.id].total) * 100, 0) / attempted.length)
-      : 0;
     const completed = Math.max(0, completedCount);
     const remaining = Math.max(0, totalCount - completed);
-    const maxBar = Math.max(1, avg, AppState.streak * 10, pct);
-    const bars = [
-      { label: 'Pzt', value: Math.round(avg * 0.62) },
-      { label: 'Sal', value: Math.round(avg * 0.84) },
-      { label: 'Çar', value: Math.round(avg * 0.5) },
-      { label: 'Per', value: Math.round(avg * 0.96) },
-      { label: 'Cum', value: Math.round(avg * 0.72) },
-      { label: 'Cmt', value: Math.round(avg * 0.4) },
-      { label: 'Paz', value: Math.round(avg * 0.58) },
-    ];
+    const weekMinutes = getWeeklyFocusMinutes();
+    const weekTotal = weekMinutes.reduce((sum, value) => sum + value, 0);
+    const maxBar = Math.max(1, ...weekMinutes);
+    const dayLabels = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+    const bars = dayLabels.map((label, index) => ({ label, value: weekMinutes[index] }));
     analyticsEl.innerHTML = `
       <div class="dash-pie-panel">
         <div class="dash-pie" style="--pie-complete:${pct}%" aria-label="${pct}% ilerleme">
@@ -698,7 +816,7 @@ function renderDashboard() {
         </div>
       </div>
       <div class="dash-bars-panel">
-        <div class="dash-chart-caption"><span>Haftalık çalışma</span><b>%${avg} ort.</b></div>
+        <div class="dash-chart-caption"><span>Haftalık çalışma</span><b>${weekTotal} dk</b></div>
         <div class="dash-bars">
           ${bars.map((bar, index) => `<div class="dash-bar-column"><div class="dash-bar" style="--bar-height:${Math.max(8, Math.round((bar.value / maxBar) * 100))}%; animation-delay:${index * 55}ms"></div><span>${bar.label}</span></div>`).join('')}
         </div>
@@ -1275,8 +1393,73 @@ const FALLBACK_QUESTIONS = [
   { prompt: 'Konu çalışırken not almak neden faydalıdır?', options: ['Tekrarı kolaylaştırır', 'Zaman kaybıdır', 'Gerek yoktur', 'Kafa karıştırır'], answer: 0 },
 ];
 
+function cikmisDataForLevel(level) {
+  return level === 'ayt'
+    ? { pool: CIKMIS_AYT, dersler: CIKMIS_AYT_DERSLER }
+    : { pool: CIKMIS_TYT, dersler: CIKMIS_TYT_DERSLER };
+}
+
 function getQuestionsForTopic(topicId) {
+  if (typeof topicId === 'string' && topicId.startsWith('cikmis-')) {
+    const level = topicId.startsWith('cikmis-ayt-') ? 'ayt' : 'tyt';
+    const { pool, dersler } = cikmisDataForLevel(level);
+    const ders = quizState.cikmisDers
+      || (dersler || []).find((d) => `cikmis-${level}-${d.slug}` === topicId)?.ders;
+    const list = (ders && pool[ders]) || [];
+    const tag = level.toUpperCase();
+    return list.map((q) => ({ prompt: `[${q.year} ${tag}] ${q.prompt}`, options: q.options.slice(), answer: q.answer }));
+  }
   return QUESTION_BANK[topicId] || FALLBACK_QUESTIONS;
+}
+
+const CIKMIS_SUBJECT = 'Çıkmış Sorular';
+
+function cikmisDisplayName(topicId, cikmisDers) {
+  if (cikmisDers) return `Çıkmış Sorular • ${cikmisDers}`;
+  for (const level of ['tyt', 'ayt']) {
+    const found = (cikmisDataForLevel(level).dersler || []).find((d) => `cikmis-${level}-${d.slug}` === topicId);
+    if (found) return `Çıkmış Sorular • ${found.ders}`;
+  }
+  return topicId;
+}
+
+function startCikmisQuiz(ders) {
+  const level = AppState.activeLevel === 'ayt' ? 'ayt' : 'tyt';
+  const { pool, dersler } = cikmisDataForLevel(level);
+  const list = ((pool || {})[ders] || []).slice();
+  if (!list.length) return;
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  const slug = ((dersler || []).find((d) => d.ders === ders)?.slug)
+    || ders.toLocaleLowerCase('tr').replace(/[^a-zçğıöşü]+/g, '');
+  const tag = level.toUpperCase();
+  // Dersin tüm çıkmış soruları tek testte (yeni yıllar eklenince havuz otomatik büyür).
+  // Sonuçlar bitince otomatik kaydedilir (ilerleme + XP + geçmiş).
+  quizState = {
+    questions: list.map((q) => ({
+      prompt: `[${q.year} ${tag}] ${q.prompt}`,
+      options: q.options.slice(),
+      answer: q.answer,
+    })),
+    currentIndex: 0,
+    correctCount: 0,
+    selectedOption: null,
+    confidence: null,
+    topicId: `cikmis-${level}-${slug}`,
+    cikmisDers: ders,
+  };
+
+  if ($('quizSetup')) $('quizSetup').style.display = 'none';
+  if ($('quizResult')) $('quizResult').style.display = 'none';
+  if ($('quizActive')) $('quizActive').style.display = '';
+  if ($('quizNextBtn')) $('quizNextBtn').style.display = 'none';
+
+  const qualityBox = $('qualityBox');
+  if (qualityBox) qualityBox.style.display = '';
+
+  renderQuizQuestion();
 }
 
 let quizState = {
@@ -1296,6 +1479,9 @@ function quizSubjectsForLevel(level) {
   getAllTopics().filter((t) => t.level === level).forEach((t) => {
     if (!seen.includes(t.subject)) seen.push(t.subject);
   });
+  if ((level === 'tyt' || level === 'ayt') && (cikmisDataForLevel(level).dersler || []).length) {
+    seen.push(CIKMIS_SUBJECT);
+  }
   return seen;
 }
 
@@ -1313,8 +1499,10 @@ function renderQuizSubjects() {
   quizSubjectsForLevel(AppState.activeLevel).forEach((subject) => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'quiz-subject-btn' + (subject === quizSelectedSubject ? ' selected' : '');
-    btn.innerHTML = `<span class="quiz-subject-icon">${CLASS_ICONS[subject] || '📚'}</span><span>${subject}</span>`;
+    btn.className = 'quiz-subject-btn'
+      + (subject === quizSelectedSubject ? ' selected' : '')
+      + (subject === CIKMIS_SUBJECT ? ' quiz-subject-cikmis' : '');
+    btn.innerHTML = `<span class="quiz-subject-icon">${CLASS_ICONS[subject] || (subject === CIKMIS_SUBJECT ? '📜' : '📚')}</span><span>${subject}</span>`;
     btn.onclick = () => {
       quizSelectedSubject = subject;
       list.querySelectorAll('.quiz-subject-btn').forEach((b) => b.classList.remove('selected'));
@@ -1329,6 +1517,32 @@ function renderQuizTopics(animate = false) {
   const pane = $('quizTopicCards');
   if (!pane) return;
   pane.innerHTML = '';
+  const titleEl = $('quizTopicPaneTitle');
+  const hintEl = $('quizHint');
+  const startBtn = $('quizStartBtn');
+  if (quizSelectedSubject === CIKMIS_SUBJECT) {
+    const level = AppState.activeLevel;
+    const { dersler } = cikmisDataForLevel(level);
+    if (titleEl) titleEl.textContent = `2️⃣ Çıkmış Ders Seç (${level.toUpperCase()})`;
+    if (hintEl) hintEl.textContent = '📜 Çıkmış sorulardan bir ders seç, test hemen başlasın.';
+    if (startBtn) startBtn.disabled = true;
+    (dersler || []).forEach((d, i) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'quiz-topic-card';
+      if (animate) card.style.animationDelay = `${Math.min(i * 45, 600)}ms`;
+      card.innerHTML = `<span class="quiz-topic-icon">${d.icon || '📜'}</span><span>${d.ders}</span>`;
+      card.onclick = () => startCikmisQuiz(d.ders);
+      pane.appendChild(card);
+    });
+    if (!(dersler || []).length) {
+      pane.innerHTML = '<div class="quiz-topics-empty">Bu seviyede çıkmış soru bulunamadı.</div>';
+    }
+    return;
+  }
+  if (titleEl) titleEl.textContent = '2️⃣ Konu';
+  if (hintEl) hintEl.textContent = '📌 Sınav, seçtiğin genel konudan karışık sorular içerir.';
+  if (startBtn) startBtn.disabled = false;
   const topics = quizTopicOptions.filter((t) => t.subject === quizSelectedSubject);
   if (topics.length && !topics.some((t) => t.id === quizSelectedTopicId)) {
     quizSelectedTopicId = topics[0].id;
@@ -1379,7 +1593,8 @@ function initQuizPage() {
   const retryBtn = $('quizRetryBtn');
   if (retryBtn) {
     retryBtn.onclick = () => {
-      if (quizState.topicId) startQuiz(quizState.topicId);
+      if (quizState.cikmisDers) startCikmisQuiz(quizState.cikmisDers);
+      else if (quizState.topicId) startQuiz(quizState.topicId);
     };
   }
 
@@ -1390,6 +1605,11 @@ function initQuizPage() {
       if ($('quizActive')) $('quizActive').style.display = 'none';
       if ($('quizResult')) $('quizResult').style.display = 'none';
     };
+  }
+
+  const quitBtn = $('quizQuitBtn');
+  if (quitBtn) {
+    quitBtn.onclick = () => quitQuiz();
   }
 
   const nextBtn = $('quizNextBtn');
@@ -1419,6 +1639,12 @@ function startQuiz(topicId) {
   if (qualityBox) qualityBox.style.display = '';
 
   renderQuizQuestion();
+}
+
+function quitQuiz() {
+  if ($('quizSetup')) $('quizSetup').style.display = '';
+  if ($('quizActive')) $('quizActive').style.display = 'none';
+  if ($('quizResult')) $('quizResult').style.display = 'none';
 }
 
 function renderQuizQuestion() {
@@ -1451,10 +1677,11 @@ function renderQuizQuestion() {
     if ($('quizJokerCount')) $('quizJokerCount').textContent = jokerState.jokerAvailable || 0;
   }
 
-  // Reset confidence selection
+  // Reset confidence selection (çıkmış sorularda güven adımı yoktur)
   quizState.confidence = null;
   const confidenceContainer = $('quizConfidence');
-  if (confidenceContainer) confidenceContainer.style.display = '';
+  const isCikmis = !!quizState.cikmisDers;
+  if (confidenceContainer) confidenceContainer.style.display = isCikmis ? 'none' : '';
   confidenceContainer?.querySelectorAll('.quiz-confidence-btn').forEach((btn) => {
     btn.classList.remove('selected');
     btn.disabled = false;
@@ -1530,7 +1757,9 @@ function selectConfidence(level) {
 function updateQuizNextButton() {
   const nextBtn = $('quizNextBtn');
   if (!nextBtn) return;
-  if (quizState.selectedOption === null || !quizState.confidence) {
+  // Çıkmış sorularda güven seçimi yoktur: şık seçilince ilerlenir.
+  const needConfidence = !quizState.cikmisDers;
+  if (quizState.selectedOption === null || (needConfidence && !quizState.confidence)) {
     nextBtn.style.display = 'none';
     return;
   }
@@ -1546,8 +1775,8 @@ function saveMetacognitionRecord() {
   const topic = getAllTopics().find((t) => t.id === quizState.topicId);
   const record = {
     topicId: quizState.topicId,
-    subject: topic?.subject || 'Genel',
-    level: topic?.level || 'tyt',
+    subject: topic?.subject || quizState.cikmisDers || 'Genel',
+    level: topic?.level || (typeof quizState.topicId === 'string' && quizState.topicId.startsWith('cikmis-ayt-') ? 'ayt' : 'tyt'),
     prompt: question?.prompt || '',
     isCorrect: quizState.selectedOption === question.answer,
     confidence: quizState.confidence,
@@ -1599,7 +1828,9 @@ function finishQuiz() {
   if ($('quizActive')) $('quizActive').style.display = 'none';
   if ($('quizResult')) $('quizResult').style.display = '';
 
-  const topicName = getAllTopics().find((t) => t.id === quizState.topicId)?.name || quizState.topicId;
+  const topicName = quizState.cikmisDers
+    ? cikmisDisplayName(quizState.topicId, quizState.cikmisDers)
+    : (getAllTopics().find((t) => t.id === quizState.topicId)?.name || quizState.topicId);
 
   if ($('quizResultIcon')) {
     $('quizResultIcon').textContent = accuracy >= 70 ? '🏆' : accuracy >= 40 ? '👍' : '📚';
@@ -2423,6 +2654,7 @@ function startPomodoroTimer() {
       pomodoroRunning = false;
       const modeEl = $('pomodoroMode');
       if (modeEl) modeEl.textContent = 'Süre tamamlandı';
+      recordFocusSession(Math.round(pomodoroInitialSeconds / 60));
       addXp(5);
       updatePomodoroDisplay();
       writeStorage(STORAGE_KEYS.pomodoro, { seconds: 0, initialSeconds: pomodoroInitialSeconds, durationMinutes: Math.round(pomodoroInitialSeconds / 60), running: false });
@@ -2613,10 +2845,11 @@ function initTimerPomodoro() {
     if ($('timerSessionCount')) $('timerSessionCount').textContent = timerSessionCount;
     if ($('timerFocusMinutes')) $('timerFocusMinutes').textContent = timerFocusMinutes;
     if ($('timerFocusStreak')) $('timerFocusStreak').textContent = timerFocusStreak;
-    const aquariumSessions = timerSessionCount % 4 || (timerSessionCount ? 4 : 0);
-    if ($('timerSessionProgress')) $('timerSessionProgress').style.width = `${Math.min(100, (aquariumSessions / 4) * 100)}%`;
-    if ($('aquariumProgressFill')) $('aquariumProgressFill').style.width = `${Math.min(100, (aquariumSessions / 4) * 100)}%`;
-    if ($('aquariumProgressLabel')) $('aquariumProgressLabel').textContent = `${aquariumSessions} / 4 oturum`;
+    updatePearlDisplay();
+    const todayKey = focusDayKey(Date.now());
+    const todaySessions = getFocusLog().filter((entry) => entry && focusDayKey(entry.t) === todayKey).length;
+    const dailyGoal = 4;
+    if ($('timerSessionProgress')) $('timerSessionProgress').style.width = `${Math.min(100, (todaySessions / dailyGoal) * 100)}%`;
     const aqState = syncAquarium(timerSessionCount, false);
     if ($('aquariumRewardCount')) $('aquariumRewardCount').textContent = `${aqState.corals.length} mercan · ${aqState.fish.length} balık`;
     if ($('timerNextSession')) $('timerNextSession').textContent = (TIMER_MODES[timerPomodoroMode] || TIMER_MODES.focus).nextLabel;
@@ -2657,12 +2890,12 @@ function initTimerPomodoro() {
         timerPomodoroSeconds = 0;
         stop();
         if (timerPomodoroMode === 'focus') {
-          timerSessionCount += 1;
-          timerFocusMinutes += Math.round(timerPomodoroInitialSeconds / 60);
+          const focusMins = recordFocusSession(Math.round(timerPomodoroInitialSeconds / 60));
           timerFocusStreak += 1;
           const earnedXp = rewardState.xpMultiplier === 2 ? 10 : 5;
           addXp(earnedXp);
           syncAquarium(timerSessionCount, true);
+          setTimeout(() => showToast(`+${focusMins} 🦪 İnci kazandın!`), 2600);
           if (rewardState.xpMultiplier === 2) {
             rewardState.xpMultiplier = 1;
             saveRewardState(rewardState);
@@ -2883,16 +3116,56 @@ function syncSelectionLevelToggle(toggleId, level) {
 }
 
 function startSelectionChat(type) {
-  const level = selectionLevelFor(type);
-  AppState.activeLevel = level;
-  if (type === 'teacher') {
-    if ($('teacherSelection')) $('teacherSelection').style.display = 'none';
-    if ($('teacherChat')) $('teacherChat').style.display = '';
-    initTeacherChat();
-  } else {
-    if ($('studentSelection')) $('studentSelection').style.display = 'none';
-    if ($('studentChat')) $('studentChat').style.display = '';
-    initStudentChat();
+  playLessonIntro(() => {
+    const level = selectionLevelFor(type);
+    AppState.activeLevel = level;
+    if (type === 'teacher') {
+      if ($('teacherSelection')) $('teacherSelection').style.display = 'none';
+      if ($('teacherChat')) $('teacherChat').style.display = '';
+      initTeacherChat();
+    } else {
+      if ($('studentSelection')) $('studentSelection').style.display = 'none';
+      if ($('studentChat')) $('studentChat').style.display = '';
+      initStudentChat();
+    }
+  });
+}
+
+// Ders girişi: tam ekranda video + ses, bitince sohbet açılır.
+function playLessonIntro(next) {
+  let overlay = document.querySelector('.lesson-intro-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'lesson-intro-overlay';
+    overlay.innerHTML = `
+      <video class="lesson-intro-video" playsinline preload="auto"></video>
+      <button type="button" class="lesson-intro-skip">Geç →</button>`;
+    document.body.appendChild(overlay);
+  }
+  const video = overlay.querySelector('.lesson-intro-video');
+  const audio = new Audio('public/sounds/dersbaşlıyor.mp3.mp3');
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    try { video.pause(); } catch { /* yok say */ }
+    try { audio.pause(); } catch { /* yok say */ }
+    overlay.classList.remove('show');
+    video.removeAttribute('src');
+    video.load();
+    next();
+  };
+  overlay.querySelector('.lesson-intro-skip').onclick = finish;
+  video.onended = finish;
+  overlay.classList.add('show');
+  video.src = 'public/videos/dersbaşlıyor.mp4.mp4';
+  try {
+    const ap = audio.play();
+    if (ap && typeof ap.catch === 'function') ap.catch(() => {});
+  } catch { /* yok say */ }
+  const promise = video.play();
+  if (promise && typeof promise.catch === 'function') {
+    promise.catch(() => finish());
   }
 }
 
@@ -3726,7 +3999,57 @@ function getBadgeState(badge) {
   const totalQuizQuestions = history.reduce((sum, entry) => sum + (entry.total || 0), 0);
   const accuracy = totalQuizQuestions ? (totalQuizCorrect / totalQuizQuestions) * 100 : 0;
   if (badge.secret) return false;
-  const thresholds = { 1: sessions >= 1, 2: sessions >= 5, 3: sessions >= 25, 4: sessions >= 100, 5: focusMinutes >= 50, 12: focusMinutes >= 500, 13: focusMinutes >= 2000, 26: history.length >= 1, 27: history.some((entry) => entry.total > 0 && entry.correct === entry.total), 41: accuracy >= 85, 43: history.length >= 50, 51: tasks.length >= 1, 53: tasks.length >= 10, 54: owned.length >= 1, 55: AppState.xp >= 500, 56: AppState.xp >= 2000 };
+  const log = getFocusLog();
+  const byDay = {};
+  log.forEach((entry) => {
+    if (!entry || !entry.t) return;
+    const key = focusDayKey(entry.t);
+    if (!byDay[key]) byDay[key] = { minutes: 0, sessions: 0 };
+    byDay[key].minutes += Number(entry.minutes) || 0;
+    byDay[key].sessions += 1;
+  });
+  const dayKeys = Object.keys(byDay).sort();
+  const hourOf = (entry) => new Date(entry.t).getHours();
+  const longestStreak = (() => {
+    let best = 0;
+    let run = 0;
+    let prev = null;
+    dayKeys.forEach((key) => {
+      const current = new Date(`${key}T12:00:00`).getTime();
+      run = prev !== null && current - prev === 86400000 ? run + 1 : 1;
+      prev = current;
+      best = Math.max(best, run);
+    });
+    return best;
+  })();
+  const last7 = [];
+  for (let back = 0; back < 7; back += 1) {
+    last7.push(focusDayKey(Date.now() - back * 86400000));
+  }
+  const weekStart = getWeekStart();
+  const lastWeekMinutes = log
+    .filter((entry) => entry && entry.t < weekStart && entry.t >= weekStart - 7 * 86400000)
+    .reduce((sum, entry) => sum + (Number(entry.minutes) || 0), 0);
+  const thisWeekMinutes = getWeeklyFocusMinutes().reduce((sum, value) => sum + value, 0);
+  const thresholds = {
+    1: sessions >= 1, 2: sessions >= 5, 3: sessions >= 25, 4: sessions >= 100,
+    5: log.some((entry) => (Number(entry.minutes) || 0) >= 50),
+    6: log.some((entry) => (Number(entry.minutes) || 0) >= 90),
+    7: log.some((entry) => { const h = hourOf(entry); return h >= 5 && h < 8; }),
+    8: log.some((entry) => { const h = hourOf(entry); return h >= 0 && h < 4; }),
+    9: longestStreak >= 3,
+    10: last7.every((key) => (byDay[key] ? byDay[key].sessions : 0) >= 2),
+    11: dayKeys.some((key) => byDay[key].sessions >= 5),
+    12: focusMinutes >= 500, 13: focusMinutes >= 2000,
+    17: dayKeys.some((key) => byDay[key].minutes >= 300),
+    18: AppState.selectedAvatar === '👨‍🎓' && sessions >= 10,
+    19: AppState.selectedAvatar === '👩‍🎓' && sessions >= 10,
+    24: lastWeekMinutes > 0 && thisWeekMinutes >= lastWeekMinutes * 1.2,
+    26: history.length >= 1, 27: history.some((entry) => entry.total > 0 && entry.correct === entry.total),
+    41: accuracy >= 85, 43: history.length >= 50,
+    51: tasks.length >= 1, 53: tasks.length >= 10, 54: owned.length >= 1,
+    55: AppState.xp >= 500, 56: AppState.xp >= 2000,
+  };
   return Boolean(thresholds[badge.id]);
 }
 
@@ -3745,12 +4068,7 @@ function renderProfileBadges() {
 function renderProfileStudyChart() {
   const chart = $('profileWeeklyChart');
   if (!chart) return;
-  const values = WEEKDAYS.map((_, index) => {
-    const key = getDayKey(index);
-    return (getTasks()[key] || []).reduce((sum, task) => sum + (Number(task.duration) || 0), 0);
-  });
-  const timer = readStorage(STORAGE_KEYS.timerPomodoro, {});
-  values[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1] += Number(timer.focusMinutes) || 0;
+  const values = getWeeklyFocusMinutes();
   const max = Math.max(...values, 1);
   chart.innerHTML = values.map((value, index) => `<div class="profile-chart-column"><span class="profile-chart-value">${value} dk</span><div class="profile-chart-track"><i style="height:${Math.max(7, Math.round((value / max) * 100))}%"></i></div><strong>${WEEKDAYS[index].slice(0, 3)}</strong></div>`).join('');
 }
@@ -4134,6 +4452,7 @@ function applyStoreReward(itemId) {
 function renderStorePage() {
   const itemsEl = $('storeItems');
   if (!itemsEl) return;
+  renderStoreChests();
 
   const ownedItems = readStorage(STORAGE_KEYS.ownedItems, []);
   if ($('storeXpDisplay')) $('storeXpDisplay').textContent = AppState.xp;
@@ -4200,9 +4519,146 @@ function showToast(message) {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
+// ===== Sandıklar: inci ile alınır, video + popup ile açılır =====
+const CHEST_DEFS = [
+  { id: 'mercan-sandigi', icon: '🧰', name: 'Mercan Sandığı', desc: 'İçinden rastgele bir mercan çıkar. Akvaryumuna eklenir.', price: 1, kind: 'coral' },
+  { id: 'balik-sandigi', icon: '🎁', name: 'Balık Sandığı', desc: 'İçinden rastgele bir balık çıkar. Akvaryumuna eklenir.', price: 1, kind: 'fish' },
+];
+const CHEST_NAMES = {
+  fish: {
+    common: ['Pırpır', 'Cam Göz', 'Minik Yüzgeç', 'Fokur'],
+    rare: ['Turkuaz Ok', 'Mercan Rüyası', 'Sis Yüzgeci'],
+    epic: ['Fırtına Kuyruk', 'Derin Alev', 'Girdap Dansçısı'],
+    legendary: ["Poseidon'un Gözdesi", 'Okyanus Kralı', 'Efsane Balina'],
+  },
+  coral: {
+    common: ['Kum Çiçeği', 'Yumuşak Dal', 'Sahil Püskülü'],
+    rare: ['Zümrüt Dal', 'Ayışığı Mercanı'],
+    epic: ['Lav Tacı', 'Fırtına Resifi'],
+    legendary: ['Altın Resif', 'Ebedi Mercan'],
+  },
+};
+const CHEST_RANK_TR = { common: 'Sıradan', rare: 'Nadir', epic: 'Destansı', legendary: 'Efsanevi' };
+
+function rollChestReward(kind) {
+  const pool = kind === 'fish' ? AQUARIUM_FISH : AQUARIUM_CORALS;
+  const r = Math.random();
+  const tier = r < 0.55 ? 'common' : r < 0.82 ? 'rare' : r < 0.95 ? 'epic' : 'legendary';
+  const tierPool = pool.filter((entry) => entry.rarity === tier);
+  const entry = tierPool[Math.floor(Math.random() * tierPool.length)] || pool[0];
+  const names = (CHEST_NAMES[kind] && CHEST_NAMES[kind][entry.rarity]) || ['Gizemli Canlı'];
+  const name = names[Math.floor(Math.random() * names.length)];
+  return { kind, entry, name, rarity: entry.rarity };
+}
+
+function addChestRewardToAquarium(reward) {
+  const aq = getAquarium();
+  if (reward.kind === 'fish') {
+    const f = makeFish(aq.fish.length);
+    f.kind = reward.entry;
+    f.name = reward.name;
+    aq.fish.push(f);
+  } else {
+    const c = makeCoral(aq.corals.length);
+    c.kind = reward.entry;
+    c.name = reward.name;
+    aq.corals.push(c);
+  }
+  saveAquarium(aq);
+  renderAquarium();
+}
+
+function ensureChestOverlay() {
+  let overlay = document.querySelector('.chest-overlay');
+  if (overlay) return overlay;
+  overlay = document.createElement('div');
+  overlay.className = 'chest-overlay';
+  overlay.innerHTML = `
+    <div class="chest-video-panel" hidden>
+      <video class="chest-video" playsinline preload="auto"></video>
+      <button type="button" class="chest-skip">Geç →</button>
+    </div>
+    <div class="chest-result-panel" hidden>
+      <img class="chest-result-img" alt="Sandık ödülü" />
+      <strong class="chest-result-name"></strong>
+      <span class="chest-result-rank"></span>
+      <small class="chest-result-note">Akvaryumuna eklendi!</small>
+      <button type="button" class="chest-close">Kapat</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function playChestVideo(chest) {
+  const overlay = ensureChestOverlay();
+  const panel = overlay.querySelector('.chest-video-panel');
+  const result = overlay.querySelector('.chest-result-panel');
+  const video = overlay.querySelector('.chest-video');
+  result.hidden = true;
+  panel.hidden = false;
+  video.onended = () => openChest(chest);
+  overlay.querySelector('.chest-skip').onclick = () => {
+    try { video.pause(); } catch { /* yok say */ }
+    openChest(chest);
+  };
+  video.src = 'public/videos/sandık.mp4.mp4';
+  const promise = video.play();
+  if (promise && typeof promise.catch === 'function') {
+    promise.catch(() => openChest(chest));
+  }
+}
+
+function openChest(chest) {
+  const overlay = ensureChestOverlay();
+  overlay.querySelector('.chest-video-panel').hidden = true;
+  const reward = rollChestReward(chest.kind);
+  addChestRewardToAquarium(reward);
+  const result = overlay.querySelector('.chest-result-panel');
+  result.querySelector('.chest-result-img').src = reward.entry.src;
+  result.querySelector('.chest-result-name').textContent = reward.name;
+  const rank = result.querySelector('.chest-result-rank');
+  rank.textContent = CHEST_RANK_TR[reward.rarity] || reward.rarity;
+  rank.className = `chest-result-rank rank-${reward.rarity}`;
+  result.hidden = false;
+  playAppSound('purchase');
+  overlay.querySelector('.chest-close').onclick = () => { result.hidden = true; };
+  clearTimeout(openChest._hideTimer);
+  openChest._hideTimer = setTimeout(() => { result.hidden = true; }, 12000);
+}
+
+function renderStoreChests() {
+  const chestsEl = $('storeChests');
+  if (!chestsEl) return;
+  updatePearlDisplay();
+  chestsEl.innerHTML = CHEST_DEFS.map((chest) => {
+    const canAfford = (AppState.pearls || 0) >= chest.price;
+    return `
+      <div class="store-item chest-item">
+        <div class="store-item-icon">${chest.icon}</div>
+        <div class="store-item-name">${chest.name}</div>
+        <div class="store-item-desc">${chest.desc}</div>
+        <div class="store-item-price"><span class="price-amount">${chest.price}</span> 🦪 İnci</div>
+        <button class="store-buy-btn ${canAfford ? '' : 'disabled'}" data-chest="${chest.id}" ${canAfford ? '' : 'disabled'}>
+          ${canAfford ? 'Sandığı Aç' : 'Yetersiz İnci'}
+        </button>
+      </div>
+    `;
+  }).join('');
+  chestsEl.querySelectorAll('.store-buy-btn:not(.disabled)').forEach((btn) => {
+    btn.onclick = () => {
+      const chest = CHEST_DEFS.find((c) => c.id === btn.dataset.chest);
+      if (!chest || (AppState.pearls || 0) < chest.price) return;
+      addPearls(-chest.price);
+      renderStoreChests();
+      playAppSound('purchase');
+      playChestVideo(chest);
+    };
+  });
+}
+
 // ===== Aquarium =====
-// Zamanlayıcıda kazanılan mercan ve balıklar burada yaşar.
-// 4 odak oturumu = 1 mercan, 10 odak oturumu = 1 balık.
+// Sandıklarla kazanılan mercan ve balıklar burada yaşar.
+// Oturum sayısından otomatik canlı eklenmez.
 const AQUARIUM_BUBBLE_IMG = 'public/images/balon.png';
 // Yön dosya adından okunur: "left" veya "right" ile başlayan balıklar
 // o yöne bakacak şekilde çizilir. Sahne içinde aynı yönde yüzerler.
@@ -4227,8 +4683,6 @@ const AQUARIUM_CORALS = [
   { name: 'legendary2',src: 'public/images/mercanlar/legendarymercan2.png',rarity:'legendary' },
 ];
 const AQUARIUM_RARITY_ORDER = { common: 0, rare: 1, epic: 2, legendary: 3 };
-const AQUARIUM_CORAL_EVERY = 4;
-const AQUARIUM_FISH_EVERY = 10;
 
 function getAquarium() {
   const data = readStorage(STORAGE_KEYS.aquarium, null);
@@ -4287,24 +4741,11 @@ function pickRarityTier(i, _kind) {
   return 'legendary';
 }
 
-// Oturum sayısına göre eksik canlıları tamamla. announce=true ise
-// yeni kazanımları tostla duyur ve sahneyi tazele.
-function syncAquarium(sessionCount, announce = false) {
+// Sandık ekonomisi: oturum sayısından otomatik canlı eklenmez.
+// Yalnızca eski kayıtların şemasını onarır ve koleksiyonu döndürür.
+function syncAquarium(_sessionCount, _announce = false) {
   const aq = getAquarium();
-  const beforeCorals = aq.corals.length;
-  const beforeFish = aq.fish.length;
-  while (aq.corals.length < Math.floor(sessionCount / AQUARIUM_CORAL_EVERY)) aq.corals.push(makeCoral(aq.corals.length));
-  while (aq.fish.length < Math.floor(sessionCount / AQUARIUM_FISH_EVERY)) aq.fish.push(makeFish(aq.fish.length));
-  const changed = aq.corals.length > beforeCorals || aq.fish.length > beforeFish;
-  if (changed) {
-    saveAquarium(aq);
-    if (announce) {
-      if (aq.corals.length > beforeCorals) showToast(`Yeni ${rarityLabelTr(aq.corals[aq.corals.length - 1].kind.rarity)} mercan akvaryumunda!`);
-      if (aq.fish.length > beforeFish) showToast(`Yeni ${rarityLabelTr(aq.fish[aq.fish.length - 1].kind.rarity)} balık akvaryumunda!`);
-      playAppSound('purchase');
-    }
-    renderAquarium();
-  }
+  ensureAllRaritiesInAquarium(aq);
   return aq;
 }
 
@@ -4350,36 +4791,6 @@ function ensureAllRaritiesInAquarium(aq) {
     }
     if (typeof f.drift !== 'number') f.drift = 3 + Math.floor(Math.random() * 4);
   });
-  const rarities = ['common', 'rare', 'epic', 'legendary'];
-  const ensure = (list, entries, makeFn) => {
-    rarities.forEach((r) => {
-      const has = list.some((it) => it.kind.rarity === r);
-      if (!has) {
-        const pool = entries.filter((e) => e.rarity === r);
-        if (pool.length === 0) return;
-        const entry = pool[0];
-        const idx = list.length;
-        const item = makeFn(idx, entry);
-        list.push(item);
-      }
-    });
-  };
-  ensure(aq.corals, AQUARIUM_CORALS, (i, entry) => ({
-    kind: entry,
-    x: 3 + ((i * 41) % 90),
-    s: AQUARIUM_RARITY_CORAL_BASE[entry.rarity] + ((i * 11) % 22),
-  }));
-  ensure(aq.fish, AQUARIUM_FISH, (i, entry) => ({
-    kind: entry,
-    y: 4 + ((i * 13) % 46),
-    d: 14 + ((i * 7) % 14),
-    delay: -((i * 5) % 20),
-    drift: 3 + ((i * 3) % 4),
-    rev: entry.dir === 'left',
-    size: AQUARIUM_RARITY_FISH_BASE[entry.rarity] + ((i * 9) % 24),
-  }));
-  // Test: tüm kademelerden birkaç örnek balık da olsun
-  while (aq.fish.length < 6) aq.fish.push(makeFish(aq.fish.length));
 }
 
 function rarityLabelTr(r) {
@@ -4392,21 +4803,6 @@ function renderAquarium() {
   const saved = readStorage(STORAGE_KEYS.timerPomodoro, null);
   const sessions = saved && typeof saved.sessionCount === 'number' ? saved.sessionCount : 0;
   const aq = syncAquarium(sessions, false);
-  // === GEÇİCİ ÖNİZLEME (silinecek): tüm 7 balığı sahnede göster ===
-  // Kalıcı kayda yazılmaz, sadece ekranda görünür.
-  ensureAllRaritiesInAquarium(aq);
-  {
-    const previewFish = AQUARIUM_FISH.map((entry, i) => ({
-      kind: entry,
-      y: 5 + i * 9,
-      d: 12 + i * 2,
-      delay: -(i * 2.5),
-      drift: 3 + (i % 4),
-      rev: entry.dir === 'left',
-      size: AQUARIUM_RARITY_FISH_BASE[entry.rarity] + 8,
-    }));
-    aq.fish = previewFish;
-  }
 
   if ($('aquariumCoralCount')) $('aquariumCoralCount').textContent = aq.corals.length;
   if ($('aquariumFishCount')) $('aquariumFishCount').textContent = aq.fish.length;

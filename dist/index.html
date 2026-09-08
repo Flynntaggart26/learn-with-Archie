@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <script type="module" crossorigin src="/assets/index-BkQd3C9T.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BLvj_sU8.css">
+  <script type="module" crossorigin src="/assets/index-BE5lZyvo.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-YYGNYFjV.css">
 </head>
 <body>
   <!-- Sidebar -->
@@ -113,6 +113,7 @@
           <div class="dash-stat-icon">🎯</div>
           <div class="dash-stat-value" id="dashPct">0%</div>
           <div class="dash-stat-label">İlerleme</div>
+          <img class="hero-archie" src="/assets/boxarchie.png-DFFJ6bE7.png" alt="Archie" />
         </div>
         <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">⚡</div>
@@ -136,17 +137,12 @@
 
       <div class="dashboard-grid">
         <div class="dash-card aquarium-card">
-          <div class="dash-card-title">🎯 Bugünün Hedefleri</div>
-          <div id="dashGoals"></div>
+          <div class="dash-card-title">📅 Bugünkü Planlarım</div>
+          <div id="dashPlans"></div>
         </div>
         <div class="dash-card aquarium-card">
-          <div class="dash-card-title">📚 Derslere Göre İlerleme</div>
-          <div class="dash-subject-progress">
-            <div class="subject-progress-row"><span>Matematik</span><div><i style="width:42%"></i></div><b>42%</b></div>
-            <div class="subject-progress-row"><span>Türkçe</span><div><i style="width:68%"></i></div><b>68%</b></div>
-            <div class="subject-progress-row"><span>Fen Bilimleri</span><div><i style="width:31%"></i></div><b>31%</b></div>
-            <div class="subject-progress-row"><span>Sosyal Bilimler</span><div><i style="width:54%"></i></div><b>54%</b></div>
-          </div>
+          <div class="dash-card-title">🎯 Quiz Başarı Halkası</div>
+          <div id="dashQuizRing" class="quiz-ring-wrap"></div>
         </div>
         <div class="dash-card aquarium-card">
           <div class="dash-card-title">📝 Notların</div>
@@ -227,13 +223,14 @@
 
         <div class="selection-step teacher-beach-theme" id="teacherSubtopicStep" style="display:none;">
           <h3 class="step-title">3️⃣ Alt Konu Seç</h3>
-          <div class="topic-grid" id="teacherSubtopicGrid"></div>
+          <div class="topic-grid" id="teacherTopicGrid"></div>
           <div class="selection-actions">
             <button class="btn-secondary" id="teacherChangeTopic">← Konu Değiştir</button>
             <button class="btn-primary" id="teacherStartChatSub">Sohbete Başla →</button>
           </div>
         </div>
       </div>
+      <img class="teacher-side-archie" src="/assets/AI%C3%B6%C4%9Fretmenekran%C4%B1.png-62guU4wF.png" alt="Archie" />
     </main>
 
     <!-- Student AI Selection Page -->
@@ -767,9 +764,18 @@
           <span id="storeXpDisplay">0</span>
           <span class="store-xp-label">XP</span>
         </div>
+        <div class="store-xp-badge store-pearl-badge">
+          <span class="store-xp-icon">🦪</span>
+          <span id="storePearlDisplay">0</span>
+          <span class="store-xp-label">İnci</span>
+        </div>
       </div>
 
       <div class="store-items" id="storeItems"></div>
+
+      <h3 class="store-section-title">🎁 İnci Sandıkları</h3>
+      <p class="store-section-desc">Zamanlayıcıda odaklanarak inci kazan, sandıkları aç. Yeni ödüller yakında burada.</p>
+      <div class="store-items" id="storeChests"></div>
     </main>
 
     <!-- Timer Section -->
@@ -826,6 +832,7 @@
               <div><strong id="timerSessionCount">0</strong><span>Oturum</span></div>
               <div><strong id="timerFocusMinutes">0</strong><span>Odak dk</span></div>
               <div><strong id="timerFocusStreak">0</strong><span>Seri</span></div>
+              <div><strong id="timerPearlCount">0</strong><span>🦪 İnci</span></div>
             </div>
             <div class="timer-session-progress"><span id="timerSessionProgress"></span></div>
             <small class="timer-progress-label">Bugünkü hedef: 4 odak oturumu</small>
@@ -837,10 +844,9 @@
           </section>
           <section class="aquarium-card">
             <div class="aquarium-card-heading"><span class="aquarium-emoji">🐠</span><div><span class="timer-card-kicker">ÖDÜL ALANI</span><h3>Benim Akvaryumun</h3></div></div>
-            <p>Bu oturum tamamlandığında akvaryumuna yeni bir mercan eklenecek!</p>
+            <p>Zamanlayıcıda kazandığın incilerle mağazadan sandık aç, akvaryumunu büyüt!</p>
             <div class="aquarium-scene"><span>🪸</span><span>🐚</span><span>🫧</span><span>🌿</span></div>
-            <div class="aquarium-progress"><span id="aquariumProgressFill"></span></div>
-            <div class="aquarium-progress-meta"><span id="aquariumProgressLabel">0 / 1 oturum</span><strong id="aquariumRewardCount">0 mercan</strong></div>
+            <div class="aquarium-progress-meta"><strong id="aquariumRewardCount">0 mercan · 0 balık</strong></div>
             <button type="button" class="timer-btn start" data-goto="aquarium" style="width:100%;margin-top:10px;">🐠 Akvaryumu Aç</button>
           </section>
         </aside>
@@ -853,7 +859,7 @@
         <div class="aquarium-banner-icon"><img src="/assets/leftbalik-ql2wJ4_4.png" alt="" /></div>
         <div class="aquarium-banner-text">
           <h2>Benim Akvaryumum</h2>
-          <p>Odak oturumlarıyla kazandığın mercanlar ve balıklar burada yaşıyor.</p>
+          <p>Sandıklarla kazandığın mercanlar ve balıklar burada yaşıyor.</p>
         </div>
         <div class="aquarium-stats">
           <div class="aquarium-stat"><strong id="aquariumCoralCount">0</strong><span>Mercan</span></div>
@@ -867,8 +873,8 @@
       <div class="aquarium-collection" id="aquariumCollection"></div>
 
       <div class="aquarium-rules">
-        <div class="aquarium-rule"><img src="/assets/mercan-31cgo_Rc.png" alt="" /><p>Her <strong>4 odak oturumu</strong> akvaryumuna 1 mercan ekler.</p></div>
-        <div class="aquarium-rule"><img src="/assets/rightbalik2-ImDvs4PS.png" alt="" /><p>Her <strong>10 odak oturumu</strong> akvaryumuna 1 yeni balık ekler.</p></div>
+        <div class="aquarium-rule"><img src="/assets/mercan-31cgo_Rc.png" alt="" /><p><strong>Mercan Sandığı</strong> ile akvaryumuna rastgele mercan ekle.</p></div>
+        <div class="aquarium-rule"><img src="/assets/rightbalik2-ImDvs4PS.png" alt="" /><p><strong>Balık Sandığı</strong> ile akvaryumuna rastgele balık ekle.</p></div>
         <button type="button" class="aquarium-cta" data-goto="timer">Odaklanmaya Git</button>
       </div>
     </main>

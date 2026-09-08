@@ -4203,8 +4203,30 @@ function showToast(message) {
 // ===== Aquarium =====
 // Zamanlayıcıda kazanılan mercan ve balıklar burada yaşar.
 // 4 odak oturumu = 1 mercan, 10 odak oturumu = 1 balık.
-const AQUARIUM_FISH = ['🐠', '🐟', '🐡', '🐙', '🦑', '🐬', '🐳', '🦐'];
-const AQUARIUM_CORALS = ['🪸', '🌿', '🐚', '🪨', '⭐', '🌱'];
+const AQUARIUM_BUBBLE_IMG = 'public/images/balon.png';
+// Yön dosya adından okunur: "left" veya "right" ile başlayan balıklar
+// o yöne bakacak şekilde çizilir. Sahne içinde aynı yönde yüzerler.
+const AQUARIUM_FISH = [
+  { name: 'left-common',     src: 'public/images/balik/leftbalik.png',       rarity: 'common',    dir: 'left' },
+  { name: 'right-common',    src: 'public/images/balik/rightbalik2.png',     rarity: 'common',    dir: 'right' },
+  { name: 'right-rare',      src: 'public/images/balik/rightrarefish.png',   rarity: 'rare',      dir: 'right' },
+  { name: 'right-rare2',     src: 'public/images/balik/rightrarefish2.png',  rarity: 'rare',      dir: 'right' },
+  { name: 'right-epic',      src: 'public/images/balik/rightepicfish.png',   rarity: 'epic',      dir: 'right' },
+  { name: 'left-epic',       src: 'public/images/balik/leftepicbalık.png',  rarity: 'epic',      dir: 'left' },
+  { name: 'left-legendary',  src: 'public/images/balik/leftlegendaryfish.png',rarity:'legendary', dir: 'left' },
+];
+const AQUARIUM_CORALS = [
+  { name: 'common',    src: 'public/images/mercanlar/mercan.png',         rarity: 'common' },
+  { name: 'common2',   src: 'public/images/mercanlar/mercan2.png',        rarity: 'common' },
+  { name: 'common3',   src: 'public/images/mercanlar/mercan3.png',        rarity: 'common' },
+  { name: 'common4',   src: 'public/images/mercanlar/mercan4.png',        rarity: 'common' },
+  { name: 'rare',      src: 'public/images/mercanlar/raremercan.png',     rarity: 'rare' },
+  { name: 'rare2',     src: 'public/images/mercanlar/raremercan2.png',    rarity: 'rare' },
+  { name: 'epic',      src: 'public/images/mercanlar/epicmercan.png',     rarity: 'epic' },
+  { name: 'legendary', src: 'public/images/mercanlar/legendarymercan.png',rarity: 'legendary' },
+  { name: 'legendary2',src: 'public/images/mercanlar/legendarymercan2.png',rarity:'legendary' },
+];
+const AQUARIUM_RARITY_ORDER = { common: 0, rare: 1, epic: 2, legendary: 3 };
 const AQUARIUM_CORAL_EVERY = 4;
 const AQUARIUM_FISH_EVERY = 10;
 
@@ -4218,18 +4240,51 @@ function saveAquarium(aq) {
   writeStorage(STORAGE_KEYS.aquarium, aq);
 }
 
+const AQUARIUM_RARITY_CORAL_BASE = { common: 110, rare: 150, epic: 195, legendary: 240 };
+const AQUARIUM_RARITY_FISH_BASE = { common: 100, rare: 130, epic: 160, legendary: 200 };
+
 function makeCoral(i) {
-  return { kind: AQUARIUM_CORALS[i % AQUARIUM_CORALS.length], x: 4 + ((i * 37) % 88), s: 42 + ((i * 13) % 24) };
+  const tier = pickRarityTier(i, 'coral');
+  const pool = AQUARIUM_CORALS.filter((c) => c.rarity === tier);
+  const entry = pool[i % pool.length];
+  const baseSize = AQUARIUM_RARITY_CORAL_BASE[entry.rarity];
+  const growth = ((i * 11) % 22);
+  const size = baseSize + growth;
+  const x = 2 + ((i * 41) % 88);
+  return { kind: entry, x, s: size };
 }
 
 function makeFish(i) {
+  const tier = pickRarityTier(i, 'fish');
+  const pool = AQUARIUM_FISH.filter((f) => f.rarity === tier);
+  const entry = pool[i % pool.length];
+  const baseSize = AQUARIUM_RARITY_FISH_BASE[entry.rarity];
+  const growth = ((i * 9) % 24);
+  const size = baseSize + growth;
+  // Dosya adındaki yön (dir) bağlayıcıdır: left balıklar sağdan sola,
+  // right balıklar soldan sağa yüzer. Görsel zaten o yöne baktığı için
+  // ek bir scaleX çevirmesi yapılmaz.
+  const rev = entry.dir === 'left';
+  // Mercan bölgesine girmemesi için üst su kolonunda yüz: %4–%50 bandı.
+  // Mercanlar altta (~%60 altı) kaldığı için içinden/üstünden geçmez.
   return {
-    kind: AQUARIUM_FISH[i % AQUARIUM_FISH.length],
-    y: 6 + ((i * 17) % 60),
-    d: 16 + ((i * 7) % 14),
+    kind: entry,
+    y: 4 + ((i * 13) % 46),
+    d: 14 + ((i * 7) % 14),
     delay: -((i * 5) % 20),
-    rev: i % 2 === 1,
+    drift: 3 + ((i * 3) % 4),
+    rev,
+    size,
   };
+}
+
+function pickRarityTier(i, _kind) {
+  const r = Math.random();
+  if (i < 3) return 'common';
+  if (r < 0.55) return 'common';
+  if (r < 0.82) return 'rare';
+  if (r < 0.95) return 'epic';
+  return 'legendary';
 }
 
 // Oturum sayısına göre eksik canlıları tamamla. announce=true ise
@@ -4244,8 +4299,8 @@ function syncAquarium(sessionCount, announce = false) {
   if (changed) {
     saveAquarium(aq);
     if (announce) {
-      if (aq.corals.length > beforeCorals) showToast(`${aq.corals[aq.corals.length - 1].kind} Yeni mercan akvaryumunda!`);
-      if (aq.fish.length > beforeFish) showToast(`${aq.fish[aq.fish.length - 1].kind} Yeni balık akvaryumunda!`);
+      if (aq.corals.length > beforeCorals) showToast(`Yeni ${rarityLabelTr(aq.corals[aq.corals.length - 1].kind.rarity)} mercan akvaryumunda!`);
+      if (aq.fish.length > beforeFish) showToast(`Yeni ${rarityLabelTr(aq.fish[aq.fish.length - 1].kind.rarity)} balık akvaryumunda!`);
       playAppSound('purchase');
     }
     renderAquarium();
@@ -4268,12 +4323,90 @@ function ensureAquariumBackground(scene) {
   });
 }
 
+function ensureAllRaritiesInAquarium(aq) {
+  if (!aq) return;
+  // Eski veri şemasındaki küçük boyutları yeni şemaya taşı
+  aq.corals.forEach((c) => {
+    if (typeof c.s !== 'number' || c.s < AQUARIUM_RARITY_CORAL_BASE[c.kind?.rarity || 'common']) {
+      const base = AQUARIUM_RARITY_CORAL_BASE[c.kind.rarity];
+      c.s = base + Math.floor(Math.random() * 22);
+    }
+    if (typeof c.x !== 'number') c.x = 3 + Math.random() * 90;
+  });
+  aq.fish.forEach((f) => {
+    if (typeof f.size !== 'number' || f.size < AQUARIUM_RARITY_FISH_BASE[f.kind?.rarity || 'common']) {
+      const base = AQUARIUM_RARITY_FISH_BASE[f.kind.rarity];
+      f.size = base + Math.floor(Math.random() * 24);
+    }
+    // Eski kayıtlardaki rastgele rev değerini dosya adındaki yöne göre onar.
+    // Balık mercanların üstünden geçmesin diye yüzme bandını da daralt.
+    if (f.kind && typeof f.kind.dir === 'string') {
+      f.rev = f.kind.dir === 'left';
+    } else if (typeof f.rev !== 'boolean') {
+      f.rev = Math.random() > 0.5;
+    }
+    if (typeof f.y !== 'number' || f.y < 3 || f.y > 52) {
+      f.y = 4 + Math.floor(Math.random() * 46);
+    }
+    if (typeof f.drift !== 'number') f.drift = 3 + Math.floor(Math.random() * 4);
+  });
+  const rarities = ['common', 'rare', 'epic', 'legendary'];
+  const ensure = (list, entries, makeFn) => {
+    rarities.forEach((r) => {
+      const has = list.some((it) => it.kind.rarity === r);
+      if (!has) {
+        const pool = entries.filter((e) => e.rarity === r);
+        if (pool.length === 0) return;
+        const entry = pool[0];
+        const idx = list.length;
+        const item = makeFn(idx, entry);
+        list.push(item);
+      }
+    });
+  };
+  ensure(aq.corals, AQUARIUM_CORALS, (i, entry) => ({
+    kind: entry,
+    x: 3 + ((i * 41) % 90),
+    s: AQUARIUM_RARITY_CORAL_BASE[entry.rarity] + ((i * 11) % 22),
+  }));
+  ensure(aq.fish, AQUARIUM_FISH, (i, entry) => ({
+    kind: entry,
+    y: 4 + ((i * 13) % 46),
+    d: 14 + ((i * 7) % 14),
+    delay: -((i * 5) % 20),
+    drift: 3 + ((i * 3) % 4),
+    rev: entry.dir === 'left',
+    size: AQUARIUM_RARITY_FISH_BASE[entry.rarity] + ((i * 9) % 24),
+  }));
+  // Test: tüm kademelerden birkaç örnek balık da olsun
+  while (aq.fish.length < 6) aq.fish.push(makeFish(aq.fish.length));
+}
+
+function rarityLabelTr(r) {
+  return { common: 'sıradan', rare: 'nadir', epic: 'epik', legendary: 'efsanevi' }[r] || r;
+}
+
 function renderAquarium() {
   const scene = $('aquariumScene');
   if (!scene) return;
   const saved = readStorage(STORAGE_KEYS.timerPomodoro, null);
   const sessions = saved && typeof saved.sessionCount === 'number' ? saved.sessionCount : 0;
   const aq = syncAquarium(sessions, false);
+  // === GEÇİCİ ÖNİZLEME (silinecek): tüm 7 balığı sahnede göster ===
+  // Kalıcı kayda yazılmaz, sadece ekranda görünür.
+  ensureAllRaritiesInAquarium(aq);
+  {
+    const previewFish = AQUARIUM_FISH.map((entry, i) => ({
+      kind: entry,
+      y: 5 + i * 9,
+      d: 12 + i * 2,
+      delay: -(i * 2.5),
+      drift: 3 + (i % 4),
+      rev: entry.dir === 'left',
+      size: AQUARIUM_RARITY_FISH_BASE[entry.rarity] + 8,
+    }));
+    aq.fish = previewFish;
+  }
 
   if ($('aquariumCoralCount')) $('aquariumCoralCount').textContent = aq.corals.length;
   if ($('aquariumFishCount')) $('aquariumFishCount').textContent = aq.fish.length;
@@ -4282,69 +4415,212 @@ function renderAquarium() {
   ensureAquariumBackground(scene);
 
   let html = '';
-  for (let b = 0; b < 10; b += 1) {
-    const left = (b * 37 + 11) % 96;
-    const size = 10 + ((b * 7) % 14);
+  for (let b = 0; b < 24; b += 1) {
+    const left = (b * 37 + 11) % 98;
+    const size = 28 + ((b * 7) % 22);
     const dur = 6 + ((b * 3) % 7);
     const delay = -((b * 2.3) % 9);
-    html += `<span class="aq-bubble" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">🫧</span>`;
+    // labon/balon görseli: en arka katmanda kabarcık efekti (z-index:0).
+    html += `<span class="aq-bubble" aria-hidden="true" style="left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;background-image:url('${encodeURI(AQUARIUM_BUBBLE_IMG)}')"></span>`;
   }
-  const weeds = ['🌿', '🌱', '🌿'];
-  weeds.forEach((w, i) => {
-    html += `<span class="aq-weed" style="left:${5 + i * 6}%;font-size:${36 + i * 10}px;animation-delay:${-(i * 1.4)}s">${w}</span>`;
-  });
-  html += '<span class="aq-decor" style="left:16%;font-size:30px">⭐</span>';
-  html += '<span class="aq-decor" style="left:74%;font-size:30px">🐚</span>';
-  html += '<span class="aq-decor" style="left:88%;font-size:34px">🦀</span>';
   aq.corals.forEach((c) => {
-    html += `<span class="aq-coral" style="left:${c.x}%;font-size:${c.s}px">${c.kind}</span>`;
+    const rarityClass = `aq-rarity-${c.kind.rarity}`;
+    html += `<span class="aq-coral ${rarityClass}" style="left:${c.x}%;width:${c.s}px;height:${c.s}px;background-image:url('${encodeURI(c.kind.src)}')"></span>`;
   });
-  aq.fish.forEach((f) => {
-    html += `<div class="aq-fish${f.rev ? ' rev' : ''}" style="top:${f.y}%;animation-duration:${f.d}s;animation-delay:${f.delay}s"><span>${f.kind}</span></div>`;
+  aq.fish.forEach((f, idx) => {
+    const rarityClass = `aq-rarity-${f.kind.rarity}`;
+    const dir = (f.kind && f.kind.dir === 'left') || f.rev ? 'left' : 'right';
+    const swimClass = dir === 'left' ? 'swim-left rev' : 'swim-right';
+    const startX = 5 + ((idx * 29) % 88);
+    // js-swim: yatay hareket requestAnimationFrame motorundan gelir (durma,
+    // dönme, zikzak davranışları için). CSS'teki swim-* sınıfları yedek kalır.
+    html += `<div class="aq-fish ${rarityClass} ${swimClass} js-swim" data-dir="${dir}" data-idx="${idx}" style="left:${startX}%;top:${f.y}%;width:${f.size}px;height:${f.size}px"><span style="background-image:url('${encodeURI(f.kind.src)}');animation-duration:${(1.2 + (idx % 5) * 0.28).toFixed(2)}s"></span></div>`;
   });
-  if (aq.fish.length >= 3) {
-    html += '<div class="aq-fish rev aq-turtle" style="top:55%;animation-duration:42s"><span>🐢</span></div>';
-  }
-  if (aq.corals.length === 0 && aq.fish.length === 0) {
-    html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun! 🐠</div>';
+  if (aq.fish.length === 0 && aq.corals.length === 0) {
+    html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun!</div>';
   }
   scene.innerHTML = html;
   renderAquariumCollection(aq);
+  startAquariumSwimEngine(scene);
   if (!scene.dataset.clickBound) {
     scene.dataset.clickBound = '1';
     scene.addEventListener('click', (e) => {
       const rect = scene.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      for (let i = 0; i < 6; i += 1) {
+      // Tıklanan noktadan anında yukarı süzülen 12 baloncuk.
+      // Bekleme/yana açılma yok; hafif yatay savrulma ile direkt yükselir.
+      const count = 12;
+      for (let i = 0; i < count; i += 1) {
+        const dx = (Math.random() - 0.5) * 44;
+        const size = 9 + Math.random() * 24;
         const s = document.createElement('span');
         s.className = 'aq-burst';
-        s.textContent = '🫧';
-        s.style.left = `${x + (i - 2.5) * 12}px`;
-        s.style.top = `${y - i * 8}px`;
+        s.style.left = `${x}px`;
+        s.style.top = `${y}px`;
+        s.style.width = `${size.toFixed(0)}px`;
+        s.style.height = `${size.toFixed(0)}px`;
+        s.style.setProperty('--dx', `${dx.toFixed(1)}px`);
+        s.style.animationDuration = `${(0.9 + Math.random() * 0.7).toFixed(2)}s`;
         scene.appendChild(s);
-        setTimeout(() => s.remove(), 1300);
+        setTimeout(() => s.remove(), 1750);
       }
     });
   }
+}
+
+let aquariumSwimRAF = 0;
+
+function stopAquariumSwimEngine() {
+  if (aquariumSwimRAF) cancelAnimationFrame(aquariumSwimRAF);
+  aquariumSwimRAF = 0;
+}
+
+// Balık davranış motoru: 4 karakter dönüşümlü atanır.
+// cruise = düz süzülme, zigzag = zikzak, dart-pause = yüz → dur → tersine dön,
+// patrol = kenara kadar yüzüp dönüp geri gelme. Dönüşte gövde scaleX ile
+// daralıp açılarak gerçekçi "U dönüşü" yapar.
+function startAquariumSwimEngine(scene) {
+  stopAquariumSwimEngine();
+  const els = Array.from(scene.querySelectorAll('.aq-fish'));
+  if (!els.length) return;
+  const kinds = ['cruise', 'zigzag', 'dart-pause', 'patrol'];
+  const flipFor = (moveDir, kindDir) => {
+    const movingRight = moveDir > 0;
+    const facesRight = kindDir === 'right';
+    return movingRight === facesRight ? 1 : -1;
+  };
+  const fishes = els.map((el, i) => {
+    const kindDir = el.dataset.dir === 'left' ? 'left' : 'right';
+    const moveDir = kindDir === 'left' ? -1 : 1;
+    const f = {
+      el,
+      kindDir,
+      behavior: kinds[i % kinds.length],
+      x: 5 + ((i * 29) % 88),
+      baseY: 6 + ((i * 11) % 42),
+      y: 6 + ((i * 11) % 42),
+      t: Math.random() * 10,
+      speed: 4 + ((i * 1.7) % 4),
+      moveDir,
+      phase: Math.random() * Math.PI * 2,
+      state: 'swim',
+      stateT: 2.5 + Math.random() * 3.5,
+      flip: flipFor(moveDir, kindDir),
+      flipFrom: 1,
+      flipTo: 1,
+      turnT: 1,
+    };
+    f.flipFrom = f.flip;
+    f.flipTo = f.flip;
+    el.style.left = `${f.x}%`;
+    el.style.top = `${f.y}%`;
+    el.style.transform = `scaleX(${f.flip})`;
+    return f;
+  });
+
+  let last = performance.now();
+  const frame = (now) => {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    const container = $('aquariumContainer');
+    const visible = scene.isConnected && (!container || container.style.display !== 'none');
+    if (visible) {
+      fishes.forEach((f) => {
+        f.t += dt;
+        if (f.behavior === 'cruise') {
+          f.x += f.moveDir * f.speed * dt;
+          f.y = f.baseY + Math.sin(f.t * 0.9 + f.phase) * 3;
+          if (f.x > 108) f.x = -16;
+          if (f.x < -16) f.x = 108;
+          f.flip = flipFor(f.moveDir, f.kindDir);
+        } else if (f.behavior === 'zigzag') {
+          f.x += f.moveDir * f.speed * 1.1 * dt;
+          f.y = f.baseY + Math.sin(f.t * 2.3 + f.phase) * 9;
+          if (f.y < 3) f.y = 3;
+          if (f.y > 53) f.y = 53;
+          if (f.x > 108) f.x = -16;
+          if (f.x < -16) f.x = 108;
+          f.flip = flipFor(f.moveDir, f.kindDir);
+        } else if (f.behavior === 'dart-pause') {
+          if (f.state === 'swim') {
+            f.x += f.moveDir * f.speed * 1.6 * dt;
+            f.y = f.baseY + Math.sin(f.t * 1.4 + f.phase) * 4;
+            f.flip = flipFor(f.moveDir, f.kindDir);
+            f.stateT -= dt;
+            if (f.x > 104) f.x = -14;
+            if (f.x < -14) f.x = 104;
+            if (f.stateT <= 0) { f.state = 'pause'; f.stateT = 1.1 + Math.random() * 0.9; }
+          } else if (f.state === 'pause') {
+            f.y += Math.sin(f.t * 6) * dt * 1.5;
+            f.stateT -= dt;
+            if (f.stateT <= 0) {
+              f.state = 'turn';
+              f.turnT = 0;
+              f.flipFrom = f.flip;
+              f.moveDir *= -1;
+              f.flipTo = flipFor(f.moveDir, f.kindDir);
+            }
+          } else {
+            f.turnT = Math.min(1, f.turnT + dt / 0.38);
+            f.flip = f.flipFrom + (f.flipTo - f.flipFrom) * f.turnT;
+            if (f.turnT >= 1) { f.state = 'swim'; f.stateT = 2.5 + Math.random() * 3.5; }
+          }
+        } else {
+          // patrol: kenarda U dönüşü
+          if (f.state === 'swim') {
+            f.x += f.moveDir * f.speed * 0.9 * dt;
+            f.y = f.baseY + Math.sin(f.t * 1.1 + f.phase) * 4;
+            f.flip = flipFor(f.moveDir, f.kindDir);
+            if ((f.moveDir > 0 && f.x >= 93) || (f.moveDir < 0 && f.x <= 1)) {
+              f.state = 'turn';
+              f.turnT = 0;
+              f.flipFrom = f.flip;
+              f.moveDir *= -1;
+              f.flipTo = flipFor(f.moveDir, f.kindDir);
+            }
+          } else {
+            f.turnT = Math.min(1, f.turnT + dt / 0.42);
+            f.flip = f.flipFrom + (f.flipTo - f.flipFrom) * f.turnT;
+            if (f.turnT >= 1) f.state = 'swim';
+          }
+        }
+        f.el.style.left = `${f.x.toFixed(2)}%`;
+        f.el.style.top = `${f.y.toFixed(2)}%`;
+        f.el.style.transform = `scaleX(${f.flip.toFixed(3)})`;
+      });
+    }
+    aquariumSwimRAF = requestAnimationFrame(frame);
+  };
+  aquariumSwimRAF = requestAnimationFrame(frame);
 }
 
 function renderAquariumCollection(aq) {
   const box = $('aquariumCollection');
   if (!box) return;
   const fishCount = {};
-  aq.fish.forEach((f) => { fishCount[f.kind] = (fishCount[f.kind] || 0) + 1; });
-  const coralCount = {};
-  aq.corals.forEach((c) => { coralCount[c.kind] = (coralCount[c.kind] || 0) + 1; });
-  let html = '<div class="aq-collection-title">🐠 Balık Koleksiyonu</div><div class="aq-chips">';
-  AQUARIUM_FISH.forEach((kind) => {
-    const n = fishCount[kind] || 0;
-    html += `<div class="aq-chip${n ? '' : ' locked'}"><span>${kind}</span><strong>×${n}</strong></div>`;
+  aq.fish.forEach((f) => {
+    const k = f.kind.name;
+    if (!fishCount[k]) fishCount[k] = { n: 0, rarity: f.kind.rarity, src: f.kind.src };
+    fishCount[k].n += 1;
   });
-  html += '</div><div class="aq-collection-title">🪸 Mercan Koleksiyonu</div><div class="aq-chips">';
-  AQUARIUM_CORALS.forEach((kind) => {
-    const n = coralCount[kind] || 0;
-    html += `<div class="aq-chip${n ? '' : ' locked'}"><span>${kind}</span><strong>×${n}</strong></div>`;
+  const coralCount = {};
+  aq.corals.forEach((c) => {
+    const k = c.kind.name;
+    if (!coralCount[k]) coralCount[k] = { n: 0, rarity: c.kind.rarity, src: c.kind.src };
+    coralCount[k].n += 1;
+  });
+  let html = '<div class="aq-collection-title">Balık Koleksiyonu</div><div class="aq-chips">';
+  AQUARIUM_FISH.forEach((entry) => {
+    const info = fishCount[entry.name];
+    const n = info ? info.n : 0;
+    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(entry.src)}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
+  });
+  html += '</div><div class="aq-collection-title">Mercan Koleksiyonu</div><div class="aq-chips">';
+  AQUARIUM_CORALS.forEach((entry) => {
+    const info = coralCount[entry.name];
+    const n = info ? info.n : 0;
+    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(entry.src)}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
   });
   html += '</div>';
   box.innerHTML = html;
@@ -4370,10 +4646,17 @@ function init() {
   initPhraseInput();
 
   // Check if user is logged in
-  const savedUser = readStorage(STORAGE_KEYS.currentUser, null);
+  // TEMP-PREVIEW (kaldırılacak)
+  let savedUser = readStorage(STORAGE_KEYS.currentUser, null);
+  const previewParams = new URLSearchParams(window.location.search);
+  if (!savedUser && previewParams.get('demo') === '1') {
+    savedUser = 'onizleme@demo.local';
+    writeStorage(STORAGE_KEYS.currentUser, savedUser);
+  }
+  const previewPage = previewParams.get('page');
   if (savedUser) {
     hideAuthOverlay();
-    showPage('dashboard');
+    showPage(previewPage || 'dashboard');
     renderAll();
   } else {
     showAuthOverlay();

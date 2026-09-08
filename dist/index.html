@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learn with Archie</title>
-  <script type="module" crossorigin src="/assets/index-CY-JY9wG.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DCf-sOrW.css">
+  <title>Learn with Archie</title>
+  <script type="module" crossorigin src="/assets/index-BkQd3C9T.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BLvj_sU8.css">
 </head>
 <body>
   <!-- Sidebar -->
-  <nav class="sidebar">
+  <nav class="sidebar aquarium-sidebar">
     <a href="#" class="logo">
        <svg viewBox="0 0 48 48" class="logo-icon" aria-hidden="true">
          <rect x="2" y="2" width="44" height="44" rx="13" fill="#0879d1"/>
@@ -18,37 +18,45 @@
        <span class="logo-text">Learn with Archie</span>
     </a>
     <div class="nav-links">
-      <a href="#" class="nav-link active" data-page="dashboard">
-         <span class="nav-icon nav-icon-dashboard">⌂</span>
+      <a href="#" class="nav-link aquarium-sidebar-item active" data-page="dashboard">
+          <span class="nav-icon nav-icon-dashboard">⌂</span>
         <span>Panel</span>
       </a>
-      <a href="#" class="nav-link" data-page="teacher">
-         <span class="nav-icon nav-icon-teacher">✦</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="roadmap">
+          <span class="nav-icon nav-icon-roadmap">🗺️</span>
+        <span>Yol Haritası</span>
+      </a>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="teacher">
+          <span class="nav-icon nav-icon-teacher">✦</span>
         <span>AI Öğretmen</span>
       </a>
-      <a href="#" class="nav-link" data-page="student">
-         <span class="nav-icon nav-icon-student">●</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="student">
+          <span class="nav-icon nav-icon-student">●</span>
         <span>Öğrenci AI</span>
       </a>
-      <a href="#" class="nav-link" data-page="quiz">
-         <span class="nav-icon nav-icon-quiz">✓</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="quiz">
+          <span class="nav-icon nav-icon-quiz">✓</span>
         <span>Sınav</span>
       </a>
-      <a href="#" class="nav-link" data-page="planner">
-         <span class="nav-icon nav-icon-planner">▦</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="planner">
+          <span class="nav-icon nav-icon-planner">▦</span>
         <span>Planlayıcı</span>
       </a>
-      <a href="#" class="nav-link" data-page="profile">
-         <span class="nav-icon nav-icon-profile">●</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="profile">
+          <span class="nav-icon nav-icon-profile">●</span>
         <span>Profil</span>
       </a>
-<a href="#" class="nav-link" data-page="store">
-         <span class="nav-icon nav-icon-store">◆</span>
+<a href="#" class="nav-link aquarium-sidebar-item" data-page="store">
+          <span class="nav-icon nav-icon-store">◆</span>
         <span>Mağaza</span>
       </a>
-      <a href="#" class="nav-link" data-page="timer">
-         <span class="nav-icon nav-icon-timer">◷</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="timer">
+          <span class="nav-icon nav-icon-timer">◷</span>
         <span>Zamanlayıcı</span>
+      </a>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="aquarium">
+           <span class="nav-icon nav-icon-aquarium">🐠</span>
+        <span>Akvaryum</span>
       </a>
     </div>
     <div class="sidebar-profile" id="sidebarProfileCard" role="button" tabindex="0" aria-label="Profili aç">
@@ -78,7 +86,7 @@
 
 <!-- Dashboard -->
     <main class="dashboard-container" id="dashboardContainer" style="display:none;">
-      <div class="dashboard-hero">
+      <div class="dashboard-hero aquarium-card">
         <div class="dashboard-hero-text">
           <h1>Merhaba, <span id="dashUserName">Öğrenci</span>! 👋</h1>
           <p>Bugün YKS yolculuğunda hedeflerine bir adım daha yaklaşalım.</p>
@@ -91,29 +99,29 @@
       </div>
 
       <div class="dash-stats-grid">
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">✅</div>
           <div class="dash-stat-value" id="dashCompleted">0</div>
           <div class="dash-stat-label">Tamamlanan Konu</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">📚</div>
           <div class="dash-stat-value" id="dashTotal">0</div>
           <div class="dash-stat-label">Toplam Konu</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">🎯</div>
           <div class="dash-stat-value" id="dashPct">0%</div>
           <div class="dash-stat-label">İlerleme</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">⚡</div>
           <div class="dash-stat-value" id="dashXp">0</div>
           <div class="dash-stat-label">XP</div>
         </div>
       </div>
 
-      <div class="dash-card">
+      <div class="dash-card aquarium-card">
         <div class="dash-card-title">📈 Genel İlerleme <span id="dashPct2" style="margin-left:auto">0%</span></div>
         <div class="dash-progress-bar">
           <div class="dash-progress-fill" id="dashProgressFill"></div>
@@ -127,11 +135,11 @@
       </div>
 
       <div class="dashboard-grid">
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">🎯 Bugünün Hedefleri</div>
           <div id="dashGoals"></div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📚 Derslere Göre İlerleme</div>
           <div class="dash-subject-progress">
             <div class="subject-progress-row"><span>Matematik</span><div><i style="width:42%"></i></div><b>42%</b></div>
@@ -140,11 +148,11 @@
             <div class="subject-progress-row"><span>Sosyal Bilimler</span><div><i style="width:54%"></i></div><b>54%</b></div>
           </div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📝 Notların</div>
           <div id="dashNotes"></div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📊 Analitik görünüm</div>
           <div class="dash-chart-grid" id="dashAnalytics"></div>
         </div>
@@ -173,6 +181,11 @@
       </div>
     </div>
 
+    <!-- Roadmap (Yol Haritası) -->
+    <main class="roadmap-container" id="roadmapContainer" style="display:none;">
+      <div class="roadmap" id="roadmap"></div>
+    </main>
+
     <!-- AI Teacher Selection Page -->
     <main class="selection-container" id="teacherSelection" style="display:none;">
       <div class="selection-header teacher-beach-header">
@@ -192,10 +205,17 @@
       
       <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
         <div class="selection-step teacher-beach-theme">
+          <h3 class="step-title">0️⃣ Seviye Seç</h3>
+          <div class="level-toggle" id="teacherSelectionLevelToggle">
+            <button class="level-btn active" data-level="tyt">TYT</button>
+            <button class="level-btn" data-level="ayt">AYT</button>
+          </div>
+        </div>
+        <div class="selection-step teacher-beach-theme">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="teacherSubjectGrid"></div>
         </div>
-        
+
         <div class="selection-step teacher-beach-theme" id="teacherTopicStep" style="display:none;">
           <h3 class="step-title">2️⃣ Konu Seç</h3>
           <div class="topic-grid" id="teacherTopicGrid"></div>
@@ -204,12 +224,21 @@
             <button class="btn-primary" id="teacherStartChat">Sohbete Başla →</button>
           </div>
         </div>
+
+        <div class="selection-step teacher-beach-theme" id="teacherSubtopicStep" style="display:none;">
+          <h3 class="step-title">3️⃣ Alt Konu Seç</h3>
+          <div class="topic-grid" id="teacherSubtopicGrid"></div>
+          <div class="selection-actions">
+            <button class="btn-secondary" id="teacherChangeTopic">← Konu Değiştir</button>
+            <button class="btn-primary" id="teacherStartChatSub">Sohbete Başla →</button>
+          </div>
+        </div>
       </div>
     </main>
 
     <!-- Student AI Selection Page -->
     <main class="selection-container" id="studentSelection" style="display:none;">
-      <div class="selection-header">
+      <div class="selection-header teacher-beach-header">
         <div class="selection-back" id="studentSelectionBack">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -223,19 +252,35 @@
           </div>
         </div>
       </div>
-      
+
       <div class="selection-content" style="max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 8px; display: flex; flex-direction: column; gap: 20px;">
-        <div class="selection-step">
+        <div class="selection-step teacher-beach-theme">
+          <h3 class="step-title">0️⃣ Seviye Seç</h3>
+          <div class="level-toggle" id="studentSelectionLevelToggle">
+            <button class="level-btn active" data-level="tyt">TYT</button>
+            <button class="level-btn" data-level="ayt">AYT</button>
+          </div>
+        </div>
+        <div class="selection-step teacher-beach-theme">
           <h3 class="step-title">1️⃣ Ders Seç</h3>
           <div class="subject-grid" id="studentSubjectGrid"></div>
         </div>
-        
-        <div class="selection-step" id="studentTopicStep" style="display:none;">
+
+        <div class="selection-step student-beach-theme" id="studentTopicStep" style="display:none;">
           <h3 class="step-title">2️⃣ Konu Seç</h3>
           <div class="topic-grid" id="studentTopicGrid"></div>
           <div class="selection-actions">
             <button class="btn-secondary" id="studentChangeSubject">← Ders Değiştir</button>
             <button class="btn-primary" id="studentStartChat">Sohbete Başla →</button>
+          </div>
+        </div>
+
+        <div class="selection-step student-beach-theme" id="studentSubtopicStep" style="display:none;">
+          <h3 class="step-title">3️⃣ Alt Konu Seç</h3>
+          <div class="topic-grid" id="studentSubtopicGrid"></div>
+          <div class="selection-actions">
+            <button class="btn-secondary" id="studentChangeTopic">← Konu Değiştir</button>
+            <button class="btn-primary" id="studentStartChatSub">Sohbete Başla →</button>
           </div>
         </div>
       </div>
@@ -249,20 +294,6 @@
           <h2>AI Öğretmen Koçu</h2>
           <p>Sana ders anlatır, sorularını çözer ve rehberlik eder.</p>
         </div>
-      </div>
-      <div class="chat-options">
-        <div class="level-toggle" id="teacherLevelToggle">
-          <button class="level-btn active" data-level="tyt">TYT</button>
-          <button class="level-btn" data-level="ayt">AYT</button>
-        </div>
-        <label>Ders:</label>
-        <select id="teacherClassSel"></select>
-      </div>
-      <div class="ai-suggests" id="teacherSuggestChips">
-        <button class="ai-chip" data-txt="Türev anlatır mısın?">📈 Türev</button>
-        <button class="ai-chip" data-txt="İntegral anlatır mısın?">📐 İntegral</button>
-        <button class="ai-chip" data-txt="Fotosentez nedir?">🌿 Fotosentez</button>
-        <button class="ai-chip" data-txt="Bana ders çalışma planı öner">📅 Plan öner</button>
       </div>
       <div class="chat-mode-tabs" data-chat-mode-group="teacher" role="tablist" aria-label="AI Öğretmen araçları">
         <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
@@ -287,10 +318,19 @@
             <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
             <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
           </div>
+          <div class="wb-theme-settings" style="position:relative;">
+            <button type="button" class="wb-theme-btn wb-settings-btn" title="Tahta Arka Planı" aria-haspopup="true" aria-expanded="false">🖼️</button>
+            <div class="wb-theme-dropdown" role="menu" style="display:none;position:absolute;bottom:100%;right:0;margin-bottom:8px;min-width:190px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:8px;z-index:100;">
+              <button type="button" class="wb-theme-option" data-theme="default" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">⬜ Beyaz Tahta</button>
+              <button type="button" class="wb-theme-option" data-theme="sahil" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏖️ Gerçekçi Sahil</button>
+              <button type="button" class="wb-theme-option" data-theme="karatahta" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏫 Klasik Kara Tahta</button>
+            </div>
+          </div>
           <div class="whiteboard-toolbar">
-            <span class="wb-title">🏖️ Sahil Tahtası</span>
+            <span class="wb-title">🤍 Beyaz Tahta</span>
             <div class="wb-controls">
               <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="teacherColor" value="#1e293b" checked></label>
+              <label class="wb-color" title="Beyaz (kara tahta için)" style="background:#ffffff;border:1px solid #cbd5e1"><input type="radio" name="teacherColor" value="#ffffff"></label>
               <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="teacherColor" value="#f59e0b"></label>
               <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="teacherColor" value="#0284c7"></label>
               <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="teacherColor" value="#059669"></label>
@@ -303,7 +343,6 @@
       <div class="chat-messages" id="teacherMessages"></div>
       <form class="chat-input" id="teacherForm">
         <input type="text" id="teacherInput" placeholder="Bir soru sor veya konu yaz..." autocomplete="off">
-        <button type="button" class="voice-btn" id="teacherVoiceBtn" title="Sesli Giriş">🎤</button>
         <button type="submit">Gönder</button>
       </form>
     </main>
@@ -316,20 +355,6 @@
           <h2>Öğrenci AI</h2>
           <p>Seni dinler, notlarını takip eder ve çalışma önerileri sunar.</p>
         </div>
-      </div>
-      <div class="chat-options">
-        <div class="level-toggle" id="studentLevelToggle">
-          <button class="level-btn active" data-level="tyt">TYT</button>
-          <button class="level-btn" data-level="ayt">AYT</button>
-        </div>
-        <label>Ders:</label>
-        <select id="studentClassSel"></select>
-      </div>
-      <div class="ai-suggests" id="studentSuggestChips">
-        <button class="ai-chip" data-txt="Bugün nasıl geçti?">💬 Günüm</button>
-        <button class="ai-chip" data-txt="Bana motivasyon ver">💪 Motivasyon</button>
-        <button class="ai-chip" data-txt="Bana çalışma programı hazırla">📅 Program</button>
-        <button class="ai-chip" data-txt="Matematik nasıl çalışılır?">🧮 Matematik</button>
       </div>
       <div class="chat-mode-tabs" data-chat-mode-group="student" role="tablist" aria-label="Öğrenci AI araçları">
         <button type="button" class="chat-mode-tab active" data-chat-mode="chat">💬 Chat</button>
@@ -355,17 +380,18 @@
             <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
           </div>
           <div class="wb-theme-settings" style="position:relative;">
-            <button type="button" class="wb-theme-btn wb-settings-btn" title="Tahta Ayarları" aria-haspopup="true" aria-expanded="false">⚙️</button>
-            <div class="wb-theme-dropdown" role="menu" style="display:none;position:absolute;bottom:100%;right:0;margin-bottom:8px;min-width:180px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:8px;z-index:100;">
-              <button type="button" class="wb-theme-option" data-theme="default" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;transition:background 0.15s;">⬜ Sade Beyaz Tahta</button>
-              <button type="button" class="wb-theme-option" data-theme="sahil" role="menuitem" disabled style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:not-allowed;font-size:13px;font-weight:600;color:var(--text-light);text-align:left;opacity:0.6;">🔒 🏖️ Gerçekçi Sahil</button>
-              <button type="button" class="wb-theme-option" data-theme="karatahta" role="menuitem" disabled style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:not-allowed;font-size:13px;font-weight:600;color:var(--text-light);text-align:left;opacity:0.6;">🔒 🏫 Klasik Kara Tahta</button>
+            <button type="button" class="wb-theme-btn wb-settings-btn" title="Tahta Arka Planı" aria-haspopup="true" aria-expanded="false">🖼️</button>
+            <div class="wb-theme-dropdown" role="menu" style="display:none;position:absolute;bottom:100%;right:0;margin-bottom:8px;min-width:190px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:8px;z-index:100;">
+              <button type="button" class="wb-theme-option" data-theme="default" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">⬜ Beyaz Tahta</button>
+              <button type="button" class="wb-theme-option" data-theme="sahil" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏖️ Gerçekçi Sahil</button>
+              <button type="button" class="wb-theme-option" data-theme="karatahta" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏫 Klasik Kara Tahta</button>
             </div>
           </div>
           <div class="whiteboard-toolbar">
-            <span class="wb-title">🏖️ Sahil Tahtası</span>
+            <span class="wb-title">🤍 Beyaz Tahta</span>
             <div class="wb-controls">
               <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="studentColor" value="#1e293b" checked></label>
+              <label class="wb-color" title="Beyaz (kara tahta için)" style="background:#ffffff;border:1px solid #cbd5e1"><input type="radio" name="studentColor" value="#ffffff"></label>
               <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="studentColor" value="#f59e0b"></label>
               <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="studentColor" value="#0284c7"></label>
               <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="studentColor" value="#059669"></label>
@@ -378,32 +404,43 @@
       <div class="chat-messages" id="studentMessages"></div>
       <form class="chat-input" id="studentForm">
         <input type="text" id="studentInput" placeholder="Gününü anlat veya hedefini paylaş..." autocomplete="off">
-        <button type="button" class="voice-btn" id="studentVoiceBtn" title="Sesli Giriş">🎤</button>
         <button type="submit">Gönder</button>
       </form>
     </main>
 
     <!-- Quiz Section -->
-    <main class="quiz-container" id="quizContainer" style="display:none;">
+    <main class="quiz-container quiz-top" id="quizContainer" style="display:none;">
       <div class="quiz-header">
-         <span class="quiz-avatar">📘</span>
+         <span class="quiz-avatar">🧠</span>
         <div>
+          <span class="quiz-kicker">✨ AI DESTEKLİ TEKRAR</span>
           <h2>Zayıf Konu Quiz'i</h2>
           <p>AI öğretmen ve öğrencin, zayıf olduğun konulardan sana quiz hazırlıyor.</p>
         </div>
       </div>
-      <div class="quiz-controls">
-        <div class="level-toggle" id="quizLevelToggle">
-          <button class="level-btn active" data-level="tyt">TYT</button>
-          <button class="level-btn" data-level="ayt">AYT</button>
-        </div>
-      </div>
 
       <div class="quiz-setup" id="quizSetup">
-        <label class="quiz-label">Zayıf olduğun konuyu seç:</label>
-        <select id="quizTopicSelect" class="quiz-select"></select>
-        <button class="quiz-start-btn" id="quizStartBtn">🎯 Sınavı Başlat</button>
-        <p class="quiz-hint">📌 AI öğretmen ve öğrenci, zayıf olduğun konulardan sana sorular hazırlıyor.</p>
+        <div class="quiz-setup-top">
+          <span class="quiz-setup-title">📚 Önce dersini seç, sonra konunu</span>
+          <div class="level-toggle" id="quizLevelToggle">
+            <button class="level-btn active" data-level="tyt">TYT</button>
+            <button class="level-btn" data-level="ayt">AYT</button>
+          </div>
+        </div>
+
+        <div class="quiz-pick-grid">
+          <div class="quiz-pane">
+            <h4 class="quiz-pane-title">1️⃣ Ders</h4>
+            <div class="quiz-subject-list" id="quizSubjectList"></div>
+          </div>
+          <div class="quiz-pane">
+            <h4 class="quiz-pane-title">2️⃣ Konu</h4>
+            <div class="quiz-topic-cards" id="quizTopicCards"></div>
+          </div>
+        </div>
+
+        <button class="quiz-start-btn quiz-start-center" id="quizStartBtn">🎯 Sınavı Başlat</button>
+        <p class="quiz-hint">📌 Sınav, seçtiğin genel konudan karışık sorular içerir.</p>
       </div>
 
       <div class="quiz-active" id="quizActive" style="display:none;">
@@ -605,10 +642,19 @@
               <button type="button" class="wb-tool" data-tool="triangle" title="Üçgen">🔺</button>
               <button type="button" class="wb-tool" data-tool="eraser" title="Silgi">🧽</button>
             </div>
-            <div class="whiteboard-toolbar">
-              <span class="wb-title">🏖️ Sahil Tahtası</span>
-              <div class="wb-controls">
-                <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="tutorColor" value="#1e293b" checked></label>
+          <div class="wb-theme-settings" style="position:relative;">
+            <button type="button" class="wb-theme-btn wb-settings-btn" title="Tahta Arka Planı" aria-haspopup="true" aria-expanded="false">🖼️</button>
+            <div class="wb-theme-dropdown" role="menu" style="display:none;position:absolute;bottom:100%;right:0;margin-bottom:8px;min-width:190px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:8px;z-index:100;">
+              <button type="button" class="wb-theme-option" data-theme="default" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">⬜ Beyaz Tahta</button>
+              <button type="button" class="wb-theme-option" data-theme="sahil" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏖️ Gerçekçi Sahil</button>
+              <button type="button" class="wb-theme-option" data-theme="karatahta" role="menuitem" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:none;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);text-align:left;">🏫 Klasik Kara Tahta</button>
+            </div>
+          </div>
+          <div class="whiteboard-toolbar">
+            <span class="wb-title">🤍 Beyaz Tahta</span>
+            <div class="wb-controls">
+              <label class="wb-color" title="Koyu" style="background:#1e293b"><input type="radio" name="tutorColor" value="#1e293b" checked></label>
+              <label class="wb-color" title="Beyaz (kara tahta için)" style="background:#ffffff;border:1px solid #cbd5e1"><input type="radio" name="tutorColor" value="#ffffff"></label>
                 <label class="wb-color" title="Sarı" style="background:#f59e0b"><input type="radio" name="tutorColor" value="#f59e0b"></label>
                 <label class="wb-color" title="Mavi" style="background:#0284c7"><input type="radio" name="tutorColor" value="#0284c7"></label>
                 <label class="wb-color" title="Yeşil" style="background:#059669"><input type="radio" name="tutorColor" value="#059669"></label>
@@ -795,8 +841,35 @@
             <div class="aquarium-scene"><span>🪸</span><span>🐚</span><span>🫧</span><span>🌿</span></div>
             <div class="aquarium-progress"><span id="aquariumProgressFill"></span></div>
             <div class="aquarium-progress-meta"><span id="aquariumProgressLabel">0 / 1 oturum</span><strong id="aquariumRewardCount">0 mercan</strong></div>
+            <button type="button" class="timer-btn start" data-goto="aquarium" style="width:100%;margin-top:10px;">🐠 Akvaryumu Aç</button>
           </section>
         </aside>
+      </div>
+    </main>
+
+    <!-- Aquarium Section -->
+    <main class="aquarium-container" id="aquariumContainer" style="display:none;">
+      <div class="aquarium-banner">
+        <div class="aquarium-banner-icon"><img src="/assets/leftbalik-ql2wJ4_4.png" alt="" /></div>
+        <div class="aquarium-banner-text">
+          <h2>Benim Akvaryumum</h2>
+          <p>Odak oturumlarıyla kazandığın mercanlar ve balıklar burada yaşıyor.</p>
+        </div>
+        <div class="aquarium-stats">
+          <div class="aquarium-stat"><strong id="aquariumCoralCount">0</strong><span>Mercan</span></div>
+          <div class="aquarium-stat"><strong id="aquariumFishCount">0</strong><span>Balık</span></div>
+          <div class="aquarium-stat"><strong id="aquariumSessionCount">0</strong><span>Oturum</span></div>
+        </div>
+      </div>
+
+      <div class="aquarium-scene" id="aquariumScene"></div>
+
+      <div class="aquarium-collection" id="aquariumCollection"></div>
+
+      <div class="aquarium-rules">
+        <div class="aquarium-rule"><img src="/assets/mercan-31cgo_Rc.png" alt="" /><p>Her <strong>4 odak oturumu</strong> akvaryumuna 1 mercan ekler.</p></div>
+        <div class="aquarium-rule"><img src="/assets/rightbalik2-ImDvs4PS.png" alt="" /><p>Her <strong>10 odak oturumu</strong> akvaryumuna 1 yeni balık ekler.</p></div>
+        <button type="button" class="aquarium-cta" data-goto="timer">Odaklanmaya Git</button>
       </div>
     </main>
   </div>
@@ -809,6 +882,6 @@
       <button class="complete-btn" id="completeBtn">Tamamlandı ✓</button>
     </div>
   </div>
-
+
 </body>
 </html>

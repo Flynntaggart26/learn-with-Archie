@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260907d">
 </head>
 <body>
   <!-- Sidebar -->
-  <nav class="sidebar">
+  <nav class="sidebar aquarium-sidebar">
     <a href="#" class="logo">
        <svg viewBox="0 0 48 48" class="logo-icon" aria-hidden="true">
          <rect x="2" y="2" width="44" height="44" rx="13" fill="#0879d1"/>
@@ -17,44 +17,44 @@
        <span class="logo-text">Learn with Archie</span>
     </a>
     <div class="nav-links">
-      <a href="#" class="nav-link active" data-page="dashboard">
-         <span class="nav-icon nav-icon-dashboard">⌂</span>
+      <a href="#" class="nav-link aquarium-sidebar-item active" data-page="dashboard">
+          <span class="nav-icon nav-icon-dashboard">⌂</span>
         <span>Panel</span>
       </a>
-      <a href="#" class="nav-link" data-page="roadmap">
-         <span class="nav-icon nav-icon-roadmap">🗺️</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="roadmap">
+          <span class="nav-icon nav-icon-roadmap">🗺️</span>
         <span>Yol Haritası</span>
       </a>
-      <a href="#" class="nav-link" data-page="teacher">
-         <span class="nav-icon nav-icon-teacher">✦</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="teacher">
+          <span class="nav-icon nav-icon-teacher">✦</span>
         <span>AI Öğretmen</span>
       </a>
-      <a href="#" class="nav-link" data-page="student">
-         <span class="nav-icon nav-icon-student">●</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="student">
+          <span class="nav-icon nav-icon-student">●</span>
         <span>Öğrenci AI</span>
       </a>
-      <a href="#" class="nav-link" data-page="quiz">
-         <span class="nav-icon nav-icon-quiz">✓</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="quiz">
+          <span class="nav-icon nav-icon-quiz">✓</span>
         <span>Sınav</span>
       </a>
-      <a href="#" class="nav-link" data-page="planner">
-         <span class="nav-icon nav-icon-planner">▦</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="planner">
+          <span class="nav-icon nav-icon-planner">▦</span>
         <span>Planlayıcı</span>
       </a>
-      <a href="#" class="nav-link" data-page="profile">
-         <span class="nav-icon nav-icon-profile">●</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="profile">
+          <span class="nav-icon nav-icon-profile">●</span>
         <span>Profil</span>
       </a>
-<a href="#" class="nav-link" data-page="store">
-         <span class="nav-icon nav-icon-store">◆</span>
+<a href="#" class="nav-link aquarium-sidebar-item" data-page="store">
+          <span class="nav-icon nav-icon-store">◆</span>
         <span>Mağaza</span>
       </a>
-      <a href="#" class="nav-link" data-page="timer">
-         <span class="nav-icon nav-icon-timer">◷</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="timer">
+          <span class="nav-icon nav-icon-timer">◷</span>
         <span>Zamanlayıcı</span>
       </a>
-      <a href="#" class="nav-link" data-page="aquarium">
-         <span class="nav-icon nav-icon-aquarium">🐠</span>
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="aquarium">
+           <span class="nav-icon nav-icon-aquarium">🐠</span>
         <span>Akvaryum</span>
       </a>
     </div>
@@ -85,7 +85,7 @@
 
 <!-- Dashboard -->
     <main class="dashboard-container" id="dashboardContainer" style="display:none;">
-      <div class="dashboard-hero">
+      <div class="dashboard-hero aquarium-card">
         <div class="dashboard-hero-text">
           <h1>Merhaba, <span id="dashUserName">Öğrenci</span>! 👋</h1>
           <p>Bugün YKS yolculuğunda hedeflerine bir adım daha yaklaşalım.</p>
@@ -98,29 +98,29 @@
       </div>
 
       <div class="dash-stats-grid">
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">✅</div>
           <div class="dash-stat-value" id="dashCompleted">0</div>
           <div class="dash-stat-label">Tamamlanan Konu</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">📚</div>
           <div class="dash-stat-value" id="dashTotal">0</div>
           <div class="dash-stat-label">Toplam Konu</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">🎯</div>
           <div class="dash-stat-value" id="dashPct">0%</div>
           <div class="dash-stat-label">İlerleme</div>
         </div>
-        <div class="dash-stat">
+        <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">⚡</div>
           <div class="dash-stat-value" id="dashXp">0</div>
           <div class="dash-stat-label">XP</div>
         </div>
       </div>
 
-      <div class="dash-card">
+      <div class="dash-card aquarium-card">
         <div class="dash-card-title">📈 Genel İlerleme <span id="dashPct2" style="margin-left:auto">0%</span></div>
         <div class="dash-progress-bar">
           <div class="dash-progress-fill" id="dashProgressFill"></div>
@@ -134,11 +134,11 @@
       </div>
 
       <div class="dashboard-grid">
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">🎯 Bugünün Hedefleri</div>
           <div id="dashGoals"></div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📚 Derslere Göre İlerleme</div>
           <div class="dash-subject-progress">
             <div class="subject-progress-row"><span>Matematik</span><div><i style="width:42%"></i></div><b>42%</b></div>
@@ -147,11 +147,11 @@
             <div class="subject-progress-row"><span>Sosyal Bilimler</span><div><i style="width:54%"></i></div><b>54%</b></div>
           </div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📝 Notların</div>
           <div id="dashNotes"></div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card aquarium-card">
           <div class="dash-card-title">📊 Analitik görünüm</div>
           <div class="dash-chart-grid" id="dashAnalytics"></div>
         </div>
@@ -849,15 +849,15 @@
     <!-- Aquarium Section -->
     <main class="aquarium-container" id="aquariumContainer" style="display:none;">
       <div class="aquarium-banner">
-        <div class="aquarium-banner-icon">🐠</div>
+        <div class="aquarium-banner-icon"><img src="public/images/balik/leftbalik.png" alt="" /></div>
         <div class="aquarium-banner-text">
           <h2>Benim Akvaryumum</h2>
           <p>Odak oturumlarıyla kazandığın mercanlar ve balıklar burada yaşıyor.</p>
         </div>
         <div class="aquarium-stats">
-          <div class="aquarium-stat"><strong id="aquariumCoralCount">0</strong><span>🪸 Mercan</span></div>
-          <div class="aquarium-stat"><strong id="aquariumFishCount">0</strong><span>🐟 Balık</span></div>
-          <div class="aquarium-stat"><strong id="aquariumSessionCount">0</strong><span>⏱️ Oturum</span></div>
+          <div class="aquarium-stat"><strong id="aquariumCoralCount">0</strong><span>Mercan</span></div>
+          <div class="aquarium-stat"><strong id="aquariumFishCount">0</strong><span>Balık</span></div>
+          <div class="aquarium-stat"><strong id="aquariumSessionCount">0</strong><span>Oturum</span></div>
         </div>
       </div>
 
@@ -866,9 +866,9 @@
       <div class="aquarium-collection" id="aquariumCollection"></div>
 
       <div class="aquarium-rules">
-        <div class="aquarium-rule"><span>🪸</span><p>Her <strong>4 odak oturumu</strong> akvaryumuna 1 mercan ekler.</p></div>
-        <div class="aquarium-rule"><span>🐟</span><p>Her <strong>10 odak oturumu</strong> akvaryumuna 1 yeni balık ekler.</p></div>
-        <button type="button" class="aquarium-cta" data-goto="timer"><span>⏱️</span> Odaklanmaya Git</button>
+        <div class="aquarium-rule"><img src="public/images/mercanlar/mercan.png" alt="" /><p>Her <strong>4 odak oturumu</strong> akvaryumuna 1 mercan ekler.</p></div>
+        <div class="aquarium-rule"><img src="public/images/balik/rightbalik2.png" alt="" /><p>Her <strong>10 odak oturumu</strong> akvaryumuna 1 yeni balık ekler.</p></div>
+        <button type="button" class="aquarium-cta" data-goto="timer">Odaklanmaya Git</button>
       </div>
     </main>
   </div>

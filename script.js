@@ -156,11 +156,33 @@ function appSoundUrl(filename) {
 function playAppSound(soundName) {
   const filename = APP_SOUNDS[soundName];
   if (!filename) return;
+  // Vercel static: /public/sounds/... ; vite dev: /sounds/... — ikisini de dene.
+  const candidates = [
+    `public/sounds/${encodeURIComponent(filename)}`,
+    `sounds/${encodeURIComponent(filename)}`,
+  ];
+  const resolveUrl = (relative) => {
+    try {
+      return new URL(relative, document.baseURI).href;
+    } catch {
+      return relative;
+    }
+  };
   try {
-    const audio = new Audio(appSoundUrl(filename));
-    audio.volume = .75;
+    const audio = new Audio();
+    audio.volume = 0.75;
+    let index = 0;
+    audio.onerror = () => {
+      index += 1;
+      if (index < candidates.length) {
+        audio.src = resolveUrl(candidates[index]);
+        const retry = audio.play();
+        if (retry && typeof retry.catch === 'function') retry.catch(() => {});
+      }
+    };
+    audio.src = resolveUrl(candidates[0]);
     const started = audio.play();
-    if (started) {
+    if (started && typeof started.catch === 'function') {
       started.catch((err) => {
         // Kullanıcı etkileşimi öncesi tarayıcı engelleyebilir; sessizce geçme, logla.
         console.debug('[sound] oynatılamadı:', soundName, err?.message || err);
@@ -605,6 +627,7 @@ function showPage(page) {
 
   closeAllDropdowns();
   window.scrollTo(0, 0);
+  renderPageStickers();
 }
 
 function initNavigation() {
@@ -714,9 +737,11 @@ function renderDashboard() {
   if (plansEl) {
     const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
     const todays = getTasks()[getDayKey(todayIndex)] || [];
+    const shownPlans = todays.slice(0, 3);
+    const extraPlans = todays.length - shownPlans.length;
     plansEl.innerHTML = todays.length === 0
       ? '<p style="color:var(--text-light);font-size:13px;">Bugün planlanmış görev yok. Planlayıcıdan ekle, burada takip et!</p>'
-      : todays.slice(0, 6).map((task) => {
+      : shownPlans.map((task) => {
         const status = getTaskStatus(task);
         const meta = [task.time, task.duration ? `${task.duration} dk` : ''].filter(Boolean).join(' • ');
         return `
@@ -726,7 +751,13 @@ function renderDashboard() {
         <span class="goal-status ${status === 'done' ? 'done' : 'pending'}">${status === 'done' ? 'Bitti' : status === 'doing' ? 'Sürüyor' : 'Bekliyor'}</span>
       </div>
     `;
-      }).join('');
+      }).join('') + (extraPlans > 0
+        ? `<button type="button" class="dash-plans-more" id="dashPlansMore" title="${extraPlans} görev daha — planlayıcıya git">+</button>`
+        : '');
+    const moreBtn = plansEl.querySelector('#dashPlansMore');
+    if (moreBtn) {
+      moreBtn.onclick = () => showPage('planner');
+    }
     plansEl.querySelectorAll('.dash-plan-check').forEach((btn) => {
       btn.onclick = () => {
         const record = findPlannerTask(btn.dataset.task);
@@ -785,14 +816,36 @@ function renderDashboard() {
   if (notesEl) {
     const notes = readStorage(STORAGE_KEYS.notes, []);
     notesEl.innerHTML = notes.length === 0
-      ? '<p style="color:var(--text-light);font-size:13px;">Henüz not eklemedin.</p>'
-      : notes.slice(0, 3).map((n) => `
+      ? ''
+      : notes.slice(0, 5).map((n) => `
           <div class="dash-note-item">
             <span class="note-icon">📝</span>
             <span class="note-text">${n.text}</span>
             <span class="note-date">${n.date}</span>
           </div>
         `).join('');
+  }
+
+  const notesInput = $('dashNotesInput');
+  if (notesInput) {
+    const savedDraft = readStorage('archie.notesDraft', '');
+    notesInput.value = savedDraft;
+    notesInput.oninput = () => {
+      writeStorage('archie.notesDraft', notesInput.value);
+    };
+    notesInput.onkeydown = (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const text = notesInput.value.trim();
+        if (!text) return;
+        const notes = readStorage(STORAGE_KEYS.notes, []);
+        notes.unshift({ text, date: new Date().toLocaleDateString('tr-TR') });
+        writeStorage(STORAGE_KEYS.notes, notes.slice(0, 50));
+        notesInput.value = '';
+        writeStorage('archie.notesDraft', '');
+        renderDashboard();
+      }
+    };
   }
 
   // Analytics
@@ -3143,7 +3196,14 @@ function playLessonIntro(next) {
     document.body.appendChild(overlay);
   }
   const video = overlay.querySelector('.lesson-intro-video');
-  const audio = new Audio('public/sounds/dersbaşlıyor.mp3.mp3');
+  let audio;
+  if (preloadedLessonAudio && lessonAudioReady) {
+    audio = preloadedLessonAudio;
+    try { audio.currentTime = 0; } catch { /* yok say */ }
+  } else {
+    audio = new Audio();
+    playAudioWithFallback(audio, LESSON_INTRO_ASSETS.audio);
+  }
   let done = false;
   const finish = () => {
     if (done) return;
@@ -3158,15 +3218,11 @@ function playLessonIntro(next) {
   overlay.querySelector('.lesson-intro-skip').onclick = finish;
   video.onended = finish;
   overlay.classList.add('show');
-  video.src = 'public/videos/dersbaşlıyor.mp4.mp4';
   try {
     const ap = audio.play();
     if (ap && typeof ap.catch === 'function') ap.catch(() => {});
   } catch { /* yok say */ }
-  const promise = video.play();
-  if (promise && typeof promise.catch === 'function') {
-    promise.catch(() => finish());
-  }
+  playVideoWithFallback(video, 'videos/dersbaşlıyor.mp4.mp4', finish);
 }
 
 function renderTeacherSelection() {
@@ -3873,6 +3929,116 @@ function resolveImage(candidates, cb) {
   tryNext();
 }
 
+// Runtime asset çözümü: yayında '/' altından, dosya olarak açılışta
+// 'public/' altından denenir. Kod içindeki 'public/...' adresleri sadece
+// file:// açılışında çalıştığı için deployed ortamda animasyonlar boş kalıyordu.
+const publicAssetCache = new Map();
+
+function publicAssetCandidates(relative) {
+  return ['/', 'public/'].map((base) => base + relative);
+}
+
+function resolveStoredAsset(rawSrc, cb) {
+  if (publicAssetCache.has(rawSrc)) {
+    cb(publicAssetCache.get(rawSrc));
+    return;
+  }
+  const relative = rawSrc.replace(/^public\//, '');
+  resolveImage(publicAssetCandidates(relative), (url) => {
+    const best = url || rawSrc;
+    publicAssetCache.set(rawSrc, best);
+    cb(best);
+  });
+}
+
+function resolvedAssetUrl(rawSrc) {
+  return publicAssetCache.get(rawSrc) || rawSrc;
+}
+
+function playVideoWithFallback(video, relative, onFail) {
+  const candidates = publicAssetCandidates(relative);
+  let index = 0;
+  video.onerror = () => {
+    index += 1;
+    if (index < candidates.length) {
+      video.src = candidates[index];
+      const p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(onFail);
+    } else {
+      onFail();
+    }
+  };
+  video.src = candidates[0];
+  const p = video.play();
+  if (p && typeof p.catch === 'function') p.catch(onFail);
+}
+
+function playAudioWithFallback(audio, relative) {
+  const candidates = publicAssetCandidates(relative);
+  let index = 0;
+  audio.onerror = () => {
+    index += 1;
+    if (index < candidates.length) {
+      audio.src = candidates[index];
+      const p = audio.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    }
+  };
+  audio.src = candidates[0];
+}
+
+// Ders girişi ve sandık videolarını önden ısıt: URL çözümü + tarayıcı
+// önbelleği dolu olursa zil sesi ve video anında başlar, gecikme kalmaz.
+const LESSON_INTRO_ASSETS = {
+  audio: 'sounds/dersbaşlıyor.mp3.mp3',
+  video: 'videos/dersbaşlıyor.mp4.mp4',
+};
+const CHEST_VIDEO_ASSET = 'videos/sandık.mp4.mp4';
+
+let preloadedLessonAudio = null;
+let lessonAudioReady = false;
+let chestVideoPreloaded = false;
+
+function preloadLessonIntroAssets() {
+  if (preloadedLessonAudio) return;
+  preloadedLessonAudio = new Audio();
+  preloadedLessonAudio.preload = 'auto';
+  let audioIndex = 0;
+  const audioCandidates = publicAssetCandidates(LESSON_INTRO_ASSETS.audio);
+  preloadedLessonAudio.addEventListener('canplaythrough', () => {
+    lessonAudioReady = true;
+  }, { once: true });
+  preloadedLessonAudio.onerror = () => {
+    audioIndex += 1;
+    if (audioIndex < audioCandidates.length) preloadedLessonAudio.src = audioCandidates[audioIndex];
+  };
+  preloadedLessonAudio.src = audioCandidates[0];
+
+  const video = document.createElement('video');
+  video.preload = 'auto';
+  let videoIndex = 0;
+  const videoCandidates = publicAssetCandidates(LESSON_INTRO_ASSETS.video);
+  video.onerror = () => {
+    videoIndex += 1;
+    if (videoIndex < videoCandidates.length) video.src = videoCandidates[videoIndex];
+  };
+  video.src = videoCandidates[0];
+}
+
+function preloadChestVideo() {
+  if (chestVideoPreloaded) return;
+  chestVideoPreloaded = true;
+  const video = document.createElement('video');
+  video.preload = 'auto';
+  let index = 0;
+  const candidates = publicAssetCandidates(CHEST_VIDEO_ASSET);
+  video.onerror = () => {
+    index += 1;
+    if (index < candidates.length) video.src = candidates[index];
+  };
+  video.src = candidates[0];
+}
+
 // Mağaza kilitlerine göre tema menüsündeki seçenekleri güncelle
 function updateWhiteboardThemeLocks(boardBox) {
   if (!boardBox) return;
@@ -4451,8 +4617,17 @@ function applyStoreReward(itemId) {
 
 function renderStorePage() {
   const itemsEl = $('storeItems');
-  if (!itemsEl) return;
-  renderStoreChests();
+  if (!itemsEl) {
+    console.warn('[store] #storeItems bulunamadı, render atlandı.');
+    return;
+  }
+  // Sandık/video yolundaki bir arıza ürün listesini öldürmesin:
+  // önce sandıkları korumalı blokta dene, ürünler her durumda çizilsin.
+  try {
+    renderStoreChests();
+  } catch (err) {
+    console.warn('[store] sandık render hatası, ürünlerle devam:', err?.message || err);
+  }
 
   const ownedItems = readStorage(STORAGE_KEYS.ownedItems, []);
   if ($('storeXpDisplay')) $('storeXpDisplay').textContent = AppState.xp;
@@ -4596,16 +4771,19 @@ function playChestVideo(chest) {
   const video = overlay.querySelector('.chest-video');
   result.hidden = true;
   panel.hidden = false;
-  video.onended = () => openChest(chest);
-  overlay.querySelector('.chest-skip').onclick = () => {
-    try { video.pause(); } catch { /* yok say */ }
+  let opened = false;
+  const openOnce = () => {
+    if (opened) return;
+    opened = true;
     openChest(chest);
   };
-  video.src = 'public/videos/sandık.mp4.mp4';
-  const promise = video.play();
-  if (promise && typeof promise.catch === 'function') {
-    promise.catch(() => openChest(chest));
-  }
+  video.onended = openOnce;
+  overlay.querySelector('.chest-skip').onclick = () => {
+    try { video.pause(); } catch { /* yok say */ }
+    openOnce();
+  };
+  video.playbackRate = 1.4;
+  playVideoWithFallback(video, CHEST_VIDEO_ASSET, openOnce);
 }
 
 function openChest(chest) {
@@ -4614,7 +4792,9 @@ function openChest(chest) {
   const reward = rollChestReward(chest.kind);
   addChestRewardToAquarium(reward);
   const result = overlay.querySelector('.chest-result-panel');
-  result.querySelector('.chest-result-img').src = reward.entry.src;
+  const resultImg = result.querySelector('.chest-result-img');
+  resultImg.removeAttribute('src');
+  resolveStoredAsset(reward.entry.src, (url) => { resultImg.src = url; });
   result.querySelector('.chest-result-name').textContent = reward.name;
   const rank = result.querySelector('.chest-result-rank');
   rank.textContent = CHEST_RANK_TR[reward.rarity] || reward.rarity;
@@ -4630,6 +4810,7 @@ function renderStoreChests() {
   const chestsEl = $('storeChests');
   if (!chestsEl) return;
   updatePearlDisplay();
+  preloadChestVideo();
   chestsEl.innerHTML = CHEST_DEFS.map((chest) => {
     const canAfford = (AppState.pearls || 0) >= chest.price;
     return `
@@ -4810,6 +4991,20 @@ function renderAquarium() {
 
   ensureAquariumBackground(scene);
 
+  const assetSrcs = new Set([AQUARIUM_BUBBLE_IMG]);
+  aq.corals.forEach((c) => { if (c.kind && c.kind.src) assetSrcs.add(c.kind.src); });
+  aq.fish.forEach((f) => { if (f.kind && f.kind.src) assetSrcs.add(f.kind.src); });
+  const unresolved = Array.from(assetSrcs).filter((src) => !publicAssetCache.has(src));
+  if (unresolved.length) {
+    let remaining = unresolved.length;
+    unresolved.forEach((src) => {
+      resolveStoredAsset(src, () => {
+        remaining -= 1;
+        if (remaining === 0 && AppState.activePage === 'aquarium') renderAquarium();
+      });
+    });
+  }
+
   let html = '';
   for (let b = 0; b < 24; b += 1) {
     const left = (b * 37 + 11) % 98;
@@ -4817,11 +5012,11 @@ function renderAquarium() {
     const dur = 6 + ((b * 3) % 7);
     const delay = -((b * 2.3) % 9);
     // labon/balon görseli: en arka katmanda kabarcık efekti (z-index:0).
-    html += `<span class="aq-bubble" aria-hidden="true" style="left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;background-image:url('${encodeURI(AQUARIUM_BUBBLE_IMG)}')"></span>`;
+    html += `<span class="aq-bubble" aria-hidden="true" style="left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;background-image:url('${encodeURI(resolvedAssetUrl(AQUARIUM_BUBBLE_IMG))}')"></span>`;
   }
   aq.corals.forEach((c) => {
     const rarityClass = `aq-rarity-${c.kind.rarity}`;
-    html += `<span class="aq-coral ${rarityClass}" style="left:${c.x}%;width:${c.s}px;height:${c.s}px;background-image:url('${encodeURI(c.kind.src)}')"></span>`;
+    html += `<span class="aq-coral ${rarityClass}" style="left:${c.x}%;width:${c.s}px;height:${c.s}px;background-image:url('${encodeURI(resolvedAssetUrl(c.kind.src))}')"></span>`;
   });
   aq.fish.forEach((f, idx) => {
     const rarityClass = `aq-rarity-${f.kind.rarity}`;
@@ -4830,7 +5025,7 @@ function renderAquarium() {
     const startX = 5 + ((idx * 29) % 88);
     // js-swim: yatay hareket requestAnimationFrame motorundan gelir (durma,
     // dönme, zikzak davranışları için). CSS'teki swim-* sınıfları yedek kalır.
-    html += `<div class="aq-fish ${rarityClass} ${swimClass} js-swim" data-dir="${dir}" data-idx="${idx}" style="left:${startX}%;top:${f.y}%;width:${f.size}px;height:${f.size}px"><span style="background-image:url('${encodeURI(f.kind.src)}');animation-duration:${(1.2 + (idx % 5) * 0.28).toFixed(2)}s"></span></div>`;
+    html += `<div class="aq-fish ${rarityClass} ${swimClass} js-swim" data-dir="${dir}" data-idx="${idx}" style="left:${startX}%;top:${f.y}%;width:${f.size}px;height:${f.size}px"><span style="background-image:url('${encodeURI(resolvedAssetUrl(f.kind.src))}');animation-duration:${(1.2 + (idx % 5) * 0.28).toFixed(2)}s"></span></div>`;
   });
   if (aq.fish.length === 0 && aq.corals.length === 0) {
     html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun!</div>';
@@ -5010,13 +5205,13 @@ function renderAquariumCollection(aq) {
   AQUARIUM_FISH.forEach((entry) => {
     const info = fishCount[entry.name];
     const n = info ? info.n : 0;
-    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(entry.src)}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
+    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(resolvedAssetUrl(entry.src))}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
   });
   html += '</div><div class="aq-collection-title">Mercan Koleksiyonu</div><div class="aq-chips">';
   AQUARIUM_CORALS.forEach((entry) => {
     const info = coralCount[entry.name];
     const n = info ? info.n : 0;
-    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(entry.src)}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
+    html += `<div class="aq-chip aq-rarity-${entry.rarity}${n ? '' : ' locked'}"><span class="aq-chip-img" style="background-image:url('${encodeURI(resolvedAssetUrl(entry.src))}')"></span><strong>×${n}</strong><em>${rarityLabelTr(entry.rarity)}</em></div>`;
   });
   html += '</div>';
   box.innerHTML = html;
@@ -5040,6 +5235,7 @@ function init() {
   initWhiteboards();
   initPlannerForm();
   initPhraseInput();
+  preloadLessonIntroAssets();
 
   // Check if user is logged in
   // TEMP-PREVIEW (kaldırılacak)
@@ -5064,3 +5260,107 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// ===== Yerleşik çıkartmalar (salt-okunur dekor) =====
+// Sticker düzenleme modu kaldırıldı. Kaydedilmiş konumlar
+// (localStorage "archie.stickers.v1") her sayfa açılışında
+// mevcut yerlerinde aynen geri çizilir; taşıma/ekleme/silme yok.
+const STICKER_STORAGE_KEY = 'archie.stickers.v1';
+
+function readStickersAll() {
+  try {
+    return JSON.parse(localStorage.getItem(STICKER_STORAGE_KEY) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+
+function writeStickersAll(data) {
+  try {
+    localStorage.setItem(STICKER_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // kota dolarsa sessiz geç
+  }
+}
+
+function stickerPageContainer() {
+  const pages = Array.from(document.querySelectorAll('.main > main'));
+  const visible = pages.find((m) => m.style.display !== 'none') || null;
+  return visible;
+}
+
+function makeStickerEl(item) {
+  const el = document.createElement('div');
+  el.className = 'sticker sticker-frozen';
+  el.style.left = `${item.x}px`;
+  el.style.top = `${item.y}px`;
+  el.style.width = `${item.w}px`;
+  const img = document.createElement('img');
+  img.src = item.src;
+  img.alt = 'sticker';
+  img.draggable = false;
+  img.loading = 'lazy';
+  el.appendChild(img);
+  return el;
+}
+
+function renderPageStickers() {
+  // Önce tüm sayfalardaki eski çizimleri temizle (sabitlenmiş fixed
+  // çıkartmalar gizli kapta kalsa bile DOM'da durur).
+  document.querySelectorAll('.main > main .sticker').forEach((el) => el.remove());
+  const container = stickerPageContainer();
+  if (!container) return;
+  if (getComputedStyle(container).position === 'static') {
+    container.style.position = 'relative';
+  }
+  let saved = readStickersAll()[container.id] || [];
+  // Sınav: çıkartmayı boyut değiştirmeden sol boşluğa aynala.
+  if (container.id === 'quizContainer') {
+    const cw = container.offsetWidth || 860;
+    saved = saved.map((it) => ({ ...it, x: Math.round(cw - it.x - it.w) }));
+  }
+  // Mağaza: çıkartma istenmiyor — kayıtlı olsa bile çizme ve
+  // kayıttan da sil ki geri gelmesin.
+  if (container.id === 'storeContainer') {
+    saved = [];
+    try {
+      const data = readStickersAll();
+      if (data.storeContainer) {
+        delete data.storeContainer;
+        writeStickersAll(data);
+      }
+    } catch { /* yok say */ }
+  }
+  saved.forEach((item) => container.appendChild(makeStickerEl(item)));
+}
+
+// Kart hover animasyonuna katılım (kart bazlı):
+// hover edilen kutunun geometrik içinde kalan çıkartma kutuyla
+// birlikte -3px yükselir; kutu dışındakiler (örn. üst hero) sabit kalır.
+function bindCardStickerHover(cardSelector) {
+  const card = document.querySelector(cardSelector);
+  if (!card) return;
+  const lift = () => {
+    const r = card.getBoundingClientRect();
+    document.querySelectorAll('.dashboard-container > .sticker').forEach((st) => {
+      const s = st.getBoundingClientRect();
+      const cx = s.left + s.width / 2;
+      const cy = s.top + s.height / 2;
+      if (cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom) {
+        st.style.transform = 'translateY(-3px)';
+      }
+    });
+  };
+  const drop = () => {
+    document.querySelectorAll('.dashboard-container > .sticker').forEach((st) => {
+      st.style.transform = '';
+    });
+  };
+  card.addEventListener('mouseenter', lift);
+  card.addEventListener('mouseleave', drop);
+}
+
+bindCardStickerHover('.dash-plans-card');
+bindCardStickerHover('.dash-quiz-card');
+
+renderPageStickers();

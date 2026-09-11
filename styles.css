@@ -7958,7 +7958,7 @@ canvas.whiteboard {
 .nav-icon-aquarium {
   background: #d9f7f0 !important;
   color: transparent !important;
-  background-image: url("balik/balik.png") !important;
+  background-image: url("public/images/balik/leftbalik.png") !important;
   background-size: 22px 22px !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -8013,7 +8013,7 @@ canvas.whiteboard {
   height: 78vh;
   border-radius: 28px;
   overflow: hidden;
-  background: url("images/akvaryumarkaplan.png.jpg") center bottom / cover no-repeat, linear-gradient(180deg, #7dd3fc 0%, #0369a1 70%, #082f49 100%);
+  background: url("public/images/akvaryumarkaplan.png.jpg") center bottom / cover no-repeat, linear-gradient(180deg, #7dd3fc 0%, #0369a1 70%, #082f49 100%);
   border: 2px solid #bae6fd;
   box-shadow: 0 18px 40px rgba(2, 132, 199, .25), inset 0 2px 0 rgba(255, 255, 255, .4);
 }
@@ -8030,8 +8030,11 @@ canvas.whiteboard {
   position: absolute;
   bottom: -40px;
   z-index: 0;
-  background: url("public/images/balon.png") center/contain no-repeat;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.35) 55%, rgba(186,230,253,.25) 100%);
+  border-radius: 50%;
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   animation-name: aqRise;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -8120,7 +8123,8 @@ canvas.whiteboard {
   top: 55%;
   width: 14px;
   height: 14px;
-  background: url("public/images/balon.png") center/contain no-repeat;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.35) 55%, rgba(186,230,253,.25) 100%);
+  border-radius: 50%;
   opacity: 0;
   pointer-events: none;
   animation: aqTrail 2.2s linear infinite;
@@ -8162,7 +8166,8 @@ canvas.whiteboard {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: url("public/images/balon.png") center/contain no-repeat;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.35) 55%, rgba(186,230,253,.25) 100%);
+  border-radius: 50%;
   pointer-events: none;
   animation: aqBurst 1.2s cubic-bezier(.2,.7,.3,1) forwards;
   filter: drop-shadow(0 0 6px rgba(255,255,255,.65));
@@ -9727,7 +9732,7 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   left: 50% !important;
   top: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: min(560px, calc(100vw - 40px)) !important;
+  width: min(640px, calc(100vw - 40px)) !important;
   z-index: 200 !important;
   pointer-events: none !important;
   display: flex !important;
@@ -9783,7 +9788,7 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   align-items: center !important;
 }
 .chest-video-panel[hidden], .chest-result-panel[hidden] { display: none !important; }
-.chest-video { width: 100% !important; border-radius: 12px !important; background: #082F49 !important; max-height: 340px !important; }
+.chest-video { width: 100% !important; border-radius: 12px !important; background: #082F49 !important; max-height: 440px !important; }
 .chest-skip, .chest-close {
   border: 1px solid #8FCBD2 !important;
   background: #0E7C99 !important;
@@ -9805,6 +9810,30 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
 .chest-result-rank.rank-epic { color: #DC2626 !important; text-shadow: 0 0 12px rgba(248, 113, 113, 0.9) !important; }
 .chest-result-rank.rank-legendary { color: #CA8A04 !important; text-shadow: 0 0 12px rgba(250, 204, 21, 0.95) !important; }
 .chest-result-note { color: #155E75 !important; font-size: 12px !important; }
+/* 🎬 Sandık animasyon kalitesi: yumuşak açılış + ödül patlaması */
+.chest-video-panel, .chest-result-panel {
+  animation: chestPop .5s cubic-bezier(.34, 1.56, .64, 1) !important;
+}
+@keyframes chestPop {
+  from { transform: scale(.72) translateY(22px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+.chest-result-img {
+  animation: chestPrize .7s cubic-bezier(.34, 1.56, .64, 1) .08s backwards !important;
+  filter: drop-shadow(0 12px 26px rgba(8, 47, 73, .35)) !important;
+}
+@keyframes chestPrize {
+  0% { transform: scale(.3) rotate(-12deg); opacity: 0; }
+  60% { transform: scale(1.14) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.chest-result-rank {
+  animation: chestRankGlow 1.2s ease-in-out infinite alternate !important;
+}
+@keyframes chestRankGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.35); }
+}
 .dashboard-container, .dash-stats-grid, .dashboard-grid, .dash-quick-actions {
   overflow-x: visible !important;
   max-width: 100% !important;
@@ -9988,5 +10017,609 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   background: linear-gradient(145deg, #F2FBFC 0%, #DFF2F4 100%) !important;
   border-color: #8FCBD2 !important;
 }
+
+/* ============================================================
+   🖼️ GÖRSEL YERLEŞTİRME v1 — architimer, lemmy, notlar, quiz, mağaza
+   ============================================================ */
+
+/* 1. Timer — architimer.png */
+.timer-archie-mascot {
+  display: block !important;
+  width: 180px !important;
+  height: auto !important;
+  max-height: 200px !important;
+  object-fit: contain !important;
+  margin: 18px auto 0 auto !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 12px 18px rgba(8, 47, 73, 0.22)) !important;
+  animation: timerArchieFloat 3s ease-in-out infinite !important;
+}
+@keyframes timerArchieFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@media (max-width: 600px) {
+  .timer-archie-mascot { width: 120px !important; max-height: 140px !important; }
+}
+
+/* 2. Dashboard — lemmyplanner.png büyüt ve ortaya koy */
+.dash-plans-card { position: relative !important; overflow: visible !important; }
+@media (min-width: 1100px) {
+  .dash-plans-top-lemmy {
+    display: block !important;
+    position: absolute !important;
+    top: -20px !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+    width: 180px !important;
+    height: auto !important;
+    max-height: 200px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 12px 18px rgba(8, 47, 73, 0.22)) !important;
+    z-index: 2 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+}
+@media (max-width: 1099px) and (min-width: 700px) {
+  .dash-plans-top-lemmy {
+    display: block !important;
+    width: 130px !important;
+    margin: 0 auto 8px auto !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 8px 12px rgba(8, 47, 73, 0.18)) !important;
+  }
+}
+
+/* 3. Öğrenci AI — chat.png büyütülmüş */
+@media (min-width: 1100px) {
+  .student-side-lemmy {
+    display: block !important;
+    position: sticky !important;
+    top: 48px !important;
+    flex: 0 0 520px !important;
+    width: 520px !important;
+    max-width: 38vw !important;
+    height: auto !important;
+    max-height: 75vh !important;
+    object-fit: contain !important;
+    align-self: flex-start !important;
+    margin: 48px auto 0 auto !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 16px 22px rgba(8, 47, 73, 0.25)) !important;
+  }
+}
+
+/* 4. Not alma — büyütülmüş, klavye + çalışanlemmy */
+.dash-notes-card {
+  grid-column: 1 / -1 !important;
+  min-height: 220px !important;
+}
+.dash-notes-layout {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+  width: 100% !important;
+}
+.dash-notes-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.dash-notes-textarea {
+  width: 100% !important;
+  min-height: 100px !important;
+  max-height: 200px !important;
+  padding: 12px 14px !important;
+  border: 2px solid rgba(156, 196, 236, 0.65) !important;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0B3B49 !important;
+  resize: vertical !important;
+  outline: none !important;
+  transition: border-color 0.2s !important;
+}
+.dash-notes-textarea:focus {
+  border-color: #1E88C7 !important;
+  box-shadow: 0 0 0 3px rgba(30, 136, 199, 0.15) !important;
+}
+.dash-notes-textarea::placeholder {
+  color: #7fa5b5 !important;
+}
+.dash-notes-lemmy {
+  flex: 0 0 120px !important;
+  width: 120px !important;
+  height: auto !important;
+  max-height: 180px !important;
+  object-fit: contain !important;
+  align-self: flex-end !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 8px 14px rgba(8, 47, 73, 0.18)) !important;
+}
+@media (max-width: 650px) {
+  .dash-notes-layout { flex-direction: column !important; }
+  .dash-notes-lemmy { flex: 0 0 auto !important; width: 80px !important; max-height: 100px !important; align-self: center !important; }
+}
+
+/* 5. Quiz başarı — kitapokuyanarchie.png */
+.dash-quiz-card {
+  position: relative !important;
+  overflow: visible !important;
+}
+.dash-quiz-layout {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  flex-wrap: wrap !important;
+}
+.dash-quiz-archie {
+  flex: 0 0 130px !important;
+  width: 130px !important;
+  height: auto !important;
+  max-height: 170px !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 10px 16px rgba(8, 47, 73, 0.22)) !important;
+  margin-left: auto !important;
+}
+@media (max-width: 650px) {
+  .dash-quiz-layout { flex-direction: column !important; align-items: center !important; }
+  .dash-quiz-archie { flex: 0 0 auto !important; width: 90px !important; max-height: 120px !important; margin-left: 0 !important; }
+}
+
+/* 6. Mağaza — AIöğrenci.png ile yeniden düzenleme */
+.store-layout {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 20px !important;
+  width: 100% !important;
+}
+.store-main {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+.store-lemmy {
+  flex: 0 0 220px !important;
+  width: 220px !important;
+  height: auto !important;
+  max-height: 400px !important;
+  object-fit: contain !important;
+  position: sticky !important;
+  top: 80px !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 14px 20px rgba(8, 47, 73, 0.22)) !important;
+  align-self: flex-start !important;
+}
+@media (max-width: 900px) {
+  .store-layout { flex-direction: column !important; align-items: center !important; }
+  .store-lemmy { flex: 0 0 auto !important; width: 150px !important; max-height: 250px !important; position: static !important; }
+}
+
+/* Piksel düzeltmeleri — taşma ve sığma */
+.focus-card {
+  overflow: visible !important;
+}
+.timer-archie-mascot {
+  flex-shrink: 0 !important;
+}
+.dash-notes-card {
+  overflow: visible !important;
+}
+.dash-quiz-card {
+  overflow: visible !important;
+}
+.dashboard-grid {
+  overflow: visible !important;
+}
+.store-container {
+  overflow: visible !important;
+}
+.store-layout {
+  overflow: visible !important;
+}
+
+/* Dashboard grid — not kartı tam genişlik */
+.dashboard-grid {
+  grid-template-columns: 1fr 1fr !important;
+}
+.dash-notes-card {
+  grid-column: 1 / -1 !important;
+}
+
+/* Quiz kartı — archie sığma */
+.dash-quiz-layout {
+  overflow: visible !important;
+}
+.dash-quiz-archie {
+  flex-shrink: 0 !important;
+}
+
+/* Not kartı — lemmy sığma */
+.dash-notes-layout {
+  overflow: visible !important;
+}
+.dash-notes-lemmy {
+  flex-shrink: 0 !important;
+}
+
+/* Timer — focus card içinde sığma */
+.focus-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+.timer-archie-mascot {
+  align-self: center !important;
+}
+
+/* Mağaza — lemmy sığma */
+.store-lemmy {
+  flex-shrink: 0 !important;
+  object-fit: contain !important;
+}
+
+/* Öğrenci AI — seçim sayfası sığma */
+#studentSelection {
+  overflow: visible !important;
+}
+.student-side-lemmy {
+  flex-shrink: 0 !important;
+}
+
+/* Dashboard — planlar kartı lemmy sığma */
+.dash-plans-card {
+  overflow: visible !important;
+}
+
+/* ============================================================
+   🛡️ OVERFLOW GUARD v2 (2026-09-10) — dev görseller (~2000px)
+   sayfayı yatayda taşırmasın. Ekran görüntülerdeki timer
+   maskotu taşması + boş yatay kayma alanı bu blokla kapanır.
+   Dosyanın EN SONUNDA durmalı; üzerine kural eklenmemeli.
+   ============================================================ */
+
+/* 1. Hiçbir görsel kabından taşamaz — CSS yüklenemese bile
+   HTML width/height öznitelikleri devreyedir. */
+.main img,
+.timer-container img,
+.dashboard-container img,
+.store-container img,
+.selection-container img,
+.chat-container img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* 2. Timer maskotu: kart içinde küçük, ortalı, taşmasız. */
+.focus-card .timer-archie-mascot {
+  width: 140px !important;
+  max-width: 140px !important;
+  min-width: 0 !important;
+  max-height: 150px !important;
+  height: auto !important;
+  margin: 16px auto 0 auto !important;
+  object-fit: contain !important;
+  align-self: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* 3. Kart, taşan içeriği kırpar — dev görsel sayfaya sızamaz. */
+.focus-card {
+  overflow: hidden !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* 4. Izgara çocukları daralmayı kabul etsin (taşma yapmasın). */
+.focus-layout,
+.timer-container,
+.focus-card,
+.timer-side-stack {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* 5. Yan görseller her zaman kap içinde kalsın. */
+.teacher-side-archie,
+.student-side-lemmy,
+.store-lemmy,
+.dash-quiz-archie,
+.dash-notes-lemmy,
+.dash-plans-top-lemmy,
+.hero-archie {
+  max-width: 100% !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 600px) {
+  .focus-card .timer-archie-mascot {
+    width: 110px !important;
+    max-width: 110px !important;
+    max-height: 120px !important;
+  }
+}
+
+/* ============================================================
+   🖼️ GÖRSEL REVİZYON v3 (2026-09-10)
+   1) Timer maskotu halkanın YANINDA, büyük, animasyonsuz.
+   2) Mağaza Lemmy'si daha büyük + daha aşağıda.
+   3) Hero Archie kutuya bitişik (boşluk yok).
+   4) Planlayıcı alt illüstrasyonu (akışta, taşmasız).
+   5) Quiz Archie daha büyük.
+   Dosyanın EN SONUNDA durmalı.
+   ============================================================ */
+
+/* 1. Timer: halka + maskot yan yana */
+.focus-timer-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 28px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 6px 0 4px 0 !important;
+}
+.focus-timer-row .focus-ring-wrapper {
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+.focus-card .focus-timer-row .timer-archie-mascot {
+  order: -1 !important;
+  width: 260px !important;
+  max-width: 260px !important;
+  min-width: 0 !important;
+  max-height: 270px !important;
+  height: auto !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  align-self: center !important;
+  flex-shrink: 0 !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 12px 18px rgba(8, 47, 73, 0.22)) !important;
+  animation: none !important;
+  transform: none !important;
+}
+@media (max-width: 700px) {
+  .focus-timer-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .focus-card .focus-timer-row .timer-archie-mascot {
+    order: 0 !important;
+    width: 180px !important;
+    max-width: 180px !important;
+    max-height: 190px !important;
+  }
+}
+
+/* 2. Mağaza Lemmy: büyük + aşağıda */
+.store-layout .store-lemmy {
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  max-width: 300px !important;
+  max-height: 480px !important;
+  height: auto !important;
+  position: sticky !important;
+  top: 170px !important;
+  margin-top: 70px !important;
+}
+@media (max-width: 900px) {
+  .store-layout .store-lemmy {
+    width: 170px !important;
+    max-width: 170px !important;
+    max-height: 260px !important;
+    position: static !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* 3. Hero Archie kutuya bitişik — arada boşluk yok */
+.dashboard-container .dash-stats-grid .dash-stat:nth-child(3) .hero-archie {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  bottom: 100% !important;
+  margin-bottom: -2px !important;
+  height: 132px !important;
+  width: auto !important;
+  max-width: 250px !important;
+}
+@media (max-width: 650px) {
+  .dashboard-container .dash-stats-grid .dash-stat:nth-child(3) .hero-archie {
+    height: 88px !important;
+    max-width: 170px !important;
+    margin-bottom: -2px !important;
+  }
+}
+
+/* 4. Planlayıcı alt illüstrasyonu: akışta, ortalı, taşmasız */
+.planner-empty-lemmy {
+  display: block !important;
+  width: 150px !important;
+  max-width: 40vw !important;
+  height: auto !important;
+  max-height: 130px !important;
+  object-fit: contain !important;
+  margin: 14px auto 4px auto !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 8px 14px rgba(8, 47, 73, 0.18)) !important;
+}
+
+/* 5. Quiz Archie daha büyük */
+.dash-quiz-card .dash-quiz-layout .dash-quiz-archie {
+  flex: 0 0 175px !important;
+  width: 175px !important;
+  max-width: 175px !important;
+  max-height: 210px !important;
+  height: auto !important;
+}
+@media (max-width: 650px) {
+  .dash-quiz-card .dash-quiz-layout .dash-quiz-archie {
+    flex: 0 0 auto !important;
+    width: 120px !important;
+    max-width: 120px !important;
+    max-height: 150px !important;
+  }
+}
+
+/* ============================================================
+   📐 DASHBOARD v4 (2026-09-11) — Notlarım + Analitik yan yana.
+   Not kartının tam-genişlik span'i kaldırıldı; ikisi de 2
+   sütunlu gridin birer hücresi. Dar ekranda alt alta.
+   ============================================================ */
+.dashboard-grid .dash-notes-card {
+  grid-column: auto !important;
+  min-height: 0 !important;
+}
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   🖼️ YERLEŞİK GÖRSELLER v7 (2026-09-11)
+   Sticker düzenleme modu kaldırıldı. Kaydedilmiş konumdaki
+   görseller salt dekor olarak çizilir: tıklamayı engellemez,
+   taşınamaz. Kart hover animasyonuna katılım JS ile kart bazlı
+   yapılır (bindCardStickerHover): hover edilen kutunun içinde
+   kalan görsel -3px yükselir, diğerleri (örn. üstteki hero)
+   sabit kalır.
+   ============================================================ */
+.sticker {
+  position: absolute !important;
+  z-index: 60 !important;
+  pointer-events: none !important;
+  transition: transform 0.25s ease !important;
+}
+.sticker img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 10px 16px rgba(8, 47, 73, 0.25)) !important;
+}
+
+/* ============================================================
+   📜 SINGLE SCROLL v8 (2026-09-11) — mağaza kaydırma düzeltmesi
+   Kök neden: v6 kaplara overflow:visible verince iç scroll öldü,
+   .main ise masaüstünde overflow:hidden idi → alt içerik
+   erişilemezdi. Çözüm: kaydırma .main üzerinden tek elden;
+   kaplar içeriğe göre boyanır (flex:none), üst bar yapışkandır.
+   Kutu konum/boyutları değişmez; çıkartma koordinatları aynı.
+   ============================================================ */
+.main {
+  overflow-y: auto !important;
+}
+.topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+.store-container,
+.quiz-container,
+.planner-container,
+#teacherSelection,
+#studentSelection,
+.dashboard-container {
+  flex: none !important;
+  overflow: visible !important;
+}
+
+/* ============================================================
+   📋 PANEL PLANLARI v9 (2026-09-11) — Bugünkü Planlarım kartı:
+   satırlar görsele taşmaz (sağda pay), minyatür ve en fazla
+   3 satır; fazlası varsa altta mavi + düğmesi belirir.
+   ============================================================ */
+#dashPlans {
+  padding-right: 260px !important;
+}
+#dashPlans .dash-goal-item {
+  min-height: 30px !important;
+  padding: 4px 8px !important;
+  gap: 6px !important;
+  font-size: 11px !important;
+  border: 1px solid rgba(156, 196, 236, 0.55) !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  box-shadow: 0 1px 3px rgba(8, 47, 73, 0.08) !important;
+  line-height: 1.3 !important;
+}
+#dashPlans .goal-text {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-variant-numeric: tabular-nums !important;
+}
+#dashPlans .goal-text small {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+#dashPlans .dash-plan-check {
+  width: 20px !important;
+  height: 20px !important;
+  flex: 0 0 20px !important;
+  font-size: 11px !important;
+}
+#dashPlans .goal-status {
+  font-size: 10px !important;
+  padding: 3px 8px !important;
+  border-radius: 7px !important;
+  white-space: nowrap !important;
+}
+.dash-plans-more {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 8px auto 0 auto !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb) !important;
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.35) !important;
+}
+.dash-plans-more:hover { transform: translateY(-2px) !important; }
+@media (max-width: 700px) {
+  #dashPlans { padding-right: 140px !important; }
+}
+
+/* ============================================================
+   🛠️ STICKER ALAN v6 (2026-09-11)
+   - Öğretmen/Öğrenci seçim sayfalarına sabit yan görseller
+     iade edildi (sticker öncesi hali).
+   - Mağaza/Sınav/Planlayıcı/Seçim kapları: overflow visible —
+     kenara taşan sticker kırpılmaz, sayfanın her yerine konur.
+     Dikey kaydırma .main üzerinden tek elden çalışır.
+   - Düzenleme modunda alt panele pay bırakılır (dock içeriği
+     kapatmaz, en alta scroll çalışır).
+   Mevcut sticker koordinatlarına dokunulmaz (sadece taşma/
+   kaydırma kuralları). Dosyanın EN SONUNDA durmalı.
+   ============================================================ */
+/* Sticker konulabilen kaplar: kırpma yok */
+.store-container,
+.quiz-container,
+.planner-container,
+#teacherSelection,
+#studentSelection,
+.dashboard-container {
+  overflow: visible !important;
+}
+
+
 
 

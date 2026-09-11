@@ -1,0 +1,7 @@
+# Vercel: don't upload local build artifacts or deps — Vercel runs npm install + npm run build itself
+node_modules/
+dist/
+.git/
+.vscode/
+*.log
+npm-debug.log*

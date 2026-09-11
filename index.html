@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <link rel="stylesheet" href="styles.css?v=20260909r">
+  <link rel="stylesheet" href="styles.css?v=20260911k">
 </head>
 <body>
   <!-- Sidebar -->
@@ -112,7 +112,6 @@
           <div class="dash-stat-icon">🎯</div>
           <div class="dash-stat-value" id="dashPct">0%</div>
           <div class="dash-stat-label">İlerleme</div>
-          <img class="hero-archie" src="public/images/archie/boxarchie.png.png" alt="Archie" />
         </div>
         <div class="dash-stat aquarium-card">
           <div class="dash-stat-icon">⚡</div>
@@ -137,16 +136,22 @@
       <div class="dashboard-grid">
         <div class="dash-card aquarium-card dash-plans-card">
           <div class="dash-card-title">📅 Bugünkü Planlarım</div>
-          <img class="dash-plans-top-lemmy" src="public/images/lemmy/lemmyplanner.png.png" alt="Lemmy" />
           <div id="dashPlans"></div>
         </div>
-        <div class="dash-card aquarium-card">
+        <div class="dash-card aquarium-card dash-quiz-card">
           <div class="dash-card-title">🎯 Quiz Başarı Halkası</div>
-          <div id="dashQuizRing" class="quiz-ring-wrap"></div>
+          <div class="dash-quiz-layout">
+            <div id="dashQuizRing" class="quiz-ring-wrap"></div>
+          </div>
         </div>
-        <div class="dash-card aquarium-card">
+        <div class="dash-card aquarium-card dash-notes-card">
           <div class="dash-card-title">📝 Notların</div>
-          <div id="dashNotes"></div>
+          <div class="dash-notes-layout">
+            <div class="dash-notes-content">
+              <textarea id="dashNotesInput" class="dash-notes-textarea" placeholder="Buraya not yazabilirsin..."></textarea>
+              <div id="dashNotes"></div>
+            </div>
+          </div>
         </div>
         <div class="dash-card aquarium-card">
           <div class="dash-card-title">📊 Analitik görünüm</div>
@@ -230,7 +235,7 @@
           </div>
         </div>
       </div>
-      <img class="teacher-side-archie" src="public/images/archie/AIöğretmenekranı.png.png" alt="Archie" />
+      <img class="teacher-side-archie" src="public/images/archie/AIöğretmenekranı.png.png" alt="Archie" width="480" height="326" loading="lazy" decoding="async" />
     </main>
 
     <!-- Student AI Selection Page -->
@@ -281,7 +286,7 @@
           </div>
         </div>
       </div>
-      <img class="student-side-lemmy" src="public/images/lemmy/AIöğrenci.png.png" alt="Lemmy" />
+      <img class="student-side-lemmy" src="public/images/lemmy/chat.png.png" alt="Lemmy" width="480" height="339" loading="lazy" decoding="async" />
     </main>
 
     <!-- AI Teacher Coach Chat -->
@@ -755,29 +760,33 @@
 
     <!-- Store Section -->
     <main class="store-container" id="storeContainer" style="display:none;">
-      <div class="store-banner">
-        <div class="store-banner-icon">🛍️</div>
-        <div class="store-banner-text">
-          <h2>Learn with Archie Mağazası</h2>
-          <p>XP ile ödüllerini buradan satın al! Ders çalış, XP kazan, eşyalarını topla.</p>
-        </div>
-        <div class="store-xp-badge">
-          <span class="store-xp-icon">⚡</span>
-          <span id="storeXpDisplay">0</span>
-          <span class="store-xp-label">XP</span>
-        </div>
-        <div class="store-xp-badge store-pearl-badge">
-          <span class="store-xp-icon">🦪</span>
-          <span id="storePearlDisplay">0</span>
-          <span class="store-xp-label">İnci</span>
+      <div class="store-layout">
+        <div class="store-main">
+          <div class="store-banner">
+            <div class="store-banner-icon">🛍️</div>
+            <div class="store-banner-text">
+              <h2>Learn with Archie Mağazası</h2>
+              <p>XP ile ödüllerini buradan satın al! Ders çalış, XP kazan, eşyalarını topla.</p>
+            </div>
+            <div class="store-xp-badge">
+              <span class="store-xp-icon">⚡</span>
+              <span id="storeXpDisplay">0</span>
+              <span class="store-xp-label">XP</span>
+            </div>
+            <div class="store-xp-badge store-pearl-badge">
+              <span class="store-xp-icon">🦪</span>
+              <span id="storePearlDisplay">0</span>
+              <span class="store-xp-label">İnci</span>
+            </div>
+          </div>
+
+          <div class="store-items" id="storeItems"></div>
+
+          <h3 class="store-section-title">🎁 İnci Sandıkları</h3>
+          <p class="store-section-desc">Zamanlayıcıda odaklanarak inci kazan, sandıkları aç. Yeni ödüller yakında burada.</p>
+          <div class="store-items" id="storeChests"></div>
         </div>
       </div>
-
-      <div class="store-items" id="storeItems"></div>
-
-      <h3 class="store-section-title">🎁 İnci Sandıkları</h3>
-      <p class="store-section-desc">Zamanlayıcıda odaklanarak inci kazan, sandıkları aç. Yeni ödüller yakında burada.</p>
-      <div class="store-items" id="storeChests"></div>
     </main>
 
     <!-- Timer Section -->
@@ -891,6 +900,7 @@
     </div>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <script type="module" src="script.js?v=20260911c"></script>
+  <script type="module" src="quiz-whiteboard.js?v=20260911h"></script>
 </body>
 </html>

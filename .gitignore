@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# build output (Vercel rebuilds from source)
+dist/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs / os
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+
+# vite / tsc
+*.local
+
+.vercel

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <link rel="stylesheet" href="styles.css?v=20260912c">
+  <link rel="stylesheet" href="styles.css?v=20260912d">
 </head>
 <body>
   <!-- Sidebar -->
@@ -34,18 +34,14 @@
         <span>Öğrenci AI</span>
       </a>
       <a href="#" class="nav-link aquarium-sidebar-item" data-page="quiz">
-          <span class="nav-icon nav-icon-quiz">✓</span>
+           <span class="nav-icon nav-icon-quiz">✓</span>
         <span>Sınav</span>
       </a>
       <a href="#" class="nav-link aquarium-sidebar-item" data-page="planner">
           <span class="nav-icon nav-icon-planner">▦</span>
         <span>Planlayıcı</span>
       </a>
-      <a href="#" class="nav-link aquarium-sidebar-item" data-page="profile">
-          <span class="nav-icon nav-icon-profile">●</span>
-        <span>Profil</span>
-      </a>
-<a href="#" class="nav-link aquarium-sidebar-item" data-page="store">
+      <a href="#" class="nav-link aquarium-sidebar-item" data-page="store">
           <span class="nav-icon nav-icon-store">◆</span>
         <span>Mağaza</span>
       </a>
@@ -58,12 +54,13 @@
         <span>Akvaryum</span>
       </a>
     </div>
-    <div class="sidebar-profile" id="sidebarProfileCard" role="button" tabindex="0" aria-label="Profili aç">
+    <div class="sidebar-profile" id="sidebarProfileCard" role="button" tabindex="0" aria-label="Profili aç" style="position:relative;background:#0284c7;border-radius:16px;padding:14px 14px 30px 14px;box-shadow:0 6px 18px rgba(2,132,199,.45);margin-top:40px;margin-bottom:16px;">
       <div class="sidebar-profile-avatar">👤</div>
       <div class="sidebar-profile-copy">
         <strong id="sidebarUserName">Öğrenci</strong>
          <span id="sidebarUserStatus">Premium · 12. Sınıf</span>
       </div>
+      <button id="sidebarSettingsBtn" title="Ayarlar" aria-label="Ayarlar Sayfası" style="position:absolute;bottom:8px;right:10px;background:rgba(255,255,255,.18);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);">⚙️</button>
     </div>
   </nav>
 
@@ -494,6 +491,8 @@
       </div>
     </main>
 
+    <!-- Settings Panel (eski mini panel kaldırıldı → tam sayfa Ayarlar: #settingsPage) -->
+
     <!-- Planner Section -->
     <main class="planner-container" id="plannerContainer" style="display:none;">
       <div class="planner-header">
@@ -771,6 +770,67 @@
 
     </main>
 
+    <!-- Settings Section -->
+    <main class="settings-container" id="settingsPage" style="display:none;">
+      <div class="settings-hero">
+        <div class="settings-hero-icon">⚙️</div>
+        <div class="settings-hero-text">
+          <h2>Ayarlar</h2>
+          <p>Uygulamayı kendine göre düzenle.</p>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <section class="settings-card">
+          <div class="settings-card-header"><span class="settings-card-icon">🎨</span><div><span class="settings-eyebrow">GÖRÜNÜM</span><h3>Tema</h3></div></div>
+          <div class="settings-theme-row">
+            <button type="button" class="settings-theme-btn" id="settingsThemeLight">☀️ Açık</button>
+            <button type="button" class="settings-theme-btn" id="settingsThemeDark">🌙 Koyu</button>
+          </div>
+          <div class="settings-night-row" id="settingsNightRow">
+            <div class="settings-night-info">
+              <strong>🌙 Gece Akvaryum</strong>
+              <span id="settingsNightDesc">Derin deniz gece modunu mağazadan satın alabilirsin.</span>
+            </div>
+            <button type="button" class="settings-night-btn" id="settingsNightBtn">🛒 Mağazaya Git</button>
+          </div>
+        </section>
+
+        <section class="settings-card">
+          <div class="settings-card-header"><span class="settings-card-icon">🔊</span><div><span class="settings-eyebrow">SES</span><h3>Ses Efektleri</h3></div></div>
+          <div class="settings-sound-row">
+            <span id="settingsSoundDesc">Tıklama, doğru/yanlış ve zamanlayıcı sesleri.</span>
+            <label class="settings-switch">
+              <input type="checkbox" id="settingsSoundToggle">
+              <span class="settings-switch-slider"></span>
+            </label>
+          </div>
+        </section>
+
+        <section class="settings-card">
+          <div class="settings-card-header"><span class="settings-card-icon">👤</span><div><span class="settings-eyebrow">HESAP</span><h3>Profil</h3></div></div>
+          <div class="settings-account-row">
+            <div class="settings-account-avatar" id="settingsAvatar">👤</div>
+            <div class="settings-account-info">
+              <strong id="settingsName">Öğrenci</strong>
+              <span id="settingsEmail">hesap@yolharitasi.com</span>
+            </div>
+            <button type="button" class="settings-account-btn" id="settingsProfileBtn">Profili Düzenle</button>
+          </div>
+        </section>
+
+        <section class="settings-card settings-card-danger">
+          <div class="settings-card-header"><span class="settings-card-icon">🧹</span><div><span class="settings-eyebrow">VERİ</span><h3>İlerlemeyi Sıfırla</h3></div></div>
+          <div class="settings-danger-row">
+            <span>Konu ilerlemen, sınav geçmişin ve tekrar planların silinir. XP, akvaryum ve hesabın kalır.</span>
+            <button type="button" class="settings-danger-btn" id="settingsResetBtn">Sıfırla</button>
+          </div>
+        </section>
+      </div>
+
+      <p class="settings-footer">Learn with Archie · v1.0.0 · Deep Marine</p>
+    </main>
+
     <!-- Store Section -->
     <main class="store-container" id="storeContainer" style="display:none;">
       <div class="store-layout">
@@ -880,7 +940,7 @@
     <!-- Aquarium Section -->
     <main class="aquarium-container" id="aquariumContainer" style="display:none;">
       <div class="aquarium-banner">
-        <div class="aquarium-banner-icon"><img src="public/images/balik/leftbalik.png" alt="" /></div>
+        <div class="aquarium-banner-icon"><img src="public/images/balik/common/leftbalik.png" alt="" /></div>
         <div class="aquarium-banner-text">
           <h2>Benim Akvaryumum</h2>
           <p>Sandıklarla kazandığın mercanlar ve balıklar burada yaşıyor.</p>
@@ -898,7 +958,7 @@
 
       <div class="aquarium-rules">
         <div class="aquarium-rule"><img src="public/images/mercanlar/mercan.png" alt="" /><p><strong>Mercan Sandığı</strong> ile akvaryumuna rastgele mercan ekle.</p></div>
-        <div class="aquarium-rule"><img src="public/images/balik/rightbalik2.png" alt="" /><p><strong>Balık Sandığı</strong> ile akvaryumuna rastgele balık ekle.</p></div>
+        <div class="aquarium-rule"><img src="public/images/balik/common/rightbalik2.png" alt="" /><p><strong>Balık Sandığı</strong> ile akvaryumuna rastgele balık ekle; sıradanlar sık, efsaneviler ender.</p></div>
         <button type="button" class="aquarium-cta" data-goto="timer">Odaklanmaya Git</button>
       </div>
     </main>
@@ -914,7 +974,7 @@
   </div>
 
   <script src="public/libs/chart.umd.min.js?v=4.5.0" defer></script>
-  <script type="module" src="script.js?v=20260912a"></script>
+  <script type="module" src="script.js?v=20260912e"></script>
   <script type="module" src="quiz-whiteboard.js?v=20260911h"></script>
 </body>
 </html>

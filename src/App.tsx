@@ -4,6 +4,7 @@ import { ArchieMascot } from './components/ArchieMascot';
 import { PlannerView } from './components/PlannerView';
 import { SignUpView } from './components/SignUpView';
 import { StudyView } from './components/StudyView';
+
 import { getCurrentUser, onAuthStateChange, signOutUser } from './lib/supabase';
 import { registerOnlineSyncListener } from './lib/syncQueue';
 import type { MascotState } from './types';

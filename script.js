@@ -1,3 +1,18 @@
+function toggleSettings() {
+  const panel = $('settingsContainer');
+  if (panel) panel.style.display = panel.style.display === 'none' ? '' : 'none';
+}
+
+function setTheme(mode) {
+  document.body.classList.toggle('dark-mode', mode === 'dark');
+}
+
+function toggleSound() {
+  const audioEnabled = readStorage(STORAGE_KEYS.soundEnabled, true);
+  writeStorage(STORAGE_KEYS.soundEnabled, !audioEnabled);
+  alert('Ses ' + (!audioEnabled ? 'Açık' : 'Kapalı'));
+}
+
 // ===== Learn with Archie - TYT & AYT Yol Haritası =====
 
 import { CURRICULUM } from './curriculum-data.js';
@@ -103,6 +118,7 @@ const STORAGE_KEYS = {
   aquarium: 'archie.aquarium',
   metacognition: 'archie.metacognition',
   theme: 'archie.theme',
+  soundEnabled: 'archie.soundEnabled',
   avatar: 'archie.avatar',
   displayName: 'archie.displayName',
 };
@@ -148,6 +164,7 @@ function appSoundUrl(filename) {
 function playAppSound(soundName) {
   const filename = APP_SOUNDS[soundName];
   if (!filename) return;
+  if (!readStorage(STORAGE_KEYS.soundEnabled, true)) return;
   // Vercel static: /public/sounds/... ; vite dev: /sounds/... — ikisini de dene.
   const candidates = [
     `public/sounds/${encodeURIComponent(filename)}`,
@@ -554,7 +571,7 @@ function initAuth() {
 // ===== Page Navigation =====
 function showPage(page) {
   if (page !== 'timer') stopTimerPageIntervals();
-  document.querySelectorAll('.dashboard-container, .controls, .roadmap-container, .selection-container, .chat-container, .quiz-container, .planner-container, .profile-container, .store-container, .timer-container, .aquarium-container').forEach((el) => {
+  document.querySelectorAll('.dashboard-container, .controls, .roadmap-container, .selection-container, .chat-container, .quiz-container, .planner-container, .profile-container, .store-container, .timer-container, .aquarium-container, .deneme-container, .settings-container').forEach((el) => {
     el.style.display = 'none';
   });
 
@@ -592,6 +609,11 @@ function showPage(page) {
   } else if (page === 'aquarium') {
     if ($('aquariumContainer')) $('aquariumContainer').style.display = '';
     renderAquarium();
+  } else if (page === 'deneme') {
+    if ($('denemeContainer')) $('denemeContainer').style.display = '';
+  } else if (page === 'settings') {
+    if ($('settingsPage')) $('settingsPage').style.display = '';
+    renderSettingsPage();
   }
 
   document.querySelectorAll('.nav-link').forEach((link) => {
@@ -654,6 +676,16 @@ function initNavigation() {
         event.preventDefault();
         showPage('profile');
       }
+    };
+  }
+
+  // ⚙️ çark düğmesi: kendi hitbox'ı ile Ayarlar sayfasını açar,
+  // profil kartına tıklamayı iletmez.
+  const settingsBtn = $('sidebarSettingsBtn');
+  if (settingsBtn) {
+    settingsBtn.onclick = (event) => {
+      event.stopPropagation();
+      showPage('settings');
     };
   }
 
@@ -4592,6 +4624,124 @@ function renderProfilePage() {
   renderProfileBadges();
 }
 
+// ===== Settings Page =====
+function applySettingsTheme(mode) {
+  const isDark = mode === 'dark';
+  document.body.classList.toggle('dark-mode', isDark);
+  writeStorage(STORAGE_KEYS.theme, isDark ? 'dark' : 'light');
+  const themeToggle = $('themeToggle');
+  if (themeToggle) {
+    const icon = themeToggle.querySelector('.theme-icon');
+    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+  }
+  renderSettingsPage();
+}
+
+function renderSettingsPage() {
+  // Tema
+  const isDark = document.body.classList.contains('dark-mode');
+  const lightBtn = $('settingsThemeLight');
+  const darkBtn = $('settingsThemeDark');
+  if (lightBtn && darkBtn) {
+    lightBtn.classList.toggle('active', !isDark);
+    darkBtn.classList.toggle('active', isDark);
+    lightBtn.onclick = () => applySettingsTheme('light');
+    darkBtn.onclick = () => applySettingsTheme('dark');
+  }
+
+  // Gece Akvaryum (mağazadan satın alınabilir ödül teması)
+  const rewardState = getRewardState();
+  const nightOwned = Boolean(rewardState.nightTheme);
+  const nightActive = document.body.classList.contains('night-aquarium-theme');
+  const nightRow = $('settingsNightRow');
+  if (nightRow) nightRow.classList.toggle('owned', nightOwned);
+  const nightDesc = $('settingsNightDesc');
+  if (nightDesc) {
+    nightDesc.textContent = nightOwned
+      ? (nightActive ? 'Gece Akvaryum teması şu an açık.' : 'Gece Akvaryum teması şu an kapalı.')
+      : 'Derin deniz gece modunu mağazadan satın alabilirsin.';
+  }
+  const nightBtn = $('settingsNightBtn');
+  if (nightBtn) {
+    nightBtn.textContent = nightOwned ? (nightActive ? 'Kapat' : 'Aç') : '🛒 Mağazaya Git';
+    nightBtn.onclick = () => {
+      if (!nightOwned) {
+        showPage('store');
+        return;
+      }
+      const next = getRewardState();
+      next.nightTheme = !document.body.classList.contains('night-aquarium-theme');
+      saveRewardState(next);
+      renderSettingsPage();
+    };
+  }
+
+  // Ses efektleri
+  const soundToggle = $('settingsSoundToggle');
+  if (soundToggle) {
+    const soundOn = readStorage(STORAGE_KEYS.soundEnabled, true);
+    soundToggle.checked = soundOn;
+    const soundDesc = $('settingsSoundDesc');
+    if (soundDesc) {
+      soundDesc.textContent = soundOn
+        ? 'Tıklama, doğru/yanlış ve zamanlayıcı sesleri açık.'
+        : 'Ses efektleri kapalı. Uygulama sessiz çalışır.';
+    }
+    soundToggle.onchange = () => {
+      writeStorage(STORAGE_KEYS.soundEnabled, soundToggle.checked);
+      const desc = $('settingsSoundDesc');
+      if (desc) {
+        desc.textContent = soundToggle.checked
+          ? 'Tıklama, doğru/yanlış ve zamanlayıcı sesleri açık.'
+          : 'Ses efektleri kapalı. Uygulama sessiz çalışır.';
+      }
+      if (soundToggle.checked) playAppSound('click');
+    };
+  }
+
+  // Hesap
+  const settingsAvatar = $('settingsAvatar');
+  const settingsName = $('settingsName');
+  const settingsEmail = $('settingsEmail');
+  if (settingsAvatar) settingsAvatar.textContent = AppState.selectedAvatar;
+  if (settingsName) settingsName.textContent = AppState.currentUser;
+  if (settingsEmail) settingsEmail.textContent = AppState.currentUserEmail || 'hesap@yolharitasi.com';
+  const profileBtn = $('settingsProfileBtn');
+  if (profileBtn) profileBtn.onclick = () => showPage('profile');
+
+  // İlerlemeyi sıfırla (iki adımlı onay)
+  const resetBtn = $('settingsResetBtn');
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      if (!resetBtn.dataset.armed) {
+        resetBtn.dataset.armed = '1';
+        resetBtn.textContent = 'Emin misin? Tekrar bas';
+        setTimeout(() => {
+          if (resetBtn.dataset.armed) {
+            delete resetBtn.dataset.armed;
+            resetBtn.textContent = 'Sıfırla';
+          }
+        }, 4000);
+        return;
+      }
+      const keep = new Set([
+        STORAGE_KEYS.currentUser,
+        STORAGE_KEYS.displayName,
+        STORAGE_KEYS.avatar,
+        STORAGE_KEYS.theme,
+        STORAGE_KEYS.soundEnabled,
+      ]);
+      const removable = [];
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('archie.') && !keep.has(key)) removable.push(key);
+      }
+      removable.forEach((key) => localStorage.removeItem(key));
+      window.location.reload();
+    };
+  }
+}
+
 function renderMasteryMatrix() {
   const matrixEl = $('masteryMatrix');
   if (!matrixEl) return;
@@ -4695,6 +4845,27 @@ const STORE_ITEMS = [
   { id: 'sahil-temasi', icon: '🏖️', name: 'Gerçekçi Sahil Teması', desc: 'Çizim tahtasının arka planını gerçekçi bir sahil manzarasıyla değiştirir.', price: 10 },
   { id: 'kara-tahta', icon: '🏫', name: 'Klasik Okul Kara Tahtası', desc: 'Çizim tahtasının arka planını klasik okul kara tahtası dokusuyla değiştirir.', price: 10 },
 ];
+
+// ===== #3 Cognitive Load Adaptive Scheduler =====
+// Oturum yorgunluğuna göre SM-2 aralıklarını ve timer sürelerini dinamik ayarla
+function adaptiveInterval(baseIntervalDays, sessionFatigueFactor) {
+  // Yorgunluk faktörü: uzun oturum (>60 dk) = 1.2, kısa (<20) = 0.85
+  return Math.round(baseIntervalDays * sessionFatigueFactor);
+}
+
+function getSessionFatigueFactor() {
+  const focusMins = timerFocusMinutes || 0;
+  if (focusMins > 90) return 1.25; // yüksek yorgunluk → daha uzun aralık
+  if (focusMins > 45) return 1.1;
+  if (focusMins < 20) return 0.85;  // dinç → daha kısa aralık
+  return 1.0;
+}
+
+function applyAdaptiveSM2(topicId, baseQuality) {
+  const factor = getSessionFatigueFactor();
+  const adjustedInterval = adaptiveInterval(Math.round(Math.pow(1.5, baseQuality) * 2), factor);
+  return { intervalDays: adjustedInterval, fatigueFactor: factor };
+}
 
 function applyStoreReward(itemId) {
   const state = getRewardState();
@@ -4803,9 +4974,13 @@ function showToast(message) {
 }
 
 // ===== Sandıklar: inci ile alınır, video + popup ile açılır =====
+// Tek Balık Sandığı: şans tablosuna göre çıkar — sıradan en sık (55%),
+// nadir (27%), destansı (13%) ve efsanevi en ender (5%). Balık, nadirlik
+// klasörlerinden (balik/common, balik/rare, balik/epic, balik/legendary)
+// seçilir.
 const CHEST_DEFS = [
   { id: 'mercan-sandigi', icon: '🧰', name: 'Mercan Sandığı', desc: 'İçinden rastgele bir mercan çıkar. Akvaryumuna eklenir.', price: 1, kind: 'coral' },
-  { id: 'balik-sandigi', icon: '🎁', name: 'Balık Sandığı', desc: 'İçinden rastgele bir balık çıkar. Akvaryumuna eklenir.', price: 1, kind: 'fish' },
+  { id: 'balik-sandigi', icon: '🎁', name: 'Balık Sandığı', desc: 'İçinden rastgele bir balık çıkar: sıradan en sık, efsanevi en ender. Akvaryumuna eklenir.', price: 1, kind: 'fish' },
 ];
 const CHEST_NAMES = {
   fish: {
@@ -4823,15 +4998,19 @@ const CHEST_NAMES = {
 };
 const CHEST_RANK_TR = { common: 'Sıradan', rare: 'Nadir', epic: 'Destansı', legendary: 'Efsanevi' };
 
-function rollChestReward(kind) {
-  const pool = kind === 'fish' ? AQUARIUM_FISH : AQUARIUM_CORALS;
-  const r = Math.random();
-  const tier = r < 0.55 ? 'common' : r < 0.82 ? 'rare' : r < 0.95 ? 'epic' : 'legendary';
+function rollChestReward(chest) {
+  const pool = chest.kind === 'fish' ? AQUARIUM_FISH : AQUARIUM_CORALS;
+  // Sandığın kategorisi varsa (balık sandıkları) ödül KESİN o nadirlikte
+  // çıkar; mercy sandığında şans tablosu uygulanır.
+  const tier = chest.rarity || (() => {
+    const r = Math.random();
+    return r < 0.55 ? 'common' : r < 0.82 ? 'rare' : r < 0.95 ? 'epic' : 'legendary';
+  })();
   const tierPool = pool.filter((entry) => entry.rarity === tier);
   const entry = tierPool[Math.floor(Math.random() * tierPool.length)] || pool[0];
-  const names = (CHEST_NAMES[kind] && CHEST_NAMES[kind][entry.rarity]) || ['Gizemli Canlı'];
+  const names = (CHEST_NAMES[chest.kind] && CHEST_NAMES[chest.kind][entry.rarity]) || ['Gizemli Canlı'];
   const name = names[Math.floor(Math.random() * names.length)];
-  return { kind, entry, name, rarity: entry.rarity };
+  return { kind: chest.kind, entry, name, rarity: entry.rarity };
 }
 
 function addChestRewardToAquarium(reward) {
@@ -4897,7 +5076,7 @@ function playChestVideo(chest) {
 function openChest(chest) {
   const overlay = ensureChestOverlay();
   overlay.querySelector('.chest-video-panel').hidden = true;
-  const reward = rollChestReward(chest.kind);
+  const reward = rollChestReward(chest);
   addChestRewardToAquarium(reward);
   const result = overlay.querySelector('.chest-result-panel');
   const resultImg = result.querySelector('.chest-result-img');
@@ -4951,14 +5130,31 @@ function renderStoreChests() {
 const AQUARIUM_BUBBLE_IMG = 'public/images/balon.png';
 // Yön dosya adından okunur: "left" veya "right" ile başlayan balıklar
 // o yöne bakacak şekilde çizilir. Sahne içinde aynı yönde yüzerler.
+// Nadirlik, dosyanın içinde bulunduğu klasörden gelir:
+// balik/common → common, balik/rare → rare, balik/epic → epic,
+// balik/legendary → legendary.
 const AQUARIUM_FISH = [
-  { name: 'left-common',     src: 'public/images/balik/leftbalik.png',       rarity: 'common',    dir: 'left' },
-  { name: 'right-common',    src: 'public/images/balik/rightbalik2.png',     rarity: 'common',    dir: 'right' },
-  { name: 'right-rare',      src: 'public/images/balik/rightrarefish.png',   rarity: 'rare',      dir: 'right' },
-  { name: 'right-rare2',     src: 'public/images/balik/rightrarefish2.png',  rarity: 'rare',      dir: 'right' },
-  { name: 'right-epic',      src: 'public/images/balik/rightepicfish.png',   rarity: 'epic',      dir: 'right' },
-  { name: 'left-epic',       src: 'public/images/balik/leftepicbalık.png',  rarity: 'epic',      dir: 'left' },
-  { name: 'left-legendary',  src: 'public/images/balik/leftlegendaryfish.png',rarity:'legendary', dir: 'left' },
+  // common/
+  { name: 'left-common-1',  src: 'public/images/balik/common/leftbalik.png',    rarity: 'common',    dir: 'left' },
+  { name: 'left-common-2',  src: 'public/images/balik/common/leftbalık4.png',   rarity: 'common',    dir: 'left' },
+  { name: 'left-common-3',  src: 'public/images/balik/common/leftbalık5.png',   rarity: 'common',    dir: 'left' },
+  { name: 'right-common-1', src: 'public/images/balik/common/rightbalik2.png',  rarity: 'common',    dir: 'right' },
+  { name: 'right-common-2', src: 'public/images/balik/common/rightbalık3.png',  rarity: 'common',    dir: 'right' },
+  // rare/
+  { name: 'left-rare-1',    src: 'public/images/balik/rare/leftrarebalık3.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-2',    src: 'public/images/balik/rare/leftrarebalık4.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-3',    src: 'public/images/balik/rare/leftrarebalık5.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-4',    src: 'public/images/balik/rare/leftrarebalık.png',  rarity: 'rare',      dir: 'left' },
+  { name: 'right-rare-1',   src: 'public/images/balik/rare/rightrarefish.png',  rarity: 'rare',      dir: 'right' },
+  { name: 'right-rare-2',   src: 'public/images/balik/rare/rightrarefish2.png', rarity: 'rare',      dir: 'right' },
+  // epic/
+  { name: 'left-epic-1',    src: 'public/images/balik/epic/leftepicbalık.png',  rarity: 'epic',      dir: 'left' },
+  { name: 'right-epic-2',   src: 'public/images/balik/epic/rightepicbalık2.png', rarity: 'epic',     dir: 'right' },
+  { name: 'right-epic-1',   src: 'public/images/balik/epic/rightepicfish.png',  rarity: 'epic',      dir: 'right' },
+  { name: 'left-epic-3',    src: 'public/images/balik/epic/epicdenizanası.png', rarity: 'epic',      dir: 'left' },
+  // legendary/
+  { name: 'left-legendary-1', src: 'public/images/balik/legendary/leftlegendaryfish.png', rarity: 'legendary', dir: 'left' },
+  { name: 'left-legendary-2', src: 'public/images/balik/legendary/legendaryfish2.png', rarity: 'legendary', dir: 'left' },
 ];
 const AQUARIUM_CORALS = [
   { name: 'common',    src: 'public/images/mercanlar/mercan.png',         rarity: 'common' },
@@ -4973,14 +5169,67 @@ const AQUARIUM_CORALS = [
 ];
 const AQUARIUM_RARITY_ORDER = { common: 0, rare: 1, epic: 2, legendary: 3 };
 
+// Kullanıcı balık dosyalarını klasörleyip silebildiği için kayıtlı
+// akvaryumdaki balıkların kaynakları güncel havuzla eşleştirilir:
+// hangi klasörün (rarity) hangi dosya adının (dir) yoksa, aynı
+// nadirlik + yöndeki güncel bir balıkla değiştirilir — x/y/boyut korunur.
+function migrateAquariumKinds(aq) {
+  if (!aq || !Array.isArray(aq.fish)) return false;
+  let changed = false;
+  const rarityList = ['common', 'rare', 'epic', 'legendary'];
+  aq.fish.forEach((f, i) => {
+    const k = f.kind;
+    if (!k || !k.src) return;
+    if (AQUARIUM_FISH.some((e) => e.src === k.src)) return;
+    const rarity = rarityList.includes(k.rarity) ? k.rarity : 'common';
+    const dir = k.dir === 'left' ? 'left' : 'right';
+    const pool = AQUARIUM_FISH.filter((e) => e.rarity === rarity && e.dir === dir);
+    if (pool.length) {
+      f.kind = pool[i % pool.length];
+      changed = true;
+    }
+  });
+  return changed;
+}
+
 function getAquarium() {
   const data = readStorage(STORAGE_KEYS.aquarium, null);
-  if (data && Array.isArray(data.corals) && Array.isArray(data.fish)) return data;
+  if (data && Array.isArray(data.corals) && Array.isArray(data.fish)) {
+    migrateAquariumKinds(data);
+    return data;
+  }
   return { corals: [], fish: [] };
 }
 
 function saveAquarium(aq) {
   writeStorage(STORAGE_KEYS.aquarium, aq);
+}
+
+// Tek seferlik koleksiyon kurulumu: mevcut balık ve mercanların hepsi
+// silinip her türden 1'er adet eklenir. Bayrakla (archie.aq.seed.v2)
+// yalnızca bir kez çalışır; sonrasındaki sandık kazanımı serbest.
+function seedAquariumCollectionOnce() {
+  const SEED_FLAG = 'archie.aq.seed.v2';
+  if (readStorage(SEED_FLAG, false)) return;
+  const aq = { corals: [], fish: [] };
+  AQUARIUM_FISH.forEach((entry, i) => {
+    const size = AQUARIUM_RARITY_FISH_BASE[entry.rarity] + ((i * 9) % 24);
+    aq.fish.push({
+      kind: entry,
+      y: 4 + ((i * 13) % 46),
+      d: 14 + ((i * 7) % 14),
+      delay: -((i * 5) % 20),
+      drift: 3 + ((i * 3) % 4),
+      rev: entry.dir === 'left',
+      size,
+    });
+  });
+  AQUARIUM_CORALS.forEach((entry, i) => {
+    const size = AQUARIUM_RARITY_CORAL_BASE[entry.rarity] + ((i * 11) % 22);
+    aq.corals.push({ kind: entry, x: 2 + ((i * 41) % 88), s: size });
+  });
+  saveAquarium(aq);
+  writeStorage(SEED_FLAG, true);
 }
 
 const AQUARIUM_RARITY_CORAL_BASE = { common: 110, rare: 150, epic: 195, legendary: 240 };
@@ -5130,10 +5379,11 @@ function renderAquarium() {
     const rarityClass = `aq-rarity-${f.kind.rarity}`;
     const dir = (f.kind && f.kind.dir === 'left') || f.rev ? 'left' : 'right';
     const swimClass = dir === 'left' ? 'swim-left rev' : 'swim-right';
+    const skin = /denizanası/.test(f.kind.src || '') ? 'jelly' : 'fish';
     const startX = 5 + ((idx * 29) % 88);
     // js-swim: yatay hareket requestAnimationFrame motorundan gelir (durma,
     // dönme, zikzak davranışları için). CSS'teki swim-* sınıfları yedek kalır.
-    html += `<div class="aq-fish ${rarityClass} ${swimClass} js-swim" data-dir="${dir}" data-idx="${idx}" style="left:${startX}%;top:${f.y}%;width:${f.size}px;height:${f.size}px"><span style="background-image:url('${encodeURI(resolvedAssetUrl(f.kind.src))}');animation-duration:${(1.2 + (idx % 5) * 0.28).toFixed(2)}s"></span></div>`;
+    html += `<div class="aq-fish ${rarityClass} ${swimClass} js-swim" data-dir="${dir}" data-skin="${skin}" data-idx="${idx}" style="left:${startX}%;top:${f.y}%;width:${f.size}px;height:${f.size}px"><span style="background-image:url('${encodeURI(resolvedAssetUrl(f.kind.src))}');animation-duration:${(1.2 + (idx % 5) * 0.28).toFixed(2)}s"></span></div>`;
   });
   if (aq.fish.length === 0 && aq.corals.length === 0) {
     html += '<div class="aq-empty">Henüz canlın yok — odak oturumlarını tamamla, akvaryumun dolsun!</div>';
@@ -5175,15 +5425,20 @@ function stopAquariumSwimEngine() {
   aquariumSwimRAF = 0;
 }
 
-// Balık davranış motoru: 4 karakter dönüşümlü atanır.
-// cruise = düz süzülme, zigzag = zikzak, dart-pause = yüz → dur → tersine dön,
-// patrol = kenara kadar yüzüp dönüp geri gelme. Dönüşte gövde scaleX ile
-// daralıp açılarak gerçekçi "U dönüşü" yapar.
+// Balık davranış motoru: her balığa bir karakter atanır.
+// cruise  = normal düz süzülme, racer = hızlı, drifter = çok yavaş,
+// zigzag  = zikzak, sway = sallanarak (gövde salgıyla süzülür),
+// dart-pause = yüz → dur → TERS DÖN → yeni yöne yüz,
+// dart-stop   = yüz → dur → AYNI yonden yüzmeye devam,
+// patrol = kenara kadar yüzüp dönüp geri gelme,
+// jelly  = denizanaya özel: ileri + yukarı akış, arada aşağı iniş,
+//          yukarı-aşağı zigzag, arada ters dönüş.
+// Dönüşte gövde scaleX ile daralıp açılarak gerçekçi "U dönüşü" yapar.
 function startAquariumSwimEngine(scene) {
   stopAquariumSwimEngine();
   const els = Array.from(scene.querySelectorAll('.aq-fish'));
   if (!els.length) return;
-  const kinds = ['cruise', 'zigzag', 'dart-pause', 'patrol'];
+  const kinds = ['cruise', 'racer', 'zigzag', 'drifter', 'dart-pause', 'sway', 'patrol', 'dart-stop'];
   const flipFor = (moveDir, kindDir) => {
     const movingRight = moveDir > 0;
     const facesRight = kindDir === 'right';
@@ -5191,25 +5446,34 @@ function startAquariumSwimEngine(scene) {
   };
   const fishes = els.map((el, i) => {
     const kindDir = el.dataset.dir === 'left' ? 'left' : 'right';
-    const moveDir = kindDir === 'left' ? -1 : 1;
+    const behaviour = el.dataset.skin === 'jelly' ? 'jelly' : kinds[i % kinds.length];
     const f = {
       el,
       kindDir,
-      behavior: kinds[i % kinds.length],
+      behavior: behaviour,
       x: 5 + ((i * 29) % 88),
       baseY: 6 + ((i * 11) % 42),
       y: 6 + ((i * 11) % 42),
       t: Math.random() * 10,
-      speed: 4 + ((i * 1.7) % 4),
-      moveDir,
+      speed: 3 + Math.random() * 5,
+      moveDir: kindDir === 'left' ? -1 : 1,
       phase: Math.random() * Math.PI * 2,
       state: 'swim',
-      stateT: 2.5 + Math.random() * 3.5,
-      flip: flipFor(moveDir, kindDir),
+      stateT: 2.4 + Math.random() * 3.6,
+      rot: 0,
+      flip: 1,
       flipFrom: 1,
       flipTo: 1,
       turnT: 1,
     };
+    f.flip = flipFor(f.moveDir, f.kindDir);
+    if (f.behavior === 'jelly') {
+      f.state = 'rise';
+      f.stateT = 1.4 + Math.random() * 2.4;
+      f.baseY = 4 + Math.random() * 40;
+      f.y = f.baseY;
+      f.speed = 2.5 + Math.random() * 2.5;
+    }
     f.flipFrom = f.flip;
     f.flipTo = f.flip;
     el.style.left = `${f.x}%`;
@@ -5227,11 +5491,26 @@ function startAquariumSwimEngine(scene) {
     if (visible) {
       fishes.forEach((f) => {
         f.t += dt;
+        f.rot = 0;
         if (f.behavior === 'cruise') {
           f.x += f.moveDir * f.speed * dt;
           f.y = f.baseY + Math.sin(f.t * 0.9 + f.phase) * 3;
           if (f.x > 108) f.x = -16;
           if (f.x < -16) f.x = 108;
+          f.flip = flipFor(f.moveDir, f.kindDir);
+        } else if (f.behavior === 'racer') {
+          // hızlı yüzücü: düz ve çabuk
+          f.x += f.moveDir * f.speed * 2.4 * dt;
+          f.y = f.baseY + Math.sin(f.t * 1.7 + f.phase) * 2.5;
+          if (f.x > 110) f.x = -18;
+          if (f.x < -18) f.x = 110;
+          f.flip = flipFor(f.moveDir, f.kindDir);
+        } else if (f.behavior === 'drifter') {
+          // yavaş yüzücü: neredeyse süzülür
+          f.x += f.moveDir * f.speed * 0.45 * dt;
+          f.y = f.baseY + Math.sin(f.t * 0.7 + f.phase) * 4.5;
+          if (f.x > 106) f.x = -14;
+          if (f.x < -14) f.x = 106;
           f.flip = flipFor(f.moveDir, f.kindDir);
         } else if (f.behavior === 'zigzag') {
           f.x += f.moveDir * f.speed * 1.1 * dt;
@@ -5240,6 +5519,16 @@ function startAquariumSwimEngine(scene) {
           if (f.y > 53) f.y = 53;
           if (f.x > 108) f.x = -16;
           if (f.x < -16) f.x = 108;
+          f.flip = flipFor(f.moveDir, f.kindDir);
+        } else if (f.behavior === 'sway') {
+          // sallanarak: yavaş ilerler, gövde sağa sola salar
+          f.x += f.moveDir * f.speed * 0.8 * dt;
+          f.y = f.baseY + Math.sin(f.t * 2.6 + f.phase) * 5;
+          f.rot = Math.sin(f.t * 2.6 + f.phase) * 8;
+          if (f.y < 3) f.y = 3;
+          if (f.y > 53) f.y = 53;
+          if (f.x > 107) f.x = -15;
+          if (f.x < -15) f.x = 107;
           f.flip = flipFor(f.moveDir, f.kindDir);
         } else if (f.behavior === 'dart-pause') {
           if (f.state === 'swim') {
@@ -5252,18 +5541,76 @@ function startAquariumSwimEngine(scene) {
             if (f.stateT <= 0) { f.state = 'pause'; f.stateT = 1.1 + Math.random() * 0.9; }
           } else if (f.state === 'pause') {
             f.y += Math.sin(f.t * 6) * dt * 1.5;
+            f.rot = Math.sin(f.t * 6) * 4;
             f.stateT -= dt;
             if (f.stateT <= 0) {
               f.state = 'turn';
               f.turnT = 0;
               f.flipFrom = f.flip;
-              f.moveDir *= -1;
+              f.moveDir *= -1;               // ters döner
               f.flipTo = flipFor(f.moveDir, f.kindDir);
             }
           } else {
             f.turnT = Math.min(1, f.turnT + dt / 0.38);
             f.flip = f.flipFrom + (f.flipTo - f.flipFrom) * f.turnT;
+            f.rot = (f.moveDir > 0 ? 1 : -1) * Math.sin(f.turnT * Math.PI) * 12;
             if (f.turnT >= 1) { f.state = 'swim'; f.stateT = 2.5 + Math.random() * 3.5; }
+          }
+        } else if (f.behavior === 'dart-stop') {
+          // yüz → dur (bekle) → AYNI yöne yüzmeye devam
+          if (f.state === 'swim') {
+            f.x += f.moveDir * f.speed * 1.3 * dt;
+            f.y = f.baseY + Math.sin(f.t * 1.2 + f.phase) * 3;
+            f.flip = flipFor(f.moveDir, f.kindDir);
+            f.stateT -= dt;
+            if (f.x > 105) f.x = -13;
+            if (f.x < -13) f.x = 105;
+            if (f.stateT <= 0) { f.state = 'pause'; f.stateT = 0.9 + Math.random() * 1.2; }
+          } else {
+            f.y += Math.sin(f.t * 5.5) * dt * 1.2;
+            f.rot = Math.sin(f.t * 5.5) * 5;
+            f.stateT -= dt;
+            if (f.stateT <= 0) { f.state = 'swim'; f.stateT = 2.2 + Math.random() * 3; }
+          }
+        } else if (f.behavior === 'jelly') {
+          // Denizanası: ileri ve yukarı doğru süzülür, arada aşağı iner,
+          // yukarı-aşağı zigzag yapar, arada yatayda ters döner.
+          f.rot = Math.sin(f.t * 2.2 + f.phase) * 7;
+          if (f.state === 'rise') {
+            f.y -= f.speed * 0.55 * dt;
+            f.x += f.moveDir * f.speed * 0.38 * dt;
+            f.x += Math.sin(f.t * 1.9 + f.phase) * dt * 2.4; // lateral zigzag
+            f.flip = flipFor(f.moveDir, f.kindDir);
+            f.stateT -= dt;
+            if (f.y < 3) f.y = 3;
+            if (f.stateT <= 0 || (f.y <= 3 && Math.random() < dt * 4)) {
+              f.state = 'sink';
+              f.stateT = 0.9 + Math.random() * 1.7;
+            }
+          } else if (f.state === 'sink') {
+            f.y += f.speed * 0.5 * dt;
+            f.x += f.moveDir * f.speed * 0.22 * dt;
+            f.x += Math.cos(f.t * 2.4 + f.phase) * dt * 2.2;
+            f.flip = flipFor(f.moveDir, f.kindDir);
+            f.stateT -= dt;
+            if (f.y > 52) f.y = 52;
+            if (f.stateT <= 0) {
+              if (Math.random() < 0.3) {
+                f.state = 'turn';
+                f.turnT = 0;
+                f.flipFrom = f.flip;
+                f.moveDir *= -1;              // ters döner
+                f.flipTo = flipFor(f.moveDir, f.kindDir);
+              } else {
+                f.state = 'rise';
+                f.stateT = 1.4 + Math.random() * 2.4;
+              }
+            }
+          } else {
+            f.turnT = Math.min(1, f.turnT + dt / 0.5);
+            f.flip = f.flipFrom + (f.flipTo - f.flipFrom) * f.turnT;
+            f.rot += Math.sin(f.turnT * Math.PI) * 5;
+            if (f.turnT >= 1) { f.state = 'rise'; f.stateT = 1.4 + Math.random() * 2.4; }
           }
         } else {
           // patrol: kenarda U dönüşü
@@ -5286,7 +5633,7 @@ function startAquariumSwimEngine(scene) {
         }
         f.el.style.left = `${f.x.toFixed(2)}%`;
         f.el.style.top = `${f.y.toFixed(2)}%`;
-        f.el.style.transform = `scaleX(${f.flip.toFixed(3)})`;
+        f.el.style.transform = `scaleX(${f.flip.toFixed(3)}) rotate(${f.rot.toFixed(2)}deg)`;
       });
     }
     aquariumSwimRAF = requestAnimationFrame(frame);
@@ -5343,6 +5690,7 @@ function init() {
   initWhiteboards();
   initPlannerForm();
   initPhraseInput();
+  seedAquariumCollectionOnce();
   preloadLessonIntroAssets();
 
   // Check if user is logged in
@@ -5416,30 +5764,43 @@ function renderPageStickers() {
   // Önce tüm sayfalardaki eski çizimleri temizle (sabitlenmiş fixed
   // çıkartmalar gizli kapta kalsa bile DOM'da durur).
   document.querySelectorAll('.main > main .sticker').forEach((el) => el.remove());
-  const container = stickerPageContainer();
-  if (!container) return;
-  if (getComputedStyle(container).position === 'static') {
-    container.style.position = 'relative';
-  }
-  let saved = readStickersAll()[container.id] || [];
-  // Sınav: çıkartmayı boyut değiştirmeden sol boşluğa aynala.
-  if (container.id === 'quizContainer') {
-    const cw = container.offsetWidth || 860;
-    saved = saved.map((it) => ({ ...it, x: Math.round(cw - it.x - it.w) }));
-  }
-  // Mağaza: çıkartma istenmiyor — kayıtlı olsa bile çizme ve
-  // kayıttan da sil ki geri gelmesin.
-  if (container.id === 'storeContainer') {
-    saved = [];
-    try {
-      const data = readStickersAll();
-      if (data.storeContainer) {
-        delete data.storeContainer;
-        writeStickersAll(data);
-      }
-    } catch { /* yok say */ }
-  }
-  saved.forEach((item) => container.appendChild(makeStickerEl(item)));
+  const data = readStickersAll();
+  const visible = stickerPageContainer();
+
+  // Çıkartmaları yalnızca görünür sayfaya değil, HER sayfanın kendi
+  // kapsayıcısına çiz. Böylece Ayarlar gibi çıkartmasız bir sayfa
+  // açıldığında diğer sayfaların dekor görselleri DOM'da yaşamaya
+  // devam eder (gizli kapta kalır) — silinmez, bozulmaz.
+  document.querySelectorAll('.main > main').forEach((container) => {
+    let saved = data[container.id] || [];
+
+    // Mağaza: çıkartma istenmiyor — kayıtlı olsa bile çizme ve
+    // kayıttan da sil ki geri gelmesin.
+    if (container.id === 'storeContainer') {
+      saved = [];
+      try {
+        if (data.storeContainer) {
+          delete data.storeContainer;
+          writeStickersAll(data);
+        }
+      } catch { /* yok say */ }
+    }
+    if (!saved.length) return;
+
+    if (getComputedStyle(container).position === 'static') {
+      container.style.position = 'relative';
+    }
+
+    // Sınav: çıkartmayı boyut değiştirmeden sol boşluğa aynala.
+    // Aynalama yalnız görünürken yapılır; gizli kapta offsetWidth 0 olur
+    // ve koordinat bozulur — görünür olduğu anda yeniden çizilir zaten.
+    if (container.id === 'quizContainer' && container === visible) {
+      const cw = container.offsetWidth || 860;
+      saved = saved.map((it) => ({ ...it, x: Math.round(cw - it.x - it.w) }));
+    }
+
+    saved.forEach((item) => container.appendChild(makeStickerEl(item)));
+  });
 }
 
 // Kart hover animasyonuna katılım (kart bazlı):

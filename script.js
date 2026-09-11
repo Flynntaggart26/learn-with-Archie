@@ -3,18 +3,10 @@
 import { CURRICULUM } from './curriculum-data.js';
 import { CIKMIS_TYT, CIKMIS_TYT_DERSLER } from './cikmis-tyt-data.js';
 import { CIKMIS_AYT, CIKMIS_AYT_DERSLER } from './cikmis-ayt-data.js';
-import {
-  Chart,
-  RadarController,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+// chart.js UMD olarak public/libs altinda yereldir (bare import static
+// yayinda cozulemez ve tum modulu oldururdu). UMD tum bilesenleri
+// kayitli gelir; yoksa radar cizilmez ama uygulama calismaya devam eder.
+const ChartJS = (typeof window !== 'undefined' && window.Chart) || null;
 
 // ===== Curriculum Data =====
 
@@ -4326,13 +4318,18 @@ let metacognitionChart = null;
 function renderMetacognitionRadar() {
   const canvas = $('metacognitionRadarChart');
   if (!canvas) return;
+  if (!ChartJS) {
+    const wrap = canvas.closest('.profile-radar-wrap');
+    if (wrap) wrap.innerHTML = '<p style="color:var(--text-light);font-size:13px;">Grafik kütüphanesi yüklenemedi.</p>';
+    return;
+  }
   const records = getMetacognitionRecords();
   const scores = computeMetacognitionScores(records);
   const labels = ['Sayısal', 'Fen Bilimleri', 'Sözel', 'Sosyal Bilimler', 'Genel Kalibrasyon'];
   const data = labels.map((label) => scores[label] ?? 50);
 
-  if (metacognitionChart) metacognitionChart.destroy();
-  metacognitionChart = new Chart(canvas.getContext('2d'), {
+  if (metacognitionChart && typeof metacognitionChart.destroy === 'function') metacognitionChart.destroy();
+  metacognitionChart = new ChartJS(canvas.getContext('2d'), {
     type: 'radar',
     data: {
       labels,

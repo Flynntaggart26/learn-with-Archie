@@ -10614,25 +10614,26 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
 .science-panel-title {
   font-size: 13px !important;
   font-weight: 900 !important;
-  color: #0b3b49 !important;
+  color: #46758e !important;
   margin-bottom: 8px !important;
 }
 .science-empty {
-  color: var(--text-light) !important;
+  color: #6e97a8 !important;
   font-size: 12px !important;
   line-height: 1.5 !important;
   padding: 6px 0 !important;
 }
 .science-na {
-  color: var(--text-light) !important;
+  color: #8fb0bd !important;
   font-size: 11px !important;
 }
 .calib-level {
-  padding: 8px 10px !important;
+  padding: 10px 12px !important;
   margin-bottom: 8px !important;
-  border: 1px solid rgba(156, 196, 236, 0.5) !important;
-  border-radius: 10px !important;
-  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid #bfe8ef !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #ffffff, #eefbff) !important;
+  box-shadow: 0 4px 10px rgba(125, 177, 202, 0.12) !important;
 }
 .calib-head {
   display: flex !important;
@@ -10641,8 +10642,8 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   font-size: 12px !important;
   margin-bottom: 6px !important;
 }
-.calib-head strong { color: #0b3b49 !important; }
-.calib-head span { color: var(--text-light) !important; font-size: 11px !important; }
+.calib-head strong { color: #2f839d !important; }
+.calib-head span { color: #6391a1 !important; font-size: 11px !important; font-weight: 700 !important; }
 .calib-row {
   display: flex !important;
   align-items: center !important;
@@ -10650,23 +10651,23 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   font-size: 11px !important;
   margin-bottom: 4px !important;
 }
-.calib-row span { flex: 0 0 58px !important; color: #64869a !important; font-weight: 700 !important; }
-.calib-row b { flex: 0 0 38px !important; text-align: right !important; color: #0b3b49 !important; }
+.calib-row span { flex: 0 0 58px !important; color: #6391a1 !important; font-weight: 800 !important; }
+.calib-row b { flex: 0 0 38px !important; text-align: right !important; color: #2f839d !important; }
 .calib-track {
   flex: 1 !important;
   height: 8px !important;
   border-radius: 99px !important;
-  background: rgba(125, 177, 202, 0.25) !important;
+  background: #c9e9f0 !important;
   overflow: hidden !important;
 }
 .calib-track i {
   display: block !important;
   height: 100% !important;
   border-radius: 99px !important;
-  background: linear-gradient(90deg, #94a3b8, #64748b) !important;
+  background: linear-gradient(90deg, #9db8c6, #7fb3c8) !important;
 }
 .calib-row.real .calib-track i {
-  background: linear-gradient(90deg, #0ea5e9, #2563eb) !important;
+  background: linear-gradient(90deg, #38bdf8, #2dd4bf) !important;
 }
 .calib-verdict {
   display: inline-block !important;
@@ -10684,43 +10685,46 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   align-items: center !important;
   gap: 10px !important;
   width: 100% !important;
-  padding: 7px 10px !important;
+  padding: 8px 12px !important;
   margin-bottom: 8px !important;
-  border: 1px solid rgba(156, 196, 236, 0.5) !important;
-  border-radius: 10px !important;
-  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid #bfe8ef !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #ffffff, #eefbff) !important;
+  box-shadow: 0 4px 10px rgba(125, 177, 202, 0.12) !important;
   cursor: pointer !important;
   font-family: inherit !important;
   text-align: left !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
 }
-.recall-row:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 14px rgba(8, 47, 73, 0.12) !important; }
+.recall-row:hover { transform: translateY(-2px) !important; box-shadow: 0 12px 22px rgba(125, 177, 202, 0.2) !important; }
 .recall-info { flex: 0 1 46% !important; min-width: 0 !important; }
 .recall-info strong {
   display: block !important;
   font-size: 12px !important;
-  color: #0b3b49 !important;
+  color: #2f839d !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
-.recall-info small { font-size: 10px !important; color: var(--text-light) !important; }
+.recall-info small { font-size: 10px !important; color: #6391a1 !important; font-weight: 600 !important; }
 .recall-track {
   flex: 1 !important;
   height: 8px !important;
   border-radius: 99px !important;
-  background: rgba(125, 177, 202, 0.25) !important;
+  background: #c9e9f0 !important;
   overflow: hidden !important;
 }
 .recall-track i {
   display: block !important;
   height: 100% !important;
   border-radius: 99px !important;
-  background: linear-gradient(90deg, #8b5cf6, #0ea5e9) !important;
+  background: linear-gradient(90deg, #38bdf8, #2dd4bf, #a78bfa) !important;
+  transition: width 0.4s ease !important;
 }
 .recall-pct { flex: 0 0 44px !important; text-align: right !important; font-size: 13px !important; }
-.recall-pct.good { color: #15803d !important; }
+.recall-pct.good { color: #0d9488 !important; }
 .recall-pct.warn { color: #b45309 !important; }
-.recall-pct.bad { color: #b91c1c !important; }
+.recall-pct.bad { color: #dc2626 !important; }
 @media (max-width: 900px) {
   .dash-science-grid { grid-template-columns: 1fr !important; }
 }

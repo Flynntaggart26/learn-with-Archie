@@ -868,6 +868,8 @@ function renderDashboard() {
       </div>
     `;
   }
+
+  renderLearningScience();
 }
 
 // ===== Roadmap (Learn page) =====
@@ -4311,6 +4313,115 @@ function getIllusionTopics() {
 
   illusions.sort((a, b) => b.avgConfidence - a.accuracy - (a.avgConfidence - a.accuracy));
   return illusions.slice(0, 5);
+}
+
+// ===== Öğrenme Bilimi #1: kalibrasyon eğrisi + hatırlama olasılığı =====
+const CONFIDENCE_EXPECTED = { low: 30, medium: 60, high: 85 };
+const CONFIDENCE_TR = { low: 'Düşük güven', medium: 'Orta güven', high: 'Yüksek güven' };
+
+function computeCalibration() {
+  const records = getMetacognitionRecords().slice(-100);
+  const levels = ['low', 'medium', 'high'].map((level) => {
+    const rs = records.filter((r) => r.confidence === level);
+    const n = rs.length;
+    const actual = n ? Math.round((rs.filter((r) => r.isCorrect).length / n) * 100) : null;
+    return { level, n, actual, expected: CONFIDENCE_EXPECTED[level] };
+  });
+  const total = levels.reduce((sum, l) => sum + l.n, 0);
+  return { levels, total };
+}
+
+function calibrationVerdict(actual, expected) {
+  if (actual === null) return null;
+  const d = actual - expected;
+  if (d <= -15) return { text: 'Aşırı güvenli', cls: 'bad' };
+  if (d < -5) return { text: 'Biraz iyimser', cls: 'warn' };
+  if (d <= 10) return { text: 'Dengeli', cls: 'good' };
+  return { text: 'Çekingen', cls: 'warn' };
+}
+
+// SM-2 durumundan bugünkü hatırlama olasılığı (0-100).
+// Kolaylık normalize edilir, vade gecikmesine üstel unutma uygulanır.
+function recallProbability(review) {
+  if (!review || !(review.repetitions > 0)) return null;
+  const ease = Math.min(2.5, Math.max(1.3, Number(review.easinessFactor) || 2.5));
+  const easeNorm = (ease - 1.3) / 1.2;
+  const interval = Math.max(1, Number(review.intervalDays) || 1);
+  const due = review.dueDate ? new Date(review.dueDate).getTime() : Date.now();
+  const overdueDays = Math.max(0, (Date.now() - due) / 86400000);
+  const p = (0.35 + 0.6 * easeNorm) * Math.exp(-overdueDays / interval);
+  return Math.min(99, Math.max(5, Math.round(p * 100)));
+}
+
+function getRecallRanking(limit = 5) {
+  const reviews = readStorage(STORAGE_KEYS.reviews, {});
+  const topics = getAllTopics();
+  return Object.entries(reviews)
+    .map(([topicId, review]) => {
+      const p = recallProbability(review);
+      if (p === null) return null;
+      const topic = topics.find((t) => t.id === topicId);
+      return {
+        topicId,
+        name: topic?.name || topicId,
+        subject: topic?.subject || 'Genel',
+        p,
+        dueDate: review.dueDate,
+        reps: review.repetitions || 0,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.p - b.p)
+    .slice(0, limit);
+}
+
+function dueLabel(iso) {
+  if (!iso) return 'vade yok';
+  const days = Math.round((Date.now() - new Date(iso).getTime()) / 86400000);
+  if (days <= 0) return 'bugün/yakında';
+  return `${days} gün gecikmiş`;
+}
+
+function renderLearningScience() {
+  const calEl = $('dashCalibration');
+  if (calEl) {
+    const { levels, total } = computeCalibration();
+    if (total < 3) {
+      calEl.innerHTML = '<p class="science-empty">Henüz yeterli güven verisi yok — 3+ soruda güvenini işaretle, kalibrasyon eğrin burada belirsin.</p>';
+    } else {
+      calEl.innerHTML = levels.map((l) => {
+        const v = calibrationVerdict(l.actual, l.expected);
+        const bar = l.actual === null
+          ? '<span class="science-na">bu düzeyde veri yok</span>'
+          : `<div class="calib-bars">
+               <div class="calib-row"><span>Beklenen</span><div class="calib-track"><i style="width:${l.expected}%"></i></div><b>%${l.expected}</b></div>
+               <div class="calib-row real"><span>Gerçek</span><div class="calib-track"><i style="width:${l.actual}%"></i></div><b>%${l.actual}</b></div>
+             </div>
+             <span class="calib-verdict ${v.cls}">${v.text}</span>`;
+        return `<div class="calib-level"><div class="calib-head"><strong>${CONFIDENCE_TR[l.level]}</strong><span>${l.n} soru</span></div>${bar}</div>`;
+      }).join('');
+    }
+  }
+  const recEl = $('dashRecall');
+  if (recEl) {
+    const rows = getRecallRanking(5);
+    if (!rows.length) {
+      recEl.innerHTML = '<p class="science-empty">Tekrar verisi oluşunca bugünkü hatırlama olasılıkların burada sıralanacak. Bir quiz bitirmen yeterli.</p>';
+    } else {
+      recEl.innerHTML = rows.map((r) => `
+        <button type="button" class="recall-row" data-topic="${r.topicId}" title="Tekrar quizini başlat">
+          <span class="recall-info"><strong>${r.name}</strong><small>${r.subject} • ${dueLabel(r.dueDate)} • ${r.reps} tekrar</small></span>
+          <span class="recall-track"><i style="width:${r.p}%"></i></span>
+          <b class="recall-pct ${r.p < 40 ? 'bad' : r.p < 70 ? 'warn' : 'good'}">%${r.p}</b>
+        </button>`).join('');
+      recEl.querySelectorAll('.recall-row').forEach((btn) => {
+        btn.onclick = () => {
+          showPage('quiz');
+          startQuiz(btn.dataset.topic);
+        };
+      });
+    }
+  }
 }
 
 let metacognitionChart = null;

@@ -20,3 +20,11 @@
 
 ## Uygulama Nasıl Çalışır
 - `index.html`'i doğrudan bir tarayıcıda açın (çift tıklayın). Vanilla JS uygulaması olduğu için sunucu gerekmez.
+
+## Üniversite Yol Haritası (2026-09-11, öncelik sırasıyla)
+1. **Öğrenme bilimi görünürlüğü** — kalibrasyon eğrisi + hatırlama olasılığı + hazırbulunuşluk skoru + interleaving. DURUM: kalibrasyon + hatırlama tamam.
+2. **Etki kanıtı** — öğrenme kazanım raporu (PDF), pilot çalışma + sonuç sayfası, anonim veri bağışı.
+3. **Gerçek zekâ** — Sokratik ipucu modu, yanılgı teşhisi, kazanımdan soru üretimi.
+4. **Sınav gerçekçiliği** — tam simülasyon modu (165 dk + optik form), net defteri.
+5. **Erişilebilirlik + teknik olgunluk** — PWA/çevrimdışı, Supabase çoklu-cihaz senkron, erişilebilirlik, İngilizce arayüz.
+6. **Motivasyon katmanı 2** — öğretmen paneli (sınıf ısı haritası), tükenmişlik freni.

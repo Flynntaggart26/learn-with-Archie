@@ -11428,3 +11428,358 @@ body.dark-mode .dash-plan-cut {
   color: #431407 !important;
   box-shadow: 0 2px 10px rgba(251, 191, 36, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
+
+/* Defter kirilganlik rozetleri */
+.dash-fragile { padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 900; white-space: nowrap; border: 1px solid transparent; }
+.dash-fragile-fresh { background: #FEF9C3; color: #854D0E; border-color: #FDE68A; }
+.dash-fragile-warn { background: #FFEDD5; color: #9A3412; border-color: #FDBA74; }
+.dash-fragile-bad { background: #FEE2E2; color: #B91C1C; border-color: #FCA5A5; }
+body.dark-mode .dash-fragile-fresh { background: rgba(113, 84, 13, 0.85) !important; color: #FDE68A !important; border-color: rgba(253, 230, 138, 0.5) !important; }
+body.dark-mode .dash-fragile-warn { background: rgba(124, 45, 18, 0.85) !important; color: #FDBA74 !important; border-color: rgba(253, 186, 116, 0.5) !important; }
+body.dark-mode .dash-fragile-bad { background: rgba(127, 29, 29, 0.85) !important; color: #FCA5A5 !important; border-color: rgba(252, 165, 165, 0.5) !important; }
+
+/* ============================================================
+   🧩 PANEL DUO v1 (2026-09-12) — halka/plan üstte sabit, defter +
+   mini hedefler altta simetrik yan yana; kesişim tam ortada.
+   ============================================================ */
+.dashboard-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0 20px;
+}
+.dashboard-duo.dashboard-top { margin-top: 0; }
+@media (max-width: 900px) {
+  .dashboard-duo { grid-template-columns: 1fr; }
+}
+
+/* Defter: kapalı özet görünümü */
+.dash-wrong-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "count label" "count mini" "hint hint";
+  gap: 2px 14px;
+  align-items: center;
+  width: 100%;
+  padding: 18px 20px;
+  border: 1.5px solid #f0c9c9;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #fff 0%, #fff5f5 100%);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.dash-wrong-summary:hover { transform: translateY(-2px); border-color: #f19191; box-shadow: 0 12px 24px rgba(220, 60, 60, 0.14); }
+.dash-wrong-count { grid-area: count; font-size: 44px; font-weight: 900; color: #B91C1C; line-height: 1; }
+.dash-wrong-count-label { grid-area: label; align-self: end; color: #7c2d12; font-size: 13px; font-weight: 800; }
+.dash-wrong-mini { grid-area: mini; display: flex; align-items: center; gap: 6px; color: #92400e; font-size: 12px; font-weight: 800; }
+.dash-wrong-mini i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot-bad { background: #EF4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.7); }
+.dot-warn { background: #F59E0B; box-shadow: 0 0 6px rgba(245, 158, 11, 0.7); margin-left: 8px; }
+.dot-fresh { background: #FACC15; box-shadow: 0 0 6px rgba(250, 204, 21, 0.7); margin-left: 8px; }
+.dash-wrong-open-hint { grid-area: hint; margin-top: 6px; color: #B91C1C; font-size: 11px; font-weight: 900; }
+.dash-wrong-group { margin-top: 12px; }
+.dash-wrong-group:first-child { margin-top: 2px; }
+.dash-wrong-group-title { margin: 2px 2px 8px; color: #7c2d12; font-size: 12px; font-weight: 900; }
+.dash-wrong-group-title b { color: #B91C1C; }
+.dash-wrong-close {
+  margin-top: 10px; padding: 7px 14px;
+  border: 1px solid #e5b8b8; border-radius: 10px;
+  background: #fff; color: #991b1b;
+  font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer;
+}
+
+/* Mini hedef satırları */
+#dashGoals { display: grid; gap: 10px; }
+.dash-goal-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid rgba(156, 196, 236, 0.7);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.42);
+}
+.dash-goal-row.done { border-color: #a7f3d0; background: linear-gradient(145deg, rgba(255,255,255,.85), rgba(236,253,245,.85)); }
+.dash-goal-icon { display: grid; place-items: center; width: 34px; height: 34px; font-size: 17px; border-radius: 11px; background: #e3f4ff; flex: 0 0 34px; }
+.dash-goal-info { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.dash-goal-top { display: flex; justify-content: space-between; gap: 8px; color: #1e4a60; font-size: 12px; }
+.dash-goal-top span { color: #2a8fb8; font-weight: 800; }
+.dash-goal-track { height: 9px; border-radius: 999px; background: #e2f2f8; overflow: hidden; }
+.dash-goal-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #38bdf8, #0ea5e9); transition: width 0.4s ease; }
+.dash-goal-row.done .dash-goal-track i { background: linear-gradient(90deg, #34d399, #10b981); }
+.dash-goal-step { display: flex; gap: 5px; }
+.dash-goal-step button {
+  width: 26px; height: 26px; border-radius: 9px;
+  border: 1px solid #bfe4ef; background: #eef9ff; color: #0369a1;
+  font-size: 14px; font-weight: 900; cursor: pointer; line-height: 1;
+}
+.dash-goal-step button:hover { background: #d9f1fd; }
+.dash-goal-state { min-width: 44px; text-align: right; color: #2a8fb8; font-size: 12px; font-weight: 900; }
+.dash-goals-done {
+  padding: 22px 16px; text-align: center;
+  border: 1.5px dashed #6ee7b7; border-radius: 14px;
+  background: linear-gradient(145deg, #fff, #ecfdf5);
+  color: #047857; font-size: 14px; font-weight: 900;
+}
+#dashGoalsBadge {
+  margin-left: auto; font-size: 11px; font-weight: 800; color: #2a8fb8;
+  padding: 4px 10px; border: 1px solid #bfe4ef; border-radius: 999px; background: #eef9ff;
+}
+
+/* Derin su uyumu */
+body.dark-mode .dash-wrong-summary { background: linear-gradient(145deg, #3a1010, #220808) !important; border-color: rgba(248, 113, 113, 0.35) !important; }
+body.dark-mode .dash-wrong-count, body.dark-mode .dash-wrong-open-hint { color: #FCA5A5 !important; }
+body.dark-mode .dash-wrong-count-label, body.dark-mode .dash-wrong-group-title { color: #FED7AA !important; }
+body.dark-mode .dash-wrong-group-title b { color: #FCA5A5 !important; }
+body.dark-mode .dash-wrong-mini { color: #FDBA74 !important; }
+body.dark-mode .dash-wrong-close { background: rgba(69, 15, 15, 0.9) !important; border-color: rgba(248, 113, 113, 0.4) !important; color: #FCA5A5 !important; }
+body.dark-mode .dash-goal-row { background: rgba(3, 22, 37, 0.65) !important; border-color: rgba(125, 211, 252, 0.18) !important; }
+body.dark-mode .dash-goal-top { color: #F2FDFF !important; }
+body.dark-mode .dash-goal-top span, body.dark-mode .dash-goal-state, body.dark-mode #dashGoalsBadge { color: #9FE0FF !important; }
+body.dark-mode .dash-goal-track { background: rgba(2, 14, 26, 0.9) !important; }
+body.dark-mode .dash-goal-icon { background: rgba(11, 61, 95, 0.85) !important; }
+body.dark-mode .dash-goal-step button { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #9FE0FF !important; }
+body.dark-mode #dashGoalsBadge { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; }
+body.dark-mode .dash-goals-done { background: linear-gradient(145deg, rgba(6, 51, 40, 0.9), rgba(4, 30, 24, 0.9)) !important; border-color: rgba(52, 211, 153, 0.4) !important; color: #6EE7B7 !important; }
+
+/* Hızlı Tur kartı: vadesi gelen tek soruluk buton listesi */
+
+/* ============================================================
+   📈 ÖĞRENME KAZANCI v1 (2026-09-12) — profesyonel rapor kartı
+   ============================================================ */
+.dashboard-grid #dashGainCard { grid-column: 1 / -1; }
+.dashboard-grid #dashGainCard.dash-gain-card {
+  background: linear-gradient(145deg, #0B5CAB 0%, #1478A8 55%, #0E7490 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 14px 30px rgba(11, 92, 171, 0.3) !important;
+}
+.dashboard-grid #dashGainCard .dash-card-title { color: #FFFFFF !important; }
+#dashGainDate {
+  margin-left: auto; font-size: 11px; font-weight: 800;
+  padding: 4px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18); color: #E0F5FF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.dash-gain-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
+  margin: 14px 0 12px;
+}
+@media (max-width: 900px) { .dash-gain-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dash-gain-kpi {
+  display: grid; gap: 3px; padding: 14px 12px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+}
+.dash-gain-kpi-label { color: rgba(224, 245, 255, 0.85); font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.dash-gain-kpi strong { color: #FFFFFF; font-size: 24px; font-weight: 900; }
+.dash-gain-delta { font-size: 11px; font-weight: 900; font-style: normal; }
+.dash-gain-delta.up { color: #6EE7B7; }
+.dash-gain-delta.down { color: #FCA5A5; }
+.dash-gain-delta.flat { color: rgba(224, 245, 255, 0.75); }
+.dash-gain-verdict {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 13px;
+  background: rgba(3, 25, 43, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF; font-size: 13px; font-weight: 700;
+}
+.dash-gain-verdict span { font-size: 20px; }
+.dash-gain-copy {
+  margin-top: 12px; padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 11px;
+  background: rgba(255, 255, 255, 0.2); color: #FFFFFF;
+  font-family: inherit; font-size: 12px; font-weight: 900; cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.dash-gain-copy:hover { background: rgba(255, 255, 255, 0.32); transform: translateY(-1px); }
+
+/* ============================================================
+   ⚡ HIZLI TUR v1 (2026-09-12) — tek soruluk anlık quiz kartı
+   ============================================================ */
+.dash-quick-list { display: grid; gap: 8px; }
+.dash-quick-btn {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 13px;
+  border: 1px solid rgba(156, 196, 236, 0.7); border-radius: 13px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer; font-family: inherit; text-align: left;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+.dash-quick-btn:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.85); background: rgba(255, 255, 255, 0.85); }
+.dash-quick-dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 10px; }
+.dash-quick-dot.dot-bad { background: #EF4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.7); }
+.dash-quick-dot.dot-warn { background: #F59E0B; box-shadow: 0 0 6px rgba(245, 158, 11, 0.7); }
+.dash-quick-dot.dot-fresh { background: #FACC15; box-shadow: 0 0 6px rgba(250, 204, 21, 0.7); }
+.dash-quick-btn strong {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: #1e4a60; font-size: 12px;
+}
+.dash-quick-btn .dash-quick-go {
+  flex: 0 0 auto; padding: 5px 12px; border-radius: 999px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff;
+  font-size: 10px; font-weight: 900;
+}
+.dash-quick-random {
+  width: 100%; margin-top: 4px; padding: 9px 12px;
+  border: 1px dashed #8cdaea; border-radius: 12px;
+  background: #eef9ff; color: #0369a1;
+  font-family: inherit; font-size: 12px; font-weight: 900; cursor: pointer;
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+.dash-quick-random:hover { background: #d9f1fd; transform: translateY(-1px); }
+.dash-quick-empty { color: #6391a8; font-size: 12px; }
+#dashQuickDue {
+  margin-left: auto; font-size: 11px; font-weight: 800; color: #2a8fb8;
+  padding: 4px 10px; border: 1px solid #bfe4ef; border-radius: 999px; background: #eef9ff;
+}
+body.dark-mode .dash-quick-btn { background: rgba(3, 22, 37, 0.65) !important; border-color: rgba(125, 211, 252, 0.18) !important; }
+body.dark-mode .dash-quick-btn strong { color: #F2FDFF !important; }
+body.dark-mode .dash-quick-random { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #9FE0FF !important; }
+body.dark-mode .dash-quick-empty { color: #8FC3DC !important; }
+body.dark-mode #dashQuickDue { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #9FE0FF !important; }
+
+/* ============================================================
+   📕 DEFTER ÖZET + 🧑‍🏫 ÖĞRETMENE SOR v1 (2026-09-12)
+   ============================================================ */
+.dash-wrong-chips { display: flex; gap: 10px; }
+.dash-wrong-chip {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 10px; border-radius: 15px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid transparent;
+  transition: transform 0.16s ease;
+}
+.dash-wrong-chip strong { font-size: 26px; font-weight: 900; color: #1e4a60; }
+.dash-wrong-chip span:last-child { font-size: 11px; font-weight: 800; color: #6391a8; }
+.dash-wrong-chip-dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 12px; }
+.chip-fresh { border-color: #FDE68A; }
+.chip-fresh .dash-wrong-chip-dot { background: #FACC15; box-shadow: 0 0 8px rgba(250, 204, 21, 0.8); }
+.chip-warn { border-color: #FDBA74; }
+.chip-warn .dash-wrong-chip-dot { background: #F59E0B; box-shadow: 0 0 8px rgba(245, 158, 11, 0.8); }
+.chip-bad { border-color: #FCA5A5; }
+.chip-bad .dash-wrong-chip-dot { background: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.8); }
+.dash-wrong-git {
+  width: 100%; margin-top: 10px; padding: 11px 14px;
+  border: 1px solid #8cdaea; border-radius: 13px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff;
+  font-family: inherit; font-size: 13px; font-weight: 900; cursor: pointer;
+  box-shadow: 0 3px 0 #0b83b4, 0 7px 14px rgba(14, 165, 233, 0.2);
+  transition: transform 0.16s ease;
+}
+.dash-wrong-git:hover { transform: translateY(-2px); }
+.dash-wrong-list-scroll {
+  margin-top: 10px; max-height: 340px; overflow-y: auto;
+  display: grid; gap: 4px; padding-right: 4px;
+}
+
+/* Öğretmene sor kartı */
+#dashTeachDue {
+  margin-left: auto; font-size: 11px; font-weight: 800; color: #2a8fb8;
+  padding: 4px 10px; border: 1px solid #bfe4ef; border-radius: 999px; background: #eef9ff;
+}
+.dash-teach-list { display: grid; gap: 8px; }
+.dash-teach-row {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 13px;
+  border: 1.5px solid rgba(156, 196, 236, 0.7); border-radius: 13px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer; font-family: inherit; text-align: left;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+.dash-teach-row:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.85); }
+.dash-teach-row.selected {
+  border-color: #0ea5e9; background: linear-gradient(145deg, #e0f2fe, #f0f9ff);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.18);
+}
+.dash-teach-row strong {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: #1e4a60; font-size: 12px;
+}
+.dash-teach-row.selected strong { color: #0c4a6e; }
+.dash-teach-miss {
+  flex: 0 0 auto; padding: 3px 9px; border-radius: 999px;
+  background: #fef3c7; color: #92400e; font-size: 10px; font-weight: 900;
+}
+.dash-teach-ask {
+  width: 100%; margin-top: 4px; padding: 10px 14px;
+  border: 1px solid #8cdaea; border-radius: 13px;
+  background: linear-gradient(135deg, #818cf8, #38bdf8); color: #fff;
+  font-family: inherit; font-size: 12px; font-weight: 900; cursor: pointer;
+  box-shadow: 0 3px 0 #6473c5, 0 7px 14px rgba(99, 102, 241, 0.2);
+  transition: transform 0.16s ease;
+}
+.dash-teach-ask:hover { transform: translateY(-2px); }
+
+/* Derin su uyumu */
+body.dark-mode .dash-wrong-chip { background: rgba(3, 22, 37, 0.65) !important; }
+body.dark-mode .dash-wrong-chip strong { color: #F2FDFF !important; }
+body.dark-mode .dash-wrong-chip span:last-child { color: #8FC3DC !important; }
+body.dark-mode .dash-teach-row { background: rgba(3, 22, 37, 0.65) !important; border-color: rgba(125, 211, 252, 0.18) !important; }
+body.dark-mode .dash-teach-row strong { color: #F2FDFF !important; }
+body.dark-mode .dash-teach-row.selected { background: linear-gradient(145deg, rgba(12, 74, 110, 0.9), rgba(8, 47, 73, 0.9)) !important; border-color: #0ea5e9 !important; }
+body.dark-mode #dashTeachDue { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #9FE0FF !important; }
+
+/* ============================================================
+   📑 AÇILIR PENCERE v1 (2026-09-12) — defter + öğretmen listeleri
+   sayfayı uzatmadan modal içinde açılır.
+   ============================================================ */
+.sheet-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(3, 20, 34, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: sheetIn 0.22s ease;
+}
+@keyframes sheetIn { from { opacity: 0; } to { opacity: 1; } }
+.sheet-box {
+  width: min(660px, 100%);
+  max-height: 82vh;
+  display: flex; flex-direction: column;
+  border-radius: 22px; overflow: hidden;
+  background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
+  border: 1px solid #bfe4ef;
+  box-shadow: 0 30px 70px rgba(3, 40, 66, 0.45);
+  animation: sheetPop 0.25s ease;
+}
+@keyframes sheetPop { from { transform: translateY(14px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0B5CAB, #1478A8);
+  color: #fff;
+}
+.sheet-head strong { font-size: 15px; }
+.sheet-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.18); color: #fff;
+  font-size: 13px; cursor: pointer;
+}
+.sheet-close:hover { background: rgba(255, 255, 255, 0.32); }
+.sheet-body { padding: 16px 18px 20px; overflow-y: auto; }
+.sheet-body .dash-review-row { cursor: pointer; }
+.sheet-solve { width: 100%; margin-top: 10px; }
+
+/* Grup başlığı sağ üstte */
+.dash-wrong-group-title-right { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+
+/* Öğretmen kartı özeti */
+.dash-teach-summary {
+  display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center;
+  padding: 14px 16px; border-radius: 15px;
+  background: linear-gradient(145deg, #eef4ff, #f5f3ff);
+  border: 1.5px solid #c9d8fb;
+}
+.dash-teach-count { font-size: 38px; font-weight: 900; color: #4f46e5; line-height: 1; }
+.dash-teach-count-label { color: #4c5b8f; font-size: 12px; font-weight: 800; }
+.dash-teach-summary .dash-teach-mini { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; color: #4c5b8f; font-size: 12px; font-weight: 800; margin-top: 4px; }
+
+/* Derin su uyumu */
+body.dark-mode .sheet-box { background: linear-gradient(145deg, #0A3556, #052540) !important; border-color: rgba(125, 211, 252, 0.24) !important; }
+body.dark-mode .dash-teach-summary { background: linear-gradient(145deg, rgba(30, 41, 90, 0.9), rgba(15, 23, 60, 0.9)) !important; border-color: rgba(129, 140, 248, 0.35) !important; }
+body.dark-mode .dash-teach-count { color: #C7D2FE !important; }
+body.dark-mode .dash-teach-count-label, body.dark-mode .dash-teach-summary .dash-teach-mini { color: #A5B4FC !important; }

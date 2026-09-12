@@ -913,6 +913,10 @@ function renderDashboard() {
 
   renderDashboardReviews();
   renderDashboardWrongBook();
+  renderDailyGoals();
+  renderLearningGain();
+  renderQuickTour();
+  renderDefterOgretmen();
   renderLearningScience();
 }
 
@@ -998,6 +1002,377 @@ function renderDashboardReviews() {
   });
 }
 
+// ===== 🎯 Günlük Mini Hedefler =====
+// Her gün sıfırlanan 3 hedef; ilerleme uygulamadan canlı okunur:
+// quiz sorusu (quizHistory), odak dakikası (focusLog), defter temizliği (wrongBook).
+// Hedef değerleri +/- ile ayarlanır, archie.goals.v1 içinde saklanır.
+const DAILY_GOALS_KEY = 'archie.goals.v1';
+const DAILY_GOALS_DEFAULTS = { quiz: 20, focus: 45 };
+
+function getDailyGoals() {
+  const g = readStorage(DAILY_GOALS_KEY, {});
+  return {
+    quiz: Math.max(1, Number(g.quiz) || DAILY_GOALS_DEFAULTS.quiz),
+    focus: Math.max(5, Number(g.focus) || DAILY_GOALS_DEFAULTS.focus),
+  };
+}
+
+function saveDailyGoals(g) {
+  writeStorage(DAILY_GOALS_KEY, g);
+}
+
+function renderDailyGoals() {
+  const box = $('dashGoals');
+  if (!box) return;
+  const targets = getDailyGoals();
+  const todayKey = focusDayKey(Date.now());
+
+  const quizDone = readStorage(STORAGE_KEYS.quizHistory, [])
+    .filter((e) => e && focusDayKey(new Date(e.timestamp).getTime()) === todayKey)
+    .reduce((sum, e) => sum + (Number(e.total) || 0), 0);
+  const focusDone = getFocusLog()
+    .filter((e) => e && focusDayKey(e.t) === todayKey)
+    .reduce((sum, e) => sum + (Number(e.minutes) || 0), 0);
+
+  const wb = getWrongBook();
+  const dueLeft = wb.filter((w) => !w.nextAt || w.nextAt <= Date.now()).length;
+  const cleared = wb.length - dueLeft;
+
+  const goals = [
+    { id: 'quiz', icon: '📝', label: 'Quiz sorusu', done: quizDone, target: targets.quiz, unit: '' },
+    { id: 'focus', icon: '⏱️', label: 'Odak dakikası', done: focusDone, target: targets.focus, unit: ' dk' },
+    { id: 'book', icon: '📕', label: 'Defter temizliği', done: cleared, target: Math.max(wb.length, 1), unit: ` / ${wb.length || 0}`, fixed: true },
+  ];
+  const completed = goals.filter((g) => g.done >= g.target).length;
+
+  if ($('dashGoalsBadge')) {
+    $('dashGoalsBadge').textContent = completed === goals.length ? '🎉 tamamlandı' : `${completed}/3 tamam`;
+  }
+
+  box.innerHTML = completed === goals.length
+    ? '<div class="dash-goals-done">🎉 Bugünkü hedeflerin tamamı bitti. Yarın görüşürüz!</div>'
+    : '' + goals.map((g) => {
+      const pct = Math.min(100, Math.round((g.done / Math.max(1, g.target)) * 100));
+      return `
+      <div class="dash-goal-row${g.done >= g.target ? ' done' : ''}">
+        <span class="dash-goal-icon">${g.icon}</span>
+        <div class="dash-goal-info">
+          <div class="dash-goal-top"><strong>${g.label}</strong><span>${g.done}${g.unit} / ${g.target}</span></div>
+          <div class="dash-goal-track"><i style="width:${pct}%"></i></div>
+        </div>
+        ${g.fixed
+          ? '<span class="dash-goal-step"></span>'
+          : `<span class="dash-goal-step">
+              <button type="button" data-goal-step="${g.id}|-1" aria-label="Azalt">−</button>
+              <button type="button" data-goal-step="${g.id}|1" aria-label="Artır">+</button>
+            </span>`}
+        <span class="dash-goal-state">${g.done >= g.target ? '✅' : `${pct}%`}</span>
+      </div>`;
+    }).join('');
+
+  box.querySelectorAll('[data-goal-step]').forEach((btn) => {
+    btn.onclick = () => {
+      const [id, delta] = btn.dataset.goalStep.split('|');
+      const g = getDailyGoals();
+      g[id] = Math.max(id === 'focus' ? 5 : 1, (Number(g[id]) || 0) + Number(delta) * 5);
+      saveDailyGoals(g);
+      renderDailyGoals();
+    };
+  });
+}
+
+// ===== 📈 Öğrenme Kazancı Raporu =====
+// Son 28 günlük damgalı veriden üretilir: quiz doğruluğu, çalışma hacmi,
+// odak dakikası ve defter temizliği. Kopyalanabilir özet + görsel kart.
+function learningGainStats() {
+  const dayMs = 24 * 60 * 60 * 1000;
+  const now = Date.now();
+  const inWindow = (ts, days) => {
+    const t = new Date(ts).getTime();
+    return Number.isFinite(t) && now - t < days * dayMs;
+  };
+  const history = readStorage(STORAGE_KEYS.quizHistory, []).filter((e) => e && e.timestamp);
+  const last = history.filter((e) => inWindow(e.timestamp, 7));
+  const prev = history.filter((e) => !inWindow(e.timestamp, 7) && inWindow(e.timestamp, 14));
+  const acc = (list) => {
+    const c = list.reduce((s, e) => s + (Number(e.correct) || 0), 0);
+    const t = list.reduce((s, e) => s + (Number(e.total) || 0), 0);
+    return t ? (c / t) * 100 : null;
+  };
+  const vol = (list) => list.reduce((s, e) => s + (Number(e.total) || 0), 0);
+  const focus = getFocusLog();
+  const focusLast = focus
+    .filter((e) => e && inWindow(e.t, 7))
+    .reduce((s, e) => s + (Number(e.minutes) || 0), 0);
+  const focusPrev = focus.filter((e) => e && !inWindow(e.t, 7) && inWindow(e.t, 14))
+    .reduce((s, e) => s + (Number(e.minutes) || 0), 0);
+  const solved = Number(readStorage('archie.wrongbook.solved', 0)) || 0;
+  const activeWrong = getWrongBook().length;
+  return {
+    accLast: acc(last), accPrev: acc(prev),
+    volLast: vol(last),
+    focusLast, focusPrev,
+    solved, activeWrong,
+  };
+}
+
+function renderLearningGain() {
+  const box = $('dashGain');
+  if (!box) return;
+  const s = learningGainStats();
+  const fmt = (v) => (v === null ? '–' : `${Math.round(v)}%`);
+  const delta = (cur, prev) => {
+    if (cur === null || prev === null) return { txt: 'veri yok', cls: 'flat' };
+    const d = cur - prev;
+    if (d > 0.5) return { txt: `▲ +${d.toFixed(1)}`, cls: 'up' };
+    if (d < -0.5) return { txt: `▼ ${d.toFixed(1)}`, cls: 'down' };
+    return { txt: '● dengeli', cls: 'flat' };
+  };
+  const dAcc = delta(s.accLast, s.accPrev);
+  const dFocus = delta(s.focusLast || null, s.focusPrev || null);
+  const verdict = (s.accLast !== null && s.accPrev !== null && s.accLast - s.accPrev > 2)
+    ? { icon: '📈', text: 'Yükselişte — doğruluk artıyor, ritmi koru.' }
+    : (s.accLast !== null && s.accPrev !== null && s.accPrev - s.accLast > 2)
+      ? { icon: '📉', text: 'Dikkat — doğruluk düşüyor; yanlış defterine odaklan.' }
+      : { icon: '➡️', text: 'Dengeli — hacmi artırarak sıçrama yapabilirsin.' };
+  if ($('dashGainDate')) {
+    const end = new Date();
+    const start = new Date(Date.now() - 13 * 24 * 60 * 60 * 1000);
+    const opt = { day: 'numeric', month: 'short' };
+    $('dashGainDate').textContent = `${start.toLocaleDateString('tr-TR', opt)} – ${end.toLocaleDateString('tr-TR', opt)}`;
+  }
+  box.innerHTML = `
+    <div class="dash-gain-grid">
+      <div class="dash-gain-kpi"><span class="dash-gain-kpi-label">Quiz doğruluğu (7g)</span><strong>${fmt(s.accLast)}</strong><em class="dash-gain-delta ${dAcc.cls}">${dAcc.txt}</em></div>
+      <div class="dash-gain-kpi"><span class="dash-gain-kpi-label">Çözülen soru (7g)</span><strong>${s.volLast}</strong><em class="dash-gain-delta flat">soru</em></div>
+      <div class="dash-gain-kpi"><span class="dash-gain-kpi-label">Odak (7g)</span><strong>${s.focusLast} dk</strong><em class="dash-gain-delta ${dFocus.cls}">${dFocus.txt} dk</em></div>
+      <div class="dash-gain-kpi"><span class="dash-gain-kpi-label">Defter temizliği</span><strong>${s.solved} ✓</strong><em class="dash-gain-delta flat">${s.activeWrong} kayıt aktif</em></div>
+    </div>
+    <div class="dash-gain-verdict"><span>${verdict.icon}</span> ${verdict.text}</div>
+    <button type="button" class="dash-gain-copy" id="dashGainCopy">📋 Özeti Kopyala</button>`;
+  const copyBtn = $('dashGainCopy');
+  if (copyBtn) {
+    copyBtn.onclick = async () => {
+      const text = `Learn with Archie — Öğrenme Kazancı (son 7 gün)\nQuiz doğruluğu: ${fmt(s.accLast)} (önceki 7 gün: ${fmt(s.accPrev)})\nÇözülen soru: ${s.volLast}\nOdak: ${s.focusLast} dk (önceki: ${s.focusPrev} dk)\nDefterden temizlenen: ${s.solved} (aktif: ${s.activeWrong})\n${verdict.icon} ${verdict.text}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('Rapor özeti kopyalandı 📋');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast('Rapor özeti kopyalandı 📋'); }
+        catch { showToast('Kopyalama desteklenmiyor'); }
+        ta.remove();
+      }
+    };
+  }
+}
+
+function fragileGroup(entry) {
+  const m = (entry && entry.misses) || 1;
+  if (m >= 3) return 'bad';
+  if (m === 2) return 'warn';
+  return 'fresh';
+}
+
+// ===== ⚡ Tek Soruluk Hızlı Tur (öneri 4) =====
+// Vadesi gelen defter kayıtları kompakt buton listesi olarak dizilir;
+// birine basınca yalnızca O soru anında quiz'e düşer. Rastgele düğmesi
+// listeden körlemesine bir soru seçer.
+function renderQuickTour() {
+  const card = $('dashQuickCard');
+  const box = $('dashQuick');
+  if (!card || !box) return;
+  const now = Date.now();
+  const due = getWrongBook().filter((w) => w && w.prompt && Array.isArray(w.options) && Number.isInteger(w.answer) && (!w.nextAt || w.nextAt <= now));
+  if (!due.length) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+  if ($('dashQuickDue')) $('dashQuickDue').textContent = `${due.length} soru hazır`;
+  const shown = due.slice(0, 5);
+  box.innerHTML = `<div class="dash-quick-list">${shown.map((entry) => `
+    <button type="button" class="dash-quick-btn" data-quick="${entry.id}">
+      <span class="dash-quick-dot dot-${fragileGroup(entry)}"></span>
+      <strong>${(entry.prompt || '').slice(0, 52)}</strong>
+      <span class="dash-quick-go">Çöz ▶</span>
+    </button>`).join('')}
+    <button type="button" class="dash-quick-random" id="dashQuickRandom">🎲 Rastgele 1 soru</button>
+  </div>`;
+  box.querySelectorAll('[data-quick]').forEach((btn) => {
+    btn.onclick = () => {
+      try {
+        startWrongBookQuizSingle(btn.dataset.quick);
+      } catch (err) {
+        console.error('[hızlı tur] açılış hatası:', err);
+        showToast(`Soru açılamadı: ${err.message || 'bilinmeyen sorun'}`);
+      }
+    };
+  });
+  const rnd = $('dashQuickRandom');
+  if (rnd) {
+    rnd.onclick = () => {
+      const pick = due[Math.floor(Math.random() * due.length)];
+      if (pick) {
+        try {
+          startWrongBookQuizSingle(pick.id);
+        } catch (err) {
+          console.error('[hızlı tur] açılış hatası:', err);
+          showToast(`Soru açılamadı: ${err.message || 'bilinmeyen sorun'}`);
+        }
+      }
+    };
+  }
+}
+
+function startWrongBookQuizSingle(recordId) {
+  const entry = getWrongBook().find((w) => w.id === recordId || wrongKey(w.topicId, w.prompt) === recordId);
+  if (!entry) { showToast('Kayıt bulunamadı 🌊'); return; }
+  const names = new Set();
+  const t = getAllTopics().find((tt) => tt.id === entry.topicId);
+  if (t) names.add(t.name);
+  quizState = {
+    questions: [{ ...entry, __id: entry.id }],
+    currentIndex: 0,
+    correctCount: 0,
+    selectedOption: null,
+    confidence: null,
+    topicId: null,
+    source: 'wrongbook',
+    wrongTopicNames: names,
+  };
+  showPage('quiz');
+  if ($('quizSetup')) $('quizSetup').style.display = 'none';
+  if ($('quizResult')) $('quizResult').style.display = 'none';
+  if ($('quizActive')) $('quizActive').style.display = '';
+  if ($('quizNextBtn')) $('quizNextBtn').style.display = 'none';
+  const qualityBox = $('qualityBox');
+  if (qualityBox) qualityBox.style.display = 'none';
+  renderQuizQuestion();
+}
+
+// ===== 🧑‍🏫 Defterimi Öğretmene Sor (öneri 8) =====
+// Kart kompakttır; konu seçimi açılır pencerede yapılır, seçim
+// AI Öğretmen sohbetine mikro-ders isteği olarak gönderilir.
+function renderDefterOgretmen() {
+  const card = $('dashTeachCard');
+  const box = $('dashTeach');
+  if (!card || !box) return;
+  const wb = getWrongBook().filter((w) => w && w.prompt && Array.isArray(w.options) && Number.isInteger(w.answer));
+  if (!wb.length) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+  // Kart kompakt kalır: sayı özeti + tek düğme; konu seçimi açılır pencerede.
+  const byGroup = { bad: 0, warn: 0, fresh: 0 };
+  wb.forEach((w) => { byGroup[fragileGroup(w)] += 1; });
+  if ($('dashTeachDue')) $('dashTeachDue').textContent = `${wb.length} kayıt içinden seç`;
+  box.innerHTML = `
+    <div class="dash-teach-summary">
+      <span class="dash-teach-count">${wb.length}</span>
+      <span class="dash-teach-count-label">defter sorusu öğretmene sorulabilir</span>
+      <span class="dash-teach-mini">
+        <i class="dot-bad"></i>${byGroup.bad}
+        <i class="dot-warn"></i>${byGroup.warn}
+        <i class="dot-fresh"></i>${byGroup.fresh}
+      </span>
+    </div>
+    <button type="button" class="dash-teach-ask" id="dashTeachAsk">🧑‍🏫 Öğretmene Sor</button>`;
+  const ask = $('dashTeachAsk');
+  if (ask) {
+    ask.onclick = () => {
+      const now = Date.now();
+      const ordered = [...wb].sort((a, b) => {
+        const aDue = !a.nextAt || a.nextAt <= now ? 0 : 1;
+        const bDue = !b.nextAt || b.nextAt <= now ? 0 : 1;
+        if (aDue !== bDue) return aDue - bDue;
+        return (b.misses || 0) - (a.misses || 0);
+      }).slice(0, 8);
+      let selectedId = ordered[0].id;
+      const overlay = openSheetModal('🧑‍🏫 Hangi soruyu açıklayayım?', `
+        <div class="dash-teach-list sheet-pick-list">
+          ${ordered.map((entry, i) => `
+            <button type="button" class="dash-teach-row${i === 0 ? ' selected' : ''}" data-teach-pick="${entry.id}">
+              <span class="dash-quick-dot dot-${fragileGroup(entry)}"></span>
+              <strong>${(entry.prompt || '').slice(0, 52)}</strong>
+              <span class="dash-teach-miss">${entry.misses}✕</span>
+            </button>`).join('')}
+        </div>
+        <button type="button" class="dash-teach-ask" id="sheetTeachSend">📨 Seçili soruyu gönder</button>`);
+      if (!overlay) return;
+      overlay.querySelectorAll('[data-teach-pick]').forEach((btn) => {
+        btn.onclick = () => {
+          selectedId = btn.dataset.teachPick;
+          overlay.querySelectorAll('[data-teach-pick]').forEach((b) => b.classList.toggle('selected', b === btn));
+        };
+      });
+      const send = overlay.querySelector('#sheetTeachSend');
+      if (send) {
+        send.onclick = () => {
+          closeSheetModal();
+          askTeacherAboutRecord(selectedId);
+        };
+      }
+    };
+  }
+}
+
+function askTeacherAboutRecord(recordId) {
+  const entry = getWrongBook().find((w) => w.id === recordId);
+  if (!entry) { showToast('Kayıt bulunamadı 🌊'); return; }
+  const t = getAllTopics().find((tt) => tt.id === entry.topicId);
+  const topicName = t ? t.name : 'defter sorusu';
+  const correctText = Array.isArray(entry.options) && Number.isInteger(entry.answer)
+    ? entry.options[entry.answer]
+    : 'kayıtta yok';
+  const msg = `📕 Defterimden bir soru (${topicName}, ${entry.misses}. kez yanlış): "${entry.prompt}" Doğru cevap: "${correctText}". Bunu bana adım adım açıklar mısın?`;
+  showPage('teacher');
+  try {
+    // Seçim ekranını geçip doğrudan sohbete düş: intro videosu atlanır.
+    if ($('teacherSelection')) $('teacherSelection').style.display = 'none';
+    if ($('teacherChat')) $('teacherChat').style.display = '';
+    initTeacherChat();
+    addTutorMessage(msg);
+  } catch (err) {
+    console.error('[öğretmen] mesaj gönderilemedi:', err);
+    showToast('Öğretmen sayfası açılamadı');
+  }
+}
+
+// ===== 📑 Sayfa büyütmeyen açılır pencere (defter + öğretmen) =====
+function openSheetModal(title, bodyHTML) {
+  closeSheetModal();
+  const overlay = document.createElement('div');
+  overlay.className = 'sheet-overlay';
+  overlay.id = 'sheetOverlay';
+  overlay.innerHTML = `
+    <div class="sheet-box" role="dialog" aria-modal="true">
+      <div class="sheet-head"><strong>${title}</strong><button type="button" class="sheet-close" id="sheetClose" aria-label="Kapat">✕</button></div>
+      <div class="sheet-body">${bodyHTML}</div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = () => closeSheetModal();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  const closeBtn = overlay.querySelector('#sheetClose');
+  if (closeBtn) closeBtn.onclick = close;
+  document.addEventListener('keydown', sheetEscClose);
+  return overlay;
+}
+
+function sheetEscClose(event) {
+  if (event.key === 'Escape') closeSheetModal();
+}
+
+function closeSheetModal() {
+  document.removeEventListener('keydown', sheetEscClose);
+  const overlay = document.getElementById('sheetOverlay');
+  if (overlay) overlay.remove();
+}
+
 function startReviewQuiz(topicId) {
   const topic = getAllTopics().find((t) => t.id === topicId);
   if (!topic) return;
@@ -1062,8 +1437,12 @@ function updateWrongBookAfterRun() {
     if (idx === -1) return;
     const wasCorrect = quizState.wrongFlags && quizState.wrongFlags[id];
     if (wasCorrect) {
-      // Bu turda doğru yapıldı: kayıt temizlenir.
+      // Bu turda doğru yapıldı: kayıt temizlenir, sayaç artar.
       wb.splice(idx, 1);
+      try {
+        const solved = Number(readStorage('archie.wrongbook.solved', 0)) || 0;
+        writeStorage('archie.wrongbook.solved', solved + 1);
+      } catch { /* yok say */ }
       return;
     }
     const miss = (wb[idx].misses || 0) + 1;
@@ -1087,6 +1466,14 @@ function wrongDueLabel(nextAt, now) {
   if (diff === 0) return { due: true, badge: '🟠 Bugün', diff };
   if (diff === -1) return { due: false, badge: '🟡 Yarın', diff };
   return { due: false, badge: `⏳ ${-diff} gün sonra`, diff };
+}
+
+// Kırılganlık seviyesi: misses sayısına göre renkli rozet.
+// 1. yanlış 🟡 Taze, 2. 🟠 Israrcı, 3+ 🔴 İnatçı soru.
+function fragileLabel(misses) {
+  if (misses >= 3) return { cls: 'fragile-bad', text: '🔴 İnatçı soru' };
+  if (misses === 2) return { cls: 'fragile-warn', text: '🟠 Israrcı' };
+  return { cls: 'fragile-fresh', text: '🟡 Taze' };
 }
 
 function renderDashboardWrongBook() {
@@ -1115,28 +1502,25 @@ function renderDashboardWrongBook() {
       : `⏳ ilk tekrar ${-nextDue.info.diff} gün sonra`;
   }
   card.style.display = '';
-  const visible = rows.slice(0, DASH_REVIEWS_MAX);
-  const shown = visible.map(({ entry, info }) => `
-    <div class="dash-review-row ${info.due ? 'due wrong' : ''}" data-wrong-open="${info.due ? 'due' : 'all'}" role="button" tabindex="0">
-      <span class="dash-review-icon">📕</span>
-      <div class="dash-review-info">
-        <strong>${(entry.prompt || '').slice(0, 64)}</strong>
-        <span>${entry.misses}. kez yanlış</span>
-      </div>
-      <span class="dash-review-badge ${info.due ? 'overdue' : ''}">${info.badge}</span>
+
+  // Özet görünüm: kategori başına sayı (sarı → turuncu → kırmızı) + Deftere git.
+  // Sayfa asla uzamaz; liste yalnızca istek üzerine, kaydırmalı kutuda açılır.
+  const counts = { fresh: 0, warn: 0, bad: 0 };
+  rows.forEach(({ entry }) => { counts[fragileGroup(entry)] += 1; });
+  const chip = (key, label) => `
+    <div class="dash-wrong-chip chip-${key}">
+      <span class="dash-wrong-chip-dot"></span>
+      <strong>${counts[key]}</strong>
+      <span>${label}</span>
+    </div>`;
+  listEl.innerHTML = `
+    <div class="dash-wrong-chips">
+      ${chip('fresh', 'Taze')}
+      ${chip('warn', 'Israrcı')}
+      ${chip('bad', 'İnatçı')}
     </div>
-  `).join('');
-  const hidden = rows.length - visible.length;
-  listEl.innerHTML = `${shown}${hidden > 0 ? `<small class="dash-review-more">+${hidden} kayıt daha</small>` : ''}`;
-  const solveBtn = document.createElement('button');
-  solveBtn.type = 'button';
-  solveBtn.className = 'dash-review-btn';
-  solveBtn.style.marginTop = '4px';
-  if (dueCount > 0) {
-    solveBtn.textContent = `▶ ${dueCount} soruyu defterden çöz`;
-  } else {
-    solveBtn.textContent = `🔬 ${rows.length} kaydı şimdi test et`;
-  }
+    <button type="button" class="dash-wrong-git" id="dashWrongGit">📕 Deftere git</button>`;
+
   const openWrong = () => {
     try {
       // dueCount===0 → tüm kayıtları şimdi test et; aksi halde yalnız vakti gelenler
@@ -1146,19 +1530,56 @@ function renderDashboardWrongBook() {
       showToast(`Defter açılamadı: ${err.message || 'bilinmeyen sorun'}`);
     }
   };
-  solveBtn.onclick = openWrong;
-  // Satırın kendisi de tıklanabilir (kart başlığı/boşluk boşalan yerde dursun)
-  listEl.querySelectorAll('[data-wrong-open]').forEach((row) => {
-    row.style.cursor = 'pointer';
-    row.onclick = openWrong;
-    row.onkeydown = (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openWrong();
+  const gitBtn = $('dashWrongGit');
+  if (gitBtn) {
+    // Defter açılır pencerede açılır — sayfa asla uzamaz.
+    gitBtn.onclick = () => {
+      const groupMeta = {
+        bad: { icon: '🔴', title: 'İnatçı sorular' },
+        warn: { icon: '🟠', title: 'Israrcı sorular' },
+        fresh: { icon: '🟡', title: 'Taze kayıtlar' },
+      };
+      const visible = rows.slice(0, DASH_REVIEWS_MAX * 2);
+      const body = ['bad', 'warn', 'fresh'].map((key) => {
+        const members = visible.filter(({ entry }) => fragileGroup(entry) === key);
+        if (!members.length) return '';
+        return `<div class="dash-wrong-group">
+          <div class="dash-wrong-group-title dash-wrong-group-title-right">${groupMeta[key].icon} ${groupMeta[key].title} <b>${members.length}</b></div>
+          ${members.map(({ entry, info }) => {
+            const frag = fragileLabel(entry.misses || 1);
+            return `
+          <div class="dash-review-row ${info.due ? 'due wrong' : ''}" data-wrong-open="${info.due ? 'due' : 'all'}" role="button" tabindex="0">
+            <span class="dash-review-icon">📕</span>
+            <div class="dash-review-info">
+              <strong>${(entry.prompt || '').slice(0, 64)}</strong>
+              <span>${entry.misses}. kez yanlış</span>
+            </div>
+            <span class="dash-review-badge ${info.due ? 'overdue' : ''}">${info.badge}</span>
+            <span class="dash-fragile ${frag.cls}">${frag.text}</span>
+          </div>`;
+          }).join('')}
+        </div>`;
+      }).join('') + (rows.length - visible.length > 0 ? `<small class="dash-review-more">+${rows.length - visible.length} kayıt daha</small>` : '')
+        + `<button type="button" class="dash-review-btn sheet-solve" id="dashWrongSolve">${dueCount > 0 ? `▶ ${dueCount} soruyu defterden çöz` : `🔬 ${rows.length} kaydı şimdi test et`}</button>`;
+      const overlay = openSheetModal('📕 Yanlış Soru Defteri', body);
+      if (!overlay) return;
+      const solveBtn = overlay.querySelector('#dashWrongSolve');
+      if (solveBtn) {
+        solveBtn.onclick = () => { closeSheetModal(); openWrong(); };
       }
+      overlay.querySelectorAll('[data-wrong-open]').forEach((row) => {
+        row.style.cursor = 'pointer';
+        row.onclick = () => { closeSheetModal(); openWrong(); };
+        row.onkeydown = (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            closeSheetModal();
+            openWrong();
+          }
+        };
+      });
     };
-  });
-  listEl.appendChild(solveBtn);
+  }
 }
 
 function startWrongBookQuiz(showOnlyDue) {
@@ -1178,7 +1599,6 @@ function _startWrongBookQuizInner(showOnlyDue) {
   // false (erken çalıştır) → tüm kayıtlar defterden çıkar.
   if (showOnlyDue) due = due.filter((w) => !w.nextAt || w.nextAt <= now);
   due = due.slice(0, WRONG_BOOK_MAX);
-  console.log('[defter] wbN=', wb.length, 'dueN=', due.length, 'showOnlyDue=', showOnlyDue);
   if (!due.length) { showToast('Defterde bugün için kayıt yok 🌊'); return; }
   const questions = due.map((entry) => ({
     ...entry,

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn with Archie</title>
-  <link rel="stylesheet" href="styles.css?v=20260912m">
+  <link rel="stylesheet" href="styles.css?v=20260912u">
 </head>
 <body>
   <!-- Sidebar -->
@@ -136,11 +136,6 @@
         <div id="dashReviews"></div>
       </div>
 
-      <div class="dash-card aquarium-card dash-reviews-card" id="dashWrongCard" style="display:none;">
-        <div class="dash-card-title">📕 Yanlış Soru Defteri <span id="dashWrongDue" style="margin-left:auto"></span></div>
-        <div id="dashWrong"></div>
-      </div>
-
       <div class="dashboard-grid">
         <div class="dash-card aquarium-card dash-quiz-card">
           <div class="dash-card-title">🎯 Quiz Başarı Halkası</div>
@@ -154,6 +149,26 @@
           <div class="dash-card-title">📅 Bugünkü Planlarım</div>
           <div id="dashPlans"></div>
         </div>
+        <div class="dash-card aquarium-card dash-reviews-card" id="dashWrongCard" style="display:none;">
+          <div class="dash-card-title">📕 Yanlış Soru Defteri <span id="dashWrongDue" style="margin-left:auto"></span></div>
+          <div id="dashWrong"></div>
+        </div>
+        <div class="dash-card aquarium-card dash-quick-card" id="dashQuickCard" style="display:none;">
+          <div class="dash-card-title">⚡ Hızlı Tur <span id="dashQuickDue" style="margin-left:auto"></span></div>
+          <div id="dashQuick"></div>
+        </div>
+        <div class="dash-card aquarium-card dash-teach-card" id="dashTeachCard" style="display:none;">
+          <div class="dash-card-title">🧑‍🏫 Defterimi Öğretmene Sor <span id="dashTeachDue" style="margin-left:auto"></span></div>
+          <div id="dashTeach"></div>
+        </div>
+        <div class="dash-card aquarium-card dash-gain-card" id="dashGainCard">
+          <div class="dash-card-title">📈 Öğrenme Kazancı <span id="dashGainDate" style="margin-left:auto"></span></div>
+          <div id="dashGain"></div>
+        </div>
+        <div class="dash-card aquarium-card">
+          <div class="dash-card-title">📊 Analitik görünüm</div>
+          <div class="dash-chart-grid" id="dashAnalytics"></div>
+        </div>
         <div class="dash-card aquarium-card dash-notes-card">
           <div class="dash-card-title">📝 Notların</div>
           <div class="dash-notes-layout">
@@ -162,10 +177,6 @@
               <div id="dashNotes"></div>
             </div>
           </div>
-        </div>
-        <div class="dash-card aquarium-card">
-          <div class="dash-card-title">📊 Analitik görünüm</div>
-          <div class="dash-chart-grid" id="dashAnalytics"></div>
         </div>
         <div class="dash-card aquarium-card dash-science-card">
           <div class="dash-card-title">🧪 Öğrenme Bilimi</div>
@@ -991,7 +1002,7 @@
   </div>
 
   <script src="public/libs/chart.umd.min.js?v=4.5.0" defer></script>
-  <script type="module" src="script.js?v=20260912m"></script>
+  <script type="module" src="script.js?v=20260912u"></script>
   <script type="module" src="quiz-whiteboard.js?v=20260911h"></script>
 </body>
 </html>

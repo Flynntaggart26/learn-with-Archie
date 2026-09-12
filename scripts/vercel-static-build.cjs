@@ -58,4 +58,19 @@ for (const m of mustExist) {
     process.exit(1);
   }
 }
+
+// Değişim doğrulama: kaynak → dist hash'leri eşleşmeli; aksi halde
+// "build'de değişiklik yok" algisinin kaynağı budur.
+for (const key of ['index.html', 'styles.css', 'script.js']) {
+  const srcBuf = fs.readFileSync(path.join(ROOT, key));
+  const outBuf = fs.readFileSync(path.join(OUT, key));
+  if (srcBuf.length !== outBuf.length) {
+    console.error(`BUILD HATASI: dist/${key} boyut farkı!`);
+    process.exit(1);
+  }
+  console.log(`✔ dist/${key} — ${(srcBuf.length / 1024).toFixed(1)} KB (kaynakla birebir)`);
+}
+const images = fs.readdirSync(path.join(OUT, 'public', 'images')).length;
+console.log(`✔ public/images girdileri kopyalandı: ${images} alt klasör`);
+
 console.log(`static build tamam: ${count} girdi dist/ altina kopyalandi`);

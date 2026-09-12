@@ -10454,18 +10454,23 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
 
 /* 5. Quiz Archie daha büyük */
 .dash-quiz-card .dash-quiz-layout .dash-quiz-archie {
-  flex: 0 0 175px !important;
-  width: 175px !important;
-  max-width: 175px !important;
-  max-height: 210px !important;
+  /* Geniş görsel + bir önceki yan yana düzen: halka solda, Archie arta kalan alanda ortada */
+  flex: 0 0 auto !important;
+  width: min(270px, 100%) !important;
+  max-width: 100% !important;
+  max-height: 260px !important;
   height: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-self: center !important;
 }
 @media (max-width: 650px) {
   .dash-quiz-card .dash-quiz-layout .dash-quiz-archie {
     flex: 0 0 auto !important;
-    width: 120px !important;
-    max-width: 120px !important;
-    max-height: 150px !important;
+    width: min(180px, 100%) !important;
+    max-width: 100% !important;
+    max-height: 220px !important;
+    margin: 0 auto !important;
   }
 }
 
@@ -10993,3 +10998,433 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
 
 
 
+
+/* ============================================================
+   🌊 DERİNYU MODU v1 (2026-09-12)
+   Tema felsefesi: açık tema = gün ışığında SIĞ SULAR (mevcut görünüm),
+   koyu tema (Ayarlar → Tema: Koyu) = DERİN SULAR paleti.
+   body.dark-mode tüm sayfalara bürünür; override'lar için dosyanın
+   SONUNDA durmalıdır.
+   ============================================================ */
+
+/* — Zemin: okyanusun en dibine in — */
+body.dark-mode,
+body.dark-mode .main {
+  background: linear-gradient(165deg, #03101C 0%, #052A43 52%, #06405F 100%) !important;
+  color: #DFF5FF !important;
+}
+
+/* — Yan panel: karanlık dipteh ta */
+body.dark-mode .sidebar {
+  background: linear-gradient(180deg, #041C2B 0%, #03101B 100%) !important;
+  border-color: rgba(125, 211, 252, 0.16) !important;
+}
+body.dark-mode .logo-text { color: #7DE3FF !important; }
+body.dark-mode .nav-link {
+  background: rgba(9, 48, 74, 0.55) !important;
+  border-color: rgba(125, 211, 252, 0.2) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .nav-link.active {
+  background: linear-gradient(135deg, #0E7490 0%, #0369A1 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 20px rgba(3, 91, 150, 0.45) !important;
+}
+body.dark-mode .sidebar-profile {
+  background: linear-gradient(160deg, #09405F 0%, #052738 100%) !important;
+  border-color: rgba(125, 211, 252, 0.22) !important;
+  box-shadow: 0 8px 22px rgba(3, 55, 92, 0.35) !important;
+}
+body.dark-mode .sidebar-profile-name, body.dark-mode .sidebar-profile-sub { color: #D6F2FF !important; }
+
+/* — Üst bar — */
+body.dark-mode .topbar {
+  background: rgba(4, 22, 36, 0.82) !important;
+  border-color: rgba(125, 211, 252, 0.16) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+body.dark-mode .level-btn, body.dark-mode .controls .level-btn {
+  background: rgba(9, 48, 74, 0.6) !important;
+  border-color: rgba(125, 211, 252, 0.22) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .controls .level-btn.active {
+  background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
+  color: #FFFFFF !important;
+}
+
+/* — Sayfa kapları: şeffaf, zemin derin — */
+body.dark-mode .dashboard-container, body.dark-mode .planner-container,
+body.dark-mode .quiz-container, body.dark-mode .store-container,
+body.dark-mode .profile-container, body.dark-mode .settings-container,
+body.dark-mode .timer-container, body.dark-mode .aquarium-container,
+body.dark-mode .deneme-container, body.dark-mode .chat-container {
+  background: transparent !important;
+  color: #DFF5FF !important;
+}
+
+/* — Kart ortak deseni (dash/planner/quiz/profile kart yüzeyleri) — */
+body.dark-mode .dash-card, body.dark-mode .dash-stat,
+body.dark-mode .dashboard-grid .dash-card:nth-child(n),
+body.dark-mode .dash-stats-grid .dash-stat:nth-child(n),
+body.dark-mode .planner-stat-card, body.dark-mode .planner-task,
+body.dark-mode .planner-form, body.dark-mode .planner-days,
+body.dark-mode .planner-insight-card, body.dark-mode .recall-row,
+body.dark-mode .store-item, body.dark-mode .settings-card,
+body.dark-mode .aquarium-card {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  color: #DFF5FF !important;
+  box-shadow: 0 10px 24px rgba(2, 16, 30, 0.45) !important;
+}
+body.dark-mode .dash-card-title, body.dark-mode .settings-card-header h3,
+body.dark-mode .store-item-name, body.dark-mode .profile-analytics-heading h3,
+body.dark-mode .store-section-title { color: #F2FDFF !important; }
+body.dark-mode .dash-stat-label, body.dark-mode .store-item-desc,
+body.dark-mode .store-section-desc, body.dark-mode .settings-sound-row > span,
+body.dark-mode .settings-danger-row span, body.dark-mode .settings-account-info span,
+body.dark-mode .settings-night-info span, body.dark-mode .recall-info small { color: #8FC3DC !important; }
+body.dark-mode .dash-stat-value, body.dark-mode .settings-account-info strong,
+body.dark-mode .settings-night-info strong { color: #FFFFFF !important; }
+
+/* — Panel herosu: derin alıcıga dalış — */
+body.dark-mode .dashboard-container .dashboard-hero,
+body.dark-mode .settings-hero, body.dark-mode .store-banner,
+body.dark-mode .planner-header, body.dark-mode .quiz-header {
+  background: linear-gradient(135deg, #052F4D 0%, #0A5A83 60%, #0A7EA8 130%) !important;
+  border-color: rgba(125, 211, 252, 0.2) !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.14), 0 14px 30px rgba(2, 30, 52, 0.55) !important;
+}
+body.dark-mode .settings-hero-text h2, body.dark-mode .store-banner-text h2,
+body.dark-mode .planner-header-text h2 { color: #FFFFFF !important; }
+body.dark-mode .settings-hero-text p, body.dark-mode .store-banner-text p { color: rgba(214, 242, 255, 0.85) !important; }
+
+/* — Panel iç yüzeyleri — */
+body.dark-mode .dash-progress-bar { background: rgba(2, 14, 26, 0.85) !important; }
+body.dark-mode .dash-progress-fill { background: linear-gradient(90deg, #06B6D4, #0EA5E9) !important; }
+body.dark-mode .dash-action-btn {
+  background: linear-gradient(145deg, #0B3D5F 0%, #072C49 100%) !important;
+  border-color: rgba(125, 211, 252, 0.26) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .dash-action-btn:hover { background: linear-gradient(135deg, #0E7490, #0369A1) !important; color: #fff !important; }
+body.dark-mode .dash-goal-item, body.dark-mode .dash-note-item,
+body.dark-mode .dash-achievement, body.dark-mode .dash-analytic-item,
+body.dark-mode .dash-plan-row, body.dark-mode .dash-plan-check {
+  background: rgba(3, 20, 34, 0.65) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  color: #DFF5FF !important;
+}
+body.dark-mode .dash-notes-textarea, body.dark-mode .dash-notes textarea {
+  background: rgba(3, 18, 30, 0.92) !important;
+  border-color: rgba(125, 211, 252, 0.2) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .recall-row { background: rgba(6, 34, 54, 0.85) !important; border-color: rgba(125, 211, 252, 0.18) !important; color: #DFF5FF !important; }
+body.dark-mode .recall-info strong { color: #9FE0FF !important; }
+body.dark-mode .recall-track { background: rgba(2, 14, 26, 0.9) !important; }
+
+/* — Planlayıcı metinleri — */
+body.dark-mode .planner-container, body.dark-mode .planner-header-text h2,
+body.dark-mode .planner-form-heading { color: #E6F9FF !important; }
+body.dark-mode .planner-header-text h3, body.dark-mode .planner-form-heading { color: #EAFBFF !important; }
+
+/* — Sınav — */
+body.dark-mode .quiz-container .quiz-setup, body.dark-mode .quiz-container .quiz-active,
+body.dark-mode .quiz-container .quiz-result {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  color: #DFF5FF !important;
+}
+body.dark-mode .quiz-container .quiz-pane {
+  background: linear-gradient(145deg, #07304C 0%, #04233A 100%) !important;
+  border-color: rgba(125, 211, 252, 0.2) !important;
+  color: #DFF5FF !important;
+}
+body.dark-mode .quiz-container .quiz-option {
+  background: rgba(4, 26, 42, 0.9) !important;
+  border-color: rgba(125, 211, 252, 0.22) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .quiz-container .quiz-option:hover { border-color: #22D3EE !important; background: rgba(8, 60, 92, 0.95) !important; }
+body.dark-mode .quiz-kicker, body.dark-mode .quiz-avatar { color: #8FDCFF !important; }
+body.dark-mode .level-btn [class*="level-tag"] { color: #9FD8F2 !important; }
+
+/* — Zamanlayıcı — */
+body.dark-mode .timer-card, body.dark-mode .focus-card {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+}
+body.dark-mode .timer-mode-tab {
+  background: rgba(4, 28, 44, 0.85) !important;
+  border-color: rgba(125, 211, 252, 0.2) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .timer-mode-tab.active {
+  background: linear-gradient(135deg, #0284C7, #0891B2) !important;
+  color: #fff !important;
+}
+body.dark-mode .focus-ring-content strong { color: #F2FDFF !important; }
+body.dark-mode .focus-ring-content span { color: #8FC3DC !important; }
+body.dark-mode .focus-session-chip { background: rgba(8, 60, 92, 0.7) !important; color: #BFEAFF !important; }
+
+/* — Profil — */
+body.dark-mode .profile-container section { background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important; border-color: rgba(125, 211, 252, 0.18) !important; }
+body.dark-mode .profile-eyebrow { color: #7DE3FF !important; }
+
+/* — Seçim ekranları (AI Öğretmen/Öğrenci) — */
+body.dark-mode .selection-header h2, body.dark-mode .selection-header p,
+body.dark-mode .controls, body.dark-mode .controls .level-btn span { color: #E0F5FF !important; }
+
+/* — Ayarlar: kartlar yukarıdaki ortak bloktan derinleşir — */
+body.dark-mode .settings-switch-slider { background: rgba(2, 14, 26, 0.9) !important; }
+body.dark-mode .settings-theme-btn { background: rgba(6, 40, 62, 0.9) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #DFF5FF !important; }
+body.dark-mode .settings-night-row { background: rgba(6, 40, 62, 0.7) !important; border-color: rgba(125, 211, 252, 0.2) !important; }
+body.dark-mode .settings-theme-btn.active { background: linear-gradient(135deg, #0EA5E9, #06B6D4) !important; color: #03101C !important; }
+body.dark-mode .settings-footer { color: #5E8FA6 !important; }
+
+/* — Genel giriş alanları & metinler — */
+body.dark-mode .main input, body.dark-mode .main select, body.dark-mode .main textarea {
+  background: rgba(3, 18, 30, 0.7) !important;
+  border-color: rgba(125, 211, 252, 0.24) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .main h2, body.dark-mode .main h3, body.dark-mode .main h4 { color: #F2FDFF !important; }
+body.dark-mode .main p { color: #A9D3E4 !important; }
+body.dark-mode .main strong { color: #F4FDFF !important; }
+
+/* ============================================================
+   🔁 BUGÜNKÜ TEKRARLARIM v1 (2026-09-12) — SM-2 günlük kuyruk
+   ============================================================ */
+.dash-reviews-card { border-radius: 20px; }
+#dashReviewDue {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 800;
+  color: #2a8fb8;
+  padding: 4px 10px;
+  border: 1px solid #bfe4ef;
+  border-radius: 999px;
+  background: #eef9ff;
+}
+#dashReviews { display: grid; gap: 9px; }
+.dash-review-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid rgba(156, 196, 236, 0.7);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.42);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.dash-review-row:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.85); }
+.dash-review-row.due {
+  border-left: 4px solid #F59E0B;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(254, 249, 231, 0.72));
+}
+.dash-review-icon { display: grid; place-items: center; width: 34px; height: 34px; font-size: 17px; border-radius: 11px; background: #e3f4ff; flex: 0 0 34px; }
+.dash-review-info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.dash-review-info strong {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: #1e4a60; font-size: 13px;
+}
+.dash-review-info span { color: #6391a8; font-size: 10.5px; }
+.dash-review-badge {
+  padding: 5px 10px; border: 1px solid #cfe4ee; border-radius: 999px;
+  background: #f4fbfe; color: #3c7d9c; font-size: 10px; font-weight: 900; white-space: nowrap;
+}
+.dash-review-badge.overdue { border-color: #fecaca; background: #fff1f1; color: #b91c1c; }
+.dash-review-badge.today { border-color: #fde68a; background: #fffbeb; color: #b45309; }
+.dash-review-badge.soon { border-color: #a7f3d0; background: #ecfdf5; color: #047857; }
+.dash-review-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: 1px solid #8cdaea;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #fff;
+  font-weight: 900;
+  font-size: 11px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #0b83b4, 0 7px 14px rgba(14, 165, 233, 0.2);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.dash-review-btn:hover { transform: translateY(-2px); }
+.dash-review-more { display: block; margin-top: 4px; color: #7aa7b8; font-size: 10.5px; font-weight: 700; }
+
+/* Derin su uyumu (koyu tema) */
+body.dark-mode #dashReviewDue { background: rgba(8, 60, 92, 0.8) !important; border-color: rgba(125, 211, 252, 0.24) !important; color: #9FE0FF !important; }
+body.dark-mode .dash-review-row {
+  background: rgba(3, 22, 37, 0.65) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+}
+body.dark-mode .dash-review-row.due { background: linear-gradient(145deg, rgba(58, 42, 10, 0.5), rgba(24, 18, 8, 0.55)) !important; border-left-color: #F59E0B !important; }
+body.dark-mode .dash-review-info strong { color: #F2FDFF !important; }
+body.dark-mode .dash-review-info span { color: #8FC3DC !important; }
+body.dark-mode .dash-review-icon { background: rgba(11, 61, 95, 0.85) !important; }
+body.dark-mode .dash-review-badge { background: rgba(10, 45, 68, 0.9) !important; border-color: rgba(125, 211, 252, 0.22) !important; color: #BFEAFF !important; }
+body.dark-mode .dash-review-badge.overdue { background: rgba(87, 15, 15, 0.75) !important; border-color: rgba(248, 113, 113, 0.4) !important; color: #FCA5A5 !important; }
+body.dark-mode .dash-review-badge.today { background: rgba(55, 40, 6, 0.75) !important; border-color: rgba(251, 191, 36, 0.4) !important; color: #FDE68A !important; }
+body.dark-mode .dash-review-badge.soon { background: rgba(5, 46, 32, 0.75) !important; border-color: rgba(52, 211, 153, 0.4) !important; color: #6EE7B7 !important; }
+
+/* Yanlış Soru Defteri varyantı */
+.dash-review-row.wrong { border-left: 4px solid #EF4444; }
+body.dark-mode .dash-review-row.wrong { border-left-color: #F87171 !important; background: linear-gradient(145deg, rgba(58, 12, 12, 0.5), rgba(24, 8, 8, 0.55)) !important; }
+
+/* ============================================================
+   ⏱️ TIMER ARCHIE — eski boyutun 1.6 katı (416px), kartın sol alt
+   köşesinde; halka/pod satırları eski halinde ortada durur.
+   (.focus-card zaten relative; görsel akış dışı absolute.)
+   ============================================================ */
+.focus-card { position: relative !important; }
+.focus-card .timer-archie-mascot {
+  position: absolute !important;
+  left: 14px !important;
+  bottom: 10px !important;
+  top: auto !important;
+  order: 99 !important;
+  width: 416px !important;
+  max-width: min(45%, 416px) !important;
+  height: auto !important;
+  max-height: 430px !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  align-self: auto !important;
+  pointer-events: none !important;
+  animation: none !important;
+  transform: none !important;
+  filter: drop-shadow(0 12px 18px rgba(8, 47, 73, 0.22)) !important;
+}
+@media (max-width: 700px) {
+  .focus-card .timer-archie-mascot {
+    position: static !important;
+    width: 200px !important;
+    max-width: 200px !important;
+    max-height: 210px !important;
+    margin: 12px auto 0 0 !important;
+  }
+}
+
+/* ============================================================
+   ⏱️ KONTROL REVİZYONU v1 — görsel küçült, butonlar 1.3× ve
+   halkanın altına kaydır: mavi halka tam ortada, butonlar onun
+   altında, maskot sol altta butonlara en az bir parmak boşlukla.
+   ============================================================ */
+.focus-card .timer-archie-mascot {
+  width: 260px !important;
+  max-width: min(37%, 260px) !important;
+  max-height: 260px !important;
+}
+.focus-controls {
+  width: min(700px, 100%) !important;
+  margin-top: 28px !important;
+}
+.focus-controls .timer-btn {
+  min-height: 53px !important;
+  font-size: 13px !important;
+}
+
+/* ============================================================
+   🦈 PLANS LEMMY — Quiz Archie ile aynı boyut (270px), kartın
+   sağ alt köşesinde. Kutunun kendisine dokunulmaz; görsel
+   absolute konumlanır (kutu zaten relative + overflow visible).
+   ============================================================ */
+@media (min-width: 1100px) {
+  .dash-plans-top-lemmy {
+    display: block !important;
+    position: absolute !important;
+    top: auto !important;
+    bottom: 0 !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: none !important;
+    width: 324px !important;
+    height: auto !important;
+    max-width: 324px !important;
+    max-height: 330px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 12px 18px rgba(8, 47, 73, 0.22)) !important;
+    z-index: 2 !important;
+  }
+}
+
+/* ============================================================
+   🦈 HERO ARCHIE — hero kutusunun alt kenarına bağlı, %/İlerleme
+   kutusundan bağımsız. Kutu animasyonlarından etkilenmez.
+   (Ölçü: 62.6% merkez, alt kenar hero altının 17px altında.)
+   ============================================================ */
+.dashboard-hero .hero-archie {
+  position: absolute !important;
+  left: 62.6% !important;
+  bottom: -17px !important;
+  transform: translateX(-50%) !important;
+  height: 158px !important;
+  width: auto !important;
+  max-width: 320px !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+  animation: none !important;
+  transition: none !important;
+  filter: drop-shadow(0 10px 12px rgba(8, 47, 73, 0.35)) !important;
+}
+@media (max-width: 650px) {
+  .dashboard-hero .hero-archie {
+    height: 106px !important;
+    max-width: 210px !important;
+    bottom: -12px !important;
+  }
+}
+@media (max-width: 1099px) and (min-width: 700px) {
+  .dash-plans-top-lemmy {
+    display: block !important;
+    width: 180px !important;
+    max-width: 180px !important;
+    margin: 0 auto 8px auto !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 8px 12px rgba(8, 47, 73, 0.18)) !important;
+  }
+}
+
+/* Sınav sol boşluk Lemmy (çalışanlemmy): geniş ekranda sınav kutusunun solundaki boşluğa yerleşir. */
+@media (min-width: 1740px) {
+  .quiz-container.quiz-top { position: relative !important; }
+  .quiz-side-lemmy {
+    display: block !important;
+    position: absolute !important;
+    left: -298px !important;
+    top: 226px !important;
+    width: 325px !important;
+    height: auto !important;
+    max-height: 560px !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    filter: drop-shadow(0 14px 20px rgba(8, 47, 73, 0.22)) !important;
+  }
+}
+
+/* Panel uzun plan ismi kesimi: referans uzunluk aşımında parlak rozet-tire */
+.dash-plan-cut {
+  display: inline-block;
+  padding: 1px 10px 2px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #F59E0B, #F97316);
+  color: #FFF7ED;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  vertical-align: 1px;
+}
+body.dark-mode .dash-plan-cut {
+  background: linear-gradient(135deg, #FBBF24, #F97316) !important;
+  color: #431407 !important;
+  box-shadow: 0 2px 10px rgba(251, 191, 36, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}

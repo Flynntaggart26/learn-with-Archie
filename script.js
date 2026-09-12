@@ -105,6 +105,7 @@ const STORAGE_KEYS = {
   tasks: 'archie.tasks',
   calendarEvents: 'archie.calendarEvents',
   quizHistory: 'archie.quizHistory',
+  wrongBook: 'archie.wrongbook',
   notes: 'archie.notes',
   xp: 'archie.xp',
   ownedItems: 'archie.ownedItems',
@@ -641,7 +642,6 @@ function showPage(page) {
 
   closeAllDropdowns();
   window.scrollTo(0, 0);
-  renderPageStickers();
 }
 
 function initNavigation() {
@@ -722,6 +722,15 @@ function initTheme() {
 }
 
 // ===== Dashboard =====
+// Uzun isimler sayfa düzenini bozmasın: 50 harften uzun plan isimleri
+// ilk 48 harfi + parlak "–" ile gösterilir.
+function shortPlanTitle(text, escaper) {
+  const raw = text || 'Görev';
+  if (raw.length <= 50) return escaper ? escaper(raw) : raw;
+  const head = raw.slice(0, 48);
+  return `${escaper ? escaper(head) : head}<span class="dash-plan-cut">–</span>`;
+}
+
 function renderDashboard() {
   ensureDailyStreakFreeze();
   applyRewardState();
@@ -768,10 +777,11 @@ function renderDashboard() {
       : shownPlans.map((task) => {
         const status = getTaskStatus(task);
         const meta = [task.time, task.duration ? `${task.duration} dk` : ''].filter(Boolean).join(' • ');
+        const shownTitle = shortPlanTitle(task.title);
         return `
       <div class="dash-goal-item">
         <button type="button" class="dash-plan-check ${status === 'done' ? 'done' : ''}" data-task="${task.id}" aria-label="Görevi işaretle">${status === 'done' ? '✓' : ''}</button>
-        <span class="goal-text">${task.title || 'Görev'}${meta ? ` <small style="color:var(--text-light);font-weight:600;">${meta}</small>` : ''}</span>
+        <span class="goal-text">${shownTitle}${meta ? ` <small style="color:var(--text-light);font-weight:600;">${meta}</small>` : ''}</span>
         <span class="goal-status ${status === 'done' ? 'done' : 'pending'}">${status === 'done' ? 'Bitti' : status === 'doing' ? 'Sürüyor' : 'Bekliyor'}</span>
       </div>
     `;
@@ -901,7 +911,302 @@ function renderDashboard() {
     `;
   }
 
+  renderDashboardReviews();
+  renderDashboardWrongBook();
   renderLearningScience();
+}
+
+// ===== SM-2 Günlük Tekrar Kuyruğu (Bugünkü Tekrarlarım) =====
+// Son quizlerde verilen SM-2 kalite notlarına göre bugün tekrar günü
+// gelen konuları sıralar; tek tıkla o konudan quiz başlatır. Gecikmiş
+// konular en üste, bugün ve sonraki günler sıralı gelir.
+const DASH_REVIEWS_MAX = 6;
+
+function collectReviewQueue() {
+  const store = readStorage(STORAGE_KEYS.reviews, {});
+  const topics = getAllTopics();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dayMs = 24 * 60 * 60 * 1000;
+  const items = [];
+  Object.entries(store).forEach(([id, rec]) => {
+    const topic = topics.find((t) => t.id === id);
+    if (!topic || !rec || !rec.dueDate) return;
+    const due = new Date(rec.dueDate);
+    due.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - due.getTime()) / dayMs);
+    items.push({
+      topicId: id,
+      topic,
+      repetitions: rec.repetitions || 0,
+      easinessFactor: rec.easinessFactor || 2.5,
+      due: diff >= 0,
+      diff,
+    });
+  });
+  items.sort((a, b) => {
+    if (a.due !== b.due) return a.due ? -1 : 1;
+    if (a.due) return b.diff - a.diff;     // en gecikmiş önce
+    return a.diff - b.diff;               // en az bekleyen önce
+  });
+  return items;
+}
+
+function reviewBadgeFor(diff) {
+  if (diff > 0) return `<span class="dash-review-badge overdue">🔴 ${diff} gün gecikti</span>`;
+  if (diff === 0) return '<span class="dash-review-badge today">🟠 Bugün</span>';
+  if (diff === -1) return '<span class="dash-review-badge soon">🟡 Yarın</span>';
+  return `<span class="dash-review-badge">⏳ ${-diff} gün sonra</span>`;
+}
+
+function renderDashboardReviews() {
+  const card = $('dashReviewsCard');
+  const listEl = $('dashReviews');
+  if (!card || !listEl) return;
+  const all = collectReviewQueue();
+  const dueItems = all.filter((i) => i.due);
+
+  if ($('dashReviewDue')) {
+    $('dashReviewDue').textContent = dueItems.length
+      ? `${dueItems.length} konu hazır`
+      : (all.length ? 'planlada temiz 🌊' : '');
+  }
+
+  if (!all.length) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+
+  const shown = all.slice(0, DASH_REVIEWS_MAX).map((item) => `
+    <div class="dash-review-row${item.due ? ' due' : ''}">
+      <span class="dash-review-icon">📘</span>
+      <div class="dash-review-info">
+        <strong>${item.topic.name}</strong>
+        <span>${item.topic.level === 'ayt' ? 'AYT' : 'TYT'} · EF ${item.easinessFactor.toFixed(2)} · ${item.repetitions}. tekrar</span>
+      </div>
+      ${reviewBadgeFor(item.diff)}
+      ${item.due ? `<button type="button" class="dash-review-btn" data-review="${item.topicId}">Tekrarla</button>` : ''}
+    </div>
+  `).join('');
+
+  const hidden = all.length - Math.min(all.length, DASH_REVIEWS_MAX);
+  listEl.innerHTML = `${shown}${hidden > 0 ? `<small class="dash-review-more">+${hidden} konu daha planlanmış</small>` : ''}`;
+
+  listEl.querySelectorAll('[data-review]').forEach((btn) => {
+    btn.onclick = () => startReviewQuiz(btn.dataset.review);
+  });
+}
+
+function startReviewQuiz(topicId) {
+  const topic = getAllTopics().find((t) => t.id === topicId);
+  if (!topic) return;
+  if (AppState.activeLevel !== topic.level) AppState.activeLevel = topic.level;
+  showPage('quiz');
+  startQuiz(topicId);
+}
+
+// ===== 📕 Yanlış Soru Defteri =====
+// Quiz ve çıkmış sorularda yanlış cevaplanan sorular anlık görüntüyle +
+// nadirlik takvimiyle buraya düşer: ilk tekrar +3g, sonra +7g, sonra +15g.
+// Tekrar turunda doğru yapılan kayıt temizlenir, yine yanlış olursa genel
+// takvimde bir adım daha uzatılarak kayıt kalır.
+const WRONG_RETRY_SCHEDULE = [3, 7, 15];
+const WRONG_BOOK_MAX = 10;
+
+function wrongKey(topicId, prompt) {
+  return `${topicId || '?'}#${(prompt || '').slice(0, 90)}`;
+}
+
+function getWrongBook() {
+  const wb = readStorage(STORAGE_KEYS.wrongBook, []);
+  return Array.isArray(wb) ? wb : [];
+}
+
+function saveWrongBook(wb) {
+  writeStorage(STORAGE_KEYS.wrongBook, wb);
+}
+
+function recordWrongAnswer(topicId, question) {
+  if (!question || !question.prompt) return;
+  const wb = getWrongBook();
+  const now = Date.now();
+  const id = wrongKey(topicId, question.prompt);
+  let entry = wb.find((w) => w.id === id);
+  if (!entry) {
+    entry = {
+      id,
+      topicId: topicId || '',
+      prompt: question.prompt,
+      options: question.options,
+      answer: question.answer,
+      misses: 0,
+      firstAt: now,
+    };
+    wb.push(entry);
+  }
+  entry.misses = (entry.misses || 0) + 1;
+  entry.lastAt = now;
+  const delay = WRONG_RETRY_SCHEDULE[Math.min(entry.misses - 1, WRONG_RETRY_SCHEDULE.length - 1)];
+  entry.nextAt = delay ? now + delay * 24 * 60 * 60 * 1000 : now;
+  saveWrongBook(wb);
+}
+
+function updateWrongBookAfterRun() {
+  if (!quizState || quizState.source !== 'wrongbook' || !Array.isArray(quizState.questions)) return;
+  const wb = getWrongBook();
+  const now = Date.now();
+  quizState.questions.forEach((q) => {
+    const id = q.__id || wrongKey(q.topicId, q.prompt);
+    const idx = wb.findIndex((w) => w.id === id || wrongKey(w.topicId, w.prompt) === id);
+    if (idx === -1) return;
+    const wasCorrect = quizState.wrongFlags && quizState.wrongFlags[id];
+    if (wasCorrect) {
+      // Bu turda doğru yapıldı: kayıt temizlenir.
+      wb.splice(idx, 1);
+      return;
+    }
+    const miss = (wb[idx].misses || 0) + 1;
+    const delay = WRONG_RETRY_SCHEDULE[Math.min(miss - 1, WRONG_RETRY_SCHEDULE.length - 1)];
+    wb[idx].misses = miss;
+    wb[idx].lastAt = now;
+    wb[idx].nextAt = now + delay * 24 * 60 * 60 * 1000;
+  });
+  saveWrongBook(wb);
+}
+
+function wrongDueLabel(nextAt, now) {
+  if (!nextAt) return { due: true, badge: '🟠 Bugün', diff: 0 };
+  const dayMs = 24 * 60 * 60 * 1000;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(nextAt);
+  due.setHours(0, 0, 0, 0);
+  const diff = Math.round((today.getTime() - due.getTime()) / dayMs);
+  if (diff > 0) return { due: true, badge: `🔴 ${diff} gün gecikti`, diff };
+  if (diff === 0) return { due: true, badge: '🟠 Bugün', diff };
+  if (diff === -1) return { due: false, badge: '🟡 Yarın', diff };
+  return { due: false, badge: `⏳ ${-diff} gün sonra`, diff };
+}
+
+function renderDashboardWrongBook() {
+  const card = $('dashWrongCard');
+  const listEl = $('dashWrong');
+  if (!card || !listEl) return;
+  const wb = getWrongBook();
+  // Eski/bozuk numunere tolerans: prompt/options/answer eksikse kayıt sayılmaz ve silinir
+  const valid = wb.filter((w) => w && w.prompt && Array.isArray(w.options) && Number.isInteger(w.answer));
+  if (valid.length !== wb.length) saveWrongBook(valid);
+  if (!valid.length) {
+    card.style.display = 'none';
+    return;
+  }
+  const now = Date.now();
+  const rows = valid.map((entry) => ({ entry, info: wrongDueLabel(entry.nextAt, now) }));
+  rows.sort((a, b) => {
+    if (a.info.due !== b.info.due) return a.info.due ? -1 : 1;
+    return b.entry.misses - a.entry.misses;
+  });
+  const dueCount = rows.filter((r) => r.info.due).length;
+  const nextDue = rows.find((r) => !r.info.due);
+  if ($('dashWrongDue')) {
+    $('dashWrongDue').textContent = dueCount
+      ? `${dueCount} soru tekrarda`
+      : `⏳ ilk tekrar ${-nextDue.info.diff} gün sonra`;
+  }
+  card.style.display = '';
+  const visible = rows.slice(0, DASH_REVIEWS_MAX);
+  const shown = visible.map(({ entry, info }) => `
+    <div class="dash-review-row ${info.due ? 'due wrong' : ''}" data-wrong-open="${info.due ? 'due' : 'all'}" role="button" tabindex="0">
+      <span class="dash-review-icon">📕</span>
+      <div class="dash-review-info">
+        <strong>${(entry.prompt || '').slice(0, 64)}</strong>
+        <span>${entry.misses}. kez yanlış</span>
+      </div>
+      <span class="dash-review-badge ${info.due ? 'overdue' : ''}">${info.badge}</span>
+    </div>
+  `).join('');
+  const hidden = rows.length - visible.length;
+  listEl.innerHTML = `${shown}${hidden > 0 ? `<small class="dash-review-more">+${hidden} kayıt daha</small>` : ''}`;
+  const solveBtn = document.createElement('button');
+  solveBtn.type = 'button';
+  solveBtn.className = 'dash-review-btn';
+  solveBtn.style.marginTop = '4px';
+  if (dueCount > 0) {
+    solveBtn.textContent = `▶ ${dueCount} soruyu defterden çöz`;
+  } else {
+    solveBtn.textContent = `🔬 ${rows.length} kaydı şimdi test et`;
+  }
+  const openWrong = () => {
+    try {
+      // dueCount===0 → tüm kayıtları şimdi test et; aksi halde yalnız vakti gelenler
+      startWrongBookQuiz(dueCount !== 0);
+    } catch (err) {
+      console.error('[defter] açılış hatası:', err);
+      showToast(`Defter açılamadı: ${err.message || 'bilinmeyen sorun'}`);
+    }
+  };
+  solveBtn.onclick = openWrong;
+  // Satırın kendisi de tıklanabilir (kart başlığı/boşluk boşalan yerde dursun)
+  listEl.querySelectorAll('[data-wrong-open]').forEach((row) => {
+    row.style.cursor = 'pointer';
+    row.onclick = openWrong;
+    row.onkeydown = (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openWrong();
+      }
+    };
+  });
+  listEl.appendChild(solveBtn);
+}
+
+function startWrongBookQuiz(showOnlyDue) {
+  try {
+    return _startWrongBookQuizInner(showOnlyDue);
+  } catch (err) {
+    console.error('[defter] başlatma hatası:', err);
+    showToast(`Defter açılamadı: ${err.message || 'bilinmeyen sorun'}`);
+  }
+}
+
+function _startWrongBookQuizInner(showOnlyDue) {
+  const now = Date.now();
+  const wb = getWrongBook();
+  let due = wb;
+  // showOnlyDue=true → yalnızca tekrar vakti gelmiş kayıtlar;
+  // false (erken çalıştır) → tüm kayıtlar defterden çıkar.
+  if (showOnlyDue) due = due.filter((w) => !w.nextAt || w.nextAt <= now);
+  due = due.slice(0, WRONG_BOOK_MAX);
+  console.log('[defter] wbN=', wb.length, 'dueN=', due.length, 'showOnlyDue=', showOnlyDue);
+  if (!due.length) { showToast('Defterde bugün için kayıt yok 🌊'); return; }
+  const questions = due.map((entry) => ({
+    ...entry,
+    __id: entry.id,
+  }));
+  const names = new Set();
+  questions.forEach((q) => {
+    const t = getAllTopics().find((tt) => tt.id === q.topicId);
+    if (t) names.add(t.name);
+  });
+  quizState = {
+    questions,
+    currentIndex: 0,
+    correctCount: 0,
+    selectedOption: null,
+    confidence: null,
+    topicId: null,
+    source: 'wrongbook',
+    wrongTopicNames: names,
+  };
+  showPage('quiz');
+  if ($('quizSetup')) $('quizSetup').style.display = 'none';
+  if ($('quizResult')) $('quizResult').style.display = 'none';
+  if ($('quizActive')) $('quizActive').style.display = '';
+  if ($('quizNextBtn')) $('quizNextBtn').style.display = 'none';
+  const qualityBox = $('qualityBox');
+  if (qualityBox) qualityBox.style.display = 'none';
+  renderQuizQuestion();
 }
 
 // ===== Roadmap (Learn page) =====
@@ -1806,6 +2111,13 @@ function selectOption(index) {
   if (isCorrect) quizState.correctCount++;
   playAppSound(isCorrect ? 'correct' : 'wrong');
 
+  // Yanlış Soru Defteri: bu sorunun bu turda doğru olup olmadığı
+  // soru anahtarına işaretlenir; yanlışsa deftere düşer.
+  const qKey = question.__id || wrongKey(quizState.topicId, question.prompt);
+  quizState.wrongFlags = quizState.wrongFlags || {};
+  quizState.wrongFlags[qKey] = isCorrect;
+  if (!isCorrect && quizState.source !== 'wrongbook') recordWrongAnswer(quizState.topicId, question);
+
   const optionsEl = $('quizOptions');
   if (optionsEl) {
     optionsEl.querySelectorAll('.quiz-option').forEach((btn, i) => {
@@ -1882,6 +2194,25 @@ function finishQuiz() {
   const total = quizState.questions.length;
   const correct = quizState.correctCount;
   const accuracy = Math.round((correct / total) * 100);
+
+  // Yanlış Soru Defteri turu: konu ilerlemesi sayılmaz; kayıtlar güncellenir.
+  if (quizState.source === 'wrongbook') {
+    updateWrongBookAfterRun();
+    const wbXp = correct > 0 ? correct * 2 : 1;
+    addXp(wbXp);
+    playAppSound('purchase');
+    const wbTopicNames = quizState.wrongTopicNames && quizState.wrongTopicNames.size
+      ? Array.from(quizState.wrongTopicNames).join(', ')
+      : 'karışık konular';
+    if ($('quizActive')) $('quizActive').style.display = 'none';
+    if ($('quizResult')) $('quizResult').style.display = '';
+    if ($('quizResultIcon')) $('quizResultIcon').textContent = accuracy >= 70 ? '📕✨' : '📕';
+    if ($('quizResultTitle')) $('quizResultTitle').textContent = accuracy >= 70 ? 'Defter temizleniyor!' : 'Bir daha dene!';
+    if ($('quizResultText')) $('quizResultText').textContent = `Yanlış defterinde ${correct}/${total} doğru yaptın (${accuracy}%) · ${wbTopicNames}. +${wbXp} XP!`;
+    if ($('quizRetryBtn')) $('quizRetryBtn').style.display = 'none';
+    renderDashboardWrongBook();
+    return;
+  }
 
   // Save progress
   const progress = getProgress();
@@ -2085,7 +2416,18 @@ function updatePlannerTaskStatus(taskId, status) {
 }
 
 function getTasks() {
-  return readStorage(STORAGE_KEYS.tasks, {});
+  const raw = readStorage(STORAGE_KEYS.tasks, {});
+  // Eski/bozuk kayıtlara tolerans: string/null giren veya eksik alanlı
+  // görevler normalize edilir ki tek bir zehirli kayıt panoyu,
+  // planlayıcıyı, kanbanı ya da sayacı asla öldüremesin.
+  const clean = {};
+  Object.entries(raw || {}).forEach(([dayKey, dayTasks]) => {
+    clean[dayKey] = (Array.isArray(dayTasks) ? dayTasks : []).map((t, i) => {
+      if (t && typeof t === 'object') return { id: t.id ?? `eski-${i}`, title: t.title ?? '', status: t.status ?? (t.done ? 'done' : 'todo'), time: t.time ?? '', ...t };
+      return { id: `eski-${i}`, title: String(t ?? ''), status: 'todo', time: '' };
+    });
+  });
+  return clean;
 }
 
 function saveTasks(tasks) {
@@ -2102,21 +2444,35 @@ function getDayKey(dayIndex) {
 }
 
 function renderPlannerPage() {
-  renderPlannerQuote();
-  renderPlannerDays();
-  renderPlannerTasks();
-  renderPlannerStats();
-  initPlannerForm();
-  initPhraseInput();
-  initPomodoro();
-  initTutorPanel();
-  initPlannerViews();
-  renderPlannerKanban();
-  initPlannerCalendar();
-  renderPlannerCalendar();
-  updatePlannerExamCountdown();
-  clearInterval(plannerCountdownInterval);
-  plannerCountdownInterval = setInterval(updatePlannerExamCountdown, 1000);
+  // Sayaç her koşulda kurulur: bir bölüm patlasa bile geri sayım ve etiketler yaşar.
+  try {
+    updatePlannerExamCountdown();
+    clearInterval(plannerCountdownInterval);
+    plannerCountdownInterval = setInterval(updatePlannerExamCountdown, 1000);
+  } catch (err) {
+    console.error('[planner] sayaç kurulamadı:', err);
+  }
+  // Bölüm bölüm koruma: zehirli tek kayıt sayfayı öldürmesin.
+  [
+    renderPlannerQuote,
+    renderPlannerDays,
+    renderPlannerTasks,
+    renderPlannerStats,
+    initPlannerForm,
+    initPhraseInput,
+    initPomodoro,
+    initTutorPanel,
+    initPlannerViews,
+    renderPlannerKanban,
+    initPlannerCalendar,
+    renderPlannerCalendar,
+  ].forEach((fn) => {
+    try {
+      fn();
+    } catch (err) {
+      console.error('[planner] bölüm atlandı:', fn.name, err);
+    }
+  });
 }
 
 function initPlannerViews() {
@@ -2219,7 +2575,7 @@ function renderPlannerTasks() {
       <span class="planner-task-time">${task.time || '09:00'}</span>
       <span class="planner-task-class">${classIcons[task.class] || '📚'}</span>
       <span class="task-priority ${task.priority || 'medium'}">${priorityIcons[task.priority] || '🟡'}</span>
-      <span class="planner-task-title">${task.title}</span>
+      <span class="planner-task-title">${shortPlanTitle(task.title)}</span>
       <span class="planner-task-duration">${task.duration ? `${task.duration} dk` : 'Süre yok'}</span>
       <span class="planner-task-priority-label ${task.priority || 'medium'}">${priorityLabels[task.priority] || 'Normal'}</span>
       <button type="button" class="planner-task-edit" data-task-action="edit" data-task-id="${task.id}" title="Düzenle">✏️</button>
@@ -2393,7 +2749,7 @@ function renderPlannerKanban() {
         ${grouped[column.status].length ? grouped[column.status].map(({ task, dayKey }) => `
           <article class="planner-kanban-card" draggable="true" data-task-id="${task.id}">
             <div class="planner-kanban-card-top"><span class="planner-kanban-subject">${escapePlannerHtml(task.class || 'Ders')}</span><span class="task-priority ${task.priority || 'medium'}">${task.priority === 'high' ? '🔴' : task.priority === 'low' ? '🟢' : '🟡'}</span></div>
-            <strong>${escapePlannerHtml(task.title)}</strong>
+            <strong>${shortPlanTitle(task.title, escapePlannerHtml)}</strong>
             <div class="planner-kanban-card-meta"><span>${escapePlannerHtml(task.time || '09:00')}</span><span>${task.duration ? `${task.duration} dk` : 'Süre yok'}</span><span>${parseDateKey(dayKey).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</span></div>
             <button type="button" class="planner-kanban-edit" data-kanban-edit="${task.id}">Düzenle</button>
           </article>
@@ -2448,7 +2804,8 @@ function getCalendarDayMarkup(date) {
       <span class="planner-calendar-items">
         ${examMarkup.join('')}
         ${eventItems.map((event) => `<span class="planner-calendar-event">${escapePlannerHtml(event.time || '')} ${escapePlannerHtml(event.title)}</span>`).join('')}
-        ${taskItems.map((task) => `<span class="planner-calendar-task">${escapePlannerHtml(task.title)}</span>`).join('')}
+        ${taskItems.map((task) => `<span
+          class="planner-calendar-task">${shortPlanTitle(task.title, escapePlannerHtml)}</span>`).join('')}
       </span>
     </button>
   `;
@@ -5717,119 +6074,6 @@ if (document.readyState === 'loading') {
   init();
 }
 
-// ===== Yerleşik çıkartmalar (salt-okunur dekor) =====
-// Sticker düzenleme modu kaldırıldı. Kaydedilmiş konumlar
-// (localStorage "archie.stickers.v1") her sayfa açılışında
-// mevcut yerlerinde aynen geri çizilir; taşıma/ekleme/silme yok.
-const STICKER_STORAGE_KEY = 'archie.stickers.v1';
+// Kalici dekor gorselleri artik index.htmla sabit <img> olarak gomuldu (BAKED v1).
 
-function readStickersAll() {
-  try {
-    return JSON.parse(localStorage.getItem(STICKER_STORAGE_KEY) || '{}') || {};
-  } catch {
-    return {};
-  }
-}
 
-function writeStickersAll(data) {
-  try {
-    localStorage.setItem(STICKER_STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // kota dolarsa sessiz geç
-  }
-}
-
-function stickerPageContainer() {
-  const pages = Array.from(document.querySelectorAll('.main > main'));
-  const visible = pages.find((m) => m.style.display !== 'none') || null;
-  return visible;
-}
-
-function makeStickerEl(item) {
-  const el = document.createElement('div');
-  el.className = 'sticker sticker-frozen';
-  el.style.left = `${item.x}px`;
-  el.style.top = `${item.y}px`;
-  el.style.width = `${item.w}px`;
-  const img = document.createElement('img');
-  img.src = item.src;
-  img.alt = 'sticker';
-  img.draggable = false;
-  img.loading = 'lazy';
-  el.appendChild(img);
-  return el;
-}
-
-function renderPageStickers() {
-  // Önce tüm sayfalardaki eski çizimleri temizle (sabitlenmiş fixed
-  // çıkartmalar gizli kapta kalsa bile DOM'da durur).
-  document.querySelectorAll('.main > main .sticker').forEach((el) => el.remove());
-  const data = readStickersAll();
-  const visible = stickerPageContainer();
-
-  // Çıkartmaları yalnızca görünür sayfaya değil, HER sayfanın kendi
-  // kapsayıcısına çiz. Böylece Ayarlar gibi çıkartmasız bir sayfa
-  // açıldığında diğer sayfaların dekor görselleri DOM'da yaşamaya
-  // devam eder (gizli kapta kalır) — silinmez, bozulmaz.
-  document.querySelectorAll('.main > main').forEach((container) => {
-    let saved = data[container.id] || [];
-
-    // Mağaza: çıkartma istenmiyor — kayıtlı olsa bile çizme ve
-    // kayıttan da sil ki geri gelmesin.
-    if (container.id === 'storeContainer') {
-      saved = [];
-      try {
-        if (data.storeContainer) {
-          delete data.storeContainer;
-          writeStickersAll(data);
-        }
-      } catch { /* yok say */ }
-    }
-    if (!saved.length) return;
-
-    if (getComputedStyle(container).position === 'static') {
-      container.style.position = 'relative';
-    }
-
-    // Sınav: çıkartmayı boyut değiştirmeden sol boşluğa aynala.
-    // Aynalama yalnız görünürken yapılır; gizli kapta offsetWidth 0 olur
-    // ve koordinat bozulur — görünür olduğu anda yeniden çizilir zaten.
-    if (container.id === 'quizContainer' && container === visible) {
-      const cw = container.offsetWidth || 860;
-      saved = saved.map((it) => ({ ...it, x: Math.round(cw - it.x - it.w) }));
-    }
-
-    saved.forEach((item) => container.appendChild(makeStickerEl(item)));
-  });
-}
-
-// Kart hover animasyonuna katılım (kart bazlı):
-// hover edilen kutunun geometrik içinde kalan çıkartma kutuyla
-// birlikte -3px yükselir; kutu dışındakiler (örn. üst hero) sabit kalır.
-function bindCardStickerHover(cardSelector) {
-  const card = document.querySelector(cardSelector);
-  if (!card) return;
-  const lift = () => {
-    const r = card.getBoundingClientRect();
-    document.querySelectorAll('.dashboard-container > .sticker').forEach((st) => {
-      const s = st.getBoundingClientRect();
-      const cx = s.left + s.width / 2;
-      const cy = s.top + s.height / 2;
-      if (cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom) {
-        st.style.transform = 'translateY(-3px)';
-      }
-    });
-  };
-  const drop = () => {
-    document.querySelectorAll('.dashboard-container > .sticker').forEach((st) => {
-      st.style.transform = '';
-    });
-  };
-  card.addEventListener('mouseenter', lift);
-  card.addEventListener('mouseleave', drop);
-}
-
-bindCardStickerHover('.dash-plans-card');
-bindCardStickerHover('.dash-quiz-card');
-
-renderPageStickers();

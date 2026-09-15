@@ -11783,3 +11783,20 @@ body.dark-mode .sheet-box { background: linear-gradient(145deg, #0A3556, #052540
 body.dark-mode .dash-teach-summary { background: linear-gradient(145deg, rgba(30, 41, 90, 0.9), rgba(15, 23, 60, 0.9)) !important; border-color: rgba(129, 140, 248, 0.35) !important; }
 body.dark-mode .dash-teach-count { color: #C7D2FE !important; }
 body.dark-mode .dash-teach-count-label, body.dark-mode .dash-teach-summary .dash-teach-mini { color: #A5B4FC !important; }
+
+/* ============================================================
+   🌌 GECE AKVARYUMU × BEYAZ TAHTA — Deep Marine senkronu
+   Tema aktifken tahta zemini derin deniz laciverti (#0B192C) açılır;
+   CSS bu zeminle eşzamanlı yüklenerek açılıştaki beyaz "flashbang"
+   parlamasını engeller. Kalem paleti fosforlu neon renklere döner
+   (script.js / applyNightBoardPalette ile senkron).
+   ============================================================ */
+.night-aquarium-theme .whiteboard-box,
+.night-aquarium-theme .whiteboard,
+.night-aquarium-theme canvas.whiteboard,
+.night-aquarium-theme .whiteboard-bg,
+.night-aquarium-theme .sky-board-bg {
+  background: #0B192C !important;
+  background-image: none !important;
+  border-color: rgba(117, 211, 230, 0.24) !important;
+}

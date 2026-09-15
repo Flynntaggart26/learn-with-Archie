@@ -203,6 +203,72 @@ function playAppSound(soundName) {
   }
 }
 
+// Gece Akvaryumu × Beyaz Tahta: koyu zemin + fosforlu neon palet senkronu.
+// DOM yapısı değişmez; palet dilimlerinin value/still öznitelikleri dönüştürülür.
+const NIGHT_BOARD_BG = '#0B192C';
+const NIGHT_BOARD_PALETTE = ['#00F0FF', '#FFFFFF', '#FFD700', '#FF2E93'];
+
+function isNightBoardMode() {
+  return document.body.classList.contains('night-aquarium-theme');
+}
+
+function boardDefaultBg() {
+  return isNightBoardMode() ? NIGHT_BOARD_BG : '#ffffff';
+}
+
+function applyNightBoardPalette(boardBox, night) {
+  if (!boardBox) return;
+  const labels = [...boardBox.querySelectorAll('.wb-color')];
+  if (!labels.length) return;
+  const originals = (applyNightBoardPalette._orig ||= new WeakMap());
+  if (!originals.has(boardBox)) {
+    originals.set(boardBox, labels.map((label) => {
+      const input = label.querySelector('input');
+      return {
+        value: input ? input.value : '',
+        style: label.getAttribute('style') || '',
+        title: label.getAttribute('title') || '',
+      };
+    }));
+  }
+  const nightTitles = {
+    '#00F0FF': 'Neon Camgöbeği',
+    '#FFFFFF': 'Beyaz (vurgu)',
+    '#FFD700': 'Parlak Sarı',
+    '#FF2E93': 'Mercan Pembesi',
+  };
+  labels.forEach((label, i) => {
+    const input = label.querySelector('input');
+    if (!input) return;
+    const orig = originals.get(boardBox)[i];
+    if (night) {
+      const neon = NIGHT_BOARD_PALETTE[i];
+      if (neon) {
+        input.value = neon;
+        label.setAttribute('title', nightTitles[neon] || '');
+        label.setAttribute('style', `background:${neon}`);
+      } else {
+        label.style.setProperty('display', 'none');
+      }
+    } else {
+      input.value = orig.value;
+      if (orig.style) label.setAttribute('style', orig.style);
+      if (orig.title) label.setAttribute('title', orig.title);
+      label.style.removeProperty('display');
+    }
+  });
+}
+
+function syncNightBoardCanvases() {
+  const night = isNightBoardMode();
+  document.querySelectorAll('.whiteboard-box').forEach((box) => {
+    applyNightBoardPalette(box, night);
+    if ((box.dataset.wbTheme || 'default') !== 'default') return;
+    // Tema başlığı/zemin/kalem seçimi applyWhiteboardTheme ile tazelenir
+    applyWhiteboardTheme(box, 'default');
+  });
+}
+
 function handleGlobalClickSound(event) {
   const target = event.target.closest?.('button, a, [role="button"], input[type="button"], input[type="submit"]');
   if (!target || target.disabled) return;
@@ -245,6 +311,7 @@ function saveRewardState(state) {
 
 function applyRewardState(state = getRewardState()) {
   document.body.classList.toggle('night-aquarium-theme', Boolean(state.nightTheme));
+  syncNightBoardCanvases();
   const premiumActive = Number(state.premiumExpiresAt) > Date.now();
   const status = $('sidebarUserStatus');
   if (status) status.textContent = premiumActive ? 'Efsanevi Balina · Premium' : 'Premium · 12. Sınıf';
@@ -4413,7 +4480,8 @@ function initWhiteboards() {
     const ctx = canvas.getContext('2d');
     let drawing = false;
     let tool = 'pen';
-    let color = '#1e293b';
+    // Gece Akvaryumu temasında koyu zemin üzerine fosforlu neon varsayılan kalem
+    let color = isNightBoardMode() ? NIGHT_BOARD_PALETTE[0] : '#1e293b';
     let startX = 0;
     let startY = 0;
     let lastX = 0;
@@ -4421,6 +4489,7 @@ function initWhiteboards() {
     const history = [];
 
     const boardBox = canvas.closest('.whiteboard-box');
+    applyNightBoardPalette(boardBox, isNightBoardMode());
     const bgCanvas = document.createElement('canvas');
     bgCanvas.className = 'whiteboard-bg sky-board-bg';
     bgCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
@@ -4454,15 +4523,15 @@ function initWhiteboards() {
       paintBoardBackground();
     }
 
-    // Tahta zeminini aktif temaya göre boya: beyaz temada opak beyaz,
-    // görsel temalarda şeffaf (alttaki tam oturan arka plan görünür).
+    // Tahta zeminini aktif temaya göre boya: beyaz temada opak zemin (gece
+    // temasında derin deniz laciverti), görsel temalarda şeffaf.
     function paintBoardBackground() {
       const theme = boardBox?.dataset.wbTheme || 'default';
       const w = bgCanvas.width;
       const h = bgCanvas.height;
       bgCtx.clearRect(0, 0, w, h);
       if (theme === 'default') {
-        bgCtx.fillStyle = '#ffffff';
+        bgCtx.fillStyle = boardDefaultBg();
         bgCtx.fillRect(0, 0, w, h);
       }
     }
@@ -4529,7 +4598,7 @@ function initWhiteboards() {
       if (preview && stroke.sizeLabel) {
         ctx.globalCompositeOperation = 'source-over';
         ctx.font = '12px monospace';
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = isNightBoardMode() ? '#9fe8ff' : '#0f172a';
         ctx.fillText(stroke.sizeLabel, stroke.labelX, stroke.labelY);
       }
       ctx.restore();
@@ -4883,11 +4952,12 @@ function updateWhiteboardThemeLocks(boardBox) {
   });
 }
 
-// Çizim katmanları: beyaz temada opak beyaz, görsel temada şeffaf
+// Çizim katmanları: beyaz temada opak zemin (gece temasında lacivert),
+// görsel temada şeffaf
 function paintWhiteboardCanvases(boardBox, transparent) {
   const drawCanvas = boardBox.querySelector('canvas.whiteboard');
   const bgCanvas = boardBox.querySelector('.whiteboard-bg');
-  const canvasBg = transparent ? 'transparent' : '#ffffff';
+  const canvasBg = transparent ? 'transparent' : boardDefaultBg();
   if (drawCanvas) drawCanvas.style.setProperty('background', canvasBg, 'important');
   if (bgCanvas) {
     bgCanvas.style.setProperty('background', canvasBg, 'important');
@@ -4895,7 +4965,7 @@ function paintWhiteboardCanvases(boardBox, transparent) {
     if (bgCtx && bgCanvas.width > 0) {
       bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
       if (!transparent) {
-        bgCtx.fillStyle = '#ffffff';
+        bgCtx.fillStyle = canvasBg;
         bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
       }
     }
@@ -4938,7 +5008,7 @@ function applyWhiteboardTheme(boardBox, theme) {
     paintWhiteboardCanvases(boardBox, true);
   } else {
     boardBox.style.setProperty('background-image', 'none', 'important');
-    boardBox.style.setProperty('background-color', '#ffffff', 'important');
+    boardBox.style.setProperty('background-color', boardDefaultBg(), 'important');
     boardBox.style.setProperty('background-size', '', 'important');
     boardBox.style.setProperty('background-position', '', 'important');
     boardBox.style.setProperty('background-repeat', '', 'important');
@@ -4964,11 +5034,13 @@ function applyWhiteboardTheme(boardBox, theme) {
     if (darkRadio && !darkRadio.checked) darkRadio.click();
   } else {
     if (title) {
-      title.textContent = '🤍 Beyaz Tahta';
-      title.style.removeProperty('color');
+      title.textContent = isNightBoardMode() ? '🌌 Gece Akvaryumu Tahtası' : '🤍 Beyaz Tahta';
+      title.style.setProperty('color', isNightBoardMode() ? '#9fe8ff' : '#0f172a', 'important');
     }
-    const darkRadio = boardBox.querySelector('.wb-color input[value="#1e293b"]');
-    if (darkRadio && !darkRadio.checked) darkRadio.click();
+    // Varsayılan kalem: açık temada koyu, gece temasında neon camgöbeği.
+    // (Gece paletinde ilk dilim zaten neon camgöbeğine dönüştürülmüştür.)
+    const defaultRadio = boardBox.querySelector('.wb-color input');
+    if (defaultRadio && !defaultRadio.checked) defaultRadio.click();
   }
   updateWhiteboardThemeLocks(boardBox);
 }
@@ -6502,6 +6574,9 @@ function init() {
   initDropdowns();
   initLevelButtons();
   initModal();
+  // Gece Akvaryumu ödül teması tahtalardan ÖNCE uygulanır; aksi halde
+  // tahtalar beyaz init edilip sonra laciverte dönerken parlayabilir.
+  applyRewardState();
   initWhiteboards();
   initPlannerForm();
   initPhraseInput();

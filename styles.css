@@ -8013,7 +8013,7 @@ canvas.whiteboard {
   height: 78vh;
   border-radius: 28px;
   overflow: hidden;
-  background: url("public/images/akvaryumarkaplan.png.jpg") center bottom / cover no-repeat, linear-gradient(180deg, #7dd3fc 0%, #0369a1 70%, #082f49 100%);
+  background: url("public/images/akvaryumarkaplan.jpg") center bottom / cover no-repeat, linear-gradient(180deg, #7dd3fc 0%, #0369a1 70%, #082f49 100%);
   border: 2px solid #bae6fd;
   box-shadow: 0 18px 40px rgba(2, 132, 199, .25), inset 0 2px 0 rgba(255, 255, 255, .4);
 }

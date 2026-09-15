@@ -169,8 +169,8 @@ export function Whiteboard({ onBackgroundChange }: WhiteboardProps): ReactElemen
 
   const bgStyle: React.CSSProperties = {
     backgroundColor: activeBg === 'white' ? '#ffffff' : 'transparent',
-    backgroundImage: activeBg === 'sahil' ? "url('/images/sahil-arkaplan%C4%B1.png.jpg')" :
-                     activeBg === 'karatahta' ? "url('/images/yaz%C4%B1tahtas%C4%B1.png.jpg')" : 'none',
+    backgroundImage: activeBg === 'sahil' ? "url('/images/sahil-arkaplan%C4%B1.jpg')" :
+                     activeBg === 'karatahta' ? "url('/images/yaz%C4%B1tahtas%C4%B1.jpg')" : 'none',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',

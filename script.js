@@ -143,14 +143,14 @@ function writeStorage(key, value) {
 }
 
 const APP_SOUNDS = {
-  timerStarted: 'zamanlayıcıbaşladı.mp3.mp3',
-  timerFinished: 'zamanlayıcıbitti.mp3.mp3',
-  correct: 'doğrubildi.mp3.mp3',
-  wrong: 'yanlışbildi.mp3.mp3',
-  purchase: 'mağazasatınalma.mp3.mp3',
-  planAdded: 'planeklendi.mp3.mp3',
-  planDeleted: 'plansilme.mp3.mp3',
-  click: 'tuştıklama.mp3.mp3',
+  timerStarted: 'zamanlayıcıbaşladı.mp3',
+  timerFinished: 'zamanlayıcıbitti.mp3',
+  correct: 'doğrubildi.mp3',
+  wrong: 'yanlışbildi.mp3',
+  purchase: 'mağazasatınalma.mp3',
+  planAdded: 'planeklendi.mp3',
+  planDeleted: 'plansilme.mp3',
+  click: 'tuştıklama.mp3',
 };
 
 function appSoundUrl(filename) {
@@ -580,7 +580,11 @@ function showPage(page) {
 
   if (page === 'dashboard') {
     if ($('dashboardContainer')) $('dashboardContainer').style.display = '';
-    renderDashboard();
+    try {
+      renderDashboard();
+    } catch (err) {
+      console.error('[page] dashboard atlandı:', err);
+    }
   } else if (page === 'roadmap' || page === 'learn') {
     AppState.activePage = 'roadmap';
     if ($('controlsBar')) $('controlsBar').style.display = '';
@@ -756,14 +760,9 @@ function renderDashboard() {
   if ($('dashXp')) $('dashXp').textContent = AppState.xp;
   if ($('topbarXpValue')) $('topbarXpValue').textContent = AppState.xp;
 
-  // Countdown to exam (mid-June)
-  const targetDate = new Date();
-  targetDate.setMonth(5);
-  targetDate.setDate(15);
-  targetDate.setHours(10, 0, 0, 0);
-  if (targetDate < new Date()) targetDate.setFullYear(targetDate.getFullYear() + 1);
-  const daysLeft = Math.ceil((targetDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
-  if ($('countdownValue')) $('countdownValue').textContent = Math.max(0, daysLeft);
+  // Countdown to exam — ortak sınav tarihleri (getUpcomingExamDates) kullanılır;
+  // init'te kurulan ticker da aynı fonksiyonu besler, değerler asla sapmaz.
+  updatePlannerExamCountdown();
 
   // Bugünkü Planlarım: planner görevleri, tıklayınca durum değişir
   const plansEl = $('dashPlans');
@@ -2917,15 +2916,24 @@ function initPlannerViews() {
 }
 
 function updatePlannerExamCountdown() {
-  const exams = getUpcomingExamDates();
-  if ($('plannerTytCountdown')) $('plannerTytCountdown').textContent = formatCountdown(exams.tyt);
-  if ($('plannerAytCountdown')) $('plannerAytCountdown').textContent = formatCountdown(exams.ayt);
-  if ($('timerTytCountdown')) $('timerTytCountdown').textContent = formatCountdown(exams.tyt);
-  if ($('timerAytCountdown')) $('timerAytCountdown').textContent = formatCountdown(exams.ayt);
-  if ($('plannerTytDate')) $('plannerTytDate').textContent = exams.tyt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-  if ($('plannerAytDate')) $('plannerAytDate').textContent = exams.ayt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-  if ($('timerTytDate')) $('timerTytDate').textContent = exams.tyt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-  if ($('timerAytDate')) $('timerAytDate').textContent = exams.ayt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  // Tek doğruluk kaynağı: dashboard, planlayıcı ve zamanlayıcı aynı sınav
+  // tarihlerini kullanır. Tek satır patlasa bile diğerleri güncellenmeye devam
+  // eder; aksi halde deployda geri sayım donuk kalıyordu.
+  try {
+    const exams = getUpcomingExamDates();
+    const tytDays = Math.max(0, Math.ceil((exams.tyt.getTime() - Date.now()) / (24 * 60 * 60 * 1000)));
+    if ($('countdownValue')) $('countdownValue').textContent = tytDays;
+    if ($('plannerTytCountdown')) $('plannerTytCountdown').textContent = formatCountdown(exams.tyt);
+    if ($('plannerAytCountdown')) $('plannerAytCountdown').textContent = formatCountdown(exams.ayt);
+    if ($('timerTytCountdown')) $('timerTytCountdown').textContent = formatCountdown(exams.tyt);
+    if ($('timerAytCountdown')) $('timerAytCountdown').textContent = formatCountdown(exams.ayt);
+    if ($('plannerTytDate')) $('plannerTytDate').textContent = exams.tyt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+    if ($('plannerAytDate')) $('plannerAytDate').textContent = exams.ayt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+    if ($('timerTytDate')) $('timerTytDate').textContent = exams.tyt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+    if ($('timerAytDate')) $('timerAytDate').textContent = exams.ayt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch (err) {
+    console.error('[countdown] güncellenemedi:', err);
+  }
 }
 
 function renderPlannerQuote() {
@@ -4025,7 +4033,7 @@ function playLessonIntro(next) {
     const ap = audio.play();
     if (ap && typeof ap.catch === 'function') ap.catch(() => {});
   } catch { /* yok say */ }
-  playVideoWithFallback(video, 'videos/dersbaşlıyor.mp4.mp4', finish);
+  playVideoWithFallback(video, 'videos/dersbaşlıyor.mp4', finish);
 }
 
 function renderTeacherSelection() {
@@ -4714,10 +4722,10 @@ function initWhiteboards() {
 // çalışması için iki aday yol denenir, ilk açılan kullanılır.
 const WHITEBOARD_THEMES = {
   default: null,
-  sahil: ['images/sahiltahta.png.jpg', 'public/images/sahiltahta.png.jpg'],
-  karatahta: ['images/yazıtahtası.png.jpg', 'public/images/yazıtahtası.png.jpg'],
+  sahil: ['public/images/sahiltahta.jpg', 'images/sahiltahta.jpg'],
+  karatahta: ['public/images/yazıtahtası.jpg', 'images/yazıtahtası.jpg'],
 };
-const AQUARIUM_BG_CANDIDATES = ['images/akvaryumarkaplan.png.jpg', 'public/images/akvaryumarkaplan.png.jpg'];
+const AQUARIUM_BG_CANDIDATES = ['public/images/akvaryumarkaplan.jpg', 'images/akvaryumarkaplan.jpg'];
 
 function resolveImage(candidates, cb) {
   const list = Array.isArray(candidates) ? candidates.slice() : [candidates];
@@ -4732,13 +4740,16 @@ function resolveImage(candidates, cb) {
   tryNext();
 }
 
-// Runtime asset çözümü: yayında '/' altından, dosya olarak açılışta
-// 'public/' altından denenir. Kod içindeki 'public/...' adresleri sadece
-// file:// açılışında çalıştığı için deployed ortamda animasyonlar boş kalıyordu.
+// Runtime asset çözümü: deployda gerçek konum /public/... altı; file:// açılışta
+// göreli 'public/...' yolu çalışır. Kod içindeki çıplak '/...' adresleri yayında
+// 404 verdiği için sandık/derse başlama animasyonları oynamıyordu.
 const publicAssetCache = new Map();
 
 function publicAssetCandidates(relative) {
-  return ['/', 'public/'].map((base) => base + relative);
+  if (location.protocol === 'file:') {
+    return ['public/' + relative, relative];
+  }
+  return ['public/' + relative, '/' + relative];
 }
 
 function resolveStoredAsset(rawSrc, cb) {
@@ -4761,19 +4772,32 @@ function resolvedAssetUrl(rawSrc) {
 function playVideoWithFallback(video, relative, onFail) {
   const candidates = publicAssetCandidates(relative);
   let index = 0;
-  video.onerror = () => {
-    index += 1;
-    if (index < candidates.length) {
-      video.src = candidates[index];
-      const p = video.play();
-      if (p && typeof p.catch === 'function') p.catch(onFail);
-    } else {
+  let failed = false;
+  const failOnce = () => {
+    if (!failed) {
+      failed = true;
       onFail();
     }
   };
-  video.src = candidates[0];
-  const p = video.play();
-  if (p && typeof p.catch === 'function') p.catch(onFail);
+  const tryCandidate = () => {
+    if (index >= candidates.length) { failOnce(); return; }
+    video.onerror = () => {
+      index += 1;
+      tryCandidate();
+    };
+    video.src = candidates[index];
+    const p = video.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch((err) => {
+        // 404/kaynak hatasıysa onerror zinciri sonraki adayı dener; yalnızca
+        // otomatik oynatma engelinde (NotAllowedError) zarif geçiş yapılır.
+        // Burada koşulsuz onFail çağırmak, ilk aday 404'ken animasyonu
+        // yeniden deneme şansı kalmadan kapattığı için video hiç oynamıyordu.
+        if (err && err.name === 'NotAllowedError') failOnce();
+      });
+    }
+  };
+  tryCandidate();
 }
 
 function playAudioWithFallback(audio, relative) {
@@ -4793,10 +4817,10 @@ function playAudioWithFallback(audio, relative) {
 // Ders girişi ve sandık videolarını önden ısıt: URL çözümü + tarayıcı
 // önbelleği dolu olursa zil sesi ve video anında başlar, gecikme kalmaz.
 const LESSON_INTRO_ASSETS = {
-  audio: 'sounds/dersbaşlıyor.mp3.mp3',
-  video: 'videos/dersbaşlıyor.mp4.mp4',
+  audio: 'sounds/dersbaşlıyor.mp3',
+  video: 'videos/dersbaşlıyor.mp4',
 };
-const CHEST_VIDEO_ASSET = 'videos/sandık.mp4.mp4';
+const CHEST_VIDEO_ASSET = 'videos/sandık.mp4';
 
 let preloadedLessonAudio = null;
 let lessonAudioReady = false;
@@ -6451,9 +6475,23 @@ function renderAquariumCollection(aq) {
 
 // ===== Render All =====
 function renderAll() {
-  updateXpDisplay();
-  renderDashboard();
-  if (AppState.activePage === 'learn' || AppState.activePage === 'roadmap') renderRoadmap();
+  try {
+    updateXpDisplay();
+  } catch (err) {
+    console.error('[render] xp güncellenemedi:', err);
+  }
+  try {
+    renderDashboard();
+  } catch (err) {
+    console.error('[render] dashboard atlandı:', err);
+  }
+  if (AppState.activePage === 'learn' || AppState.activePage === 'roadmap') {
+    try {
+      renderRoadmap();
+    } catch (err) {
+      console.error('[render] yol haritası atlandı:', err);
+    }
+  }
 }
 
 // ===== Initialize =====
@@ -6485,6 +6523,17 @@ function init() {
     renderAll();
   } else {
     showAuthOverlay();
+  }
+
+  // Geri sayım sayfadan bağımsız yaşasın: hangi sayfada hata olursa olsun
+  // TYT/AYT sayaçları yükleme anından itibaren tıklar. renderPlannerPage
+  // planlayıcıya girildiğinde aynı interval'i tazeleyerek devam eder.
+  try {
+    updatePlannerExamCountdown();
+    clearInterval(plannerCountdownInterval);
+    plannerCountdownInterval = setInterval(updatePlannerExamCountdown, 1000);
+  } catch (err) {
+    console.error('[init] geri sayım kurulamadı:', err);
   }
 }
 

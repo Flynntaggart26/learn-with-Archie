@@ -6249,6 +6249,129 @@ const AQUARIUM_CORALS = [
 ];
 const AQUARIUM_RARITY_ORDER = { common: 0, rare: 1, epic: 2, legendary: 3 };
 
+const CREATURE_STATE_MACHINES = [
+  { id:'circadian-clownfish', name:'Sirkadiyen Palyaço', old_name:'Rutin Palyaço', category:'fish', rarity:'common', target_metric:'pomodoro_focus_minutes_per_day', target_threshold:{min:25,unit:'minutes',days_per_week:5}, check_window_days:7, grace_period_hours:48, loss_type:'fled', messages:{ warning:'⚠️ Sirkadiyen Palyaço\'nun ışık döngüsü zayıflıyor. Ritüelci dostun karanlıkta yönünü kaybetmek üzere.', lost:'🌊 Sirkadiyen Palyaço derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bugün en az 25 dakikalık bir Pomodoro oturumu başlat.' }},
+  { id:'pomodoro-perch', name:'Pomodoro Levreği', old_name:'Odak Levreği', category:'fish', rarity:'common', target_metric:'completed_pomodoro_sessions_per_day', target_threshold:{min:2,unit:'sessions'}, check_window_days:1, grace_period_hours:24, loss_type:'fled', messages:{ warning:'⚠️ Pomodoro Levreği pususunu terk etmek üzere! Sabırlı avcı bugün henüz hedefe ulaşamadı.', lost:'🌊 Pomodoro Levreği derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için hemen 2 tam Pomodoro oturumu tamamla.' }},
+  { id:'neuron-sardine', name:'Nöron Sardalyası', old_name:'Tekrar Sardalyası', category:'fish', rarity:'common', target_metric:'sm2_review_success_rate', target_threshold:{min:70,unit:'percent',max_overdue:0}, check_window_days:7, grace_period_hours:48, loss_type:'fled', messages:{ warning:'⚠️ Nöron Sardalyası sürüsü dağılım gösteriyor! Tekrar başarı oranı hedeften sapıyor.', lost:'🌊 Nöron Sardalyası derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bekleyen tüm SM-2 tekrarlarını bugün tamamla.' }},
+  { id:'activation-angel', name:'Aktivasyon Meleği', old_name:'Cesur İzci', category:'fish', rarity:'rare', target_metric:'new_topics_started_per_week', target_threshold:{min:1,unit:'topics'}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Aktivasyon Meleği\'nin kanatları sarkıyor! Bu hafta yeni bir konuya başlanmadı.', lost:'🌊 Aktivasyon Meleği derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için henüz dokunmadığın bir konuyu seç ve ilk adımını at.' }},
+  { id:'sync-rabbit', name:'Senkronizasyon Lapini', old_name:'Sürü Dostu', category:'fish', rarity:'rare', target_metric:'feynman_or_student_ai_interactions_per_week', target_threshold:{min:2,unit:'interactions'}, check_window_days:7, grace_period_hours:48, loss_type:'fled', messages:{ warning:'⚠️ Senkronizasyon Lapini yalnız hissediyor! Bu hafta yeterli etkileşim olmadı.', lost:'🌊 Senkronizasyon Lapini derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bir Feynman sesli anlatımı kaydet veya Öğrenci AI ile etkileşime gir.' }},
+  { id:'hypoxic-diver', name:'Hipoksik Dalgıç', old_name:'Derin Dalgıç', category:'fish', rarity:'rare', target_metric:'deep_study_sessions_per_week', target_threshold:{min:1,unit:'sessions',min_duration_minutes:45}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Hipoksik Dalgıç basınca dayanamıyor! Bu hafta 45+ dakikalık derin çalışma oturumu yok.', lost:'🌊 Hipoksik Dalgıç derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için tek bir konuya 45+ dakika boyunca kesintisiz çalış.' }},
+  { id:'anomaly-bubble', name:'Anomali Balonu', old_name:'Zikzak Kâşif', category:'fish', rarity:'rare', target_metric:'error_journal_entries_per_week', target_threshold:{min:3,unit:'entries'}, check_window_days:7, grace_period_hours:48, loss_type:'fled', messages:{ warning:'⚠️ Anomali Balonu\'nun radarı sönümleniyor! Bu hafta yeterli hata kaydı girilmedi.', lost:'🌊 Anomali Balonu derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için Yanlış Soru Defterine en az 3 hata kaydet ve analiz et.' }},
+  { id:'acoustic-parrotfish', name:'Akustik Papağanbalığı', old_name:'Feynman Papağanı', category:'fish', rarity:'epic', target_metric:'feynman_voice_recordings_per_week', target_threshold:{min:2,unit:'recordings',min_duration_seconds:60}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Akustik Papağanbalığı sessizleşiyor! Bu hafta yeterli sesli anlatım yapılmadı.', lost:'🌊 Akustik Papağanbalığı derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bir konuyu 60+ saniye boyunca sesli anlat ve kaydet.' }},
+  { id:'marathon-grouper', name:'Maraton Orfozu', old_name:'Sabır Orfozu', category:'fish', rarity:'epic', target_metric:'study_streak_days', target_threshold:{min:7,unit:'days'}, check_window_days:7, grace_period_hours:24, loss_type:'fled', messages:{ warning:'⚠️ Maraton Orfozu\'nun metabolizması yavaşlıyor! Çalışma serisi 7\'nin altına düşmek üzere.', lost:'🌊 Maraton Orfozu derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bugün çalış ve seriyi yeniden başlat.' }},
+  { id:'acceleration-crane', name:'İvme Turnası', old_name:'Hızlı Turna', category:'fish', rarity:'rare', target_metric:'timed_quiz_sessions_per_week', target_threshold:{min:1,unit:'sessions'}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ İvme Turnası\'nın refleksleri köreliyor! Bu hafta zaman baskılı quiz çözülmedi.', lost:'🌊 İvme Turnası derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için Hızlı Tur modunda en az 1 zaman baskılı quiz çöz.' }},
+  { id:'vector-lionfish', name:'Vektör Aslanbalığı', old_name:'Pusula Balığı', category:'fish', rarity:'epic', target_metric:'prerequisite_chain_compliance_rate', target_threshold:{min:80,unit:'percent'}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Vektör Aslanbalığı\'nın pusulası sapma gösteriyor! Ön koşul zinciri atlanıyor.', lost:'🌊 Vektör Aslanbalığı derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için ön koşulları atlamadan konu kapatma oranını %80\'in üzerine çıkar.' }},
+  { id:'conceptual-moray', name:'Kavramsal Müren', old_name:'Bilge Müren', category:'fish', rarity:'epic', target_metric:'cross_discipline_bridges_per_week', target_threshold:{min:1,unit:'bridges'}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Kavramsal Müren\'in mağarası karanlıklaşıyor! Bu hafta disiplinler arası köprü kurulmadı.', lost:'🌊 Kavramsal Müren derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için iki farklı ders arasında en az 1 kavram köprüsü kur.' }},
+  { id:'dialectic-ray', name:'Diyalektik Vatoz', old_name:'Sokratik Vatoz', category:'fish', rarity:'epic', target_metric:'socratic_hint_solutions_per_week', target_threshold:{min:2,unit:'solutions'}, check_window_days:7, grace_period_hours:72, loss_type:'fled', messages:{ warning:'⚠️ Diyalektik Vatoz\'un sorgulama akımları zayıflıyor! Sokratik ipucu modunda çözüm yapılmadı.', lost:'🌊 Diyalektik Vatoz derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için Sokratik ipucu modunda en az 2 soruyu sorgulayarak çöz.' }},
+  { id:'epistemic-koi', name:'Epistemik Koi', old_name:'Ustalık Koi', category:'fish', rarity:'legendary', target_metric:'topics_with_mastery_above_80', target_threshold:{min:1,unit:'new_topics',mastery_threshold:0.80}, check_window_days:14, grace_period_hours:96, loss_type:'fled', messages:{ warning:'⚠️ Epistemik Koi\'nin dönüşümü duraksıyor! P(L) ≥ 0.80 eşiğine ulaşan yeni konu yok.', lost:'🌊 Epistemik Koi derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için P(L) değeri en yüksek konuyu çalışarak ustalık eşiğine taşı.' }},
+  { id:'metacognitive-jelly', name:'Metabilişsel Medüz', old_name:'Berrak Denizanası', category:'fish', rarity:'legendary', target_metric:'calibration_accuracy_and_honest_confidence_rate', target_threshold:{min:75,unit:'percent'}, check_window_days:14, grace_period_hours:96, loss_type:'fled', messages:{ warning:'⚠️ Metabilişsel Medüz\'ün şeffaflığı bulanıklaşıyor! Kalibrasyon uyum skoru düşük.', lost:'🌊 Metabilişsel Medüz derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için quiz öncesi güven işaretlemelerini dürüstçe yap ve sonuçlarla karşılaştır.' }},
+  { id:'strategic-leviathan', name:'Stratejik Leviathan', old_name:'Leviathan', category:'fish', rarity:'legendary', target_metric:'study_streak_30plus_and_rarity_collection', target_threshold:{min_streak_days:30,min_unique_rarity_types:4}, check_window_days:30, grace_period_hours:120, loss_type:'fled', messages:{ warning:'⚠️ Stratejik Leviathan derinlerden sesleniyor! 30 gün seri ve 4 nadirlik hedefi tamamlanmadı.', lost:'🌊 Stratejik Leviathan derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için seriyi 30 güne çıkar ve 4 farklı nadirlikten canlı sahiplen.' }},
+  { id:'consolidated-peak-fish', name:'Konsolide Zirve Balığı', old_name:'Altın Zirve', category:'fish', rarity:'legendary', target_metric:'exam_net_score_target_band', target_threshold:{min:85,unit:'percent_of_target_net'}, check_window_days:14, grace_period_hours:96, loss_type:'fled', messages:{ warning:'⚠️ Konsolide Zirve Balığı göç rotasından sapıyor! Deneme sınavlarında hedef net bandına ulaşılamadı.', lost:'🌊 Konsolide Zirve Balığı derinlere kaçtı!', recovery_hint:'Onu geri kazanmak için bir deneme sınavı çöz ve hedef net bandının %85\'ine ulaş.' }},
+  { id:'calcified-substrate', name:'Kalsifiye Substrat', old_name:'Temel Kayası', category:'coral', rarity:'common', target_metric:'fundamentals_prerequisite_completion_rate', target_threshold:{min:100,unit:'percent'}, check_window_days:14, grace_period_hours:48, loss_type:'withered', messages:{ warning:'⚠️ Kalsifiye Substrat\'ın mineral iskeleti zayıflıyor! Temel Kavramlar ön koşul tamamlama oranı %100 değil.', lost:'🪸 Kalsifiye Substrat soldu!', recovery_hint:'Onu geri kazanmak için Temel Kavramlar kümesindeki tüm eksik ön koşul konularını tamamla.' }},
+  { id:'circadian-polyp', name:'Sirkadiyen Polip', old_name:'Rutin Dalı', category:'coral', rarity:'common', target_metric:'daily_plan_completion_rate', target_threshold:{min:60,unit:'percent'}, check_window_days:7, grace_period_hours:48, loss_type:'withered', messages:{ warning:'⚠️ Sirkadiyen Polip\'in akıntısı kesiliyor! Günlük plan tamamlama oranı %60\'ın altında.', lost:'🪸 Sirkadiyen Polip soldu!', recovery_hint:'Onu geri kazanmak için bugün planının en az %60\'ını tamamla.' }},
+  { id:'cellular-sponge', name:'Hücresel Sünger', old_name:'Plan Süngeri', category:'coral', rarity:'common', target_metric:'weekly_planned_tasks_and_planner_usage_rate', target_threshold:{min:5,unit:'planned_tasks_per_week'}, check_window_days:7, grace_period_hours:48, loss_type:'withered', messages:{ warning:'⚠️ Hücresel Sünger\'in gözenekleri tıkanıyor! Bu hafta planlayıcıya yeterli görev eklenmedi.', lost:'🪸 Hücresel Sünger soldu!', recovery_hint:'Onu geri kazanmak için bu hafta planlayıcıya en az 5 görev ekle ve takip et.' }},
+  { id:'neural-anemone', name:'Nöral Anemon', old_name:'Odak Anemonu', category:'coral', rarity:'rare', target_metric:'distraction_interruptions_per_focus_session', target_threshold:{max:0,unit:'interruptions'}, check_window_days:7, grace_period_hours:48, loss_type:'withered', messages:{ warning:'⚠️ Nöral Anemon\'un yakıcı tentakülleri zayıflıyor! Odak oturumlarında dikkat dağıtıcı kesintiler var.', lost:'🪸 Nöral Anemon soldu!', recovery_hint:'Onu geri kazanmak için bir sonraki odak oturumunu tüm bildirimleri kapatıp kesintisiz tamamla.' }},
+  { id:'synaptic-reef', name:'Sinaptik Resif', old_name:'Hafıza Mercanı', category:'coral', rarity:'rare', target_metric:'sm2_overdue_cards_and_avg_quality', target_threshold:{max_overdue:0,min_avg_quality:3}, check_window_days:7, grace_period_hours:48, loss_type:'withered', messages:{ warning:'⚠️ Sinaptik Resif\'in dalları budanıyor! Gecikmiş tekrar veya düşük kalite ortalaması var.', lost:'🪸 Sinaptik Resif soldu!', recovery_hint:'Onu geri kazanmak için tüm gecikmiş SM-2 tekrarlarını tamamla ve kalite ortalamasını 3\'ün üzerine çıkar.' }},
+  { id:'expressive-polyp', name:'Dışa Vurum Polipi', old_name:'Feynman Bahçesi', category:'coral', rarity:'epic', target_metric:'monthly_feynman_count_and_avg_score', target_threshold:{min_count:8,unit:'recordings_per_month',min_avg_score:60}, check_window_days:30, grace_period_hours:96, loss_type:'withered', messages:{ warning:'⚠️ Dışa Vurum Polipi\'nin kolonisi sönümleniyor! Bu ay yeterli Feynman anlatımı yapılmadı.', lost:'🪸 Dışa Vurum Polipi soldu!', recovery_hint:'Onu geri kazanmak için bu ay en az 8 Feynman anlatımı kaydet ve her birinde 60+ skor hedefle.' }},
+  { id:'cognitive-reef', name:'Bilişsel Resif', old_name:'Bilgelik Resifi', category:'coral', rarity:'epic', target_metric:'concept_bridge_pairs_and_dag_depth', target_threshold:{min_bridge_pairs:3,min_dag_depth:2}, check_window_days:14, grace_period_hours:72, loss_type:'withered', messages:{ warning:'⚠️ Bilişsel Resif\'in bağlantı ağı zayıflıyor! Kavram köprüleri ve DAG derinliği yetersiz.', lost:'🪸 Bilişsel Resif soldu!', recovery_hint:'Onu geri kazanmak için en az 3 konu çifti arasında kavram köprüsü kur ve DAG\'de 2 seviye derinliğe in.' }},
+  { id:'bio-pearl-reef', name:'Biyo-İnci Resifi', old_name:'İnci Resifi', category:'coral', rarity:'legendary', target_metric:'top3_hardest_topics_mastery', target_threshold:{min_topics_at_mastery:3,mastery_threshold:0.80}, check_window_days:30, grace_period_hours:120, loss_type:'withered', messages:{ warning:'⚠️ Biyo-İnci Resifi\'nin katmanları inceliyor! En zor 3 konuda ustalık eşiği korunamadı.', lost:'🪸 Biyo-İnci Resifi soldu!', recovery_hint:'Onu geri kazanmak için en zor 3 konuyu çalışarak her birinde P(L) ≥ 0.80 eşiğine ulaş.' }},
+  { id:'cognitive-peak-crown', name:'Bilişsel Zirve Tacı', old_name:'Zirve Tacı', category:'coral', rarity:'legendary', target_metric:'ninety_day_plan_adherence', target_threshold:{min_adherence_days:90,unit:'days',min_completion_rate:70}, check_window_days:90, grace_period_hours:168, loss_type:'withered', messages:{ warning:'⚠️ Bilişsel Zirve Tacı ışığını kaybediyor! 90 günlük plan bağlılığı yetersiz.', lost:'🪸 Bilişsel Zirve Tacı soldu!', recovery_hint:'Onu geri kazanmak için 90 günlük planını oluştur ve her gün %70+ tamamlama oranıyla ilerle.' }}
+];
+
+const ECOSYSTEM_STORAGE_KEY = 'archie.ecosystem.states';
+
+function getCreatureStates() {
+  const data = readStorage(ECOSYSTEM_STORAGE_KEY, null);
+  if (data && typeof data === 'object') return data;
+  const initial = {};
+  CREATURE_STATE_MACHINES.forEach(function(c) {
+    initial[c.id] = { state: 'HEALTHY', lastChecked: new Date().toISOString(), graceStartedAt: null };
+  });
+  writeStorage(ECOSYSTEM_STORAGE_KEY, initial);
+  return initial;
+}
+
+function evaluateCreatureState(creature) {
+  const states = getCreatureStates();
+  const entry = states[creature.id] || { state: 'HEALTHY', lastChecked: new Date().toISOString(), graceStartedAt: null };
+  const now = Date.now();
+  const lastChecked = new Date(entry.lastChecked).getTime();
+  const windowMs = creature.check_window_days * 24 * 60 * 60 * 1000;
+  const graceMs = creature.grace_period_hours * 60 * 60 * 1000;
+  const elapsed = now - lastChecked;
+  let newState = entry.state;
+  let graceStartedAt = entry.graceStartedAt;
+  if (elapsed > windowMs) {
+    if (entry.state === 'HEALTHY') {
+      newState = 'STRESTE';
+      graceStartedAt = new Date(now).toISOString();
+    } else if (entry.state === 'STRESDE' || entry.state === 'STRESTE') {
+      if (graceStartedAt && (now - new Date(graceStartedAt).getTime()) > graceMs) {
+        newState = 'LOST';
+      }
+    }
+  }
+  states[creature.id] = { state: newState, lastChecked: entry.lastChecked, graceStartedAt: graceStartedAt };
+  writeStorage(ECOSYSTEM_STORAGE_KEY, states);
+  return newState;
+}
+
+function renderEcosystem() {
+  renderEcosystemPanel();
+}
+
+function renderEcosystemPanel() {
+  const fishGrid = $('ecoPanelFishGrid');
+  const coralGrid = $('ecoPanelCoralGrid');
+  const fishSummary = $('ecoPanelFishSummary');
+  const coralSummary = $('ecoPanelCoralSummary');
+  if (!fishGrid || !coralGrid) return;
+  const fish = CREATURE_STATE_MACHINES.filter(function(c) { return c.category === 'fish'; });
+  const corals = CREATURE_STATE_MACHINES.filter(function(c) { return c.category === 'coral'; });
+  var fishCounts = { HEALTHY: 0, STRESTE: 0, LOST: 0 };
+  fishGrid.innerHTML = '';
+  fish.forEach(function(c) {
+    var state = evaluateCreatureState(c);
+    fishCounts[state]++;
+    fishGrid.appendChild(createEcosystemCard(c, state));
+  });
+  var coralCounts = { HEALTHY: 0, STRESTE: 0, LOST: 0 };
+  coralGrid.innerHTML = '';
+  corals.forEach(function(c) {
+    var state = evaluateCreatureState(c);
+    coralCounts[state]++;
+    coralGrid.appendChild(createEcosystemCard(c, state));
+  });
+  if (fishSummary) fishSummary.textContent = '· ' + fishCounts.HEALTHY + '💚 ' + fishCounts.STRESTE + '⚠️ ' + fishCounts.LOST + '🌊';
+  if (coralSummary) coralSummary.textContent = '· ' + coralCounts.HEALTHY + '💚 ' + coralCounts.STRESTE + '⚠️ ' + coralCounts.LOST + '🌊';
+}
+
+function createEcosystemCard(creature, state) {
+  var card = document.createElement('div');
+  card.className = 'eco-card eco-state-' + state.toLowerCase();
+  var stateIcon = state === 'HEALTHY' ? '💚' : state === 'STRESTE' ? '⚠️' : (creature.loss_type === 'fled' ? '🌊' : '🪸');
+  var stateLabel = state === 'HEALTHY' ? 'Formda' : state === 'STRESTE' ? 'Streste' : 'Kayıp';
+  var rarityColors = { common: '#94a3b8', rare: '#38bdf8', epic: '#a78bfa', legendary: '#fbbf24' };
+  var rarityLabel = { common: 'Sıradan', rare: 'Nadir', epic: 'Epik', legendary: 'Efsanevi' };
+  var msg = state === 'HEALTHY' ? '' : state === 'STRESTE' ? creature.messages.warning : creature.messages.lost;
+  card.innerHTML = '<div class="eco-card-header">' +
+    '<span class="eco-card-icon">' + stateIcon + '</span>' +
+    '<div class="eco-card-info">' +
+      '<strong class="eco-card-name">' + creature.name + '</strong>' +
+      '<span class="eco-card-old">' + creature.old_name + '</span>' +
+    '</div>' +
+    '<span class="eco-card-rarity" style="color:' + rarityColors[creature.rarity] + '">' + rarityLabel[creature.rarity] + '</span>' +
+  '</div>' +
+  '<div class="eco-card-meta">' +
+    '<span class="eco-card-state eco-badge-' + state.toLowerCase() + '">' + stateLabel + '</span>' +
+    '<span class="eco-card-window">📅 ' + creature.check_window_days + ' gün</span>' +
+    '<span class="eco-card-grace">⏳ ' + creature.grace_period_hours + 's</span>' +
+  '</div>' +
+  (msg ? '<div class="eco-card-message">' + msg + '</div>' : '') +
+  (state !== 'HEALTHY' ? '<div class="eco-card-recovery">💡 ' + creature.messages.recovery_hint + '</div>' : '');
+  return card;
+}
+
 // Kullanıcı balık dosyalarını klasörleyip silebildiği için kayıtlı
 // akvaryumdaki balıkların kaynakları güncel havuzla eşleştirilir:
 // hangi klasörün (rarity) hangi dosya adının (dir) yoksa, aynı
@@ -6506,6 +6629,7 @@ function renderAquarium() {
   }
   scene.innerHTML = html;
   renderAquariumCollection(aq);
+  renderEcosystemPanel();
   startAquariumSwimEngine(scene);
   if (!scene.dataset.clickBound) {
     scene.dataset.clickBound = '1';
@@ -6760,35 +6884,67 @@ function startAquariumSwimEngine(scene) {
 // ===== Koleksiyon Kitabı: Okyanus Ansiklopedisi =====
 // Her balığa ve mercana çalışmayla özdeşleşen karakteristik bir anlam yüklenir.
 const COLLECTION_FISH_LORE = {
-  'left-common-1':  { title: 'Rutin Palyaço',   trait: 'İstikrar',           text: 'Her gün küçük bir tur atan bu balık, YKS maratonunun sırrını taşır: büyük sıçramalar değil, aksatılmayan küçük adımlar. Rutinini koruyan, dalgaya kapılmaz.' },
-  'left-common-2':  { title: 'Odak Levreği',    trait: 'Odaklanma',          text: 'Tek bir noktaya kilitlenir ve dikkatini dağıtacak akıntıları görmezden gelir. Pomodoro oturumundaki sensin: telefon susar, zihin tek hedefe dalar.' },
-  'left-common-3':  { title: 'Tekrar Sardalyası', trait: 'Aralıklı Tekrar',  text: 'Aynı rotayı günler arayla yeniden yüzer; her turda yolu daha iyi hatırlar. SM-2 tekrarlarının canlı hâli: unutmak üzereyken hatırlamak, hafızayı çelikleştirir.' },
-  'right-common-1': { title: 'Cesur İzci',      trait: 'Başlama Cesareti',   text: 'Sürüden önce açık suya çıkan ilk yüzgeç. İlk deneme sınavındaki düşük netten korkmaz; başlamak, mükemmel olmaktan önce gelir.' },
-  'right-common-2': { title: 'Sürü Dostu',      trait: 'Birlikte Öğrenme',   text: 'Yalnız yüzdüğünde yavaş, sürüyle yüzdüğünde hızlıdır. Öğrenci AI ile anlatıp tartıştığın her konu, bu balık gibi seni ileri taşır.' },
-  'left-rare-1':    { title: 'Derin Dalgıç',    trait: 'Derin Çalışma',      text: 'Yüzeydeki köpükle ilgilenmez, derine iner. Konunun formülünü ezberlemek yerine nedenini kovalar; türevin mantığını çözen zihin unutulmaz kılar.' },
-  'left-rare-2':    { title: 'Zikzak Kâşif',    trait: 'Hata Analizi',       text: 'Rotası dümdüz değildir; her yanlış dönüşü not eder. Yanlış Soru Defteri tutan öğrencinin ruhudur: hata, utanılacak değil incelenecek veridir.' },
-  'left-rare-3':    { title: 'Feynman Papağanı', trait: 'Anlatarak Öğrenme', text: 'Öğrendiğini yüksek sesle anlatmadan rahat edemez. İstiridye kazandıran Feynman tekniğinin simgesi: anlatabiliyorsan, gerçekten biliyorsun demektir.' },
-  'left-rare-4':    { title: 'Sabır Orfozu',    trait: 'Sabır ve Maraton',   text: 'Aylarca aynı kayanın altında bekler, günü gelince avlanır. Netlerin haftalarca yerinde saysa bile çalışmayı bırakmayanların balığıdır.' },
-  'right-rare-1':   { title: 'Hızlı Turna',     trait: 'Hızlı Tur',          text: 'Sınavın son dakikalarında parlar: hızlı okur, hızlı eler, hızlı işaretler. Hızlı Tur modunda antrenman yapan reflekslerin su altı hâli.' },
-  'right-rare-2':   { title: 'Pusula Balığı',   trait: 'Yön ve Yol Haritası', text: 'Göç yolunu manyetik alandan okur, asla kaybolmaz. Yol Haritasındaki ön koşul zincirin gibidir: önce temeller, sonra zirve konular.' },
-  'left-epic-1':    { title: 'Bilge Müren',     trait: 'Kavramsal Derinlik', text: 'Kayaların arasındaki gizli geçitleri bilir; konular arası köprüleri görür. Matematikteki bir kavramın fizikteki karşılığını yakalayan zihin, ezberin ötesine geçer.' },
-  'right-epic-2':   { title: 'Sokratik Vatoz',  trait: 'Sorgulayıcı Zihin',  text: 'Doğrudan cevap vermez; soruyla karşılık verir ve seni düşündürür. Sokratik ipucu modunun ruhudur: cevabı hazır almak değil, ona ulaşmak büyütür.' },
-  'right-epic-1':   { title: 'Ustalık Koi',     trait: 'Gerçek Ustalık',     text: 'Efsaneye göre akıntıya karşı yüzen koi ejderhaya dönüşür. BKT ustalığı %80 i aşan konuların simgesi: şansa değil, kanıta dayalı hâkimiyet.' },
-  'left-epic-3':    { title: 'Berrak Denizanası', trait: 'Metabilişsel Berraklık', text: 'Cam gibi şeffaftır; ne bildiğini ve ne bilmediğini saklamaz. Kalibrasyon eğrindeki dürüstlüktür: yüksek güvenle yanlış yapmak yerine, eksiklerini berrakça görmek.' },
-  'left-legendary-1': { title: 'Leviathan',     trait: 'Sarsılmaz Azim',     text: 'Okyanusun en derin katmanında yaşar, fırtınalar ona ulaşamaz. Aylarca her gün çalışan, mazeret üretmeyen iradenin efsanevi sureti.' },
-  'left-legendary-2': { title: 'Altın Zirve',   trait: 'Hedef ve Derece',    text: 'Yılda bir kez yüzeye çıkar ve güneşi selamlar. Sınav günü, bütün bir yılın emeğini tek performansa dönüştüren andır; zirve, tesadüf değil hazırlıktır.' },
+  'left-common-1':  { title: 'Sirkadiyen Palyaço',   trait: 'Ritüelci · Işık-döngüsüne bağlı',           text: 'Her gün küçük bir tur atan bu balık, YKS maratonunun sırrını taşır: büyük sıçramalar değil, aksatılmayan küçük adımlar. Haftada 5 gün 25+ dakika Pomodoro odak süresi onun ritmini korur.' },
+  'left-common-2':  { title: 'Pomodoro Levreği',    trait: 'Pusucu avcı · Tek hedefe kilitlenir',          text: 'Tek bir noktaya kilitlenir ve dikkatini dağıtacak akıntıları görmezden gelir. Günde en az 2 tamamlanmış Pomodoro oturumu onun doğasıdır: telefon susar, zihin tek hedefe dalar.' },
+  'left-common-3':  { title: 'Nöron Sardalyası', trait: 'Kolektif sürü · Ritmik tekrar',  text: 'Aynı rotayı günler arayla yeniden yüzer; her turda yolu daha iyi hatırlar. SM-2 tekrar başarı oranı %70 üstünde ve gecikmiş tekrar = 0 olduğunda sürü tam senkronizedir.' },
+  'right-common-1': { title: 'Aktivasyon Meleği',      trait: 'Öncü kâşif · Yüksek risk toleransı',   text: 'Sürüden önce açık suya çıkan ilk yüzgeç. Haftada en az 1 yeni konuya başlamak onun yakıtıdır: başlamak, mükemmel olmaktan önce gelir.' },
+  'right-common-2': { title: 'Senkronizasyon Lapini',      trait: 'Sosyal senkronizatör · İş birliğine bağımlı',   text: 'Yalnız yüzdüğünde yavaş, sürüyle yüzdüğünde hızlıdır. Haftada 2 Feynman sesli anlatımı veya Öğrenci AI etkileşimi bu canlıyı besler.' },
+  'left-rare-1':    { title: 'Hipoksik Dalgıç',    trait: 'Yalnız derin su · Basınca dayanıklı',      text: 'Yüzeydeki köpükle ilgilenmez, derine iner. Haftada en az 1 derin çalışma oturumu (45+ dk tek konu) onun metabolizmasını canlı tutar.' },
+  'left-rare-2':    { title: 'Anomali Balonu',    trait: 'Hata avcısı · Sapma takipçisi',   text: 'Rotası dümdüz değildir; her yanlış dönüşü not eder. Yanlış Soru Defterine haftada en az 3 hata kaydı ve analizi bu balığın radarını açık tutar.' },
+  'left-rare-3':    { title: 'Akustik Papağanbalığı', trait: 'Vokal üretken · Seslendirerek sindirir', text: 'Öğrendiğini yüksek sesle anlatmadan rahat edemez. Haftada en az 2 adet 60+ saniyelik sesli Feynman anlatımı onun renklerini canlı tutar.' },
+  'left-rare-4':    { title: 'Maraton Orfozu',    trait: 'Bekleyen dev · Uzun ömürlü stratejist',   text: 'Aylarca aynı kayanın altında bekler, günü gelince avlanır. Çalışma serisinin (streak) 7 günün altına düşmemesi bu canlının hayatta kalma koşuludur.' },
+  'right-rare-1':   { title: 'İvme Turnası',     trait: 'Patlayıcı sprinter · Refleks odaklı',          text: 'Sınavın son dakikalarında parlar: hızlı okur, hızlı eler, hızlı işaretler. Hızlı Tur modunda haftada en az 1 zaman baskılı quiz bu canlıyı aktif tutar.' },
+  'right-rare-2':   { title: 'Vektör Aslanbalığı',   trait: 'Bölgeci navigatör · Metodik yön duygusu', text: 'Göç yolunu manyetik alandan okur, asla kaybolmaz. Ön koşul zincirine uygun ilerleme (atlamadan konu kapatma %80+) bu canlının pusulasıdır.' },
+  'left-epic-1':    { title: 'Kavramsal Müren',     trait: 'Gizli bilge · İçe dönük düşünür', text: 'Kayaların arasındaki gizli geçitleri bilir; konular arası köprüleri görür. Haftada en az 1 disiplinler arası kavram köprüsü bu canlının mağarasını aydınlatır.' },
+  'right-epic-2':   { title: 'Diyalektik Vatoz',  trait: 'Soru soran avcı · Provokatif sorgulayıcı',  text: 'Doğrudan cevap vermez; soruyla karşılık verir ve seni düşündürür. Sokratik ipucu modunda haftada en az 2 sorgulamalı çözüm bu canlının akımlarını canlı tutar.' },
+  'right-epic-1':   { title: 'Epistemik Koi',     trait: 'Dönüşümcü · Zorlukla beslenen metamorfik', text: 'Efsaneye göre akıntıya karşı yüzen koi ejderhaya dönüşür. BKT ustalık olasılığı P(L) ≥ 0.80 olan konu sayısının artması bu canlının pullarını parlatır.' },
+  'left-epic-3':    { title: 'Metabilişsel Medüz', trait: 'Şeffaf gözlemci · Bilgi sınırlarını yansıtır', text: 'Cam gibi şeffaftır; ne bildiğini ve ne bilmediğini saklamaz. Kalibrasyon skoru uyumu ve dürüst güven işaretleme oranı bu canlının berraklığını korur.' },
+  'left-legendary-1': { title: 'Stratejik Leviathan',     trait: 'Derinliklerin hakimi · Apeks stratejist',     text: 'Okyanusun en derin katmanında yaşar, fırtınalar ona ulaşamaz. 30+ günlük çalışma serisi ve tüm nadirliklerden canlı sahiplenme bu efsaneyi ayakta tutar.' },
+  'left-legendary-2': { title: 'Konsolide Zirve Balığı',   trait: 'Zirve göçmeni · Doruk anına programlı',    text: 'Yılda bir kez yüzeye çıkar ve güneşi selamlar. Deneme sınavlarında hedef net bandına ulaşma ve istikrar bu canlının altın pullarını parlatır.' },
 };
 
 const COLLECTION_CORAL_LORE = {
-  common:     { title: 'Temel Kayası',   trait: 'Sağlam Temel',     text: 'Bütün resif bunun üstünde yükselir. Temel Kavramlar gibi: burası çatlarsa üstteki her şey sallanır, burası sağlamsa her kat güvenle çıkar.' },
-  common2:    { title: 'Rutin Dalı',     trait: 'Günlük Alışkanlık', text: 'Her gün bir milim uzar; kimse fark etmez ama bir yılda resifin en geniş dalı olur. Günlük 20 paragraf çözen elin su altı karşılığıdır.' },
-  common3:    { title: 'Plan Süngeri',   trait: 'Planlı Çalışma',   text: 'Suyu süzer, fazlalığı atar, özü tutar. İyi bir günlük plan gibidir: ne çalışacağını önceden seçer, günün karmaşasını berraklaştırır.' },
-  common4:    { title: 'Odak Anemonu',   trait: 'Çalışma Ortamı',   text: 'Dokunaçları arasında güvenli bir alan sunar; palyaço balıkları burada dinlenir. Dağınık masa değil, odak köşesi: ortamın, iradenden önce gelir.' },
-  rare:       { title: 'Hafıza Mercanı', trait: 'Kalıcı Bellek',    text: 'Dalları tam unutulacakken yeniden filizlenir. SM-2 tekrar zamanlamasının doğadaki hâli: doğru günde tekrar, bilgiyi ömürlük kılar.' },
-  rare2:      { title: 'Feynman Bahçesi', trait: 'Aktif Öğrenme',   text: 'Sadece güneşle değil, anlatılan her hikâyeyle beslenir. Bir konuyu başkasına öğrettiğinde kök salar; pasif okuma değil, aktif üretim ister.' },
-  epic:       { title: 'Bilgelik Resifi', trait: 'Bağlantılı Bilgi', text: 'Kökleri kilometrelerce uzanır, bütün resfi birbirine bağlar. Ön koşul haritası gibidir: türev integralin, cümle paragrafın köküdür; bağlantıyı gören unutamaz.' },
-  legendary:  { title: 'İnci Resifi',    trait: 'Ustalık ve Sabır', text: 'İnci, istiridyenin yıllarca sabrettiği bir kum tanesinden doğar. Ustalaşılan her zor konu, böyledir: başta rahatsız eden, sonunda parlayan.' },
-  legendary2: { title: 'Zirve Tacı',     trait: 'Hayal ve Hedef',   text: 'Resifin en tepesinde, ışığa en yakın noktada durur. Hedef puanın, hayalindeki bölümün simgesidir: baktıkça yönünü hatırlatır, yorulsan da bıraktırmaz.' },
+  common:     { title: 'Kalsifiye Substrat',   trait: 'Pasif taşıyıcı · Temel mineral iskelet',     text: 'Bütün resif bunun üstünde yükselir. Temel Kavramlar kümesindeki ön koşul konularının %100 tamamlanması bu iskeleti sağlam tutar.' },
+  common2:    { title: 'Sirkadiyen Polip',     trait: 'Ritmik filtreci · Düzenli akıntıya bağımlı', text: 'Her gün bir milim uzar; kimse fark etmez ama bir yılda resifin en geniş dalı olur. Günlük plan görev tamamlama oranının %60 üzerinde olması bu polipi besler.' },
+  common3:    { title: 'Hücresel Sünger',      trait: 'Pasif filtreci · Kaosu düzene çeviren',      text: 'Suyu süzer, fazlalığı atar, özü tutar. Haftalık planlanan görev sayısı ve planlayıcı kullanım oranı bu canlının gözeneklerini açık tutar.' },
+  common4:    { title: 'Nöral Anemon',         trait: 'Koruyucu ev sahibi · Yabancı uyaranlara yakıcı tepki', text: 'Dokunaçları arasında güvenli bir alan sunar; palyaço balıkları burada dinlenir. Odak oturumu başına dikkat dağıtıcı kesinti < 1 bu anemonun sağlığıdır.' },
+  rare:       { title: 'Sinaptik Resif',       trait: 'Yeniden filizlenen · Budandıkça güçlenen',   text: 'Dalları tam unutulacakken yeniden filizlenir. SM-2 kartlarında gecikmiş tekrar 0 ve kalite ortalaması ≥ 3 bu resifi canlı tutar.' },
+  rare2:      { title: 'Dışa Vurum Polipi',    trait: 'Üretken yayıcı · Paylaştıkça büyüyen',       text: 'Sadece güneşle değil, anlatılan her hikâyeyle beslenir. Ayda en az 8 Feynman anlatımı ve ortalama skor ≥ 60 bu koloniyi büyütür.' },
+  epic:       { title: 'Bilişsel Resif',       trait: 'Bağlayıcı ana yapı · Ekosistemin hafızası',  text: 'Kökleri kilometrelerce uzanır, bütün resifi birbirine bağlar. Kavramsal köprü kurulan konu çifti sayısı ve DAG tamamlama derinliği bu resifin ağ gücüdür.' },
+  legendary:  { title: 'Biyo-İnci Resifi',     trait: 'Dönüştürücü istiridye · Sabırlı simyacı',   text: 'İnci, istiridyenin yıllarca sabrettiği bir kum tanesinden doğar. En zor 3 konuda P(L) ≥ 0.80 ustalık eşiğine ulaşma ve koruma bu inciyi parlatır.' },
+  legendary2: { title: 'Bilişsel Zirve Tacı',  trait: 'Işığa dönük taç · Yön gösterici sembolik lider', text: 'Resifin en tepesinde, ışığa en yakın noktada durur. Hedef puan doğrultusunda 90 günlük plan bağlılığı bu tacın ışığını canlı tutar.' },
+};
+
+const FISH_ENTRY_TO_CREATURE = {
+  'left-common-1': 'circadian-clownfish',
+  'left-common-2': 'pomodoro-perch',
+  'left-common-3': 'neuron-sardine',
+  'right-common-1': 'activation-angel',
+  'right-common-2': 'sync-rabbit',
+  'left-rare-1': 'hypoxic-diver',
+  'left-rare-2': 'anomaly-bubble',
+  'left-rare-3': 'acoustic-parrotfish',
+  'left-rare-4': 'marathon-grouper',
+  'right-rare-1': 'acceleration-crane',
+  'right-rare-2': 'vector-lionfish',
+  'left-epic-1': 'conceptual-moray',
+  'right-epic-2': 'dialectic-ray',
+  'right-epic-1': 'epistemic-koi',
+  'left-epic-3': 'metacognitive-jelly',
+  'left-legendary-1': 'strategic-leviathan',
+  'left-legendary-2': 'consolidated-peak-fish',
+};
+
+const CORAL_ENTRY_TO_CREATURE = {
+  common: 'calcified-substrate',
+  common2: 'circadian-polyp',
+  common3: 'cellular-sponge',
+  common4: 'neural-anemone',
+  rare: 'synaptic-reef',
+  rare2: 'expressive-polyp',
+  epic: 'cognitive-reef',
+  legendary: 'bio-pearl-reef',
+  legendary2: 'cognitive-peak-crown',
 };
 
 const COLLECTION_RARITY_ORDER = ['common', 'rare', 'epic', 'legendary'];
@@ -6955,6 +7111,28 @@ function openCollectionDetail(entryName) {
   }
   if (traitEl) traitEl.textContent = `Karakter: ${lore.trait}`;
   if (textEl) textEl.textContent = lore.text;
+
+  const lookup = CollectionBook.category === 'fish' ? FISH_ENTRY_TO_CREATURE : CORAL_ENTRY_TO_CREATURE;
+  const creatureId = lookup[entryName];
+  const creature = creatureId ? CREATURE_STATE_MACHINES.find(function(c) { return c.id === creatureId; }) : null;
+  let stateHtml = '';
+  if (creature) {
+    var state = evaluateCreatureState(creature);
+    var stateIcon = state === 'HEALTHY' ? '💚' : state === 'STRESTE' ? '⚠️' : (creature.loss_type === 'fled' ? '🌊' : '🪸');
+    var stateLabel = state === 'HEALTHY' ? 'Formda' : state === 'STRESTE' ? 'Streste' : 'Kayıp';
+    var msg = state === 'HEALTHY' ? '' : state === 'STRESTE' ? creature.messages.warning : creature.messages.lost;
+    stateHtml = '<div class="collection-detail-state state-' + state.toLowerCase() + '">'
+      + '<div class="collection-detail-state-header">' + stateIcon + ' <strong>' + stateLabel + '</strong></div>'
+      + (msg ? '<p class="collection-detail-state-msg">' + msg + '</p>' : '')
+      + (state !== 'HEALTHY' ? '<p class="collection-detail-state-recovery">💡 ' + creature.messages.recovery_hint + '</p>' : '')
+      + '</div>';
+  }
+  var existingState = backdrop.querySelector('.collection-detail-state');
+  if (existingState) existingState.remove();
+  if (stateHtml) {
+    backdrop.querySelector('.collection-detail-card').insertAdjacentHTML('beforeend', stateHtml);
+  }
+
   backdrop.style.display = 'flex';
 }
 

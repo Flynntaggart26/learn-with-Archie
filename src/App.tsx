@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { ArchieMascot } from './components/ArchieMascot';
+import { EcosystemView } from './components/EcosystemView';
 import { PlannerView } from './components/PlannerView';
 import { SignUpView } from './components/SignUpView';
 import { StudyView } from './components/StudyView';
@@ -105,6 +106,7 @@ export function App(): ReactElement {
 
         <StudyView onMascotState={setMascotState} />
         <PlannerView onMascotState={setMascotState} />
+        <EcosystemView />
       </main>
     </div>
   );

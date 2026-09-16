@@ -1820,3 +1820,133 @@ body {
 
 /* ===== Legend on top, in flow above cards ===== */
 .rm-legend { position: static !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; transform: none !important; width: fit-content !important; max-width: 100%; margin: 0 0 18px auto !important; }
+
+/* ===== Ecosystem (Biyo-Bilişsel Durum Makinesi) ===== */
+.ecosystem-container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.eco-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--container, #0f213a);
+  border: 1px solid var(--border, rgba(0, 216, 246, 0.2));
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.eco-banner-icon {
+  font-size: 48px;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  background: var(--hover-bg, rgba(0, 216, 246, 0.1));
+  border: 2px solid var(--accent, rgba(0, 216, 246, 0.3));
+  border-radius: 18px;
+  flex-shrink: 0;
+}
+
+.eco-banner-text { flex: 1; min-width: 0; }
+.eco-banner-text h2 { font-size: 22px; font-weight: 800; color: var(--text, #f8fafc); margin: 0 0 4px; }
+.eco-banner-text p { font-size: 13px; color: var(--muted, #94a3b8); font-weight: 600; margin: 0; line-height: 1.5; }
+
+.eco-legend { display: flex; gap: 12px; flex-shrink: 0; }
+.eco-legend-item { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+.eco-legend-healthy { background: rgba(74, 222, 128, 0.15); color: #16a34a; border: 1px solid rgba(74, 222, 128, 0.3); }
+.eco-legend-stress { background: rgba(251, 191, 36, 0.15); color: #d97706; border: 1px solid rgba(251, 191, 36, 0.3); }
+.eco-legend-lost { background: rgba(255, 88, 100, 0.15); color: #dc2626; border: 1px solid rgba(255, 88, 100, 0.3); }
+
+.eco-section { margin-bottom: 28px; }
+.eco-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.eco-section-icon {
+  font-size: 28px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--hover-bg, rgba(0, 216, 246, 0.08));
+  border: 1px solid var(--border, rgba(0, 216, 246, 0.2));
+  border-radius: 12px;
+}
+.eco-section-header h3 { font-size: 18px; font-weight: 800; color: var(--text, #f8fafc); margin: 0; }
+.eco-section-header p { font-size: 12px; color: var(--muted, #94a3b8); font-weight: 600; margin: 2px 0 0; }
+
+.eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+
+.eco-card {
+  background: var(--bg-elevated, #fff);
+  border: 2px solid var(--border, #e2e8f0);
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.eco-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
+.eco-card:hover { transform: translateY(-2px); }
+
+.eco-state-healthy { border-color: rgba(74, 222, 128, 0.4); }
+.eco-state-healthy::before { background: linear-gradient(90deg, #4ade80, #22c55e); }
+.eco-state-streste { border-color: rgba(251, 191, 36, 0.5); opacity: 0.9; }
+.eco-state-streste::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.eco-state-lost { border-color: rgba(255, 88, 100, 0.4); opacity: 0.7; }
+.eco-state-lost::before { background: linear-gradient(90deg, #ff5864, #ef4444); }
+
+.eco-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.eco-card-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--hover-bg, #f1f5f9);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.eco-card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.eco-card-name { font-size: 14px; font-weight: 800; color: var(--text, #1e293b); margin: 0; }
+.eco-card-old { font-size: 11px; color: var(--muted, #64748b); font-weight: 600; }
+.eco-card-rarity { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+
+.eco-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.eco-card-state { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 800; }
+.eco-badge-healthy { background: rgba(74, 222, 128, 0.15); color: #16a34a; }
+.eco-badge-streste { background: rgba(251, 191, 36, 0.15); color: #d97706; }
+.eco-badge-lost { background: rgba(255, 88, 100, 0.15); color: #dc2626; }
+.eco-card-window, .eco-card-grace { font-size: 10px; color: var(--muted, #64748b); font-weight: 600; }
+
+.eco-card-message {
+  font-size: 12px;
+  color: var(--muted, #475569);
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 10px 12px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.eco-state-lost .eco-card-message { background: rgba(255, 88, 100, 0.08); border-color: rgba(255, 88, 100, 0.2); }
+
+.eco-card-recovery {
+  font-size: 11px;
+  color: var(--muted, #0369a1);
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: rgba(0, 150, 200, 0.08);
+  border: 1px solid rgba(0, 150, 200, 0.2);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .eco-banner { flex-direction: column; text-align: center; }
+  .eco-legend { justify-content: center; }
+  .eco-grid { grid-template-columns: 1fr; }
+}

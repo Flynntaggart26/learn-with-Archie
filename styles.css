@@ -12690,3 +12690,176 @@ body.dark-mode .timer-btn.reset {
   color: #A9D8EC !important;
 }
 body.dark-mode .timer-btn.reset:hover { color: #FFFFFF !important; border-color: #22D3EE !important; }
+
+/* ===== Ecosystem Panel (inside Aquarium) ===== */
+.aquarium-ecosystem-panel {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.eco-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.eco-panel-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: var(--hover-bg);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.eco-panel-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.eco-panel-header p {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin: 2px 0 0;
+}
+
+.eco-panel-legend {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.eco-panel-fish,
+.eco-panel-corals {
+  margin-bottom: 16px;
+}
+
+.eco-panel-subtitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.eco-panel-subtitle span {
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+.eco-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.eco-card {
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.eco-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+.eco-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.eco-state-healthy { border-color: rgba(74, 222, 128, 0.4); }
+.eco-state-healthy::before { background: linear-gradient(90deg, #4ade80, #22c55e); }
+.eco-state-streste { border-color: rgba(251, 191, 36, 0.5); opacity: 0.9; }
+.eco-state-streste::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.eco-state-lost { border-color: rgba(255, 88, 100, 0.4); opacity: 0.7; }
+.eco-state-lost::before { background: linear-gradient(90deg, #ff5864, #ef4444); }
+
+.eco-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.eco-card-icon {
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--hover-bg);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.eco-card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.eco-card-name { font-size: 12px; font-weight: 800; color: var(--text); margin: 0; }
+.eco-card-old { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+.eco-card-rarity { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+
+.eco-card-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.eco-card-state { padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 800; }
+.eco-badge-healthy { background: rgba(74, 222, 128, 0.15); color: #16a34a; }
+.eco-badge-streste { background: rgba(251, 191, 36, 0.15); color: #d97706; }
+.eco-badge-lost { background: rgba(255, 88, 100, 0.15); color: #dc2626; }
+body.dark-mode .eco-badge-healthy { color: #4ade80; }
+body.dark-mode .eco-badge-streste { color: #fbbf24; }
+body.dark-mode .eco-badge-lost { color: #ff5864; }
+.eco-card-window, .eco-card-grace { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+
+.eco-card-message {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 8px 10px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+.eco-state-lost .eco-card-message { background: rgba(255, 88, 100, 0.08); border-color: rgba(255, 88, 100, 0.2); }
+
+.eco-card-recovery {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 6px 10px;
+  background: rgba(0, 150, 200, 0.08);
+  border: 1px solid rgba(0, 150, 200, 0.2);
+  border-radius: 6px;
+}
+
+.eco-legend-item { padding: 4px 10px; border-radius: 16px; font-size: 10px; font-weight: 800; }
+.eco-legend-healthy { background: rgba(74, 222, 128, 0.12); color: #16a34a; border: 1px solid rgba(74, 222, 128, 0.3); }
+.eco-legend-stress { background: rgba(251, 191, 36, 0.12); color: #d97706; border: 1px solid rgba(251, 191, 36, 0.3); }
+.eco-legend-lost { background: rgba(255, 88, 100, 0.12); color: #dc2626; border: 1px solid rgba(255, 88, 100, 0.3); }
+body.dark-mode .eco-legend-healthy { color: #4ade80; }
+body.dark-mode .eco-legend-stress { color: #fbbf24; }
+body.dark-mode .eco-legend-lost { color: #ff5864; }
+
+/* Collection detail state */
+.collection-detail-state {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+}
+.collection-detail-state.state-healthy { background: rgba(74, 222, 128, 0.08); border-color: rgba(74, 222, 128, 0.3); }
+.collection-detail-state.state-streste { background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.3); }
+.collection-detail-state.state-lost { background: rgba(255, 88, 100, 0.08); border-color: rgba(255, 88, 100, 0.3); }
+.collection-detail-state-header { font-size: 13px; color: var(--text); margin-bottom: 6px; }
+.collection-detail-state-msg { font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 6px; }
+.collection-detail-state-recovery { font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin: 0; font-style: italic; }
+
+@media (max-width: 768px) {
+  .eco-panel-header { flex-direction: column; align-items: flex-start; }
+  .eco-panel-legend { margin-left: 0; }
+  .eco-panel-grid { grid-template-columns: 1fr; }
+}

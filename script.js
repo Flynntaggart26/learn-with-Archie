@@ -6315,6 +6315,42 @@ function seedAquariumCollectionOnce() {
 const AQUARIUM_RARITY_CORAL_BASE = { common: 110, rare: 150, epic: 195, legendary: 240 };
 const AQUARIUM_RARITY_FISH_BASE = { common: 100, rare: 130, epic: 160, legendary: 200 };
 
+// Deploy hediyesi: her türden 1'er adet olacak şekilde eksikleri tamamlar.
+// Idempotent birleştirmedir; mevcut canlılara dokunmaz, yalnızca eksik
+// türleri ekler. Bayrak (archie.aq.full.v1) sayesinde kullanıcı başına
+// bir kez çalışır — hem yeni ziyaretçiler hem mevcut kayıtlar tam sete ulaşır.
+function grantFullCollectionOnce() {
+  const FLAG = 'archie.aq.full.v1';
+  if (readStorage(FLAG, false)) return;
+  const aq = getAquarium();
+  const haveFish = new Set(
+    aq.fish.map((f) => f && f.kind && f.kind.name).filter(Boolean),
+  );
+  AQUARIUM_FISH.forEach((entry, i) => {
+    if (haveFish.has(entry.name)) return;
+    const size = AQUARIUM_RARITY_FISH_BASE[entry.rarity] + ((i * 9) % 24);
+    aq.fish.push({
+      kind: entry,
+      y: 4 + ((i * 13) % 46),
+      d: 14 + ((i * 7) % 14),
+      delay: -((i * 5) % 20),
+      drift: 3 + ((i * 3) % 4),
+      rev: entry.dir === 'left',
+      size,
+    });
+  });
+  const haveCoral = new Set(
+    aq.corals.map((c) => c && c.kind && c.kind.name).filter(Boolean),
+  );
+  AQUARIUM_CORALS.forEach((entry, i) => {
+    if (haveCoral.has(entry.name)) return;
+    const size = AQUARIUM_RARITY_CORAL_BASE[entry.rarity] + ((i * 11) % 22);
+    aq.corals.push({ kind: entry, x: 2 + ((i * 41) % 88), s: size });
+  });
+  saveAquarium(aq);
+  writeStorage(FLAG, true);
+}
+
 function makeCoral(i) {
   const tier = pickRarityTier(i, 'coral');
   const pool = AQUARIUM_CORALS.filter((c) => c.rarity === tier);
@@ -7071,6 +7107,7 @@ function init() {
   initPhraseInput();
   initCollectionBook();
   seedAquariumCollectionOnce();
+  grantFullCollectionOnce();
   preloadLessonIntroAssets();
 
   // Check if user is logged in

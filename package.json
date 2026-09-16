@@ -8,7 +8,8 @@
     "build": "node scripts/vercel-static-build.cjs",
     "build:react": "tsc && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "audit:assets": "node scripts/audit-assets.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",

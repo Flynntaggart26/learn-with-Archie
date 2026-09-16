@@ -7958,7 +7958,7 @@ canvas.whiteboard {
 .nav-icon-aquarium {
   background: #d9f7f0 !important;
   color: transparent !important;
-  background-image: url("public/images/balik/leftbalik.png") !important;
+  background-image: url("public/images/balik/common/leftbalik.png") !important;
   background-size: 22px 22px !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -10174,7 +10174,7 @@ html, body { overflow-x: hidden !important; overflow-x: clip !important; }
   .dash-quiz-archie { flex: 0 0 auto !important; width: 90px !important; max-height: 120px !important; margin-left: 0 !important; }
 }
 
-/* 6. Mağaza — AIöğrenci.png ile yeniden düzenleme */
+/* 6. Mağaza — AIogrenci.png ile yeniden düzenleme */
 .store-layout {
   display: flex !important;
   align-items: flex-start !important;

@@ -3,6 +3,10 @@
 // `public/...` referanslari (gorsel/ses/video/sticker) production'da
 // localdeki gibi calisir. `vite build` KULLANILMAZ (public'i kokte
 // duzlestirip tum asset yollarini bozar + strict tsc riski tasir).
+// Once asset referans denetimi: kirik gorsel/ses/video yolu varsa build BASARISIZ
+// gecer ki deploy'a bozuk asset cikmasi imkansiz olsun.
+require('./audit-assets.cjs');
+
 const fs = require('fs');
 const path = require('path');
 

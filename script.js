@@ -143,14 +143,14 @@ function writeStorage(key, value) {
 }
 
 const APP_SOUNDS = {
-  timerStarted: 'zamanlayıcıbaşladı.mp3',
-  timerFinished: 'zamanlayıcıbitti.mp3',
-  correct: 'doğrubildi.mp3',
-  wrong: 'yanlışbildi.mp3',
-  purchase: 'mağazasatınalma.mp3',
+  timerStarted: 'zamanlayicibasladi.mp3',
+  timerFinished: 'zamanlayicibitti.mp3',
+  correct: 'dogrubildi.mp3',
+  wrong: 'yanlisbildi.mp3',
+  purchase: 'magazasatinalma.mp3',
   planAdded: 'planeklendi.mp3',
   planDeleted: 'plansilme.mp3',
-  click: 'tuştıklama.mp3',
+  click: 'tustiklama.mp3',
 };
 
 function appSoundUrl(filename) {
@@ -4100,7 +4100,7 @@ function playLessonIntro(next) {
     const ap = audio.play();
     if (ap && typeof ap.catch === 'function') ap.catch(() => {});
   } catch { /* yok say */ }
-  playVideoWithFallback(video, 'videos/dersbaşlıyor.mp4', finish);
+  playVideoWithFallback(video, 'videos/dersbasliyor.mp4', finish);
 }
 
 function renderTeacherSelection() {
@@ -4792,7 +4792,7 @@ function initWhiteboards() {
 const WHITEBOARD_THEMES = {
   default: null,
   sahil: ['public/images/sahiltahta.jpg', 'images/sahiltahta.jpg'],
-  karatahta: ['public/images/yazıtahtası.jpg', 'images/yazıtahtası.jpg'],
+  karatahta: ['public/images/yazitahtasi.jpg', 'images/yazitahtasi.jpg'],
 };
 const AQUARIUM_BG_CANDIDATES = ['public/images/akvaryumarkaplan.jpg', 'images/akvaryumarkaplan.jpg'];
 
@@ -4886,10 +4886,10 @@ function playAudioWithFallback(audio, relative) {
 // Ders girişi ve sandık videolarını önden ısıt: URL çözümü + tarayıcı
 // önbelleği dolu olursa zil sesi ve video anında başlar, gecikme kalmaz.
 const LESSON_INTRO_ASSETS = {
-  audio: 'sounds/dersbaşlıyor.mp3',
-  video: 'videos/dersbaşlıyor.mp4',
+  audio: 'sounds/dersbasliyor.mp3',
+  video: 'videos/dersbasliyor.mp4',
 };
-const CHEST_VIDEO_ASSET = 'videos/sandık.mp4';
+const CHEST_VIDEO_ASSET = 'videos/sandik.mp4';
 
 let preloadedLessonAudio = null;
 let lessonAudioReady = false;
@@ -6009,22 +6009,22 @@ const AQUARIUM_BUBBLE_IMG = 'public/images/balon.png';
 const AQUARIUM_FISH = [
   // common/
   { name: 'left-common-1',  src: 'public/images/balik/common/leftbalik.png',    rarity: 'common',    dir: 'left' },
-  { name: 'left-common-2',  src: 'public/images/balik/common/leftbalık4.png',   rarity: 'common',    dir: 'left' },
-  { name: 'left-common-3',  src: 'public/images/balik/common/leftbalık5.png',   rarity: 'common',    dir: 'left' },
+  { name: 'left-common-2',  src: 'public/images/balik/common/leftbalik4.png',   rarity: 'common',    dir: 'left' },
+  { name: 'left-common-3',  src: 'public/images/balik/common/leftbalik5.png',   rarity: 'common',    dir: 'left' },
   { name: 'right-common-1', src: 'public/images/balik/common/rightbalik2.png',  rarity: 'common',    dir: 'right' },
-  { name: 'right-common-2', src: 'public/images/balik/common/rightbalık3.png',  rarity: 'common',    dir: 'right' },
+  { name: 'right-common-2', src: 'public/images/balik/common/rightbalik3.png',  rarity: 'common',    dir: 'right' },
   // rare/
-  { name: 'left-rare-1',    src: 'public/images/balik/rare/leftrarebalık3.png', rarity: 'rare',      dir: 'left' },
-  { name: 'left-rare-2',    src: 'public/images/balik/rare/leftrarebalık4.png', rarity: 'rare',      dir: 'left' },
-  { name: 'left-rare-3',    src: 'public/images/balik/rare/leftrarebalık5.png', rarity: 'rare',      dir: 'left' },
-  { name: 'left-rare-4',    src: 'public/images/balik/rare/leftrarebalık.png',  rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-1',    src: 'public/images/balik/rare/leftrarebalik3.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-2',    src: 'public/images/balik/rare/leftrarebalik4.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-3',    src: 'public/images/balik/rare/leftrarebalik5.png', rarity: 'rare',      dir: 'left' },
+  { name: 'left-rare-4',    src: 'public/images/balik/rare/leftrarebalik.png',  rarity: 'rare',      dir: 'left' },
   { name: 'right-rare-1',   src: 'public/images/balik/rare/rightrarefish.png',  rarity: 'rare',      dir: 'right' },
   { name: 'right-rare-2',   src: 'public/images/balik/rare/rightrarefish2.png', rarity: 'rare',      dir: 'right' },
   // epic/
-  { name: 'left-epic-1',    src: 'public/images/balik/epic/leftepicbalık.png',  rarity: 'epic',      dir: 'left' },
-  { name: 'right-epic-2',   src: 'public/images/balik/epic/rightepicbalık2.png', rarity: 'epic',     dir: 'right' },
+  { name: 'left-epic-1',    src: 'public/images/balik/epic/leftepicbalik.png',  rarity: 'epic',      dir: 'left' },
+  { name: 'right-epic-2',   src: 'public/images/balik/epic/rightepicbalik2.png', rarity: 'epic',     dir: 'right' },
   { name: 'right-epic-1',   src: 'public/images/balik/epic/rightepicfish.png',  rarity: 'epic',      dir: 'right' },
-  { name: 'left-epic-3',    src: 'public/images/balik/epic/epicdenizanası.png', rarity: 'epic',      dir: 'left' },
+  { name: 'left-epic-3',    src: 'public/images/balik/epic/epicdenizanasi.png', rarity: 'epic',      dir: 'left' },
   // legendary/
   { name: 'left-legendary-1', src: 'public/images/balik/legendary/leftlegendaryfish.png', rarity: 'legendary', dir: 'left' },
   { name: 'left-legendary-2', src: 'public/images/balik/legendary/legendaryfish2.png', rarity: 'legendary', dir: 'left' },

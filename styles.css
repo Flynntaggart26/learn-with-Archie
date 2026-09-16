@@ -12152,3 +12152,87 @@ body.dark-mode .rm-legend {
   color: #DFF5FF !important;
   box-shadow: 0 8px 22px rgba(2, 16, 30, .5) !important;
 }
+
+/* — Planlayıcı istatistik kartları + boş liste + öneri şeridi koyu tema — */
+body.dark-mode .planner-stat-card,
+body.dark-mode .planner-exam-stat,
+body.dark-mode .planner-exam-stat-ayt,
+body.dark-mode .planner-progress-stat,
+body.dark-mode .planner-streak-stat {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border: 1px solid rgba(125, 211, 252, .2) !important;
+  color: #EAFBFF !important;
+  box-shadow: 0 8px 18px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .planner-stat-card::after {
+  background: rgba(16, 174, 211, .1) !important;
+}
+body.dark-mode .planner-stat-kicker,
+body.dark-mode .planner-stat-label,
+body.dark-mode .planner-countdown,
+body.dark-mode .planner-streak-value strong,
+body.dark-mode .planner-streak-value small {
+  color: #8FC3DC !important;
+  text-shadow: none !important;
+}
+body.dark-mode .planner-stat-value,
+body.dark-mode .planner-streak-value span { color: #7DE3FF !important; }
+body.dark-mode .planner-stat-icon { color: #FFB84D !important; }
+body.dark-mode .planner-empty {
+  background: rgba(4, 26, 42, .85) !important;
+  border: 1px dashed rgba(125, 211, 252, .3) !important;
+  color: #8FC3DC !important;
+}
+body.dark-mode .planner-kanban-empty {
+  background: rgba(4, 26, 42, .8) !important;
+  border: 1px dashed rgba(125, 211, 252, .25) !important;
+  color: #8FC3DC !important;
+}
+body.dark-mode .planner-insight-card {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #DFF5FF !important;
+  box-shadow: 0 8px 22px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .planner-insight-heading strong { color: #EAFBFF !important; }
+body.dark-mode .planner-insight-heading div,
+body.dark-mode .planner-insight-card small { color: #8FC3DC !important; }
+body.dark-mode .planner-insight-badge {
+  background: rgba(4, 26, 42, .9) !important;
+  border-color: rgba(125, 211, 252, .3) !important;
+  color: #7DE3FF !important;
+}
+body.dark-mode .planner-eyebrow { color: #7DE3FF !important; }
+body.dark-mode .semantic-btn, body.dark-mode .planner-insight-btn {
+  background: linear-gradient(135deg, #0E7490, #0369A1) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(125, 211, 252, .35) !important;
+}
+
+/* — Koyu tema id-level/nth eslesen beyaz kurallari yener (planner eslenik) — */
+body.dark-mode .planner-container .planner-stat-card:nth-child(1),
+body.dark-mode .planner-container .planner-stat-card:nth-child(2),
+body.dark-mode .planner-container .planner-stat-card:nth-child(3),
+body.dark-mode .planner-container .planner-stat-card:nth-child(4) {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  background-image: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+}
+body.dark-mode .planner-container .planner-stat-card:nth-child(1) { border-color: rgba(125, 211, 252, .35) !important; }
+body.dark-mode .planner-container .planner-stat-card:nth-child(2) { border-color: rgba(167, 139, 250, .4) !important; }
+body.dark-mode .planner-container .planner-stat-card:nth-child(3) { border-color: rgba(52, 211, 153, .4) !important; }
+body.dark-mode .planner-container .planner-stat-card:nth-child(4) { border-color: rgba(251, 191, 36, .4) !important; }
+
+/* — Bitmemis gorevleri yarina tasi seridi koyu temada koyu kalsin — */
+body.dark-mode .planner-reschedule {
+  background: linear-gradient(100deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(155, 123, 255, .4) !important;
+}
+body.dark-mode .planner-reschedule-icon { color: #C4B5FD !important; }
+body.dark-mode .planner-reschedule strong { color: #F2FDFF !important; }
+body.dark-mode .planner-reschedule div span { color: #8FC3DC !important; }
+body.dark-mode .planner-reschedule button {
+  color: #C7B5FF !important;
+  background: rgba(124, 76, 255, .16) !important;
+  border-color: rgba(155, 123, 255, .5) !important;
+}
+body.dark-mode .planner-reschedule button:hover { background: rgba(124, 76, 255, .32) !important; color: #FFFFFF !important; }

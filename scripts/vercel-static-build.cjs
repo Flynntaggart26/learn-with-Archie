@@ -63,9 +63,23 @@ for (const m of mustExist) {
   }
 }
 
+// Cache-bust damgasi: index.html'deki ?v=BUILDTIME yerini build zamanینه
+// replaces. Boylece deploy her seferinde tarayici eskisini asla kullanmaz.
+// (Manuel ?v= bump unutma hatasi prod'u bir daha bozmaz.)
+const idxOut = path.join(OUT, 'index.html');
+const stamp = `v=${new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 12)}`;
+let html = fs.readFileSync(idxOut, 'utf8');
+if (!html.includes('v=BUILDTIME')) {
+  console.error('BUILD HATASI: index.html icinde ?v=BUILDTIME damgasi yok');
+  process.exit(1);
+}
+html = html.split('?v=BUILDTIME').join(`?${stamp}`);
+fs.writeFileSync(idxOut, html);
+console.log(`✔ dist/index.html cache damgasi: ?${stamp}`);
+
 // Değişim doğrulama: kaynak → dist hash'leri eşleşmeli; aksi halde
 // "build'de değişiklik yok" algisinin kaynağı budur.
-for (const key of ['index.html', 'styles.css', 'script.js']) {
+for (const key of ['styles.css', 'script.js']) {
   const srcBuf = fs.readFileSync(path.join(ROOT, key));
   const outBuf = fs.readFileSync(path.join(OUT, key));
   if (srcBuf.length !== outBuf.length) {
@@ -73,6 +87,12 @@ for (const key of ['index.html', 'styles.css', 'script.js']) {
     process.exit(1);
   }
   console.log(`✔ dist/${key} — ${(srcBuf.length / 1024).toFixed(1)} KB (kaynakla birebir)`);
+}
+console.log(`✔ dist/index.html — ${(fs.statSync(idxOut).size / 1024).toFixed(1)} KB (damgali)`);
+// Damga ters kontrol: dist'te BUILDTIME kalmamali
+if (fs.readFileSync(idxOut, 'utf8').includes('BUILDTIME')) {
+  console.error('BUILD HATASI: dist/index.html icinde hala BUILDTIME kaldi');
+  process.exit(1);
 }
 const images = fs.readdirSync(path.join(OUT, 'public', 'images')).length;
 console.log(`✔ public/images girdileri kopyalandı: ${images} alt klasör`);

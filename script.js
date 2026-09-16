@@ -115,6 +115,9 @@ const STORAGE_KEYS = {
   timerPomodoro: 'archie.timerPomodoro',
   focusLog: 'archie.focusLog',
   pearls: 'archie.pearls',
+  oysters: 'archie.oysters',
+  socraticMode: 'archie.socraticMode',
+  feynmanLog: 'archie.feynmanLog',
   rewardState: 'archie.rewardState',
   aquarium: 'archie.aquarium',
   metacognition: 'archie.metacognition',
@@ -284,6 +287,7 @@ let AppState = {
   currentUserEmail: readStorage(STORAGE_KEYS.currentUser, ''),
   xp: readStorage(STORAGE_KEYS.xp, 0),
   pearls: readStorage(STORAGE_KEYS.pearls, 0),
+  oysters: readStorage(STORAGE_KEYS.oysters, 0),
   activeLevel: 'tyt',
   activeTopic: null,
   activeSubject: null,
@@ -475,6 +479,138 @@ function updatePearlDisplay() {
   const timerPearls = $('timerPearlCount');
   if (timerPearls) timerPearls.textContent = AppState.pearls || 0;
 }
+
+/* ============================================================
+   💠 ÇİFT PARA BİRİMLİ OYUNLAŞTIRMA MODÜLÜ (Dual-Currency)
+   ------------------------------------------------------------
+   🦪 İnci   → pasif: Pomodoro odak oturumu (1 dk = 1 İnci).
+     Yalnızca BALIK SANDIĞI açmak için kullanılır.
+   🆵 İstiridye → yalnızca aktif öğrenme: Feynman anlatımı
+     (Öğrenci AI) ve Zayıf Konu Quiz'i. Yalnızca MERCAN
+     SANDIĞI açmak için kullanılır.
+   Yapısal değişiklik yok: mevcut HTML/CSS korunur, tüm
+   mantık bu modül + mağaza satın alma kontrolünde yaşar.
+   ============================================================ */
+const GAMIFICATION_VERSION = '1.0.0'; // çift para birimi + Feynman çarpanı + sembiyozu kapasitesi
+
+const SOCRATIC_MODES = [
+  { id: 'tatli-merakli', name: 'Tatlı Meraklı', mult: 1.0 },
+  { id: 'sorgulayici-dedektif', name: 'Sorgulayıcı Dedektif', mult: 1.5 },
+  { id: 'suphici-sira-arkadasi', name: 'Şüpheci Sıra Arkadaşı', mult: 2.0 },
+];
+const FEYNMAN_BASE_REWARD = 2;      // Feynman anlatımıtemel istiridyе ödülü
+const WEAK_QUIZ_BASE_REWARD = 2;    // Zayıf Konu Quiz'i temel istiridye ödülü
+const AQUARIUM_BASE_FISH_CAP = 3;   // Başlangıç balık kapasitesi
+const FISH_PER_CORAL = 3;           // Her mercan +3 balık kapasitesi
+
+function getSocraticMode() {
+  const saved = readStorage(STORAGE_KEYS.socraticMode, 'tatli-merakli');
+  return SOCRATIC_MODES.find((m) => m.id === saved) || SOCRATIC_MODES[0];
+}
+
+function setSocraticMode(id) {
+  const mode = SOCRATIC_MODES.find((m) => m.id === id);
+  if (!mode) return;
+  writeStorage(STORAGE_KEYS.socraticMode, mode.id);
+}
+
+// İstiridye: yalnızca aktif öğrenmede kazanılır, mercan sandığı açar.
+function addOysters(amount) {
+  AppState.oysters = Math.max(0, (AppState.oysters || 0) + Math.round(amount));
+  writeStorage(STORAGE_KEYS.oysters, AppState.oysters);
+  updateOysterDisplay();
+}
+
+function getOysters() {
+  return Math.max(0, AppState.oysters || 0);
+}
+
+function updateOysterDisplay() {
+  let badge = document.getElementById('storeOysterBadge');
+  if (!badge) {
+    const pearlSpan = $('storePearlDisplay');
+    const pearlBadge = pearlSpan && pearlSpan.closest('.store-xp-badge');
+    if (!pearlBadge) return;
+    badge = pearlBadge.cloneNode(true);
+    badge.id = 'storeOysterBadge';
+    badge.innerHTML = `<span class="store-xp-icon">🦪</span><strong id="storeOysterDisplay">${getOysters()}</strong><span class="store-xp-label">İstiridye</span>`;
+    pearlBadge.insertAdjacentElement('afterend', badge);
+  }
+  const value = badge.querySelector('#storeOysterDisplay');
+  if (value) value.textContent = getOysters();
+}
+
+// — Ekolojik Sembiyoz & Kapasite Sınırı —
+// Balık kapasitesi = (Mercan × 3) + 3. Kapasite dolduysa İnci birikse bile
+// Balık Sandığı açılamaz; Fermant anlatımıyla Mercan Sandığı gerekir.
+function getFishCapacity(aq) {
+  return ((aq && aq.corals ? aq.corals.length : 0) * FISH_PER_CORAL) + AQUARIUM_BASE_FISH_CAP;
+}
+
+function getFishCount(aq) {
+  return aq && aq.fish ? aq.fish.length : 0;
+}
+
+// true: balık sandığı açılabilir; false: kapasite doldu
+function canAddFishToAquarium() {
+  const aq = getAquarium();
+  return getFishCount(aq) < getFishCapacity(aq);
+}
+
+const AQUARIUM_CAP_WARNING = 'Akvaryum kapasitesi doldu! Feynman tekniğiyle ders anlatıp Mercan Sandığı açmalısın. 🪸';
+
+// — Feynman Bilişsel Çarpan Algoritması —
+// İstiridye = Temel Ödül × Feynman Çarpanı (1 + skor/100) × Sokratik Çarpan
+function feynmanMultiplier(score) {
+  const s = Math.min(100, Math.max(1, Math.round(Number(score) || 0)));
+  return +(1 + s / 100).toFixed(2); // 80 puan → 1.8x
+}
+
+function scoreFeynmanExplanation(text) {
+  const prepared = String(text || '').toLowerCase();
+  if (prepared.length < 40) return 20;
+  let score = 20 + Math.min(20, Math.floor(prepared.length / 80) * 5);
+  const analogies = ['gibi', 'benzet', ' âdetâ ', ' sanki ', 'imagine'];
+  const examples = ['örneğin', 'örnek', 'mesela'];
+  const reasoning = ['çünkü', 'neden', 'sonuç olarak', 'yani', 'formül', 'denklem'];
+  const structure = ['önce', 'sonra', 'ilk olarak', 'sonuç'];
+  const hits = (list) => list.reduce((acc, w) => acc + (prepared.includes(w) ? 1 : 0), 0);
+  score += Math.min(20, hits(analogies) * 7);
+  score += Math.min(20, hits(examples) * 7);
+  score += Math.min(22, hits(reasoning) * 6);
+  score += Math.min(20, hits(structure) * 7);
+  return Math.max(1, Math.min(100, Math.round(score)));
+}
+
+function awardFeynmanOysters(text, topicName) {
+  const score = scoreFeynmanExplanation(text);
+  const soc = getSocraticMode();
+  const base = FEYNMAN_BASE_REWARD;
+  const amount = Math.max(1, Math.round(base * feynmanMultiplier(score) * soc.mult));
+  addOysters(amount);
+  const log = readStorage(STORAGE_KEYS.feynmanLog, []);
+  log.push({ t: Date.now(), topic: topicName || 'Serbest anlatım', score, socraticMode: soc.id, oysters: amount });
+  writeStorage(STORAGE_KEYS.feynmanLog, log.slice(-200));
+  showToast(`🪸 Feynman Skoru: ${score}/100 (${feynmanMultiplier(score)}x · ${soc.name} ${soc.mult}x) → +${amount} 🦪 İstiridye!`);
+  return { score, amount, socraticMultiplier: soc.mult };
+}
+
+// Zayıf Konu Quiz'i: İstiridye ödülü (aktif öğrenme)
+function weakQuizOysterReward(correct, total, accuracy) {
+  const accuracyFactor = Math.min(1.5, 0.5 + (accuracy || 0) / 100);
+  const soc = getSocraticMode();
+  return Math.max(1, Math.round(WEAK_QUIZ_BASE_REWARD * accuracyFactor * soc.mult));
+}
+
+function awardWeakQuizOysters(correct, total, accuracy) {
+  const amount = weakQuizOysterReward(correct, total, accuracy);
+  addOysters(amount);
+  showToast(`🦪 Zayıf konu çalışması tamamladın → +${amount} İstiridye!`);
+  return amount;
+}
+
+// Test/diagnostik erişimi (oyunlaştırma API'si); dosyanın SONUNDA tanımlanır
+// ki modüldeki tüm const'lar (CHEST_DEFS vb.) ilk değerlendirme anında hazır olsun.
 
 // ===== Auth =====
 const AVATARS = ['👤', '👨‍🎓', '👩‍🎓', '🧑‍💻', '🐱', '🐶', '🦊', '🐼', '🦁', '🐸'];
@@ -2701,6 +2837,7 @@ function finishQuiz() {
     if ($('quizResultTitle')) $('quizResultTitle').textContent = accuracy >= 70 ? 'Defter temizleniyor!' : 'Bir daha dene!';
     if ($('quizResultText')) $('quizResultText').textContent = `Yanlış defterinde ${correct}/${total} doğru yaptın (${accuracy}%) · ${wbTopicNames}. +${wbXp} XP!`;
     if ($('quizRetryBtn')) $('quizRetryBtn').style.display = 'none';
+    if (typeof awardWeakQuizOysters === 'function') awardWeakQuizOysters(correct, total, accuracy);
     renderDashboardWrongBook();
     return;
   }
@@ -2715,6 +2852,8 @@ function finishQuiz() {
 
   const xpEarned = correct > 0 ? correct * 2 : 1;
   addXp(xpEarned);
+  // Zayıf Konu Quiz'i tamamlama ödülü: İstiridye (mobil ayaran tersiyle)
+  if (typeof awardWeakQuizOysters === 'function') awardWeakQuizOysters(correct, total, accuracy);
 
   const quizHistory = readStorage(STORAGE_KEYS.quizHistory, []);
   quizHistory.push({
@@ -3787,7 +3926,9 @@ function initTimerPomodoro() {
     const dailyGoal = 4;
     if ($('timerSessionProgress')) $('timerSessionProgress').style.width = `${Math.min(100, (todaySessions / dailyGoal) * 100)}%`;
     const aqState = syncAquarium(timerSessionCount, false);
-    if ($('aquariumRewardCount')) $('aquariumRewardCount').textContent = `${aqState.corals.length} mercan · ${aqState.fish.length} balık`;
+    const cap = getFishCapacity(aqState);
+  const capText = getFishCount(aqState) >= cap ? ` · ⚠️ Kapasite doldu (${cap})` : ` / ${cap}`;
+  if ($('aquariumRewardCount')) $('aquariumRewardCount').textContent = `${aqState.corals.length} mercan · ${aqState.fish.length} balık ${capText}`;
     if ($('timerNextSession')) $('timerNextSession').textContent = (TIMER_MODES[timerPomodoroMode] || TIMER_MODES.focus).nextLabel;
     document.querySelectorAll('[data-focus-mode]').forEach((button) => button.classList.toggle('active', button.dataset.focusMode === timerPomodoroMode));
   };
@@ -4371,6 +4512,10 @@ function initStudentChat() {
 
   const studentForm = $('studentForm');
   if (studentForm) {
+    // — Sokratik Zorluk Modu seçici: mevcut chat sekme tasarımı yeniden
+    // kullanılır; HTML/CSS değişmez, yalnızca JS ile eklenir. —
+    initSocraticModePicker();
+
     studentForm.onsubmit = (e) => {
       e.preventDefault();
       const input = $('studentInput');
@@ -4380,9 +4525,40 @@ function initStudentChat() {
       addChatMessage('studentMessages', msg, 'user');
       setTimeout(() => {
         addChatMessage('studentMessages', generateStudentResponse(msg), 'ai');
+        // Feynman yöntemi: öğrenci gerçekten anlatım yaparsa (kısa mesajlar
+        // sayılmaz) AI değerlendirerek İstiridye ödülünü verir.
+        if (String(msg).trim().length >= 60) awardFeynmanOysters(msg, AppState.activeTopicName || null);
       }, 300);
     };
   }
+}
+
+// Sokratik Zorluk Çarpanı seçici: öğrenci sohbet ekranında mevcut sekme
+// pillerinden (chat-mode-tab)适合自己的 birisi olarak bağlanır; CSS sınıfları
+// yeniden kullanılır (yapısal CSS/HTML değişikliği yok).
+function initSocraticModePicker() {
+  const chat = $('studentChat');
+  const form = $('studentForm');
+  if (!chat || !form || document.getElementById('socraticModePicker')) return;
+  const picker = document.createElement('div');
+  picker.className = 'chat-mode-tabs';
+  picker.id = 'socraticModePicker';
+  picker.setAttribute('role', 'tablist');
+  picker.setAttribute('aria-label', 'Sokratik zorluk çarpanı');
+  const current = getSocraticMode();
+  picker.innerHTML = SOCRATIC_MODES.map((mode) => `
+    <button type="button" class="chat-mode-tab ${mode.id === current.id ? 'active' : ''}" data-socratic="${mode.id}" title="Sokratik çarpan: ${mode.mult}x">
+      ${mode.mult}× ${mode.name}
+    </button>
+  `).join('');
+  form.insertAdjacentElement('beforebegin', picker);
+  picker.querySelectorAll('[data-socratic]').forEach((btn) => {
+    btn.onclick = () => {
+      setSocraticMode(btn.dataset.socratic);
+      picker.querySelectorAll('[data-socratic]').forEach((b) => b.classList.toggle('active', b.dataset.socratic === btn.dataset.socratic));
+      showToast(`🧠 Sokratik mod: ${getSocraticMode().name} (${getSocraticMode().mult}×)`);
+    };
+  });
 }
 
 function initChatModes(type) {
@@ -5859,9 +6035,21 @@ function showToast(message) {
 // klasörlerinden (balik/common, balik/rare, balik/epic, balik/legendary)
 // seçilir.
 const CHEST_DEFS = [
-  { id: 'mercan-sandigi', icon: '🧰', name: 'Mercan Sandığı', desc: 'İçinden rastgele bir mercan çıkar. Akvaryumuna eklenir.', price: 1, kind: 'coral' },
-  { id: 'balik-sandigi', icon: '🎁', name: 'Balık Sandığı', desc: 'İçinden rastgele bir balık çıkar: sıradan en sık, efsanevi en ender. Akvaryumuna eklenir.', price: 1, kind: 'fish' },
+  { id: 'mercan-sandigi', icon: '🪸', name: 'Mercan Sandığı', desc: 'İçinden rastgele bir mercan çıkar. Akvaryumuna eklenir. İstiridye sadece Feynman anlatımı ve zayıf konu quiziyle kazanılır.', price: 1, kind: 'coral', currency: 'oysters', currencySymbol: '🦪', currencyName: 'İstiridye' },
+  { id: 'balik-sandigi', icon: '🎁', name: 'Balık Sandığı', desc: 'İçinden rastgele bir balık çıkar: sıradan en sık, efsanevi en ender. Akvaryumuna eklenir. İnci yalnızca zamanlayıcı oturumlarıyla kazanılır.', price: 1, kind: 'fish', currency: 'pearls', currencySymbol: '🦪', currencyName: 'İnci' },
 ];
+
+// Sandık açılış挤 iki kontrole tabidir: doğru para birimi + (balık için)
+// ekolojik kapasite sınırı.
+function chestBalanceFor(chest) {
+  return chest.currency === 'oysters' ? getOysters() : (AppState.pearls || 0);
+}
+
+function chestAvailable(chest) {
+  if (chestBalanceFor(chest) < chest.price) return { ok: false, reason: 'balance' };
+  if (chest.kind === 'fish' && !canAddFishToAquarium()) return { ok: false, reason: 'capacity' };
+  return { ok: true };
+}
 const CHEST_NAMES = {
   fish: {
     common: ['Pırpır', 'Cam Göz', 'Minik Yüzgeç', 'Fokur'],
@@ -5977,17 +6165,22 @@ function renderStoreChests() {
   const chestsEl = $('storeChests');
   if (!chestsEl) return;
   updatePearlDisplay();
+  updateOysterDisplay();
   preloadChestVideo();
   chestsEl.innerHTML = CHEST_DEFS.map((chest) => {
-    const canAfford = (AppState.pearls || 0) >= chest.price;
+    const avail = chestAvailable(chest);
+    const canAfford = avail.ok;
+    let btnLabel;
+    if (!canAfford) btnLabel = avail.reason === 'capacity' ? 'Kapasite Doldu' : 'Yetersiz ' + chest.currencyName;
+    else btnLabel = 'Sandığı Aç';
     return `
       <div class="store-item chest-item">
         <div class="store-item-icon">${chest.icon}</div>
         <div class="store-item-name">${chest.name}</div>
         <div class="store-item-desc">${chest.desc}</div>
-        <div class="store-item-price"><span class="price-amount">${chest.price}</span> 🦪 İnci</div>
+        <div class="store-item-price"><span class="price-amount">${chest.price}</span> ${chest.currencySymbol} ${chest.currencyName}</div>
         <button class="store-buy-btn ${canAfford ? '' : 'disabled'}" data-chest="${chest.id}" ${canAfford ? '' : 'disabled'}>
-          ${canAfford ? 'Sandığı Aç' : 'Yetersiz İnci'}
+          ${btnLabel}
         </button>
       </div>
     `;
@@ -5995,8 +6188,15 @@ function renderStoreChests() {
   chestsEl.querySelectorAll('.store-buy-btn:not(.disabled)').forEach((btn) => {
     btn.onclick = () => {
       const chest = CHEST_DEFS.find((c) => c.id === btn.dataset.chest);
-      if (!chest || (AppState.pearls || 0) < chest.price) return;
-      addPearls(-chest.price);
+      if (!chest) return;
+      const avail = chestAvailable(chest);
+      if (!avail.ok) {
+        showToast(avail.reason === 'capacity' ? AQUARIUM_CAP_WARNING : 'Yetersiz ' + chest.currencyName + '!');
+        renderStoreChests();
+        return;
+      }
+      if (chest.currency === 'oysters') addOysters(-chest.price);
+      else addPearls(-chest.price);
       renderStoreChests();
       playAppSound('purchase');
       playChestVideo(chest);
@@ -6628,3 +6828,22 @@ if (document.readyState === 'loading') {
 // Kalici dekor gorselleri artik index.htmla sabit <img> olarak gomuldu (BAKED v1).
 
 
+
+// — Diagnostik erişim (oyunlaştırma API'si) — modül sonunda tanımlanır:
+// tüm const'lar (CHEST_DEFS vb.) ilk değerlendirme anında hazır olur.
+if (typeof window !== 'undefined') {
+  window.__GAMIFI = {
+    version: GAMIFICATION_VERSION,
+    getAquarium,
+    saveAquarium,
+    getFishCapacity,
+    getFishCount,
+    canAddFishToAquarium,
+    chestAvailable,
+    CHEST_DEFS,
+    feynmanMultiplier,
+    weakQuizOysterReward,
+    getOysters,
+    getSocraticMode,
+  };
+}

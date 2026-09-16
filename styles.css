@@ -12105,3 +12105,50 @@ body.dark-mode .quiz-hint {
   border-color: rgba(125, 211, 252, .2) !important;
   color: #8FC3DC !important;
 }
+
+/* — Yol Haritası kartları (rm-card) koyu tema eşleşmesi — */
+body.dark-mode .roadmap-container {
+  background: linear-gradient(165deg, #03101C 0%, #052A43 52%, #06405F 100%) !important;
+}
+body.dark-mode .rm-card {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #EAFBFF !important;
+  box-shadow: 0 6px 18px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .rm-card:hover:not(.locked) { box-shadow: 0 12px 26px rgba(2, 16, 30, .55) !important; }
+body.dark-mode .rm-card.done {
+  background: linear-gradient(145deg, #06453A 0%, #05301F 100%) !important;
+  border-color: rgba(52, 211, 153, .45) !important;
+}
+body.dark-mode .rm-card.active {
+  background: linear-gradient(145deg, #07304C 0%, #0A3556 100%) !important;
+  border-color: rgba(56, 189, 248, .55) !important;
+  box-shadow: 0 8px 22px rgba(2, 16, 30, .5) !important;
+}
+body.dark-mode .rm-card.locked { background: #16233B !important; border-color: #2B3A52 !important; }
+body.dark-mode .rm-card .rm-ico { background: rgba(4, 26, 42, .85) !important; border-color: rgba(125, 211, 252, .2) !important; }
+body.dark-mode .rm-card.done .rm-ico { background: rgba(52, 211, 153, .25) !important; }
+body.dark-mode .rm-card.active .rm-ico { background: rgba(56, 189, 248, .22) !important; }
+body.dark-mode .rm-card.locked .rm-ico { background: rgba(148, 163, 184, .16) !important; }
+body.dark-mode .rm-card.done .rm-pill {
+  background: rgba(52, 211, 153, .18) !important;
+  color: #6EE7B7 !important;
+  border: 1px solid rgba(52, 211, 153, .5) !important;
+}
+body.dark-mode .rm-card.active .rm-pill {
+  background: linear-gradient(135deg, #0EA5E9, #6366F1) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(56, 189, 248, .6) !important;
+}
+body.dark-mode .rm-card.locked .rm-pill { background: rgba(148, 163, 184, .16) !important; color: #8FA3B8 !important; border: 1px solid rgba(148, 163, 184, .3) !important; }
+body.dark-mode .rm-bar { background: rgba(2, 14, 26, .8) !important; }
+body.dark-mode .rm-card.locked .rm-bar i { background: rgba(148, 163, 184, .4) !important; }
+body.dark-mode .rm-foot { color: #8FC3DC !important; }
+body.dark-mode .rm-foot-right { color: #EAFBFF !important; }
+body.dark-mode .rm-legend {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #DFF5FF !important;
+  box-shadow: 0 8px 22px rgba(2, 16, 30, .5) !important;
+}

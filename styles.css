@@ -12236,3 +12236,99 @@ body.dark-mode .planner-reschedule button {
   border-color: rgba(155, 123, 255, .5) !important;
 }
 body.dark-mode .planner-reschedule button:hover { background: rgba(124, 76, 255, .32) !important; color: #FFFFFF !important; }
+
+/* ============================================================
+   🌑 KOYU TEMA GENEL TAMAMLAMA (2026-09-16)
+   Otomatik kontrast taramasiyla tespit edilen kalan bozuk/beyaz
+   yerler: halka lejand, topbar XP cipi, gun hucresi Ifadeleri,
+   store devre-disi buton, zamanlayici ozet kutulari + mod
+   sekmeleri, akvaryum istatistik cipleri, default tahta...
+   ============================================================ */
+
+body.dark-mode .topbar-xp { background: rgba(4, 26, 42, .95) !important; border-color: rgba(125, 211, 252, .28) !important; color: #FFD166 !important; }
+body.dark-mode .topbar-xp b, body.dark-mode .topbar-xp .topbar-xp-icon { color: #FFD166 !important; }
+
+/* — Quiz Basari Halkasi (Panel) — */
+body.dark-mode .quiz-ring-legend { color: #A9D8EC !important; }
+body.dark-mode .quiz-ring-legend b { color: #EAFBFF !important; }
+body.dark-mode .quiz-ring::after { background: rgba(4, 26, 42, .95) !important; }
+body.dark-mode .quiz-ring { box-shadow: inset 0 0 0 3px rgba(4, 26, 42, .95) !important; }
+body.dark-mode .quiz-ring-center { color: #EAFBFF !important; }
+body.dark-mode .quiz-ring-center strong { color: #EAFBFF !important; }
+body.dark-mode .quiz-ring-center span { color: #7DE3FF !important; }
+body.dark-mode .legend-total { background: #7DE3FF !important; }
+
+/* — Planlayici gun hucresi tarih/yazilari — */
+body.dark-mode .planner-day-today { color: #A9D8EC !important; }
+
+/* — Magaza yetersiz XP butonu — */
+body.dark-mode .store-buy-btn.disabled {
+  background: rgba(4, 26, 42, .9) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #8FA3B8 !important;
+  box-shadow: none !important;
+}
+
+/* — Zamanlayici ozet kutulari + odak kontrolleri — */
+body.dark-mode .timer-summary-grid div {
+  background: rgba(4, 26, 42, .85) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .timer-summary-grid strong { color: #7DE3FF !important; }
+body.dark-mode .timer-summary-grid span, body.dark-mode .timer-progress-label { color: #8FC3DC !important; }
+body.dark-mode .timer-session-progress { background: rgba(2, 14, 26, .8) !important; }
+body.dark-mode .timer-setting { border-color: rgba(125, 211, 252, .18) !important; }
+body.dark-mode .timer-setting strong { color: #DFF5FF !important; }
+body.dark-mode .timer-setting small { color: #8FC3DC !important; }
+body.dark-mode .focus-duration-row { color: #8FC3DC !important; }
+body.dark-mode .focus-duration-row input { background: rgba(3, 14, 27, .8) !important; border-color: rgba(125, 211, 252, .22) !important; color: #EAFBFF !important; }
+body.dark-mode .focus-presets button { background: rgba(4, 26, 42, .9) !important; border-color: rgba(125, 211, 252, .2) !important; color: #A9D8EC !important; }
+body.dark-mode .focus-presets button:hover { border-color: #22D3EE !important; color: #FFFFFF !important; }
+body.dark-mode .focus-session-chip { background: rgba(4, 26, 42, .85) !important; border-color: rgba(125, 211, 252, .2) !important; color: #A9D8EC !important; }
+body.dark-mode .timer-next-card { background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important; border-color: rgba(125, 211, 252, .22) !important; box-shadow: 0 10px 20px rgba(2, 16, 30, .45) !important; }
+body.dark-mode .timer-next-card strong { color: #F2FDFF !important; }
+body.dark-mode .timer-next-card > span:last-child { color: #8FC3DC !important; }
+body.dark-mode .timer-mode-tabs { background: rgba(4, 26, 42, .9) !important; }
+
+/* — Ambiyans / simdi oynatilan karolar (timer sayfasi) — */
+body.dark-mode .ambient-sound-btn {
+  background: rgba(4, 26, 42, .85) !important;
+  border-color: rgba(125, 211, 252, .18) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .ambient-sound-btn span { background: rgba(4, 26, 42, .95) !important; color: #22D3EE !important; }
+body.dark-mode .ambient-sound-btn:hover { border-color: #22D3EE !important; color: #EAFBFF !important; }
+body.dark-mode .ambient-sound-btn.active { background: rgba(8, 60, 92, .95) !important; color: #EAFBFF !important; }
+
+/* — Simdiki Akvaryum kolu (timer sayfasindaki aquarium-card) — */
+body.dark-mode .aquarium-card { background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important; border-color: rgba(125, 211, 252, .2) !important; }
+body.dark-mode .aquarium-card h3 { color: #7DE3FF !important; }
+body.dark-mode .aquarium-card p, body.dark-mode .aquarium-progress-meta { color: #8FC3DC !important; }
+body.dark-mode .aquarium-progress-meta strong { color: #EAFBFF !important; }
+body.dark-mode .aquarium-card .aquarium-scene { background: linear-gradient(180deg, rgba(2, 14, 26, .8), rgba(4, 26, 42, .7)) !important; }
+body.dark-mode .aquarium-emoji { background: rgba(4, 26, 42, .95) !important; }
+body.dark-mode .aquarium-progress { background: rgba(2, 14, 26, .8) !important; }
+
+/* — Akvaryum sayfasindaki beyaz yari-saydam cipler + degerler — */
+body.dark-mode .aquarium-stat {
+  background: rgba(4, 26, 42, .72) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .aquarium-stat strong { color: #7DE3FF !important; }
+body.dark-mode .aquarium-banner-icon { background: rgba(4, 26, 42, .72) !important; }
+body.dark-mode .aquarium-stat span, body.dark-mode .aquarium-stat i { color: #8FC3DC !important; }
+
+/* — Zamanlayici hero + reset + mod badges — */
+body.dark-mode .timer-hero {
+  background: linear-gradient(135deg, #053357 0%, #04253E 60%, #0A3556 110%) !important;
+}
+body.dark-mode .timer-hero h1 { color: #F2FDFF !important; }
+body.dark-mode .timer-hero p { color: #8FC3DC !important; }
+body.dark-mode .timer-hero::before { background: rgba(125, 211, 252, .08) !important; }
+body.dark-mode .timer-mode-badge { background: rgba(4, 26, 42, .8) !important; border-color: rgba(125, 211, 252, .3) !important; color: #7DE3FF !important; }
+body.dark-mode .timer-btn.reset {
+  background: linear-gradient(145deg, #0A3556, #052540) !important;
+  border-color: rgba(125, 211, 252, .3) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .timer-btn.reset:hover { color: #FFFFFF !important; border-color: #22D3EE !important; }

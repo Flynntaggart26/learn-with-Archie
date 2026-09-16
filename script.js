@@ -209,7 +209,9 @@ const NIGHT_BOARD_BG = '#0B192C';
 const NIGHT_BOARD_PALETTE = ['#00F0FF', '#FFFFFF', '#FFD700', '#FF2E93'];
 
 function isNightBoardMode() {
-  return document.body.classList.contains('night-aquarium-theme');
+  // Gece Akvaryumu temasi VEYA karanlik (derin deniz) tema aktifken tahta
+  // lacivert zemine gecer; beyaz tahta koyu temada beyaz kalmaz.
+  return document.body.classList.contains('night-aquarium-theme') || document.body.classList.contains('dark-mode');
 }
 
 function boardDefaultBg() {
@@ -773,20 +775,23 @@ function initNavigation() {
 
 // ===== Theme Toggle =====
 function initTheme() {
-  const toggle = $('themeToggle');
-  if (!toggle) return;
+  // Kayitli tema buton bagimsiz uygulanir; buton yoksa (index.html'de
+  // themeToggle bulunmayabilir) tema tamamen kaybolur ve yenilenir.
+  const toggle = document.getElementById('themeToggle');
 
   const savedTheme = readStorage(STORAGE_KEYS.theme, 'light');
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    const icon = toggle.querySelector('.theme-icon');
+    const icon = toggle ? toggle.querySelector('.theme-icon') : null;
     if (icon) icon.textContent = '☀️';
   }
 
+  if (!toggle) return;
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
     writeStorage(STORAGE_KEYS.theme, isDark ? 'dark' : 'light');
+    if (typeof syncNightBoardCanvases === 'function') syncNightBoardCanvases();
     const icon = toggle.querySelector('.theme-icon');
     if (icon) icon.textContent = isDark ? '☀️' : '🌙';
   });
@@ -5502,6 +5507,8 @@ function applySettingsTheme(mode) {
   const isDark = mode === 'dark';
   document.body.classList.toggle('dark-mode', isDark);
   writeStorage(STORAGE_KEYS.theme, isDark ? 'dark' : 'light');
+  // Tema degisince tahtalarin zemini + kalem paleti yeniden esitlenir.
+  if (typeof syncNightBoardCanvases === 'function') syncNightBoardCanvases();
   const themeToggle = $('themeToggle');
   if (themeToggle) {
     const icon = themeToggle.querySelector('.theme-icon');

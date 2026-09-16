@@ -11800,3 +11800,308 @@ body.dark-mode .dash-teach-count-label, body.dark-mode .dash-teach-summary .dash
   background-image: none !important;
   border-color: rgba(117, 211, 230, 0.24) !important;
 }
+
+/* ============================================================
+   🌑 DERİN DENİZ v2 (2026-09-16)
+   Koyu temada açık kalan beyaz yüzeyler tek blokta karartılır:
+   AI Öğretmen/Öğrenci koçu başlık+sekmeleri, anlatım sohbeti,
+   yazı tahtası araç barı, konu seçim kutuları (ders/konu/quiz).
+   Bu blok dosyanın SONUNDA durmalıdır; açık tema kuralları
+   !important boyadığı için burada da !important kullanılır.
+   ============================================================ */
+
+/* — Üst bar: Dersler çipi — */
+body.dark-mode .course-btn {
+  background: linear-gradient(145deg, #0B3D5F 0%, #072C49 100%) !important;
+  border: 1px solid rgba(125, 211, 252, .26) !important;
+  color: #A9D8EC !important;
+  box-shadow: 0 4px 10px rgba(2, 16, 30, .4) !important;
+}
+body.dark-mode .course-btn .course-name,
+body.dark-mode .course-btn .flag { color: #BFEAFF !important; }
+body.dark-mode .course-btn:hover { background: linear-gradient(135deg, #0E7490, #0369A1) !important; color: #fff !important; }
+
+/* — Yan menü aktif öğretmen/öğrenci öğesi (açık lila dolgu) — */
+body.dark-mode .nav-link[data-page="teacher"].active,
+body.dark-mode .nav-link[data-page="student"].active {
+  background: linear-gradient(135deg, #0E7490 0%, #0369A1 100%) !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+  color: #FFFFFF !important;
+}
+
+/* — AI koçu: başlık bandı, sekme çubuğu, öneri çipleri, mesajlar, giriş — */
+body.dark-mode .chat-container { background: transparent !important; color: #DFF5FF !important; }
+body.dark-mode .chat-container .chat-header {
+  background: linear-gradient(135deg, #053357 0%, #04253E 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  box-shadow: 0 10px 23px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .chat-container .chat-header h2 { color: #F2FDFF !important; }
+body.dark-mode .chat-container .chat-header p { color: #8FC3DC !important; }
+body.dark-mode .chat-avatar {
+  background: linear-gradient(145deg, #0B3D5F, #052540) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .chat-mode-tabs {
+  background: rgba(4, 26, 42, .85) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .chat-mode-tab { color: #A9D8EC !important; }
+body.dark-mode .chat-mode-tab:hover { color: #7DE3FF !important; background: rgba(8, 60, 92, .9) !important; }
+body.dark-mode .chat-mode-tab.active { color: #FFFFFF !important; background: linear-gradient(135deg, #0EA5E9, #6366F1) !important; }
+body.dark-mode .voice-mode-panel {
+  background: rgba(4, 26, 42, .7) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .voice-mode-panel strong { color: #DFF5FF !important; }
+body.dark-mode .voice-mode-panel span { color: #8FC3DC !important; }
+body.dark-mode .chat-options { color: #8FC3DC !important; }
+body.dark-mode .chat-options label { color: #8FC3DC !important; }
+body.dark-mode .chat-options select {
+  background: rgba(4, 26, 42, .95) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .chat-options .level-toggle { background: rgba(4, 26, 42, .9) !important; border-color: rgba(125, 211, 252, .22) !important; }
+body.dark-mode .chat-options .level-btn { color: #A9D8EC !important; }
+body.dark-mode .ai-chip {
+  background: rgba(4, 26, 42, .95) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #A9D8EC !important;
+}
+body.dark-mode .ai-chip:hover { background: rgba(8, 60, 92, .95) !important; border-color: #22D3EE !important; color: #EAFBFF !important; }
+body.dark-mode .chat-msg.ai {
+  background: rgba(9, 48, 74, .92) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .chat-msg.system { color: #8FC3DC !important; }
+body.dark-mode .chat-input {
+  background: rgba(4, 26, 42, .95) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+}
+body.dark-mode .chat-input input { color: #EAFBFF !important; }
+body.dark-mode .chat-input input::placeholder { color: #7FA9BE !important; }
+body.dark-mode .chat-messages { scrollbar-color: rgba(125, 211, 252, .4) transparent !important; }
+
+/* — Yazı tahtası: araç şeridi ve kutu (zemin JS ile lacivert) — */
+body.dark-mode .whiteboard-box {
+  border-color: rgba(125, 211, 252, .3) !important;
+  box-shadow: 0 12px 28px rgba(2, 16, 30, .5) !important;
+}
+body.dark-mode .wb-beach-bar {
+  background: linear-gradient(180deg, #073351 0%, #052540 80%, #04202F 100%) !important;
+  border-top-color: rgba(125, 211, 252, .3) !important;
+  box-shadow: inset 0 1px 0 rgba(125, 211, 252, .08) !important;
+}
+body.dark-mode .wb-title { color: #9FE0FF !important; text-shadow: none !important; }
+body.dark-mode .wb-tool {
+  background: rgba(9, 48, 74, .95) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #BFEAFF !important;
+  box-shadow: 0 3px 8px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .wb-tool:hover { border-color: #22D3EE !important; }
+body.dark-mode .wb-tool.active {
+  background: linear-gradient(145deg, #0EA5E9, #0369A1) !important;
+  color: #FFFFFF !important;
+  border-color: #22D3EE !important;
+  box-shadow: 0 3px 0 #0C5570 !important;
+}
+body.dark-mode .wb-color { border-color: rgba(125, 211, 252, .35) !important; box-shadow: 0 0 0 2px rgba(2, 16, 30, .5) !important; }
+body.dark-mode .whiteboard-toolbar { background: transparent !important; border: 0 !important; }
+
+/* — Konu seçim ekranları (AI öğretmen/öğrenci/sorun çözücü) — */
+body.dark-mode .teacher-beach-header,
+body.dark-mode .selection-header {
+  background: linear-gradient(135deg, #053357 0%, #04253E 55%, #0A3556 110%) !important;
+  border: 1px solid rgba(125, 211, 252, .2) !important;
+  box-shadow: 0 12px 28px rgba(2, 16, 30, .5) !important;
+}
+body.dark-mode .teacher-beach-header .selection-back {
+  background: rgba(9, 48, 74, .9) !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+  color: #BFEAFF !important;
+}
+body.dark-mode .teacher-beach-header .selection-icon {
+  background: linear-gradient(145deg, #0B3D5F, #052540) !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+}
+body.dark-mode .teacher-beach-header h2,
+body.dark-mode .selection-header h2 { color: #F2FDFF !important; }
+body.dark-mode .teacher-beach-header p,
+body.dark-mode .selection-header p { color: #8FC3DC !important; }
+body.dark-mode .selection-step {
+  background: linear-gradient(145deg, #0A3556 0%, #052540 100%) !important;
+  border: 1px solid rgba(125, 211, 252, .18) !important;
+  box-shadow: 0 12px 28px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .step-title { color: #7DE3FF !important; }
+body.dark-mode .subject-card,
+body.dark-mode .topic-card {
+  background: linear-gradient(145deg, #0B3D5F 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #EAFBFF !important;
+  box-shadow: 0 7px 18px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .subject-card:hover,
+body.dark-mode .topic-card:hover {
+  background: linear-gradient(145deg, #10496F 0%, #07304C 100%) !important;
+  border-color: #22D3EE !important;
+  box-shadow: 0 16px 30px rgba(2, 16, 30, .55), 0 0 0 3px rgba(34, 211, 238, .14) !important;
+}
+body.dark-mode .subject-card.selected,
+body.dark-mode .topic-card.selected {
+  background: linear-gradient(145deg, #0E7490 0%, #075985 100%) !important;
+  border-color: #22D3EE !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 14px 26px rgba(2, 16, 30, .55), 0 0 0 3px rgba(34, 211, 238, .18) !important;
+}
+body.dark-mode .subject-icon,
+body.dark-mode .topic-icon {
+  background: rgba(4, 26, 42, .85) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 4px 10px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .selection-actions { border-top-color: rgba(125, 211, 252, .16) !important; }
+body.dark-mode .selection-actions .btn-secondary {
+  border-color: rgba(125, 211, 252, .3) !important;
+  background: transparent !important;
+  color: #7DE3FF !important;
+}
+body.dark-mode .selection-actions .btn-secondary:hover { background: rgba(8, 60, 92, .9) !important; color: #FFFFFF !important; }
+body.dark-mode .level-toggle {
+  background: rgba(4, 26, 42, .9) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  box-shadow: none !important;
+}
+body.dark-mode .level-toggle .level-btn { color: #A9D8EC !important; }
+body.dark-mode .level-toggle .level-btn.active { color: #FFFFFF !important; background: linear-gradient(135deg, #0EA5E9, #6366F1) !important; }
+
+/* — Sınav konu seçim kutuları — */
+body.dark-mode .quiz-header {
+  background: linear-gradient(135deg, #053357 0%, #0A5A83 120%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .quiz-header h2 { color: #F2FDFF !important; }
+body.dark-mode .quiz-header p { color: #8FC3DC !important; }
+body.dark-mode .quiz-avatar { background: rgba(4, 26, 42, .8) !important; border-color: rgba(125, 211, 252, .25) !important; }
+body.dark-mode .quiz-kicker {
+  background: rgba(4, 26, 42, .95) !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+  color: #7DE3FF !important;
+}
+body.dark-mode .quiz-setup-title { color: #F2FDFF !important; }
+body.dark-mode .quiz-setup-top .level-toggle {
+  background: rgba(4, 26, 42, .9) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  box-shadow: none !important;
+}
+body.dark-mode .quiz-setup-top .level-btn { color: #A9D8EC !important; }
+body.dark-mode .quiz-setup-top .level-btn.active {
+  background: linear-gradient(135deg, #0EA5E9, #6366F1) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 14px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode .quiz-pane {
+  background: linear-gradient(180deg, #07304C 0%, #04233A 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+}
+body.dark-mode .quiz-pane-title { color: #7DE3FF !important; }
+body.dark-mode .quiz-subject-btn {
+  background: linear-gradient(145deg, #0B3D5F 0%, #052540 100%) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .quiz-subject-btn:hover { border-color: #22D3EE !important; }
+body.dark-mode .quiz-subject-btn.selected,
+body.dark-mode .quiz-topic-card.selected {
+  background: linear-gradient(135deg, #0EA5E9, #6366F1) !important;
+  color: #FFFFFF !important;
+}
+body.dark-mode .quiz-subject-list::-webkit-scrollbar-thumb,
+body.dark-mode .quiz-topic-cards::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(34, 211, 238, .5), rgba(99, 102, 241, .5)) !important;
+}
+body.dark-mode .quiz-hint { color: #8FC3DC !important; }
+body.dark-mode .quiz-select {
+  background: rgba(4, 26, 42, .95) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .quiz-topic-card {
+  background: linear-gradient(145deg, #0B3D5F 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode .quiz-topic-card:hover { border-color: #22D3EE !important; }
+
+/* — IDD tabanli beyaz kurallari yenen koyu eslenikler — */
+body.dark-mode .wb-beach-bar .whiteboard-toolbar,
+body.dark-mode .wb-beach-bar .wb-tools,
+body.dark-mode .wb-beach-bar {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+}
+body.dark-mode #teacherSubjectGrid .subject-card,
+body.dark-mode #teacherTopicGrid .topic-card,
+body.dark-mode #teacherSubtopicGrid .topic-card,
+body.dark-mode #studentSubjectGrid .subject-card,
+body.dark-mode #studentTopicGrid .topic-card,
+body.dark-mode #studentSubtopicGrid .topic-card {
+  background: linear-gradient(145deg, #0B3D5F 0%, #052540 100%) !important;
+  border: 1px solid rgba(125, 211, 252, .2) !important;
+  color: #EAFBFF !important;
+  box-shadow: 0 7px 18px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode #teacherSubjectGrid .subject-card:hover,
+body.dark-mode #teacherTopicGrid .topic-card:hover,
+body.dark-mode #teacherSubtopicGrid .topic-card:hover,
+body.dark-mode #studentSubjectGrid .subject-card:hover,
+body.dark-mode #studentTopicGrid .topic-card:hover,
+body.dark-mode #studentSubtopicGrid .topic-card:hover {
+  background: linear-gradient(145deg, #10496F 0%, #07304C 100%) !important;
+  border-color: #22D3EE !important;
+}
+body.dark-mode #teacherSubjectGrid .subject-card.selected,
+body.dark-mode #teacherTopicGrid .topic-card.selected,
+body.dark-mode #teacherSubtopicGrid .topic-card.selected,
+body.dark-mode #studentSubjectGrid .subject-card.selected,
+body.dark-mode #studentTopicGrid .topic-card.selected,
+body.dark-mode #studentSubtopicGrid .topic-card.selected {
+  background: linear-gradient(145deg, #0E7490 0%, #075985 100%) !important;
+  border-color: #22D3EE !important;
+  color: #FFFFFF !important;
+}
+body.dark-mode #teacherSubjectGrid .subject-icon,
+body.dark-mode #teacherTopicGrid .topic-icon,
+body.dark-mode #teacherSubtopicGrid .topic-icon,
+body.dark-mode #studentSubjectGrid .subject-icon,
+body.dark-mode #studentTopicGrid .topic-icon,
+body.dark-mode #studentSubtopicGrid .topic-icon {
+  background: rgba(4, 26, 42, .85) !important;
+}
+body.dark-mode #teacherSelectionLevelToggle .level-btn,
+body.dark-mode #studentSelectionLevelToggle .level-btn {
+  background: linear-gradient(145deg, #0B3D5F 0%, #052540 100%) !important;
+  border-color: rgba(125, 211, 252, .22) !important;
+  color: #A9D8EC !important;
+  box-shadow: 0 7px 18px rgba(2, 16, 30, .45) !important;
+}
+body.dark-mode #teacherSelectionLevelToggle .level-btn:hover:not(.active),
+body.dark-mode #studentSelectionLevelToggle .level-btn:hover:not(.active) {
+  border-color: #22D3EE !important;
+  background: linear-gradient(145deg, #10496F 0%, #07304C 100%) !important;
+  color: #EAFBFF !important;
+}
+body.dark-mode #teacherSelectionLevelToggle .level-btn.active,
+body.dark-mode #studentSelectionLevelToggle .level-btn.active {
+  border-color: #22D3EE !important;
+  background: linear-gradient(145deg, #0E7490 0%, #075985 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 14px 26px rgba(2, 16, 30, .5) !important;
+}
+body.dark-mode .quiz-hint {
+  background: rgba(4, 26, 42, .85) !important;
+  border-color: rgba(125, 211, 252, .2) !important;
+  color: #8FC3DC !important;
+}

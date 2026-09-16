@@ -6721,6 +6721,288 @@ function startAquariumSwimEngine(scene) {
   aquariumSwimRAF = requestAnimationFrame(frame);
 }
 
+// ===== Koleksiyon Kitabı: Okyanus Ansiklopedisi =====
+// Her balığa ve mercana çalışmayla özdeşleşen karakteristik bir anlam yüklenir.
+const COLLECTION_FISH_LORE = {
+  'left-common-1':  { title: 'Rutin Palyaço',   trait: 'İstikrar',           text: 'Her gün küçük bir tur atan bu balık, YKS maratonunun sırrını taşır: büyük sıçramalar değil, aksatılmayan küçük adımlar. Rutinini koruyan, dalgaya kapılmaz.' },
+  'left-common-2':  { title: 'Odak Levreği',    trait: 'Odaklanma',          text: 'Tek bir noktaya kilitlenir ve dikkatini dağıtacak akıntıları görmezden gelir. Pomodoro oturumundaki sensin: telefon susar, zihin tek hedefe dalar.' },
+  'left-common-3':  { title: 'Tekrar Sardalyası', trait: 'Aralıklı Tekrar',  text: 'Aynı rotayı günler arayla yeniden yüzer; her turda yolu daha iyi hatırlar. SM-2 tekrarlarının canlı hâli: unutmak üzereyken hatırlamak, hafızayı çelikleştirir.' },
+  'right-common-1': { title: 'Cesur İzci',      trait: 'Başlama Cesareti',   text: 'Sürüden önce açık suya çıkan ilk yüzgeç. İlk deneme sınavındaki düşük netten korkmaz; başlamak, mükemmel olmaktan önce gelir.' },
+  'right-common-2': { title: 'Sürü Dostu',      trait: 'Birlikte Öğrenme',   text: 'Yalnız yüzdüğünde yavaş, sürüyle yüzdüğünde hızlıdır. Öğrenci AI ile anlatıp tartıştığın her konu, bu balık gibi seni ileri taşır.' },
+  'left-rare-1':    { title: 'Derin Dalgıç',    trait: 'Derin Çalışma',      text: 'Yüzeydeki köpükle ilgilenmez, derine iner. Konunun formülünü ezberlemek yerine nedenini kovalar; türevin mantığını çözen zihin unutulmaz kılar.' },
+  'left-rare-2':    { title: 'Zikzak Kâşif',    trait: 'Hata Analizi',       text: 'Rotası dümdüz değildir; her yanlış dönüşü not eder. Yanlış Soru Defteri tutan öğrencinin ruhudur: hata, utanılacak değil incelenecek veridir.' },
+  'left-rare-3':    { title: 'Feynman Papağanı', trait: 'Anlatarak Öğrenme', text: 'Öğrendiğini yüksek sesle anlatmadan rahat edemez. İstiridye kazandıran Feynman tekniğinin simgesi: anlatabiliyorsan, gerçekten biliyorsun demektir.' },
+  'left-rare-4':    { title: 'Sabır Orfozu',    trait: 'Sabır ve Maraton',   text: 'Aylarca aynı kayanın altında bekler, günü gelince avlanır. Netlerin haftalarca yerinde saysa bile çalışmayı bırakmayanların balığıdır.' },
+  'right-rare-1':   { title: 'Hızlı Turna',     trait: 'Hızlı Tur',          text: 'Sınavın son dakikalarında parlar: hızlı okur, hızlı eler, hızlı işaretler. Hızlı Tur modunda antrenman yapan reflekslerin su altı hâli.' },
+  'right-rare-2':   { title: 'Pusula Balığı',   trait: 'Yön ve Yol Haritası', text: 'Göç yolunu manyetik alandan okur, asla kaybolmaz. Yol Haritasındaki ön koşul zincirin gibidir: önce temeller, sonra zirve konular.' },
+  'left-epic-1':    { title: 'Bilge Müren',     trait: 'Kavramsal Derinlik', text: 'Kayaların arasındaki gizli geçitleri bilir; konular arası köprüleri görür. Matematikteki bir kavramın fizikteki karşılığını yakalayan zihin, ezberin ötesine geçer.' },
+  'right-epic-2':   { title: 'Sokratik Vatoz',  trait: 'Sorgulayıcı Zihin',  text: 'Doğrudan cevap vermez; soruyla karşılık verir ve seni düşündürür. Sokratik ipucu modunun ruhudur: cevabı hazır almak değil, ona ulaşmak büyütür.' },
+  'right-epic-1':   { title: 'Ustalık Koi',     trait: 'Gerçek Ustalık',     text: 'Efsaneye göre akıntıya karşı yüzen koi ejderhaya dönüşür. BKT ustalığı %80 i aşan konuların simgesi: şansa değil, kanıta dayalı hâkimiyet.' },
+  'left-epic-3':    { title: 'Berrak Denizanası', trait: 'Metabilişsel Berraklık', text: 'Cam gibi şeffaftır; ne bildiğini ve ne bilmediğini saklamaz. Kalibrasyon eğrindeki dürüstlüktür: yüksek güvenle yanlış yapmak yerine, eksiklerini berrakça görmek.' },
+  'left-legendary-1': { title: 'Leviathan',     trait: 'Sarsılmaz Azim',     text: 'Okyanusun en derin katmanında yaşar, fırtınalar ona ulaşamaz. Aylarca her gün çalışan, mazeret üretmeyen iradenin efsanevi sureti.' },
+  'left-legendary-2': { title: 'Altın Zirve',   trait: 'Hedef ve Derece',    text: 'Yılda bir kez yüzeye çıkar ve güneşi selamlar. Sınav günü, bütün bir yılın emeğini tek performansa dönüştüren andır; zirve, tesadüf değil hazırlıktır.' },
+};
+
+const COLLECTION_CORAL_LORE = {
+  common:     { title: 'Temel Kayası',   trait: 'Sağlam Temel',     text: 'Bütün resif bunun üstünde yükselir. Temel Kavramlar gibi: burası çatlarsa üstteki her şey sallanır, burası sağlamsa her kat güvenle çıkar.' },
+  common2:    { title: 'Rutin Dalı',     trait: 'Günlük Alışkanlık', text: 'Her gün bir milim uzar; kimse fark etmez ama bir yılda resifin en geniş dalı olur. Günlük 20 paragraf çözen elin su altı karşılığıdır.' },
+  common3:    { title: 'Plan Süngeri',   trait: 'Planlı Çalışma',   text: 'Suyu süzer, fazlalığı atar, özü tutar. İyi bir günlük plan gibidir: ne çalışacağını önceden seçer, günün karmaşasını berraklaştırır.' },
+  common4:    { title: 'Odak Anemonu',   trait: 'Çalışma Ortamı',   text: 'Dokunaçları arasında güvenli bir alan sunar; palyaço balıkları burada dinlenir. Dağınık masa değil, odak köşesi: ortamın, iradenden önce gelir.' },
+  rare:       { title: 'Hafıza Mercanı', trait: 'Kalıcı Bellek',    text: 'Dalları tam unutulacakken yeniden filizlenir. SM-2 tekrar zamanlamasının doğadaki hâli: doğru günde tekrar, bilgiyi ömürlük kılar.' },
+  rare2:      { title: 'Feynman Bahçesi', trait: 'Aktif Öğrenme',   text: 'Sadece güneşle değil, anlatılan her hikâyeyle beslenir. Bir konuyu başkasına öğrettiğinde kök salar; pasif okuma değil, aktif üretim ister.' },
+  epic:       { title: 'Bilgelik Resifi', trait: 'Bağlantılı Bilgi', text: 'Kökleri kilometrelerce uzanır, bütün resfi birbirine bağlar. Ön koşul haritası gibidir: türev integralin, cümle paragrafın köküdür; bağlantıyı gören unutamaz.' },
+  legendary:  { title: 'İnci Resifi',    trait: 'Ustalık ve Sabır', text: 'İnci, istiridyenin yıllarca sabrettiği bir kum tanesinden doğar. Ustalaşılan her zor konu, böyledir: başta rahatsız eden, sonunda parlayan.' },
+  legendary2: { title: 'Zirve Tacı',     trait: 'Hayal ve Hedef',   text: 'Resifin en tepesinde, ışığa en yakın noktada durur. Hedef puanın, hayalindeki bölümün simgesidir: baktıkça yönünü hatırlatır, yorulsan da bıraktırmaz.' },
+};
+
+const COLLECTION_RARITY_ORDER = ['common', 'rare', 'epic', 'legendary'];
+const COLLECTION_RARITY_TR = { common: 'SIRADAN', rare: 'NADİR', epic: 'EPİK', legendary: 'EFSANEVİ' };
+
+const CollectionBook = { category: null, page: 0 };
+
+function collectionInventory() {
+  const aq = getAquarium();
+  const fishCounts = {};
+  aq.fish.forEach((f) => {
+    const k = f && f.kind && f.kind.name;
+    if (k) fishCounts[k] = (fishCounts[k] || 0) + 1;
+  });
+  const coralCounts = {};
+  aq.corals.forEach((c) => {
+    const k = c && c.kind && c.kind.name;
+    if (k) coralCounts[k] = (coralCounts[k] || 0) + 1;
+  });
+  return { fishCounts, coralCounts };
+}
+
+function collectionEntriesFor(category) {
+  return category === 'fish' ? AQUARIUM_FISH : AQUARIUM_CORALS;
+}
+
+function collectionLoreFor(category, name) {
+  const lore = category === 'fish' ? COLLECTION_FISH_LORE[name] : COLLECTION_CORAL_LORE[name];
+  return lore || { title: name, trait: 'Keşfedilmemiş', text: 'Bu canlının hikâyesi henüz yazılmadı.' };
+}
+
+function openCollectionBook() {
+  const backdrop = $('collectionBookBackdrop');
+  if (!backdrop) return;
+  backdrop.style.display = 'flex';
+  backdrop.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  showBookHome();
+}
+
+function closeCollectionBook() {
+  const backdrop = $('collectionBookBackdrop');
+  if (!backdrop) return;
+  closeCollectionDetail();
+  backdrop.style.display = 'none';
+  backdrop.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function showBookHome() {
+  CollectionBook.category = null;
+  CollectionBook.page = 0;
+  const home = $('collectionBookHome');
+  const dex = $('collectionBookDex');
+  const back = $('collectionBookBack');
+  if (home) home.style.display = '';
+  if (dex) dex.style.display = 'none';
+  if (back) back.style.visibility = 'hidden';
+  if ($('collectionBookTitle')) $('collectionBookTitle').textContent = 'Okyanus Ansiklopedisi';
+  if ($('collectionBookSubtitle')) $('collectionBookSubtitle').textContent = 'Önce incelemek istediğin âlemi seç.';
+  const inv = collectionInventory();
+  const fishKinds = Object.keys(inv.fishCounts).length;
+  const coralKinds = Object.keys(inv.coralCounts).length;
+  if ($('collectionFishCount')) $('collectionFishCount').textContent = `${fishKinds} / ${AQUARIUM_FISH.length} tür keşfedildi`;
+  if ($('collectionCoralCount')) $('collectionCoralCount').textContent = `${coralKinds} / ${AQUARIUM_CORALS.length} tür keşfedildi`;
+}
+
+function showBookCategory(category) {
+  CollectionBook.category = category;
+  CollectionBook.page = 0;
+  const home = $('collectionBookHome');
+  const dex = $('collectionBookDex');
+  const back = $('collectionBookBack');
+  if (home) home.style.display = 'none';
+  if (dex) dex.style.display = '';
+  if (back) back.style.visibility = 'visible';
+  if ($('collectionBookTitle')) $('collectionBookTitle').textContent = category === 'fish' ? 'Balıklar Ansiklopedisi' : 'Mercanlar Ansiklopedisi';
+  if ($('collectionBookSubtitle')) $('collectionBookSubtitle').textContent = category === 'fish' ? 'Rengi açılmış balıklara dokun, hikâyesini oku.' : 'Rengi açılmış mercanlara dokun, hikâyesini oku.';
+  renderRarityTabs();
+  renderDexPage(false);
+}
+
+function renderRarityTabs() {
+  const tabs = $('collectionRarityTabs');
+  if (!tabs || !CollectionBook.category) return;
+  const inv = collectionInventory();
+  const entries = collectionEntriesFor(CollectionBook.category);
+  tabs.innerHTML = '';
+  COLLECTION_RARITY_ORDER.forEach((rarity, idx) => {
+    const inRarity = entries.filter((e) => e.rarity === rarity);
+    const owned = inRarity.filter((e) => {
+      const counts = CollectionBook.category === 'fish' ? inv.fishCounts : inv.coralCounts;
+      return (counts[e.name] || 0) > 0;
+    }).length;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `collection-rarity-tab${idx === CollectionBook.page ? ' active' : ''}`;
+    btn.innerHTML = `${COLLECTION_RARITY_TR[rarity]} <span class="tab-count">${owned}/${inRarity.length}</span>`;
+    btn.addEventListener('click', () => {
+      CollectionBook.page = idx;
+      renderRarityTabs();
+      renderDexPage(true);
+    });
+    tabs.appendChild(btn);
+  });
+}
+
+function renderDexPage(flip) {
+  const page = $('collectionBookPage');
+  const indicator = $('collectionPageIndicator');
+  const prev = $('collectionPrevPage');
+  const next = $('collectionNextPage');
+  if (!page || !CollectionBook.category) return;
+  const inv = collectionInventory();
+  const counts = CollectionBook.category === 'fish' ? inv.fishCounts : inv.coralCounts;
+  const rarity = COLLECTION_RARITY_ORDER[CollectionBook.page];
+  const entries = collectionEntriesFor(CollectionBook.category).filter((e) => e.rarity === rarity);
+  let html = '<div class="collection-dex-grid">';
+  entries.forEach((entry) => {
+    const n = counts[entry.name] || 0;
+    const owned = n > 0;
+    const lore = collectionLoreFor(CollectionBook.category, entry.name);
+    html += `<button type="button" class="collection-entry${owned ? ' unlocked' : ' locked'}" data-entry="${entry.name}"${owned ? '' : ' disabled aria-disabled="true"'}>`
+      + `<span class="collection-entry-img" style="background-image:url('${encodeURI(resolvedAssetUrl(entry.src))}')"></span>`
+      + `<span class="collection-entry-name">${owned ? lore.title : '???'}</span>`
+      + `<span class="collection-entry-count">${owned ? `×${n} sende` : 'Kilitli'}</span>`
+      + `<span class="collection-entry-rarity ${entry.rarity}">${COLLECTION_RARITY_TR[entry.rarity]}</span>`
+      + `<span class="collection-entry-trait">${owned ? lore.trait : 'Sandıklardan çıkar'}</span>`
+      + `</button>`;
+  });
+  html += '</div>';
+  page.innerHTML = html;
+  page.classList.remove('flipping');
+  if (flip) {
+    void page.offsetWidth;
+    page.classList.add('flipping');
+  }
+  if (indicator) indicator.textContent = `${CollectionBook.page + 1} / ${COLLECTION_RARITY_ORDER.length} · ${COLLECTION_RARITY_TR[rarity]}`;
+  if (prev) prev.disabled = CollectionBook.page === 0;
+  if (next) next.disabled = CollectionBook.page === COLLECTION_RARITY_ORDER.length - 1;
+  page.querySelectorAll('.collection-entry.unlocked').forEach((btn) => {
+    btn.addEventListener('click', () => openCollectionDetail(btn.dataset.entry));
+  });
+}
+
+function openCollectionDetail(entryName) {
+  if (!CollectionBook.category || !entryName) return;
+  const entries = collectionEntriesFor(CollectionBook.category);
+  const entry = entries.find((e) => e.name === entryName);
+  if (!entry) return;
+  const lore = collectionLoreFor(CollectionBook.category, entryName);
+  const media = $('collectionDetailMedia');
+  const nameEl = $('collectionDetailName');
+  const rarityEl = $('collectionDetailRarity');
+  const traitEl = $('collectionDetailTrait');
+  const textEl = $('collectionDetailText');
+  const backdrop = $('collectionDetailBackdrop');
+  if (!backdrop) return;
+  if (media) media.style.backgroundImage = `url('${encodeURI(resolvedAssetUrl(entry.src))}')`;
+  if (nameEl) nameEl.textContent = lore.title;
+  if (rarityEl) {
+    rarityEl.textContent = COLLECTION_RARITY_TR[entry.rarity];
+    rarityEl.className = `collection-detail-rarity ${entry.rarity}`;
+  }
+  if (traitEl) traitEl.textContent = `Karakter: ${lore.trait}`;
+  if (textEl) textEl.textContent = lore.text;
+  backdrop.style.display = 'flex';
+}
+
+function closeCollectionDetail() {
+  const backdrop = $('collectionDetailBackdrop');
+  if (backdrop) backdrop.style.display = 'none';
+}
+
+function initCollectionBook() {
+  const openBtn = $('collectionBookBtn');
+  const backdrop = $('collectionBookBackdrop');
+  const closeBtn = $('collectionBookClose');
+  if (openBtn && !openBtn.dataset.bound) {
+    openBtn.dataset.bound = '1';
+    openBtn.addEventListener('click', openCollectionBook);
+  }
+  if (closeBtn && !closeBtn.dataset.bound) {
+    closeBtn.dataset.bound = '1';
+    closeBtn.addEventListener('click', closeCollectionBook);
+  }
+  const backBtn = $('collectionBookBack');
+  if (backBtn && !backBtn.dataset.bound) {
+    backBtn.dataset.bound = '1';
+    backBtn.addEventListener('click', () => { closeCollectionDetail(); showBookHome(); });
+  }
+  const goFish = $('collectionGoFish');
+  if (goFish && !goFish.dataset.bound) {
+    goFish.dataset.bound = '1';
+    goFish.addEventListener('click', () => showBookCategory('fish'));
+  }
+  const goCoral = $('collectionGoCoral');
+  if (goCoral && !goCoral.dataset.bound) {
+    goCoral.dataset.bound = '1';
+    goCoral.addEventListener('click', () => showBookCategory('coral'));
+  }
+  const prev = $('collectionPrevPage');
+  if (prev && !prev.dataset.bound) {
+    prev.dataset.bound = '1';
+    prev.addEventListener('click', () => {
+      if (CollectionBook.page > 0) {
+        CollectionBook.page -= 1;
+        renderRarityTabs();
+        renderDexPage(true);
+      }
+    });
+  }
+  const next = $('collectionNextPage');
+  if (next && !next.dataset.bound) {
+    next.dataset.bound = '1';
+    next.addEventListener('click', () => {
+      if (CollectionBook.page < COLLECTION_RARITY_ORDER.length - 1) {
+        CollectionBook.page += 1;
+        renderRarityTabs();
+        renderDexPage(true);
+      }
+    });
+  }
+  const detailClose = $('collectionDetailClose');
+  if (detailClose && !detailClose.dataset.bound) {
+    detailClose.dataset.bound = '1';
+    detailClose.addEventListener('click', closeCollectionDetail);
+  }
+  const detailBackdrop = $('collectionDetailBackdrop');
+  if (detailBackdrop && !detailBackdrop.dataset.bound) {
+    detailBackdrop.dataset.bound = '1';
+    detailBackdrop.addEventListener('click', (e) => {
+      if (e.target === detailBackdrop) closeCollectionDetail();
+    });
+  }
+  if (backdrop && !backdrop.dataset.bound) {
+    backdrop.dataset.bound = '1';
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeCollectionBook();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop.style.display !== 'none') {
+        const detail = $('collectionDetailBackdrop');
+        if (detail && detail.style.display !== 'none') closeCollectionDetail();
+        else closeCollectionBook();
+      }
+    });
+  }
+}
+
 function renderAquariumCollection(aq) {
   const box = $('aquariumCollection');
   if (!box) return;
@@ -6787,6 +7069,7 @@ function init() {
   initWhiteboards();
   initPlannerForm();
   initPhraseInput();
+  initCollectionBook();
   seedAquariumCollectionOnce();
   preloadLessonIntroAssets();
 

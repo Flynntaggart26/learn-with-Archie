@@ -982,12 +982,71 @@
 
       <div class="aquarium-scene" id="aquariumScene"></div>
 
-      <div class="aquarium-collection" id="aquariumCollection"></div>
-
       <div class="aquarium-rules">
         <div class="aquarium-rule"><img src="public/images/mercanlar/mercan.png" alt="" /><p><strong>Mercan Sandığı</strong> ile akvaryumuna rastgele mercan ekle.</p></div>
         <div class="aquarium-rule"><img src="public/images/balik/common/rightbalik2.png" alt="" /><p><strong>Balık Sandığı</strong> ile akvaryumuna rastgele balık ekle; sıradanlar sık, efsaneviler ender.</p></div>
-        <button type="button" class="aquarium-cta" data-goto="timer">Odaklanmaya Git</button>
+      </div>
+
+      <div class="aquarium-actions">
+        <button type="button" class="aquarium-cta aq-action-btn" data-goto="timer">⏱️ Odaklanmaya Git</button>
+        <button type="button" class="aquarium-cta aq-action-btn aq-action-oyster" data-goto="student">🦪 İstiridye Kazan</button>
+        <button type="button" class="aquarium-cta aq-action-btn aq-action-book" id="collectionBookBtn">📖 Koleksiyona Git</button>
+      </div>
+
+      <div class="collection-book-backdrop" id="collectionBookBackdrop" style="display:none;" aria-hidden="true">
+        <div class="collection-book" role="dialog" aria-modal="true" aria-label="Okyanus Ansiklopedisi">
+          <div class="collection-book-toolbar">
+            <button type="button" class="collection-book-back" id="collectionBookBack" style="visibility:hidden;" aria-label="Geri git">← Geri</button>
+            <div class="collection-book-header">
+              <span class="collection-book-icon">📖</span>
+              <div>
+                <h3 id="collectionBookTitle">Okyanus Ansiklopedisi</h3>
+                <p id="collectionBookSubtitle">Önce incelemek istediğin âlemi seç.</p>
+              </div>
+            </div>
+            <button type="button" class="collection-book-close" id="collectionBookClose" aria-label="Kapat">✕</button>
+          </div>
+
+          <div class="collection-book-home" id="collectionBookHome">
+            <button type="button" class="collection-category-card" id="collectionGoFish">
+              <span class="collection-category-emoji">🐠</span>
+              <strong>Balıklar</strong>
+              <span class="collection-category-count" id="collectionFishCount">0 tür keşfedildi</span>
+              <span class="collection-category-hint">Yüzücülerin karakteri ve hikâyesi →</span>
+            </button>
+            <button type="button" class="collection-category-card collection-category-coral" id="collectionGoCoral">
+              <span class="collection-category-emoji">🪸</span>
+              <strong>Mercanlar</strong>
+              <span class="collection-category-count" id="collectionCoralCount">0 tür keşfedildi</span>
+              <span class="collection-category-hint">Resifin bilgeliği ve kökleri →</span>
+            </button>
+          </div>
+
+          <div class="collection-book-dex" id="collectionBookDex" style="display:none;">
+            <div class="collection-rarity-tabs" id="collectionRarityTabs"></div>
+            <div class="collection-book-pages">
+              <div class="collection-book-page" id="collectionBookPage"></div>
+            </div>
+            <div class="collection-book-footer">
+              <button type="button" class="collection-page-btn" id="collectionPrevPage" aria-label="Önceki sayfa">‹</button>
+              <span class="collection-page-indicator" id="collectionPageIndicator">1 / 4</span>
+              <button type="button" class="collection-page-btn" id="collectionNextPage" aria-label="Sonraki sayfa">›</button>
+            </div>
+          </div>
+
+          <div class="collection-detail-backdrop" id="collectionDetailBackdrop" style="display:none;">
+            <div class="collection-detail-card" role="dialog" aria-modal="true">
+              <div class="collection-detail-top">
+                <button type="button" class="collection-detail-close" id="collectionDetailClose" aria-label="Kapat">✕</button>
+              </div>
+              <div class="collection-detail-media" id="collectionDetailMedia"></div>
+              <h4 id="collectionDetailName"></h4>
+              <div class="collection-detail-rarity" id="collectionDetailRarity"></div>
+              <div class="collection-detail-trait" id="collectionDetailTrait"></div>
+              <p id="collectionDetailText"></p>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

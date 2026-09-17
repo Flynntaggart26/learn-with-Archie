@@ -6291,27 +6291,324 @@ function getCreatureStates() {
   return initial;
 }
 
+function getMetricValue(metricKey) {
+  const now = Date.now();
+  const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+  const monthAgo = now - 30 * 24 * 60 * 60 * 1000;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+  switch (metricKey) {
+    case 'pomodoro_focus_minutes_per_day': {
+      const log = getFocusLog();
+      const recentDays = new Set();
+      let totalMins = 0;
+      log.forEach(function(e) {
+        if (e.t >= weekAgo) {
+          const d = new Date(e.t);
+          const dk = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          recentDays.add(dk);
+          totalMins += Number(e.minutes) || 0;
+        }
+      });
+      return { daysActive: recentDays.size, avgMinutesPerDay: recentDays.size > 0 ? totalMins / recentDays.size : 0 };
+    }
+    case 'completed_pomodoro_sessions_per_day': {
+      const tp = readStorage(STORAGE_KEYS.timerPomodoro, {});
+      return { sessionCount: tp.sessionCount || 0 };
+    }
+    case 'sm2_review_success_rate': {
+      const reviews = readStorage(STORAGE_KEYS.reviews, {});
+      let total = 0, overdue = 0, qualitySum = 0;
+      Object.values(reviews).forEach(function(r) {
+        total++;
+        if (r.dueDate && new Date(r.dueDate) < new Date()) overdue++;
+        if (r.quality) qualitySum += r.quality;
+      });
+      return { total: total, overdue: overdue, avgQuality: total > 0 ? qualitySum / total : 0 };
+    }
+    case 'new_topics_started_per_week': {
+      const progress = getProgress();
+      let newTopics = 0;
+      Object.values(progress).forEach(function(p) {
+        if (p.firstAttemptAt && new Date(p.firstAttemptAt) >= weekAgo) newTopics++;
+      });
+      return { count: newTopics };
+    }
+    case 'feynman_or_student_ai_interactions_per_week': {
+      const log = readStorage(STORAGE_KEYS.feynmanLog, []);
+      const count = log.filter(function(e) { return e.t >= weekAgo; }).length;
+      return { count: count };
+    }
+    case 'deep_study_sessions_per_week': {
+      const log = getFocusLog();
+      const deepSessions = log.filter(function(e) { return e.t >= weekAgo && Number(e.minutes) >= 45; });
+      return { count: deepSessions.length };
+    }
+    case 'error_journal_entries_per_week': {
+      const wb = getWrongBook();
+      const recent = wb.filter(function(e) { return e.addedAt && new Date(e.addedAt) >= weekAgo; });
+      return { count: recent.length };
+    }
+    case 'feynman_voice_recordings_per_week': {
+      const log = readStorage(STORAGE_KEYS.feynmanLog, []);
+      const recent = log.filter(function(e) { return e.t >= weekAgo; });
+      return { count: recent.length, avgScore: recent.length > 0 ? recent.reduce(function(s, e) { return s + (e.score || 0); }, 0) / recent.length : 0 };
+    }
+    case 'study_streak_days': {
+      return { streak: readStorage(STORAGE_KEYS.streak, 0) };
+    }
+    case 'timed_quiz_sessions_per_week': {
+      const history = readStorage(STORAGE_KEYS.quizHistory, []);
+      const timed = history.filter(function(e) { return e.timestamp >= weekAgo && e.timed; });
+      return { count: timed.length };
+    }
+    case 'prerequisite_chain_compliance_rate': {
+      const progress = getProgress();
+      let compliant = 0, total = 0;
+      Object.entries(progress).forEach(function([id, p]) {
+        if (p.total > 0) {
+          total++;
+          if ((p.correct / p.total) >= 0.8) compliant++;
+        }
+      });
+      return { rate: total > 0 ? (compliant / total) * 100 : 0 };
+    }
+    case 'cross_discipline_bridges_per_week': {
+      const progress = getProgress();
+      const subjects = new Set();
+      Object.values(progress).forEach(function(p) {
+        if (p.subject && p.total > 0) subjects.add(p.subject);
+      });
+      return { bridgeCount: Math.max(0, subjects.size - 1) };
+    }
+    case 'socratic_hint_solutions_per_week': {
+      const history = readStorage(STORAGE_KEYS.quizHistory, []);
+      const socratic = history.filter(function(e) { return e.timestamp >= weekAgo && e.socratic; });
+      return { count: socratic.length };
+    }
+    case 'topics_with_mastery_above_80': {
+      const progress = getProgress();
+      let mastered = 0;
+      Object.values(progress).forEach(function(p) {
+        if (p.total > 0 && (p.correct / p.total) >= 0.8) mastered++;
+      });
+      return { count: mastered };
+    }
+    case 'calibration_accuracy_and_honest_confidence_rate': {
+      const records = getMetacognitionRecords();
+      const score = computeCalibrationScore(records);
+      return { score: score };
+    }
+    case 'study_streak_30plus_and_rarity_collection': {
+      const streak = readStorage(STORAGE_KEYS.streak, 0);
+      const aq = getAquarium();
+      const rarities = new Set();
+      aq.fish.forEach(function(f) { if (f.kind && f.kind.rarity) rarities.add(f.kind.rarity); });
+      aq.corals.forEach(function(c) { if (c.kind && c.kind.rarity) rarities.add(c.kind.rarity); });
+      return { streak: streak, rarityTypes: rarities.size };
+    }
+    case 'exam_net_score_target_band': {
+      const history = readStorage(STORAGE_KEYS.quizHistory, []);
+      const recent = history.filter(function(e) { return e.timestamp >= weekAgo; });
+      if (recent.length === 0) return { rate: 0 };
+      const avgAccuracy = recent.reduce(function(s, e) { return s + (e.correct / e.total) * 100; }, 0) / recent.length;
+      return { rate: avgAccuracy };
+    }
+    case 'fundamentals_prerequisite_completion_rate': {
+      const progress = getProgress();
+      const fundamentalTopics = ['tyt-mat-temel-kavramlar', 'tyt-turkce-sozcuk-anlami', 'tyt-fizik-temel-kavramlar'];
+      let completed = 0;
+      fundamentalTopics.forEach(function(id) {
+        if (progress[id] && progress[id].total > 0 && (progress[id].correct / progress[id].total) >= 0.7) completed++;
+      });
+      return { rate: (completed / fundamentalTopics.length) * 100 };
+    }
+    case 'daily_plan_completion_rate': {
+      const tasks = getTasks();
+      const todayTasks = tasks[todayKey] || [];
+      if (todayTasks.length === 0) return { rate: 0 };
+      const done = todayTasks.filter(function(t) { return t.status === 'done'; }).length;
+      return { rate: (done / todayTasks.length) * 100 };
+    }
+    case 'weekly_planned_tasks_and_planner_usage_rate': {
+      const tasks = getTasks();
+      let total = 0;
+      Object.values(tasks).forEach(function(dayTasks) {
+        total += dayTasks.length;
+      });
+      return { count: total };
+    }
+    case 'distraction_interruptions_per_focus_session': {
+      const log = getFocusLog();
+      const recent = log.filter(function(e) { return e.t >= weekAgo; });
+      const interruptions = recent.filter(function(e) { return e.interrupted; }).length;
+      return { avgInterruptions: recent.length > 0 ? interruptions / recent.length : 0 };
+    }
+    case 'sm2_overdue_cards_and_avg_quality': {
+      const reviews = readStorage(STORAGE_KEYS.reviews, {});
+      let overdue = 0, qualitySum = 0, total = 0;
+      Object.values(reviews).forEach(function(r) {
+        total++;
+        if (r.dueDate && new Date(r.dueDate) < new Date()) overdue++;
+        if (r.quality) qualitySum += r.quality;
+      });
+      return { overdue: overdue, avgQuality: total > 0 ? qualitySum / total : 0 };
+    }
+    case 'monthly_feynman_count_and_avg_score': {
+      const log = readStorage(STORAGE_KEYS.feynmanLog, []);
+      const recent = log.filter(function(e) { return e.t >= monthAgo; });
+      return { count: recent.length, avgScore: recent.length > 0 ? recent.reduce(function(s, e) { return s + (e.score || 0); }, 0) / recent.length : 0 };
+    }
+    case 'concept_bridge_pairs_and_dag_depth': {
+      const progress = getProgress();
+      const subjects = new Set();
+      let depth = 0;
+      Object.values(progress).forEach(function(p) {
+        if (p.subject && p.total > 0) subjects.add(p.subject);
+        if (p.depth) depth = Math.max(depth, p.depth);
+      });
+      return { bridgePairs: Math.max(0, subjects.size - 1), depth: depth };
+    }
+    case 'top3_hardest_topics_mastery': {
+      const progress = getProgress();
+      const accuracies = Object.values(progress).filter(function(p) { return p.total > 0; }).map(function(p) { return p.correct / p.total; });
+      accuracies.sort(function(a, b) { return a - b; });
+      const top3 = accuracies.slice(0, 3);
+      const mastered = top3.filter(function(a) { return a >= 0.8; }).length;
+      return { count: mastered };
+    }
+    case 'ninety_day_plan_adherence': {
+      const tasks = getTasks();
+      const ninetyDaysAgo = now - 90 * 24 * 60 * 60 * 1000;
+      let daysWithTasks = 0, daysWithCompletion = 0;
+      Object.entries(tasks).forEach(function([dayKey, dayTasks]) {
+        const d = new Date(dayKey);
+        if (d >= ninetyDaysAgo) {
+          daysWithTasks++;
+          const done = dayTasks.filter(function(t) { return t.status === 'done'; }).length;
+          if (dayTasks.length > 0 && (done / dayTasks.length) >= 0.7) daysWithCompletion++;
+        }
+      });
+      return { adherenceDays: daysWithCompletion, completionRate: daysWithTasks > 0 ? (daysWithCompletion / daysWithTasks) * 100 : 0 };
+    }
+    default:
+      return {};
+  }
+}
+
 function evaluateCreatureState(creature) {
   const states = getCreatureStates();
   const entry = states[creature.id] || { state: 'HEALTHY', lastChecked: new Date().toISOString(), graceStartedAt: null };
   const now = Date.now();
-  const lastChecked = new Date(entry.lastChecked).getTime();
-  const windowMs = creature.check_window_days * 24 * 60 * 60 * 1000;
   const graceMs = creature.grace_period_hours * 60 * 60 * 1000;
-  const elapsed = now - lastChecked;
+
+  const metric = getMetricValue(creature.target_metric);
+  const threshold = creature.target_threshold;
+  let isHealthy = false;
+
+  switch (creature.target_metric) {
+    case 'pomodoro_focus_minutes_per_day':
+      isHealthy = metric.daysActive >= (threshold.days_per_week || 5) && metric.avgMinutesPerDay >= (threshold.min || 25);
+      break;
+    case 'completed_pomodoro_sessions_per_day':
+      isHealthy = metric.sessionCount >= (threshold.min || 2);
+      break;
+    case 'sm2_review_success_rate':
+      isHealthy = metric.overdue === 0 && (metric.total === 0 || (metric.avgQuality >= 3));
+      break;
+    case 'new_topics_started_per_week':
+      isHealthy = metric.count >= (threshold.min || 1);
+      break;
+    case 'feynman_or_student_ai_interactions_per_week':
+      isHealthy = metric.count >= (threshold.min || 2);
+      break;
+    case 'deep_study_sessions_per_week':
+      isHealthy = metric.count >= (threshold.min || 1);
+      break;
+    case 'error_journal_entries_per_week':
+      isHealthy = metric.count >= (threshold.min || 3);
+      break;
+    case 'feynman_voice_recordings_per_week':
+      isHealthy = metric.count >= (threshold.min || 2);
+      break;
+    case 'study_streak_days':
+      isHealthy = metric.streak >= (threshold.min || 7);
+      break;
+    case 'timed_quiz_sessions_per_week':
+      isHealthy = metric.count >= (threshold.min || 1);
+      break;
+    case 'prerequisite_chain_compliance_rate':
+      isHealthy = metric.rate >= (threshold.min || 80);
+      break;
+    case 'cross_discipline_bridges_per_week':
+      isHealthy = metric.bridgeCount >= (threshold.min || 1);
+      break;
+    case 'socratic_hint_solutions_per_week':
+      isHealthy = metric.count >= (threshold.min || 2);
+      break;
+    case 'topics_with_mastery_above_80':
+      isHealthy = metric.count >= (threshold.min || 1);
+      break;
+    case 'calibration_accuracy_and_honest_confidence_rate':
+      isHealthy = metric.score >= (threshold.min || 75);
+      break;
+    case 'study_streak_30plus_and_rarity_collection':
+      isHealthy = metric.streak >= (threshold.min_streak_days || 30) && metric.rarityTypes >= (threshold.min_unique_rarity_types || 4);
+      break;
+    case 'exam_net_score_target_band':
+      isHealthy = metric.rate >= (threshold.min || 85);
+      break;
+    case 'fundamentals_prerequisite_completion_rate':
+      isHealthy = metric.rate >= (threshold.min || 100);
+      break;
+    case 'daily_plan_completion_rate':
+      isHealthy = metric.rate >= (threshold.min || 60);
+      break;
+    case 'weekly_planned_tasks_and_planner_usage_rate':
+      isHealthy = metric.count >= (threshold.min || 5);
+      break;
+    case 'distraction_interruptions_per_focus_session':
+      isHealthy = metric.avgInterruptions <= (threshold.max || 0);
+      break;
+    case 'sm2_overdue_cards_and_avg_quality':
+      isHealthy = metric.overdue === 0 && metric.avgQuality >= (threshold.min_avg_quality || 3);
+      break;
+    case 'monthly_feynman_count_and_avg_score':
+      isHealthy = metric.count >= (threshold.min_count || 8) && metric.avgScore >= (threshold.min_avg_score || 60);
+      break;
+    case 'concept_bridge_pairs_and_dag_depth':
+      isHealthy = metric.bridgePairs >= (threshold.min_bridge_pairs || 3) && metric.depth >= (threshold.min_dag_depth || 2);
+      break;
+    case 'top3_hardest_topics_mastery':
+      isHealthy = metric.count >= (threshold.min_topics_at_mastery || 3);
+      break;
+    case 'ninety_day_plan_adherence':
+      isHealthy = metric.adherenceDays >= (threshold.min_adherence_days || 90) && metric.completionRate >= (threshold.min_completion_rate || 70);
+      break;
+    default:
+      isHealthy = true;
+  }
+
   let newState = entry.state;
   let graceStartedAt = entry.graceStartedAt;
-  if (elapsed > windowMs) {
+
+  if (isHealthy) {
+    newState = 'HEALTHY';
+    graceStartedAt = null;
+  } else {
     if (entry.state === 'HEALTHY') {
       newState = 'STRESTE';
       graceStartedAt = new Date(now).toISOString();
-    } else if (entry.state === 'STRESDE' || entry.state === 'STRESTE') {
+    } else if (entry.state === 'STRESTE') {
       if (graceStartedAt && (now - new Date(graceStartedAt).getTime()) > graceMs) {
         newState = 'LOST';
       }
     }
   }
-  states[creature.id] = { state: newState, lastChecked: entry.lastChecked, graceStartedAt: graceStartedAt };
+
+  states[creature.id] = { state: newState, lastChecked: new Date(now).toISOString(), graceStartedAt: graceStartedAt };
   writeStorage(ECOSYSTEM_STORAGE_KEY, states);
   return newState;
 }
